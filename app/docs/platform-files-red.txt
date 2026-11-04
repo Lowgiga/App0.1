@@ -1,0 +1,140 @@
+✖ native saved is returned only after driver confirmation (1.215573ms)
+✖ native cancel is not success (0.144908ms)
+✖ native IO error does not fall back to browser (0.914959ms)
+✖ repeat click rejects until first request settles, then retry works (0.440134ms)
+✖ native missing or malformed response is never saved (0.227092ms)
+✔ name MIME and UTF8 limits are validated before native side effect (0.268515ms)
+✖ browser fallback reports dispatched not saved (0.253041ms)
+✖ browser picker cancel is distinct and failed write aborts (0.195685ms)
+ℹ Error: Test "repeat click rejects until first request settles, then retry works" at tests/system/platform-files.test.ts:8:1 generated asynchronous activity after the test ended. This activity created the error "Error: not implemented" and would have caused the test to fail, but instead triggered an unhandledRejection event.
+ℹ tests 8
+ℹ suites 0
+ℹ pass 1
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 361.862096
+
+✖ failing tests:
+
+test at tests/system/platform-files.test.ts:5:1
+✖ native saved is returned only after driver confirmation (1.215573ms)
+  Error: not implemented
+      at Object.save (file:///workspace/scratch/40c5c5523452/cue-system/src/platform/files.ts:2:77)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:5:257)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/system/platform-files.test.ts:6:1
+✖ native cancel is not success (0.144908ms)
+  Error: not implemented
+      at Object.save (file:///workspace/scratch/40c5c5523452/cue-system/src/platform/files.ts:2:77)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:6:184)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/system/platform-files.test.ts:7:1
+✖ native IO error does not fall back to browser (0.914959ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /IO_FAILED/. Input:
+  
+  'Error: not implemented'
+  
+      at async TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:7:230)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: not implemented
+        at Object.save (file:///workspace/scratch/40c5c5523452/cue-system/src/platform/files.ts:2:77)
+        at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:7:259)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+        at Test.postRun (node:internal/test_runner/test:1522:19)
+        at Test.run (node:internal/test_runner/test:1447:12)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    expected: /IO_FAILED/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/system/platform-files.test.ts:8:1
+✖ repeat click rejects until first request settles, then retry works (0.440134ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /BUSY/. Input:
+  
+  'Error: not implemented'
+  
+      at async TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:8:248)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: not implemented
+        at Object.save (file:///workspace/scratch/40c5c5523452/cue-system/src/platform/files.ts:2:77)
+        at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:8:277)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+        at Test.postRun (node:internal/test_runner/test:1522:19)
+        at Test.run (node:internal/test_runner/test:1447:12)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    expected: /BUSY/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/system/platform-files.test.ts:9:1
+✖ native missing or malformed response is never saved (0.227092ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /INVALID_RESULT/. Input:
+  
+  'Error: not implemented'
+  
+      at async TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:11:5)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: not implemented
+        at Object.save (file:///workspace/scratch/40c5c5523452/cue-system/src/platform/files.ts:2:77)
+        at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:11:34)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+        at Test.postRun (node:internal/test_runner/test:1522:19)
+        at Test.run (node:internal/test_runner/test:1447:12)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:960:7),
+    expected: /INVALID_RESULT/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/system/platform-files.test.ts:15:1
+✖ browser fallback reports dispatched not saved (0.253041ms)
+  Error: not implemented
+      at Object.save (file:///workspace/scratch/40c5c5523452/cue-system/src/platform/files.ts:2:77)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:15:175)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/system/platform-files.test.ts:16:1
+✖ browser picker cancel is distinct and failed write aborts (0.195685ms)
+  Error: not implemented
+      at Object.save (file:///workspace/scratch/40c5c5523452/cue-system/src/platform/files.ts:2:77)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/platform-files.test.ts:16:242)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

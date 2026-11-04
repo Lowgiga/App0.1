@@ -1,0 +1,87 @@
+import type { Mission } from './command-contract.ts';
+import type { WorkState } from './work-contract.ts';
+import { agentNames } from './work-constants.ts';
+import { contentDigest } from './content-digest.ts';
+
+export type Attention = { id: string; title: string; reason: string; score: number; view: 'missions' | 'approvals' | 'matrix'; query: string; missionId: string | null; kind: 'conflict' | 'deadline' | 'decision'; fingerprint: string; accepted: boolean; plannedTaskId: string | null };
+export function getAttention(work: WorkState, now: number): Attention[] {
+  const items: Omit<Attention, 'fingerprint' | 'accepted' | 'plannedTaskId'>[] = [];
+  for (const m of work.command.missions.filter(m => !m.archived && m.stage !== 'Done')) {
+    if (['Blocked', 'Error'].includes(m.stage)) items.push({ id: 'mission:' + m.id, title: m.title, reason: m.stage === 'Error' ? 'Als Fehler dokumentiert' : 'Als blockiert dokumentiert', score: m.neuro_profile.noradrenaline, view: 'missions', query: m.title, missionId: m.id, kind: 'conflict' });
+    if (m.deadlineAt && Date.parse(m.deadlineAt) - now <= 3600000) items.push({ id: 'deadline:' + m.id, title: m.title, reason: Date.parse(m.deadlineAt) <= now ? 'Eingetragener Termin überschritten' : 'Eingetragener Termin in höchstens einer Stunde', score: 85, view: 'missions', query: m.title, missionId: m.id, kind: 'deadline' });
+  }
+  for (const a of work.command.approvals.filter(a => a.status === 'pending')) {
+    const left = Date.parse(a.expiresAt) - now;
+    if (a.risk === 'high' || left <= 3600000) items.push({ id: 'approval:' + a.id, title: a.action, reason: left <= 0 ? 'Offene Anfrage abgelaufen; schließen oder neu anfragen' : left <= 3600000 ? 'Offene Anfrage läuft in höchstens einer Stunde ab' : 'Offene Anfrage mit hohem Risiko', score: a.risk === 'high' ? 90 : 85, view: 'approvals', query: a.action, missionId: a.missionId, kind: 'decision' });
+  }
+  for (const t of work.tasks.filter(t => !t.archived && t.status === 'Blockiert')) {
+    items.push({ id: 'task:' + t.id, title: t.title, reason: 'Aufgabe als blockiert dokumentiert', score: 80, view: 'matrix', query: t.title, missionId: work.command.missions.find(m => m.taskIds.includes(t.id))?.id || null, kind: 'conflict' });
+  }
+  return items.map(a => {
+    const entityId = a.id.split(':')[1];
+    const source = a.view === 'approvals' ? work.command.approvals.find(v => v.id === entityId) : a.view === 'matrix' ? work.tasks.find(t => t.id === entityId) : work.command.missions.find(m => m.id === entityId);
+    // Compact digest of complete canonical content, independent of the rotating log.
+    const canonical = (v: unknown): unknown => Array.isArray(v) ? v.map(canonical) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).filter(([k]) => k !== 'neuro_profile').sort(([a],[b])=>a.localeCompare(b)).map(([k,value])=>[k,canonical(value)])) : v;
+    const fingerprint = contentDigest(JSON.stringify([a.id, a.reason, a.score, canonical(source)]));
+    const decisions = work.command.interactions.filter(r => r.sourceId === a.id && r.fingerprint === fingerprint);
+    return { ...a, fingerprint, accepted: decisions.some(r => r.kind === 'risk-accepted'), plannedTaskId: decisions.findLast(r => r.kind === 'risk-task-created')?.taskId || null };
+  }).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
+}
+
+export type FocusSuggestion = { id: string; missionId: string; title: string; reason: string; type: 'mission-stage' | 'task-start' | 'open-review'; nextStage?: Mission['stage']; taskId?: string };
+export function suggestNextFocus(currentMissionId: string, work: WorkState, now = Date.now()): FocusSuggestion | null {
+  const m = work.command.missions.find(m => m.id === currentMissionId && !m.archived && m.stage !== 'Done');
+  if (!m || getAttention(work, now).some(a => !a.accepted)) return null;
+  const phase = { Created: 'Planned', Planned: 'Assigned', Assigned: 'Working' } as const;
+  let s: FocusSuggestion | null = null;
+  if (m.stage in phase) s = { id: m.id + ':' + m.stage, missionId: m.id, type: 'mission-stage', nextStage: phase[m.stage as keyof typeof phase], title: m.stage === 'Created' ? 'Planungsphase beginnen' : m.stage === 'Planned' ? 'Zuständigkeit festhalten' : 'Missionsarbeit beginnen', reason: 'Nächste zulässige Phase; erzeugt einen eigenen App-Vermerk, keinen Worker-Aufruf.' };
+  else if (m.stage === 'Working') {
+    const tasks = m.taskIds.map(id => work.tasks.find(t => t.id === id)).filter((t): t is WorkState['tasks'][number] => !!t);
+    const t = tasks.find(t => t.status === 'Offen' && !t.archived && t.dependencies.every(id => work.tasks.find(other => other.id === id)?.status === 'Erledigt'));
+    if (t) s = { id: m.id + ':' + t.id + ':start', missionId: m.id, type: 'task-start', taskId: t.id, title: t.title + ' beginnen', reason: 'Die dokumentierten Voraussetzungen sind erfüllt. Aufgabe wird in der App als In Arbeit markiert.' };
+    else if (tasks.every(t => t.status === 'Erledigt')) s = { id: m.id + ':Review', missionId: m.id, type: 'mission-stage', nextStage: 'Review', title: 'Gegenprüfung vorbereiten', reason: 'Alle zugeordneten Aufgaben sind erledigt. Review ist eine eigene Phase, noch keine Abnahme.' };
+  } else if (m.stage === 'Review') s = { id: m.id + ':review-form', missionId: m.id, type: 'open-review', title: 'Belege und Review öffnen', reason: 'Konkrete Belege und unabhängige Gegenprüfung vor einer Abnahme prüfen.' };
+  return s && !work.command.interactions.some(r => r.kind === 'focus-followed' && r.sourceId === s.id) ? s : null;
+}
+
+/** Remaining acceptance gates are counts, never a prediction of completion time. */
+export function missionProgress(m: Mission, work: WorkState) {
+  const tasks = m.taskIds.map(id => work.tasks.find(t => t.id === id)).filter((t): t is WorkState['tasks'][number] => !!t);
+  const steps = [
+    ...tasks.map(t => ({ id: t.id, label: t.title, done: t.status === 'Erledigt', ready: t.dependencies.every(id => work.tasks.find(t => t.id === id)?.status === 'Erledigt') })),
+    { id: 'evidence', label: 'Konkreten Missionsbeleg dokumentieren', done: m.evidence.trim().length >= 12, ready: true },
+    { id: 'review', label: 'Unabhängige Gegenprüfung dokumentieren', done: m.owner !== m.reviewer && m.reviewed, ready: tasks.every(t => t.status === 'Erledigt') },
+    { id: 'decisions', label: 'Offene Freigabeanfragen entscheiden', done: !work.command.approvals.some(a => a.missionId === m.id && a.status === 'pending'), ready: true },
+    { id: 'closure', label: 'Abnahme und Abschluss dokumentieren', done: m.stage === 'Done', ready: m.stage === 'Approved' },
+  ];
+  return { tasks, steps, remaining: steps.filter(s => !s.done).length, done: steps.filter(s => s.done).length };
+}
+
+export type GraphNode = { id: string; title: string; kind: 'agent' | 'mission' | 'task' | 'room' | 'source'; origin: 'own' | 'external'; detail: string; entityId: string };
+export type GraphEdge = { id: string; from: string; to: string; relation: 'owns' | 'reviews' | 'depends-on' | 'reads' | 'supplies-context' };
+export type MapSource = { id: string; title: string; status: string; file: string };
+export function buildMissionGraph(work: WorkState, sources: MapSource[]): { nodes: GraphNode[]; edges: GraphEdge[] } {
+  const nodes: GraphNode[] = work.profiles.map(p => ({ id: 'agent:' + p.id, entityId: p.id, title: agentNames[p.id], kind: 'agent', origin: 'own', detail: p.role + ' · eigenes App-Arbeitsprofil' }));
+  const edges: GraphEdge[] = [];
+  const add = (from: string, to: string, relation: GraphEdge['relation']) => edges.push({ id: from + '/' + relation + '/' + to, from, to, relation });
+  for (const t of work.tasks.filter(t => !t.archived)) {
+    nodes.push({ id: 'task:' + t.id, entityId: t.id, title: t.title, kind: 'task', origin: 'own', detail: t.status + ' · ' + t.acceptance });
+    add('agent:' + t.owner, 'task:' + t.id, 'owns');
+    t.dependencies.forEach(id => add('task:' + t.id, 'task:' + id, 'depends-on'));
+  }
+  for (const r of work.rooms.filter(r => r.status !== 'Archiviert')) {
+    nodes.push({ id: 'room:' + r.id, entityId: r.id, title: r.title, kind: 'room', origin: 'own', detail: r.goal });
+    add('agent:' + r.agent, 'room:' + r.id, 'owns');
+    r.sources.forEach(id => add('source:' + id, 'room:' + r.id, 'supplies-context'));
+  }
+  for (const m of work.command.missions.filter(m => !m.archived)) {
+    nodes.push({ id: 'mission:' + m.id, entityId: m.id, title: m.title, kind: 'mission', origin: 'own', detail: m.goal });
+    add('agent:' + m.owner, 'mission:' + m.id, 'owns'); add('agent:' + m.reviewer, 'mission:' + m.id, 'reviews');
+    m.taskIds.forEach(id => add('mission:' + m.id, 'task:' + id, 'depends-on'));
+    m.sourceIds.forEach(id => add('mission:' + m.id, 'source:' + id, 'reads'));
+    if (m.roomId) add('room:' + m.roomId, 'mission:' + m.id, 'supplies-context');
+  }
+  for (const s of sources) nodes.push({ id: 'source:' + s.id, entityId: s.id, title: s.title, kind: 'source', origin: 'external', detail: s.status + ' · Datierter Quellenstand · ' + s.file });
+  const ids = new Set(nodes.map(n => n.id));
+  return { nodes, edges: edges.filter(e => ids.has(e.from) && ids.has(e.to)) };
+}

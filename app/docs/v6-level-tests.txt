@@ -1,0 +1,122 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.3.0-v6-integrated-preview test:level
+> node --test tests/level/level-ar-domain.mts && node tests/level/level-ar-renderer.mjs
+
+✔ learning graph provides five real course levels in 2D and 3D (4.397167ms)
+✔ lesson dependencies are recommendations and never executed app relationships (0.733505ms)
+✔ legacy quiz completion is retained without inventing a practice or transfer (0.536819ms)
+✔ unknown data never asserts personal achievements (0.565963ms)
+✔ a saved practice note and quiz show the real next case check (1.431928ms)
+✔ a random note cannot substitute for a saved practice (0.433303ms)
+✔ an open transfer remains open and points to its real task (0.507225ms)
+✔ done label without evidence and review cannot complete a transfer level (0.446513ms)
+✔ transitive invalid prerequisites and dependency cycles invalidate transfer completion (0.513484ms)
+✔ archived transfer is not offered as an active task (0.547455ms)
+✔ AR preflight distinguishes insecure context before any XR probe (0.265049ms)
+✔ AR preflight explains policy, missing API, unsupported device and probe errors (0.389046ms)
+✔ AR start errors distinguish denied permission from unavailable placement (0.184458ms)
+✔ AR placement requires both hit test and usable exit controls (0.740897ms)
+✔ placement cannot happen before a current hit and remains fixed until explicit reposition (0.237028ms)
+✔ losing a hit before placement clears stale coordinates (0.165619ms)
+✔ placement state copies matrices instead of retaining mutable frame buffers (0.08627ms)
+✔ hit source is disposed once on end and explicit cleanup (0.422817ms)
+✔ late hit source is cancelled after unmount during async acquisition (7.44486ms)
+✔ ended session cannot attach a late hit source (0.534045ms)
+✔ renderer uses explicit surface placement and disposes its browser hit source (0.963643ms)
+✔ UI reports real AR start failures and has explicit placement controls (0.380374ms)
+✔ help matches surface-placement controls and does not promise an unsupported free model (0.184017ms)
+✔ dense shared-prerequisite DAG is evaluated once per task, within the 60-task contract (116.991689ms)
+✔ completion cache is rebuilt for each state and cannot retain an old success (0.480053ms)
+✔ completion rejects work outside contract bounds without traversing an unbounded graph (0.681007ms)
+✔ ending a session aborts a never-settling hit-source request immediately (1.837559ms)
+✔ saved practice recommends the real required case recheck instead of a disabled transfer screen (0.617731ms)
+✔ AR startup cancellation is reachable inside the immersive overlay hit region (0.397439ms)
+✔ missing hit-test source result rejects clearly without retaining session listeners (0.233792ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 386.096024
+[
+  {
+    "name": "ended local-space race",
+    "pass": true
+  },
+  {
+    "name": "effect cleanup clears parent AR state",
+    "pass": true
+  },
+  {
+    "name": "pending start has an explicit cancellation control",
+    "pass": true
+  },
+  {
+    "name": "source acquisition ends immediately without waiting for browser promise",
+    "pass": true
+  },
+  {
+    "name": "renderer disposal waits for pending Three binding",
+    "pass": true
+  },
+  {
+    "name": "late binding cannot resurrect disposed renderer",
+    "pass": true
+  },
+  {
+    "name": "no Three resize after renderer disposal",
+    "pass": true
+  },
+  {
+    "name": "makeXRCompatible resolve restores inline pixel ratio and size",
+    "pass": true
+  },
+  {
+    "name": "makeXRCompatible reject restores inline pixel ratio and size",
+    "pass": true
+  },
+  {
+    "name": "late local-space rejection remains terminal",
+    "pass": true
+  },
+  {
+    "name": "repeated terminal cleanup preserves the prior inline rotation",
+    "pass": true
+  },
+  {
+    "scenario": "normal scan-loss-place-zoom-reposition-exit",
+    "result": "PASS",
+    "sourceCancelled": 1
+  },
+  {
+    "scenario": "explicit cancel while source pending",
+    "result": "PASS",
+    "lateCancelled": 1
+  },
+  {
+    "scenario": "explicit cancel while viewer pending",
+    "result": "PASS",
+    "lateCancelled": 0
+  },
+  {
+    "scenario": "explicit cancel while request pending",
+    "result": "PASS",
+    "lateCancelled": 0
+  },
+  {
+    "scenario": "explicit cancel while binding pending",
+    "result": "PASS",
+    "lateCancelled": 0
+  },
+  {
+    "scenario": "normal second session after late first binding",
+    "result": "PASS"
+  },
+  {
+    "scenario": "cancelled request resolves after next session became active",
+    "result": "PASS"
+  }
+]

@@ -1,0 +1,52 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+import {Window} from 'happy-dom';
+const w=new Window({url:'https://localhost/'});
+const fileWrites:{name:string;text:string}[]=[];let copied='';(w as any).showSaveFilePicker=async(options:any)=>{let text='';return{createWritable:async()=>({write:async(value:string)=>{text=value},close:async()=>{fileWrites.push({name:options.suggestedName,text})},abort:async()=>{}})}};Object.defineProperty(w,'isSecureContext',{configurable:true,value:true});
+for(const key of ['window','document','Node','NodeFilter','Element','HTMLInputElement','HTMLFormElement','HTMLTextAreaElement','HTMLSelectElement','HTMLElement','HTMLButtonElement','Event','MouseEvent','KeyboardEvent','CustomEvent','PopStateEvent','MutationObserver','ResizeObserver','localStorage','location','history'] as const)Object.defineProperty(globalThis,key,{configurable:true,value:key==='window'?w:(w as any)[key]});
+Object.defineProperty(w.navigator,'clipboard',{configurable:true,value:{writeText:async(text:string)=>{copied=text}}});
+Object.defineProperty(globalThis,'navigator',{configurable:true,value:w.navigator});
+for(const key of ['matchMedia','addEventListener','removeEventListener','requestAnimationFrame','cancelAnimationFrame','getComputedStyle'] as const)Object.defineProperty(globalThis,key,{configurable:true,value:(w as any)[key].bind(w)});
+Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true,isSecureContext:true});
+const nativeCalls:{plugin:string;method:string;input:any}[]=[];
+let nativeAction:(method:string,input:any)=>Promise<any>=async()=>{throw Error('Unexpected native call')};
+const cap={PluginHeaders:[{name:'CueNativeAR',methods:[{name:'open',rtype:'promise'},{name:'getAvailability',rtype:'promise'}]},{name:'CueFiles',methods:[{name:'saveText',rtype:'promise'},{name:'copyText',rtype:'promise'}]}],nativePromise:async(plugin:string,method:string,input:any)=>{nativeCalls.push({plugin,method,input});return nativeAction(method,input)}};
+Object.assign(globalThis,{androidBridge:{},Capacitor:cap});(w as any).Capacitor=cap;
+const React=await import('react'),{act}=React;const {createRoot}=await import('react-dom/client');
+const {IDBFactory}=await import('fake-indexeddb');const {PreferencesStore}=await import('../src/preferences-store.ts');const {LocalWorkStore}=await import('../src/local-adapter.ts');
+const {WorkTransportProvider}=await import('../src/work-transport.tsx');const {SharedWorkStateProvider,useWorkState}=await import('../src/shared-work-state.tsx');
+const {default:SystemApp}=await import('../src/system-app.tsx');const {defaultSystemState}=await import('../src/system-state.ts');
+const data=JSON.parse(fs.readFileSync(new URL('../upstream/lib/mesh-data.json',import.meta.url),'utf8'));
+const wait=()=>new Promise(r=>setTimeout(r,15));
+async function setup({powerSaver=false,motion='off',saved=true}={}){
+ history.replaceState({},'','https://localhost/');localStorage.clear();Object.defineProperty(globalThis,'indexedDB',{configurable:true,value:new IDBFactory()});const prefs=defaultSystemState();prefs.graph.quality='high';prefs.graph.reducedMotion=false;prefs.graph.transitions='smooth';localStorage.setItem('cue-system-preferences-v1',JSON.stringify(prefs));
+ const host=document.createElement('div');document.body.append(host);const root=createRoot(host);const store=new LocalWorkStore({indexedDB:new IDBFactory(),name:'review-'+crypto.randomUUID(),sources:data.sources.map((s:any)=>s.id)});let shared:any;
+ function Probe(){shared=useWorkState();return null}
+ await act(async()=>{root.render(<React.StrictMode><WorkTransportProvider transport={store}><SharedWorkStateProvider><Probe/><SystemApp data={data}/></SharedWorkStateProvider></WorkTransportProvider></React.StrictMode>);await wait()});
+ for(let i=0;i<100&&!shared?.hasLoaded;i++)await act(async()=>wait());assert.equal(shared.hasLoaded,true);
+ if(saved)await act(async()=>{assert.equal(await shared.changeWork({...shared.work,settings:{...shared.work.settings,powerSaver,motion}}),true);await wait()});
+ const find=(text:string)=>Array.from(host.querySelectorAll('button')).find(b=>b.textContent?.includes(text));
+ const click=async(text:string)=>{const b=find(text);assert.ok(b,'Button: '+text);await act(async()=>{b.click();await wait()})};
+ const ready=async(sel:string)=>{for(let i=0;i<100&&!host.querySelector(sel);i++)await act(async()=>wait());assert.ok(host.querySelector(sel),sel)};
+ const done=async()=>{await act(async()=>root.unmount());store.close();host.remove();await w.happyDOM.abort()};
+ return{host,shared:()=>shared,click,ready,done};
+}
+const {buildSpaceGraph,visibleSpaceGraph}=await import('../overlay/lib/space-model.ts');
+const {buildNativeSnapshot}=await import('../src/platform/native-ar.ts');
+async function selectScope(h:any,value:string){const select=h.host.querySelector('[aria-label="Netzwerkbereich"]') as HTMLSelectElement;await act(async()=>{select.value=value;select.dispatchEvent(new w.Event('change',{bubbles:true}) as any);await wait()})}
+test('independent native delta: real SystemApp and Capacitor proxy preserve full all-scope and select a node beyond screen cap without writes',async()=>{
+ nativeCalls.length=0;let finish!:(x:any)=>void;nativeAction=async(method,input)=>{assert.equal(method,'open');return new Promise(r=>finish=r)};const h=await setup();try{
+ assert.equal(nativeCalls.length,0);await act(async()=>{const old=h.shared().work;assert.equal(await h.shared().changeWork({...old,tasks:Array.from({length:60},(_,i)=>({...old.tasks[0],id:'review-task-'+i,title:'Specific review task '+i,dependencies:[]}))}),true);await wait()});
+ await h.click('3D & Lernen');await h.ready('.native-ar-panel');assert.equal(nativeCalls.length,0);await selectScope(h,'all');const graph=buildSpaceGraph(h.shared().work,data.sources,true),expected=visibleSpaceGraph(graph,'all','agent:zimt',false,graph.nodes.length);assert.ok(expected.nodes.length>32);const before=JSON.stringify(h.shared().work);
+ await h.click('AR-Hinweise öffnen');assert.equal(nativeCalls.length,1);const call=nativeCalls[0];assert.equal(call.plugin,'CueNativeAR');assert.deepEqual(Object.keys(call.input),['snapshot']);assert.deepEqual(call.input.snapshot.nodes.map((n:any)=>n.id),expected.nodes.map((n:any)=>n.id));assert.deepEqual(call.input.snapshot.edges,buildNativeSnapshot(expected,{known:true,scope:'all',stateRevision:h.shared().work.updatedAt}).snapshot.edges);
+ const id='task:review-task-59';assert.ok(call.input.snapshot.nodes.some((n:any)=>n.id===id));await act(async()=>{finish({status:'closed',placed:true,snapshotRevision:call.input.snapshot.snapshotRevision,selectedNodeId:id});await wait()});const selected=h.host.querySelector('.space-map-node[aria-pressed="true"]');assert.match(selected?.textContent??'',/Specific review task 59/);assert.match(h.host.querySelector('.native-ar-panel')!.textContent??'',/kein Arbeitsergebnis/);assert.equal(JSON.stringify(h.shared().work),before);
+ }finally{await h.done()}
+});
+test('independent native delta: retained SystemApp view invalidates a native selection across Studio and back, then permits a fresh intent',async()=>{
+ nativeCalls.length=0;let finish!:(x:any)=>void;nativeAction=async()=>new Promise(r=>finish=r);const h=await setup();try{await h.click('3D & Lernen');await h.ready('.native-ar-panel');await selectScope(h,'learning');const before=JSON.stringify(h.shared().work);await h.click('AR-Hinweise öffnen');const first=nativeCalls.at(-1)!.input.snapshot;await h.click('Studio · Graph & Skills');await h.click('Arbeitsbereiche');await act(async()=>{finish({status:'closed',placed:true,snapshotRevision:first.snapshotRevision,selectedNodeId:'lesson:review'});await wait()});assert.doesNotMatch(h.host.querySelector('.space-map-node[aria-pressed="true"]')!.textContent??'',/Level 5/);assert.match(h.host.querySelector('.native-ar-panel')!.textContent??'',/verlassen/);await h.click('AR-Hinweise öffnen');assert.equal(nativeCalls.length,2);const second=nativeCalls.at(-1)!.input.snapshot;await act(async()=>{finish({status:'closed',placed:false,snapshotRevision:second.snapshotRevision,selectedNodeId:'lesson:review'});await wait()});assert.match(h.host.querySelector('.space-map-node[aria-pressed="true"]')!.textContent??'',/Level 5/);assert.equal(JSON.stringify(h.shared().work),before)}finally{await h.done()}
+});
+test('independent native delta: same-tick launches are serialized, power change and failed replies never select',async()=>{
+ nativeCalls.length=0;let finish!:(x:any)=>void;nativeAction=async()=>new Promise(r=>finish=r);const h=await setup();try{await h.click('3D & Lernen');await h.ready('.native-ar-panel');await selectScope(h,'learning');const b=Array.from(h.host.querySelectorAll('button')).find((b:any)=>b.textContent==='AR-Hinweise öffnen') as HTMLButtonElement;await act(async()=>{b.click();b.click();await wait()});assert.equal(nativeCalls.length,1);const snapshot=nativeCalls[0].input.snapshot;await act(async()=>{const old=h.shared().work;assert.equal(await h.shared().changeWork({...old,settings:{...old.settings,powerSaver:true}}),true);await wait()});const before=JSON.stringify(h.shared().work);await act(async()=>{finish({status:'closed',placed:true,snapshotRevision:snapshot.snapshotRevision,selectedNodeId:'lesson:review'});await wait()});assert.match(h.host.querySelector('.native-ar-panel')!.textContent??'',/verworfen/);assert.equal(b.disabled,true);assert.equal(JSON.stringify(h.shared().work),before);await h.click('Einstellungen öffnen');assert.equal(new URL(location.href).searchParams.get('view'),'settings')}finally{await h.done()}
+});
+test('independent native delta: explicit compatibility check crosses the right proxy once and never opens AR automatically',async()=>{
+ nativeCalls.length=0;nativeAction=async(method)=>{assert.equal(method,'getAvailability');return{available:true,status:'supported-outdated'}};const h=await setup();try{await h.click('3D & Lernen');await h.ready('.native-ar-panel');assert.equal(nativeCalls.length,0);const before=JSON.stringify(h.shared().work);await h.click('Kompatibilität prüfen');assert.equal(nativeCalls.length,1);assert.equal(nativeCalls[0].plugin,'CueNativeAR');assert.match(h.host.querySelector('.native-ar-panel')!.textContent??'',/veraltet/);assert.match(h.host.querySelector('.native-ar-panel')!.textContent??'',/weder Kamerafreigabe noch Tracking/);assert.equal(JSON.stringify(h.shared().work),before)}finally{await h.done()}
+});

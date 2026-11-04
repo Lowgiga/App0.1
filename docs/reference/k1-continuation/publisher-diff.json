@@ -1,0 +1,25 @@
+{
+  "baseCommit": "101819e118597876f70b18b807c5de56569eb9a2",
+  "baseSourceSha256": "f57200cd8e13f840f2bffb12ffc43d2ace1dcab3dc4a8abaab67b17721588429",
+  "sourceSha256": "09739de34172b88d8e6907a24108a926439d5fc296226286bc395cda83dabd49",
+  "diff": {
+    "added": [
+      "docs/assistant-continuation-k1.md",
+      "src/assistant/continuation.ts",
+      "tests/system/assistant-continuation.test.ts"
+    ],
+    "removed": [],
+    "changed": [
+      "quality/baselines/accepted.json",
+      "quality/contract.json",
+      "src/assistant/use-assistant-session.ts",
+      "src/studio/AssistantCompanion.tsx",
+      "src/studio/AssistantPanel.tsx",
+      "src/studio/Studio.tsx",
+      "tests/system/assistant-companion-integration.test.tsx",
+      "tests/system/assistant-motion.test.tsx",
+      "tests/system/assistant-ui.test.tsx",
+      "tests/system/continuation-context-integration.test.tsx"
+    ]
+  }
+}

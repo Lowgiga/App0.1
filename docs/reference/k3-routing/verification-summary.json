@@ -1,0 +1,41 @@
+{
+  "sourceScope": "quality-source-v1",
+  "sourceSha256": "96464ab1bf3e43e2c9fd3f611605d54e104062447262858ccb4df3113366ed03",
+  "sourceFiles": 1025,
+  "appFilesIncludingHistoricalManifestExceptions": 1027,
+  "appGitTree": "2d89b9d38e6bd40d1ab23f4fb02bf60d25b29dda",
+  "adoption": {
+    "status": "pass",
+    "before": "db88bd1aefa61d66d966f55651e6c03348e9564d6081bd23ff4661a83cd1552d",
+    "after": "96464ab1bf3e43e2c9fd3f611605d54e104062447262858ccb4df3113366ed03",
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [
+        "quality/baselines/accepted.json",
+        "quality/contract.json"
+      ]
+    },
+    "groups": 50,
+    "newLiteralBindings": 33,
+    "previous41GroupsUnchanged": true,
+    "exceptions": [],
+    "baselineBytes": 115730,
+    "baselineSha256": "6de50af34cda906d20baa523041254e8b42078ea11e12b358b33b1db11df6768",
+    "contractBytes": 34883,
+    "contractSha256": "e044726fd302fba23b5007eb036be3642348fffc19d4583d719daea218bc4d5d"
+  },
+  "assets": {
+    "byteIdentical": true,
+    "files": 61,
+    "distContentSha256": "94d581a5f55d3ebf827ecf8296363c84fa2dcf3197d0d6dd2674a50c01fd92eb",
+    "browserEvidence": "k3-routing/browser-results.json",
+    "sameReviewedProductBytes": true
+  },
+  "tests": 1492,
+  "qualityTests": 50,
+  "qualityStatus": "pass",
+  "exitCode": 0,
+  "releaseClaim": "web-built",
+  "note": "Summary of independently approved K3 evidence; WRK-01 is excluded. No new browser/native/device run or user delivery is claimed."
+}

@@ -1,0 +1,58 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @cue/adaptive-surfaces@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ v1 admits frozen complete snapshot with host provenance (2.892607ms)
+✔ rejects boundary schema (0.555387ms)
+✔ rejects boundary catalogVersion (0.287323ms)
+✔ rejects boundary trusted (0.439653ms)
+✔ rejects boundary approved (0.689288ms)
+✔ rejects boundary data (0.386212ms)
+✔ rejects unregistered or unknown components and extra style/HTML fields (1.788264ms)
+✔ dangerous strings are data, never executable markup (0.633444ms)
+✔ rejects unknown actions and write-kind host configuration (0.974448ms)
+✔ denies prototype keys, path traversal, dotted and URL dataRefs (1.482053ms)
+✔ rejects duplicate JSON keys including escaped equivalents (0.319631ms)
+✔ rejects duplicate ids cycles dangling children multiple parents unreachable nodes (2.735641ms)
+✔ rejects graph depth, byte, text and component budgets (1.742856ms)
+✔ rejects non-JSON numbers and non-JSON raw input (0.277869ms)
+✔ rejection is atomic and session, surface and baseRevision are enforced (1.154479ms)
+✔ layout updates keep component ids and focus target must be immediate child (0.534495ms)
+✔ snapshot and registry mutation cannot change admitted action (0.899365ms)
+✔ intent requires admitted component, revision and one explicit activation per revision (0.446412ms)
+✔ rate limiting and subscriptions are deterministic and bounded (0.51802ms)
+✔ exported schema is closed and declares every built-in component (0.339201ms)
+✔ repeated rejected floods notify once per error rather than rerender for every packet (0.527735ms)
+✔ rejects lone Unicode surrogates, trailing garbage and malformed JSON (0.345561ms)
+✔ registry changes and invalid host limits cannot broaden admission (0.39823ms)
+✔ host intent cannot carry arbitrary URLs or methods even through trusted registry (0.262886ms)
+✔ suggestion intents are distinct from navigation and contain no approval or execution (0.337588ms)
+✔ untrusted labels and host provenance are visible, scripts stay escaped (28.090694ms)
+✔ unknown and stale host values differ from actual zero (13.490161ms)
+✔ actions are inert until native button activation, labels are host-owned and replay blocked (7.20307ms)
+✔ callback failures are caught, redacted and do not alter host data (5.431071ms)
+✔ layout updates preserve active button and invalid update retains last tree (8.118759ms)
+✔ removed focused component moves to surface host anchor (6.308813ms)
+✔ hostslots only receive bound host data; absent slots explicit; throwing slots contained (5.525183ms)
+✔ mismatched malformed or oversized host projection rejects visibly (3.078317ms)
+✔ task/source/event lists have stable records, explicit empty state and no raw links (4.019164ms)
+✔ CSS preserves relative font sizes, mobile wrapping and reduced motion (0.718102ms)
+✔ focus reparenting restores stable component action, with no automatic intent (5.216077ms)
+✔ external host focus is never stolen during updates (9.19393ms)
+✔ trusted slot render failure leaves provenance and other components usable (15.404163ms)
+✔ known lists reject duplicate identities and exceeding row limits visibly (4.807151ms)
+✔ root text enlargement preserves primary button scale in simulated CSS (16.604411ms)
+✔ pending intent cannot be reactivated when a newer layout revision arrives (5.575649ms)
+✔ review R1 pending delivery survives reparenting then remove and readd (9.509776ms)
+✔ review R2 pending status persists across revisions and clears after old delivery settles (5.723712ms)
+✔ review R3 corrected host data and fresh revision each reset a failed stable slot (10.498904ms)
+✔ review R1 remount of whole renderer retains session pending delivery and safely settles after unmount (7.302531ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 922.306967

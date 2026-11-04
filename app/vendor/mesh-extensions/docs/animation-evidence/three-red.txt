@@ -1,0 +1,84 @@
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (10.60545ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (26.226196ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (3.961957ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (5.107015ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (2.660845ms)
+✔ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (8.695509ms)
+✔ late window resize failure also takes the controlled fallback path (3.955477ms)
+✖ 3D demand camera focus finishes once, preserves IDs and does not invoke selection callbacks (4.629825ms)
+✖ 3D rapid toggles finish at the last immediate camera target and policy changes settle immediately (5.977578ms)
+✔ 3D Escape and camera gestures cancel without fighting the user or scheduling a delayed fit (6.311472ms)
+✖ 3D context loss and disposal clear all transition frames including stale callbacks (4.421961ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 8
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 870.163754
+
+✖ failing tests:
+
+test at tests/three.test.ts:84:1
+✖ 3D demand camera focus finishes once, preserves IDs and does not invoke selection callbacks (4.629825ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:90:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/three.test.ts:105:1
+✖ 3D rapid toggles finish at the last immediate camera target and policy changes settle immediately (5.977578ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:121:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/three.test.ts:145:1
+✖ 3D context loss and disposal clear all transition frames including stale callbacks (4.421961ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:149:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

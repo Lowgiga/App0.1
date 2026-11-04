@@ -1,0 +1,20 @@
+{"case":"focus-layout-clipping","projected":[0.004831465481750637,-0.00878152751050792,0.9999998901154109],"camera":{"near":0.01,"far":302.91478315521607,"position":[-0.8799937284977685,48.261502231403476,3.8401875667681536e-22],"quaternion":[-0.7071067811864593,3.5355339059436895e-7,-3.5355339059436895e-7,0.7071067811864591],"selections":0,"errors":0,"renders":9,"rendererDispose":0,"contextLoss":0}}
+✔ review: large scene entering single-node focus must not jump at frame zero (40.317122ms)
+✔ review: repeated scene replacement and active-pointer teardown dispose tracked Three objects and listeners exactly once (21.946698ms)
+✔ review: wheel interaction interrupts camera motion and later explicit fit works (6.748076ms)
+✔ review: completed targets match immediate targets across perspective/focus/layout changes (28.980295ms)
+✔ review: legacy exports satisfy actual pre-extension strict field set (1.102863ms)
+✔ review: monotonic offset clock, long pause, reentrant replacement and stale frames remain bounded (0.350499ms)
+✔ review: ending one pointer of a two-touch gesture does not emit a node selection (4.627148ms)
+✔ review: far clipping envelope covers translated focused layout destinations from the starting camera (7.205907ms)
+✔ review: StrictMode rapid SVG selection/layout replacement stays continuous and only explicit actions emit callbacks (137.291959ms)
+✔ review: SVG hidden selection has no ghost and visibility/system settings do not emit config or host actions (93.032272ms)
+✔ review: pan during a transition uses the settled destination viewport dimensions (38.169273ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1163.999537

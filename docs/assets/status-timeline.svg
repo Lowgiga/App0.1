@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="270" viewBox="0 0 960 270" role="img" aria-labelledby="t d">
+  <title id="t">Stand des Entwicklungsbranches: von der Quelle bis zum Merge</title>
+  <desc id="d">Fünf Schritte zum Prototyp 0.5.5. Belegt sind die Quelle (N2-Fix und Version) und die lokale Gesamtprüfung. Das Review läuft. Offen sind die CI auf GitHub und die Freigabe des neuen Quality-Pins durch den Repo-Inhaber. Keine Aussage über Geräte oder Store.</desc>
+  <style>
+    .bg{fill:#0b1631}
+    .track{stroke:#28436f;stroke-width:6;fill:none;stroke-linecap:round}
+    .flow{stroke:#61f3ff;stroke-width:6;fill:none;stroke-linecap:round;stroke-dasharray:24 26;animation:flow 2.4s linear infinite}
+    .done{fill:#34d399;stroke:#0b1631;stroke-width:3}
+    .open{fill:#0b1631;stroke:#fbbf24;stroke-width:3;stroke-dasharray:5 4}
+    .pulse{fill:#fbbf24;transform-box:fill-box;transform-origin:center;animation:pulse 1.6s ease-in-out infinite}
+    .head{fill:#eef6ff;font:700 17px system-ui,-apple-system,Segoe UI,sans-serif}
+    .label{fill:#e5efff;font:600 15px system-ui,-apple-system,Segoe UI,sans-serif}
+    .sub{fill:#9fb4d9;font:13px system-ui,-apple-system,Segoe UI,sans-serif}
+    .legend{font:13px system-ui,-apple-system,Segoe UI,sans-serif}
+    @keyframes flow{to{stroke-dashoffset:-50}}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.55}}
+    @media (prefers-reduced-motion: reduce){.flow,.pulse{animation:none}}
+  </style>
+  <rect class="bg" x="0" y="0" width="960" height="270" rx="18"/>
+  <text class="head" x="40" y="48">Stand: Prototyp 0.5.5 (Kandidat, 4. November 2026)</text>
+  <line class="track" x1="120" y1="122" x2="840" y2="122"/>
+  <line class="flow" x1="120" y1="122" x2="300" y2="122"/>
+  <circle class="done" cx="120" cy="122" r="15"/>
+  <circle class="done" cx="300" cy="122" r="15"/>
+  <circle class="open" cx="480" cy="122" r="15"/>
+  <circle class="pulse" cx="660" cy="122" r="11"/>
+  <circle class="open" cx="840" cy="122" r="15"/>
+  <text class="label" x="120" y="166" text-anchor="middle">Quelle</text>
+  <text class="sub" x="120" y="186" text-anchor="middle">N2-Fix + Version 0.5.5</text>
+  <text class="label" x="300" y="166" text-anchor="middle">Lokal geprüft</text>
+  <text class="sub" x="300" y="186" text-anchor="middle">1.503 Tests, Webbuild</text>
+  <text class="label" x="480" y="166" text-anchor="middle">CI auf GitHub</text>
+  <text class="sub" x="480" y="186" text-anchor="middle">Actions gesperrt</text>
+  <text class="label" x="660" y="166" text-anchor="middle">Review</text>
+  <text class="sub" x="660" y="186" text-anchor="middle">7 geschützte Dateien</text>
+  <text class="label" x="840" y="166" text-anchor="middle">Pin-Freigabe</text>
+  <text class="sub" x="840" y="186" text-anchor="middle">durch den Repo-Inhaber</text>
+  <g class="legend">
+    <circle cx="48" cy="236" r="7" fill="#34d399"/><text x="64" y="241" fill="#cfe9dd">belegt</text>
+    <circle cx="150" cy="236" r="7" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="3 3"/><text x="166" y="241" fill="#fde9b0">offen</text>
+    <circle cx="240" cy="236" r="7" fill="#fbbf24"/><text x="256" y="241" fill="#fde9b0">läuft gerade an</text>
+  </g>
+</svg>

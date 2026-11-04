@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="380" viewBox="0 0 960 380" role="img" aria-labelledby="t d">
+  <title id="t">Plan gegen Bestand: Fahrplan-Pakete und ihr Nachweis</title>
+  <desc id="d">Links die Pakete A bis F aus dem Fahrplan, rechts der belegte Stand. Belegt ist nur der Web-Umfang von Paket A und die Kontextfunktionen K1 bis K3. Für B bis F steht die Bestandsaufnahme noch aus.</desc>
+  <style>
+    .bg{fill:#0b1631}
+    .head{fill:#eef6ff;font:700 17px system-ui,-apple-system,Segoe UI,sans-serif}
+    .th{fill:#7f97c4;font:600 12px system-ui,-apple-system,Segoe UI,sans-serif;letter-spacing:.04em}
+    .name{fill:#e5efff;font:600 14px system-ui,-apple-system,Segoe UI,sans-serif}
+    .txt{fill:#9fb4d9;font:13px system-ui,-apple-system,Segoe UI,sans-serif}
+    .flow{stroke:#61f3ff;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-dasharray:2 10;animation:flow 1.6s linear infinite}
+    .q{fill:#fbbf24;font:700 22px system-ui,sans-serif;transform-box:fill-box;transform-origin:center;animation:blink 2.2s ease-in-out infinite}
+    .pill{fill:#134e3a;stroke:#34d399;stroke-width:1.5}
+    .pillt{fill:#bff7de;font:700 12px system-ui,-apple-system,Segoe UI,sans-serif}
+    .part{fill:#4a3210;stroke:#fbbf24;stroke-width:1.5}
+    .partt{fill:#fde9b0;font:700 12px system-ui,-apple-system,Segoe UI,sans-serif}
+    .rule{stroke:#1d3360;stroke-width:1}
+    @keyframes flow{to{stroke-dashoffset:-24}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+    @media (prefers-reduced-motion: reduce){.flow,.q{animation:none}}
+  </style>
+  <rect class="bg" x="0" y="0" width="960" height="380" rx="18"/>
+  <text class="head" x="40" y="46">Plan gegen Bestand</text>
+  <text class="th" x="40" y="80">FAHRPLAN (docs/15)</text>
+  <text class="th" x="560" y="80">BELEGTER STAND</text>
+  <text class="th" x="800" y="80">STATUS</text>
+  <line class="rule" x1="40" y1="90" x2="920" y2="90"/>
+  <text class="name" x="40" y="120">A · Quell- und Releasegrundlage</text>
+  <text class="txt" x="560" y="120">Web geprüft, APK offen</text>
+  <rect class="part" x="790" y="104" width="130" height="24" rx="12"/><text class="partt" x="855" y="121" text-anchor="middle">teilweise</text>
+  <line class="rule" x1="40" y1="138" x2="920" y2="138"/>
+  <text class="name" x="40" y="168">B · Lokale Werkstattbasis</text>
+  <text class="txt" x="560" y="168">noch nicht inventarisiert</text>
+  <text class="q" x="800" y="172">?</text>
+  <line class="rule" x1="40" y1="186" x2="920" y2="186"/>
+  <text class="name" x="40" y="216">C · Wirkung und Review</text>
+  <text class="txt" x="560" y="216">noch nicht inventarisiert</text>
+  <text class="q" x="800" y="220">?</text>
+  <line class="rule" x1="40" y1="234" x2="920" y2="234"/>
+  <text class="name" x="40" y="264">D · Begrenzte Arbeitsweise und Ansichten</text>
+  <text class="txt" x="560" y="264">noch nicht inventarisiert</text>
+  <text class="q" x="800" y="268">?</text>
+  <line class="rule" x1="40" y1="282" x2="920" y2="282"/>
+  <text class="name" x="40" y="312">E · Gewünschte optionale Module</text>
+  <text class="txt" x="560" y="312">Begleiter, AR; Gerätetest offen</text>
+  <rect class="part" x="790" y="296" width="130" height="24" rx="12"/><text class="partt" x="855" y="313" text-anchor="middle">teilweise</text>
+  <line class="rule" x1="40" y1="326" x2="920" y2="326"/>
+  <text class="name" x="40" y="350">F · Datenübernahme und Integrationen</text>
+  <text class="txt" x="560" y="350">Systembackup nur lesend; keine Vollwiederherstellung</text>
+</svg>

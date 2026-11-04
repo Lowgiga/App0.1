@@ -1,0 +1,104 @@
+{
+  "namespace": "cue.local-workflows.package/v1",
+  "name": "@cue/local-workflows",
+  "version": "0.1.0",
+  "runtimeEntry": "src/index.mjs",
+  "dependencyRoot": "../skill-core",
+  "mode": "offline-deterministic",
+  "maxSteps": 8,
+  "maxElapsedMs": 1000,
+  "checkpointStore": "trusted-host-cas",
+  "durable": false,
+  "browserDeviceTested": false,
+  "independentReview": "pending",
+  "runtimeFiles": [
+    {
+      "path": "src/bundled-skills.mjs",
+      "sha256": "sha256:3b62c1b5aa24ea766fb75558bed49f119ba88d3073c822d34fb0fb43d4030b77"
+    },
+    {
+      "path": "src/catalog.mjs",
+      "sha256": "sha256:6b6a8bebea7984b4e6acf008f4e19d238ba31bbf5da7a465ce313936df4b715f"
+    },
+    {
+      "path": "src/contracts.mjs",
+      "sha256": "sha256:4fe8ad88f7b611f308e85afbf5e18f2590092a58ca9caf64cc474b774550d2b4"
+    },
+    {
+      "path": "src/data.mjs",
+      "sha256": "sha256:cff055392d64096de15a5534e6b4314b12e8913d8afef0cc78fe9bec78db4ef3"
+    },
+    {
+      "path": "src/events.mjs",
+      "sha256": "sha256:c8f2bb9026794464e7262d7fd404f2d7eb892456ad8c737df3716c79b4620b3b"
+    },
+    {
+      "path": "src/index.mjs",
+      "sha256": "sha256:6f3b3ec74efe67fb0a299fb9bef5a4a1c9b13194ac303d6c0380408bd7606c11"
+    },
+    {
+      "path": "src/runner.mjs",
+      "sha256": "sha256:be4f730f7698fa8a31166f0cfc50dd394121e103915fcd5374e7d7c23918a2d4"
+    },
+    {
+      "path": "src/store.mjs",
+      "sha256": "sha256:aa0cd7e25220eada504f6a166fff8ed64ec2f659e4d9c7de97b549142665a16d"
+    }
+  ],
+  "coreDependencies": [
+    {
+      "path": "../skill-core/src/browser.mjs",
+      "sha256": "sha256:1c7efbcbe6c48cc1009965d39ef8eef22b5a9e8bb324f0c436051c4ac8a068b1"
+    },
+    {
+      "path": "../skill-core/src/contract.mjs",
+      "sha256": "sha256:560bc46da265b9d16c68dcaf59515d433340d8478dcf22d1c04a0d48fb1c6b5c"
+    },
+    {
+      "path": "../skill-core/src/events.mjs",
+      "sha256": "sha256:0334291b06066b69ece50fb40fe4e0486f4734a127b77c8fba90a8895ed45d3e"
+    },
+    {
+      "path": "../skill-core/src/handlers.mjs",
+      "sha256": "sha256:3c4d405aa4be56079b4fc8d9140ced80ce1f47a6fd3d0f8cb09a6078c2dd3f34"
+    },
+    {
+      "path": "../skill-core/src/host.mjs",
+      "sha256": "sha256:71f2f09f3f1086c790e59039ee1fc992949df8e6dd46fc3101eed991d1873cf9"
+    },
+    {
+      "path": "../skill-core/src/kernel.mjs",
+      "sha256": "sha256:36eb10df3111a92f2c59d380a6e293d206ff49a6cc162ad09897307943fe035c"
+    },
+    {
+      "path": "../skill-core/src/prompt.mjs",
+      "sha256": "sha256:8cb33d7d67fdc1c50338598a26e58c44427fa86d1c5ebafb15c91cac0ee8546a"
+    }
+  ],
+  "skills": [
+    {
+      "id": "cue.backup-plan",
+      "version": "1.0.0",
+      "versionHash": "sha256:5e5c08633b7e41de28008a5066db189a04e01681d9d3ecc261bfcdd7daa35509",
+      "handler": "backup-plan"
+    },
+    {
+      "id": "cue.graph-explain",
+      "version": "1.0.0",
+      "versionHash": "sha256:37b78d67c2a593e497babbc140d12c95b99df54174610450a0071c2803c4d155",
+      "handler": "graph-explain"
+    },
+    {
+      "id": "cue.mission-check",
+      "version": "1.0.0",
+      "versionHash": "sha256:5ad33789588e75252ed822c2d58cb1a8dcbfb6cef437da31ec4aede806503fde",
+      "handler": "mission-check"
+    },
+    {
+      "id": "cue.source-status",
+      "version": "1.0.0",
+      "versionHash": "sha256:3548795a0c2cdd56748014e8ddb677489ee11e8f1e35ce2c365b344b058a542e",
+      "handler": "source-status"
+    }
+  ]
+}

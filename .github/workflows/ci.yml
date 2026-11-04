@@ -1,0 +1,240 @@
+# LowQuantFlow CI - ersetzt den Entwurf aus PR #14.
+# Grundsaetze: nur lesende Rechte, alle Actions per Commit-SHA gepinnt, App-Pfad app/,
+# die projekteigene Verifikation (scripts/verify-quality.mjs) statt nachgebauter Schritte.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  # Nur PR-Laeufe abbrechen; auf main bekommt jeder Commit seinen vollstaendigen Nachweis.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  # Unabhaengig gepruefter Quality-Vertrag aus der K3-Adoption
+  # (docs/reference/k3-routing/verification-summary.json). Eine Aenderung von
+  # app/quality/contract.json braucht einen neu geprueften Pin - nie einen selbst berechneten.
+  QUALITY_CONTRACT_SHA256: e044726fd302fba23b5007eb036be3642348fffc19d4583d719daea218bc4d5d
+
+jobs:
+  web:
+    name: Web · Node ${{ matrix.node }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # 22.18.0 = deklarierte Mindestversion (engines), 24 = Referenz der bisherigen Nachweise.
+        node: ['22.18.0', '24']
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Node.js ${{ matrix.node }}
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Toolchain pruefen
+        run: ../tools/check-toolchain.sh
+
+      - name: Abhaengigkeiten aus dem Lockfile
+        run: npm ci --no-audit --no-fund
+
+      - name: Gesamtverifikation mit Quality-Pin
+        # Preflight-Gate, Quality-Tests, alle Suiten seriell, Build, Quellstabilitaet.
+        run: node scripts/verify-quality.mjs --contract-sha256 "$QUALITY_CONTRACT_SHA256"
+
+      - name: Build-Fingerabdruck
+        working-directory: .
+        run: python3 tools/ci/build_fingerprint.py "Node ${{ matrix.node }}"
+
+      - name: Nachweise hochladen
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: web-evidence-node-${{ matrix.node }}
+          path: |
+            app/artifacts/quality-report.json
+            app/docs/build-manifest.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  reproducibility:
+    name: Reproduzierbarkeit · Node 22.18.0 = Node 24
+    needs: web
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Nachweise laden
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
+        with:
+          pattern: web-evidence-node-*
+          path: evidence
+
+      - name: Build-Fingerabdruecke vergleichen
+        run: |
+          python3 - <<'PY'
+          import glob, json, sys
+          prints = {}
+          for path in sorted(glob.glob('evidence/*/docs/build-manifest.json')):
+              with open(path, encoding='utf-8') as handle:
+                  prints[path.split('/')[1]] = json.load(handle)['distContentSha256']
+          for name, digest in prints.items():
+              print(f'{name}: {digest}')
+          if len(prints) != 2 or len(set(prints.values())) != 1:
+              sys.exit('Webbuild ist zwischen den Node-Versionen nicht byte-identisch.')
+          print('Webbuild byte-identisch unter beiden Node-Versionen.')
+          PY
+
+  android:
+    name: Android · JVM-Tests und Lint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Node.js 24 (Capacitor-Android-Quellen kommen aus node_modules)
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Abhaengigkeiten aus dem Lockfile
+        working-directory: app
+        run: npm ci --no-audit --no-fund
+
+      - name: JDK 21
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad  # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Android SDK 36 und Build-Tools 35.0.0
+        uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd  # v4.0.4
+        with:
+          packages: 'platforms;android-36 build-tools;35.0.0 platform-tools'
+
+      - name: Toolchain pruefen
+        run: tools/check-toolchain.sh --android
+
+      - name: Gradle-Wrapper gegen offizielle Pruefsumme
+        run: |
+          version=$(sed -nE 's#.*gradle-([0-9.]+)-(all|bin)\.zip#\1#p' app/android/gradle/wrapper/gradle-wrapper.properties)
+          expected=$(curl -fsSL "https://services.gradle.org/distributions/gradle-${version}-wrapper.jar.sha256")
+          echo "${expected}  app/android/gradle/wrapper/gradle-wrapper.jar" | sha256sum --check --strict
+
+      - name: JVM-Tests und Lint
+        working-directory: app/android
+        run: >-
+          ./gradlew --no-daemon --stacktrace
+          --init-script ../../tools/gradle/android-lint-stable.init.gradle
+          :app:testDebugUnitTest :cue-native-ar:testDebugUnitTest
+          :app:lintDebug :cue-native-ar:lintDebug
+
+      - name: Berichte hochladen
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
+        with:
+          name: android-reports
+          path: |
+            app/android/app/build/reports/
+            app/android/app/build/test-results/
+            app/android/cue-native-ar/build/reports/
+            app/android/cue-native-ar/build/test-results/
+          if-no-files-found: warn
+          retention-days: 30
+
+  docs:
+    name: Doku · relative Links
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Python-Abhaengigkeiten (hash-gepinnt, tools/ci/requirements.txt)
+        run: |
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/pip" install --require-hashes --only-binary=:all: -r tools/ci/requirements.txt
+          echo "$RUNNER_TEMP/venv/bin" >> "$GITHUB_PATH"
+
+      - name: Relative Markdown-Links und Bilder pruefen
+        run: python tools/ci/check_markdown_links.py .
+
+      - name: Bestandsaufnahme (docs/37) gegen Anforderungsmatrix (docs/16) pruefen
+        run: python tools/repo/requirements_inventory.py --check docs/37-bestandsaufnahme.md
+
+      - name: Testzahlen der README gegen die gefundenen Tests pruefen
+        run: python tools/ci/check_test_counts.py .
+
+      - name: SHA-256 der Grafiken (docs/assets/README.md) pruefen
+        run: python tools/ci/check_asset_hashes.py docs/assets
+
+      - name: Python-Werkzeuge testen, Zweigabdeckung mindestens 98 % (tools/ci/coverage.ini)
+        env:
+          COVERAGE_RCFILE: tools/ci/coverage.ini
+        run: |
+          for dir in tools/ci tools/repo tools/windows; do
+            coverage run --parallel-mode -m unittest discover -s "$dir" -p 'test_*.py' -v
+          done
+          coverage combine
+          coverage report
+
+  lint:
+    name: Lint · Python, Shell, Workflows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Gleiche Versionen wie lokal; ruff und shellcheck hash-gepinnt, actionlint als offizielles
+      # Release-Archiv gegen dessen checksums.txt (github.com/rhysd/actionlint/releases/tag/v1.7.12).
+      - name: Lint-Werkzeuge (hash-gepinnt)
+        env:
+          ACTIONLINT_VERSION: 1.7.12
+          ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+        run: |
+          python3 -m venv "$RUNNER_TEMP/lint"
+          "$RUNNER_TEMP/lint/bin/pip" install --require-hashes --only-binary=:all: -r tools/ci/requirements-lint.txt
+          archive="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/$archive" \
+            "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${archive}"
+          echo "${ACTIONLINT_SHA256}  $RUNNER_TEMP/$archive" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP/lint/bin" actionlint
+          echo "$RUNNER_TEMP/lint/bin" >> "$GITHUB_PATH"
+
+      - name: ruff (Regeln aus ruff.toml)
+        run: |
+          ruff check tools/
+          ruff format --check tools/
+
+      - name: shellcheck
+        run: shellcheck -x tools/*.sh
+
+      - name: actionlint
+        run: actionlint

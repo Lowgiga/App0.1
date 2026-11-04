@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-labelledby="t d">
+  <title id="t">Prüfstand: was belegt ist und was offen bleibt</title>
+  <desc id="d">Zehn Prüfungen mit Beleg und Status. Lokal belegt sind Tests, Abdeckung, Lint und Links. Offen sind GitHub Actions, actionlint lokal, der Windows-Lauf und native Android-Gates.</desc>
+  <style>
+    .bg{fill:#0b1631}
+    .head{fill:#eef6ff;font:700 17px system-ui,-apple-system,Segoe UI,sans-serif}
+    .th{fill:#7f97c4;font:600 12px system-ui,-apple-system,Segoe UI,sans-serif;letter-spacing:.04em}
+    .name{fill:#e5efff;font:600 15px system-ui,-apple-system,Segoe UI,sans-serif}
+    .beleg{fill:#9fb4d9;font:13px system-ui,-apple-system,Segoe UI,sans-serif}
+    .ok{fill:#134e3a;stroke:#34d399;stroke-width:1.5}
+    .okt{fill:#bff7de;font:700 13px system-ui,-apple-system,Segoe UI,sans-serif}
+    .no{fill:#4a3210;stroke:#fbbf24;stroke-width:1.5}
+    .not{fill:#fde9b0;font:700 13px system-ui,-apple-system,Segoe UI,sans-serif}
+    .rule{stroke:#1d3360;stroke-width:1}
+    .row{opacity:0;animation:rise .5s ease-out forwards}
+    @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+    @media (prefers-reduced-motion: reduce){.row{opacity:1;animation:none}}
+  </style>
+  <rect class="bg" x="0" y="0" width="960" height="420" rx="18"/>
+  <text class="head" x="40" y="46">Prüfstand des Branches</text>
+  <text class="th" x="40" y="78">PRÜFUNG</text>
+  <text class="th" x="450" y="78">BELEG</text>
+  <text class="th" x="790" y="78">STATUS</text>
+  <line class="rule" x1="40" y1="88" x2="920" y2="88"/>
+  <g class="row" style="animation-delay:.05s">
+    <text class="name" x="40" y="116">Python-Tests tools/ci</text><text class="beleg" x="450" y="116">48 Tests, lokal grün</text>
+    <rect class="ok" x="790" y="100" width="110" height="24" rx="12"/><text class="okt" x="845" y="117" text-anchor="middle">belegt</text></g>
+  <g class="row" style="animation-delay:.15s">
+    <text class="name" x="40" y="150">Python-Tests Triage</text><text class="beleg" x="450" y="150">17 Tests, lokal grün</text>
+    <rect class="ok" x="790" y="134" width="110" height="24" rx="12"/><text class="okt" x="845" y="151" text-anchor="middle">belegt</text></g>
+  <g class="row" style="animation-delay:.25s">
+    <text class="name" x="40" y="184">Python-Tests Host-Audit</text><text class="beleg" x="450" y="184">44 Tests, lokal grün (ohne Windows)</text>
+    <rect class="ok" x="790" y="168" width="110" height="24" rx="12"/><text class="okt" x="845" y="185" text-anchor="middle">belegt</text></g>
+  <g class="row" style="animation-delay:.35s">
+    <text class="name" x="40" y="218">Abdeckung Zeilen und Zweige</text><text class="beleg" x="450" y="218">100 %, CI-Gate 98 %</text>
+    <rect class="ok" x="790" y="202" width="110" height="24" rx="12"/><text class="okt" x="845" y="219" text-anchor="middle">belegt</text></g>
+  <g class="row" style="animation-delay:.45s">
+    <text class="name" x="40" y="252">Lint: ruff, shellcheck</text><text class="beleg" x="450" y="252">ohne Befund, lokal</text>
+    <rect class="ok" x="790" y="236" width="110" height="24" rx="12"/><text class="okt" x="845" y="253" text-anchor="middle">belegt</text></g>
+  <g class="row" style="animation-delay:.55s">
+    <text class="name" x="40" y="286">Relative Links im Repo</text><text class="beleg" x="450" y="286">413 geprüft, 0 kaputt</text>
+    <rect class="ok" x="790" y="270" width="110" height="24" rx="12"/><text class="okt" x="845" y="287" text-anchor="middle">belegt</text></g>
+  <g class="row" style="animation-delay:.65s">
+    <text class="name" x="40" y="320">GitHub Actions</text><text class="beleg" x="450" y="320">Workflow startet nicht (startup_failure)</text>
+    <rect class="no" x="790" y="304" width="110" height="24" rx="12"/><text class="not" x="845" y="321" text-anchor="middle">offen</text></g>
+  <g class="row" style="animation-delay:.75s">
+    <text class="name" x="40" y="354">actionlint lokal</text><text class="beleg" x="450" y="354">Ausführung in der Umgebung nicht erlaubt</text>
+    <rect class="no" x="790" y="338" width="110" height="24" rx="12"/><text class="not" x="845" y="355" text-anchor="middle">offen</text></g>
+  <g class="row" style="animation-delay:.85s">
+    <text class="name" x="40" y="388">Windows-Lauf Host-Audit</text><text class="beleg" x="450" y="388">nie auf echtem Windows ausgeführt</text>
+    <rect class="no" x="790" y="372" width="110" height="24" rx="12"/><text class="not" x="845" y="389" text-anchor="middle">offen</text></g>
+</svg>

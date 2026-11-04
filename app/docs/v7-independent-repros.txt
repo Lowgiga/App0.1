@@ -1,0 +1,27 @@
+✔ actual integrated UI retains five learning nodes and completes all four practice levels through shared CAS state (1630.992429ms)
+✔ shader selection in 2D is view-local and never overwrites motion, power or saved preferences (237.629114ms)
+✔ new diagnostic copy uses the platform flow without claiming a camera test or changing state (172.175014ms)
+✔ APK diagnosis takes precedence over policy and insecure context without probing browser XR (244.154589ms)
+✔ five derived lessons coexist with four practice stages without duplicate XP (16.417305ms)
+✔ recommended-before is visible to the same practice relationship registry (1.986954ms)
+✔ repeated completion and duplicate historical notes cannot award extra XP (3.386093ms)
+✔ missing prerequisites and invalid imported practice records fail closed (2.940281ms)
+✔ 2D completion does not assert ready graphics, tracking or completed work (2.18931ms)
+✔ snapshot roundtrip preserves both tracks; merge intentionally keeps current settings (13.496522ms)
+✔ practice CAS persistence retains settings and cannot overwrite a newer setting (39.539585ms)
+✔ practice writes do not mutate separate Studio preferences or history (6.941331ms)
+✔ registered practice implementation matches the active overlay when ported (1.050093ms)
+✔ selection shader is optional real material and applies only to current selection (16.051043ms)
+✔ shader time stops for app Motion-off and resumes only when allowed (3.818005ms)
+✔ OS reduced motion and hidden document independently suspend shader loops (3.221986ms)
+✔ power saver clamps pixel ratio and suppresses animation without changing props (4.261062ms)
+✔ renderer cleanup disposes both shader and base material even after switching selection (2.70001ms)
+✔ missing valid first frame and lost context report 2D recovery instead of false ready success (4.836059ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3734.728513
