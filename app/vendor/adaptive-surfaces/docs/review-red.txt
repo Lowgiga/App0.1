@@ -1,0 +1,121 @@
+✖ R1 pending callback survives structural reparenting and blocks a second activation (46.605043ms)
+✖ R2 pending status and aria-busy remain visible across a newer revision (8.802906ms)
+✖ R3 corrected host slot data recovers a render error without replacing slot identity (14.52423ms)
+✔ malformed JSON corpus rejects and does not mutate last admitted snapshot (1.677903ms)
+✔ valid JSON differential corpus preserves finite values and Unicode (0.588839ms)
+✔ prototype, data ref and action ref variants never broaden lookup (2.72965ms)
+✔ host action source and emitted target remain deeply immutable (0.466765ms)
+✔ proposed HTML and host row markup cannot create DOM or network requests (9.694601ms)
+✔ rejected updates keep previous action consumption and tree unchanged (0.691394ms)
+✔ focus and host callbacks never activate when grouping/reordering the surface (7.372817ms)
+✔ source runtime contains no dynamic execution, HTML injection or fetch sink (0.485272ms)
+✖ R1 pending callback survives component removal then readdition (8.120005ms)
+✖ R3 corrected slot recovers on a fresh admitted revision (6.766302ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 8
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 750.542429
+
+✖ failing tests:
+
+test at reports/adaptive-review.test.mjs:31:1
+✖ R1 pending callback survives structural reparenting and blocks a second activation (46.605043ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   calls: 2,
+  +   disabled: false
+  -   calls: 1,
+  -   disabled: true
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/reports/adaptive-review.test.mjs:42:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { disabled: false, calls: 2 },
+    expected: { disabled: true, calls: 1 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at reports/adaptive-review.test.mjs:45:1
+✖ R2 pending status and aria-busy remain visible across a newer revision (8.802906ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   busy: 'false',
+  -   busy: 'true',
+      disabled: true,
+  +   status: false
+  -   status: true
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/reports/adaptive-review.test.mjs:52:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { disabled: true, busy: 'false', status: false },
+    expected: { disabled: true, busy: 'true', status: true },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at reports/adaptive-review.test.mjs:55:1
+✖ R3 corrected host slot data recovers a render error without replacing slot identity (14.52423ms)
+  AssertionError [ERR_ASSERTION]: corrected slot remains in the old error fallback
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/reports/adaptive-review.test.mjs:60:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at reports/adaptive-review.test.mjs:117:1
+✖ R1 pending callback survives component removal then readdition (8.120005ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   calls: 2,
+  +   disabled: false
+  -   calls: 1,
+  -   disabled: true
+    }
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/reports/adaptive-review.test.mjs:125:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { disabled: false, calls: 2 },
+    expected: { disabled: true, calls: 1 },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at reports/adaptive-review.test.mjs:128:1
+✖ R3 corrected slot recovers on a fresh admitted revision (6.766302ms)
+  AssertionError [ERR_ASSERTION]: fresh revision still displays old error fallback
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/reports/adaptive-review.test.mjs:133:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

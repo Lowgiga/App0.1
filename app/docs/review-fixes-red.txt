@@ -1,0 +1,82 @@
+NAVIGATION_CALLS [{"kind":"replace","url":"https://localhost/"},{"kind":"push","url":"https://localhost/?view=space"},{"kind":"replace","url":"https://localhost/?view=space"}]
+✖ review: Back after Studio-to-original navigation retains Studio in history (534.015191ms)
+EMBEDDED_GRAPH mesh-explorer mesh-mode-work mesh-style-solid mesh-quality-high
+✖ review: the embedded graph obeys WorkState power saver quality (217.247934ms)
+MOTION_POLICY false
+✖ review: WorkState motion off cannot be bypassed inside graph controls (158.935949ms)
+STUDIO_DIALOGS [
+  'ArbeitsbereicheÜbersichtAgentenMissionszentraleFreigabenAktivitätFokus & IntelligenceHilfeVerbindungenPAZ-PilotAutomationenFunktionslaborAdd-on-KatalogEvidenzMissionräumeAufgabenmatrix3D & LernenEinst'
+]
+✖ review: a hidden original workspace does not open its global command dialog (389.77558ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2447.840348
+
+✖ failing tests:
+
+test at reports/integration-review.dom.test.tsx:49:1
+✖ review: Back after Studio-to-original navigation retains Studio in history (534.015191ms)
+  AssertionError [ERR_ASSERTION]: Studio history entry must not be overwritten before pushing destination
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/reports/integration-review.dom.test.tsx:61:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at reports/integration-review.dom.test.tsx:69:1
+✖ review: the embedded graph obeys WorkState power saver quality (217.247934ms)
+  AssertionError [ERR_ASSERTION]: Power saver must enforce low quality in embedded graph
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/reports/integration-review.dom.test.tsx:78:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at reports/integration-review.dom.test.tsx:84:1
+✖ review: WorkState motion off cannot be bypassed inside graph controls (158.935949ms)
+  AssertionError [ERR_ASSERTION]: Global motion off must retain precedence over graph checkbox
+  
+  'false' !== 'true'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/reports/integration-review.dom.test.tsx:94:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'false',
+    expected: 'true',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at reports/integration-review.dom.test.tsx:100:1
+✖ review: a hidden original workspace does not open its global command dialog (389.77558ms)
+  AssertionError [ERR_ASSERTION]: Original workspace keyboard shortcut must be disabled or explicitly integrated while hidden
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/reports/integration-review.dom.test.tsx:111:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

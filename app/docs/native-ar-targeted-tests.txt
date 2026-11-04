@@ -1,0 +1,44 @@
+✔ document viewer renders original plain text without automatic IO and explicit export preserves exact payload (55.666694ms)
+✔ literal script-like document text is not HTML and duplicate pending exports are suppressed (8.047215ms)
+✔ bundled document cue-team-initialisierung.md retains exact original bytes and safe file metadata (1.195973ms)
+✔ bundled document cue-handoff.md retains exact original bytes and safe file metadata (0.372642ms)
+✔ bundled document low-handoff.md retains exact original bytes and safe file metadata (0.2056ms)
+✔ bundled document make-pruefung.json retains exact original bytes and safe file metadata (0.206812ms)
+✔ document allowlist rejects arbitrary URLs, traversal, encoded paths, queries, fragments and prototype keys (0.219621ms)
+✔ native UI is inert until explicit action, discloses compatibility network lookup and never auto-opens after check (57.734244ms)
+✔ native UI hard power policy blocks both actions and exposes settings route (14.208135ms)
+✔ native UI suppresses duplicate launch and ignores returned stale membership revision without writes (11.482499ms)
+✔ native UI accepts only informational current selection and does not turn placed into a task outcome (9.843573ms)
+✔ native snapshot retains every real node/edge, uses finite uniformly normalized positions and stable revision (12.59936ms)
+✔ native snapshot exposes text compaction without changing identities and detects even omitted text revision changes (6.157325ms)
+✔ native converter rejects limits, dangling edges, bad identity and unknown saved state without silent filtering (5.986157ms)
+✔ native snapshot converts the complete selected scope rather than the 32-node display cap (3.477184ms)
+✔ native service is lazy, validates availability and result, excludes parallel opens and resets after error (3.57465ms)
+✔ native service fails closed for browsers, malformed booleans, oversized input and unknown result keys (8.107576ms)
+✔ native return can only select a current member from a closed current revision, without writes (1.780435ms)
+✔ native byte boundary rejects worst-case Unicode details while ordinary maximum 256/4096 multigraph remains complete (91.080557ms)
+✔ native failed bridge call releases busy; no stale or invalid native payload is accepted (2.36097ms)
+NAVIGATION_CALLS [{"kind":"push","url":"https://localhost/?view=space"},{"kind":"replace","url":"https://localhost/?view=space"}]
+✔ review: Back after Studio-to-original navigation retains Studio in history (618.599906ms)
+EMBEDDED_GRAPH mesh-explorer mesh-mode-work mesh-style-solid mesh-quality-low
+✔ review: the embedded graph obeys WorkState power saver quality (221.564282ms)
+MOTION_POLICY true
+✔ review: WorkState motion off cannot be bypassed inside graph controls (154.63028ms)
+STUDIO_DIALOGS []
+✔ review: a hidden original workspace does not open its global command dialog (526.918493ms)
+✔ review: all 17 original views remain navigable and use the shared WorkState (740.594189ms)
+✔ review: paused run survives Studio tab switches and resume advances exactly once (442.067904ms)
+RESUME_AFTER_MODE_SWITCH false
+✔ review: switching to original workspace within the same app session preserves paused continuation (239.597485ms)
+MOBILE_STUDIO_DIALOGS []
+✔ review: mobile sidebar shortcut is inactive while Studio is foreground (125.694672ms)
+✔ review: saving forced graph view preserves personal preferences and lifting override restores them (260.938896ms)
+✔ bundled source sheet preserves screenshots, closes cleanly and cannot leave a hidden document portal in Studio (318.603946ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5015.623561

@@ -1,0 +1,44 @@
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (10.471976ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (20.011898ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (3.808952ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (4.879475ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (2.444946ms)
+✔ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (6.363133ms)
+✔ late window resize failure also takes the controlled fallback path (3.310351ms)
+✔ 3D demand camera focus finishes once, preserves IDs and does not invoke selection callbacks (4.75628ms)
+✔ 3D rapid toggles finish at the last immediate camera target and policy changes settle immediately (12.501216ms)
+✔ 3D Escape and camera gestures cancel without fighting the user or scheduling a delayed fit (7.44918ms)
+✔ 3D context loss and disposal clear all transition frames including stale callbacks (8.854618ms)
+✖ 3D selection focus is bounded and a missing or cleared selection cancels the old destination (5.427622ms)
+✔ 3D hidden document and a renderer error during an animated frame stop scheduling immediately (8.023305ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 930.943695
+
+✖ failing tests:
+
+test at tests/three.test.ts:167:1
+✖ 3D selection focus is bounded and a missing or cleared selection cancels the old destination (5.427622ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:176:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

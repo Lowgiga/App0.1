@@ -1,0 +1,52 @@
+✔ R1 pending callback survives structural reparenting and blocks a second activation (35.131788ms)
+✔ R2 pending status and aria-busy remain visible across a newer revision (7.973651ms)
+✖ R3 corrected host slot data recovers a render error without replacing slot identity (13.956178ms)
+✔ malformed JSON corpus rejects and does not mutate last admitted snapshot (1.950643ms)
+✔ valid JSON differential corpus preserves finite values and Unicode (0.616961ms)
+✔ prototype, data ref and action ref variants never broaden lookup (2.90318ms)
+✔ host action source and emitted target remain deeply immutable (0.445051ms)
+✔ proposed HTML and host row markup cannot create DOM or network requests (9.368836ms)
+✔ rejected updates keep previous action consumption and tree unchanged (0.819035ms)
+✔ focus and host callbacks never activate when grouping/reordering the surface (8.644609ms)
+✔ source runtime contains no dynamic execution, HTML injection or fetch sink (0.515938ms)
+✔ R1 pending callback survives component removal then readdition (9.035443ms)
+✖ R3 corrected slot recovers on a fresh admitted revision (7.326013ms)
+✔ slot error is contained without retrying on unrelated host rerenders (10.760035ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 12
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 755.313856
+
+✖ failing tests:
+
+test at ../reports/adaptive-review.test.mjs:56:1
+✖ R3 corrected host slot data recovers a render error without replacing slot identity (13.956178ms)
+  AssertionError [ERR_ASSERTION]: corrected slot remains in the old error fallback
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/reports/adaptive-review.test.mjs:61:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at ../reports/adaptive-review.test.mjs:130:1
+✖ R3 corrected slot recovers on a fresh admitted revision (7.326013ms)
+  AssertionError [ERR_ASSERTION]: fresh revision still displays old error fallback
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/reports/adaptive-review.test.mjs:135:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

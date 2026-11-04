@@ -1,0 +1,8 @@
+{
+  "baseCommit": "76e222d09b301f2acf5ec6c1db010f8e0bf13be8",
+  "patch": "publisher-against-pr9-76e222d.patch",
+  "sourceSha256": "f57200cd8e13f840f2bffb12ffc43d2ace1dcab3dc4a8abaab67b17721588429",
+  "sourceFiles": 1018,
+  "worktree": "/workspace/APP-publisher-v3",
+  "appliedToCleanCheckout": true
+}

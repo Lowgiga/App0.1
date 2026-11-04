@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Reserved for an explicit future native export adapter, unused in this preview. -->
+    <cache-path name="cue_exports" path="cue-exports/" />
+</paths>

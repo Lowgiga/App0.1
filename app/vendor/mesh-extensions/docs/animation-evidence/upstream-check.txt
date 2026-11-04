@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-mesh-graph-explorer-extension@0.1.0-candidate check:upstream
+> node scripts/check-upstream.mjs
+
+Exact upstream schema/graph snapshot verified: 8bb56544677a7433a2566da3885ada6cd31b1b0d

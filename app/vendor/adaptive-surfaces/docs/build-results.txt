@@ -1,0 +1,32 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @cue/adaptive-surfaces@0.1.0-candidate build
+> npm run typecheck && vite build && vite build --config vite.demo.config.ts && tsc -p tsconfig.types.json
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @cue/adaptive-surfaces@0.1.0-candidate typecheck
+> tsc --noEmit
+
+vite v8.0.13 building client environment for production...
+[2Ktransforming...✓ 10 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/library/adaptive-surfaces.css   2.40 kB │ gzip: 0.88 kB
+dist/library/adaptive-surfaces.js   26.53 kB │ gzip: 6.66 kB │ map: 54.42 kB
+
+✓ built in 33ms
+vite v8.0.13 building client environment for production...
+[2Ktransforming...✓ 23 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/demo/index.html                   0.60 kB │ gzip:  0.37 kB
+dist/demo/assets/index-fAczDmqB.css    3.63 kB │ gzip:  1.25 kB
+dist/demo/assets/index-HdELDUeC.js   215.57 kB │ gzip: 67.27 kB │ map: 904.05 kB
+
+✓ built in 139ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

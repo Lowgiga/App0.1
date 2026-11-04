@@ -1,0 +1,148 @@
+✖ V5 module set and private spatial/academy assets are present (1.469195ms)
+✖ every explicit learning owner persists together with its mission prerequisite atomically (0.264859ms)
+✖ invalid learning owner leaves neither a task nor a dangling mission reference (0.248755ms)
+✖ stale learning transfer cannot partially append its task or mission link (0.335255ms)
+✖ old V4 learning booleans survive V5 transfers and reopening unchanged (0.228104ms)
+✖ persisted active transfer prevents duplicate learning task creation (0.202174ms)
+✖ new spatial graph uses locally persisted mission-task relationship (0.236517ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 0
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 179.424807
+
+✖ failing tests:
+
+test at tests/v5-academy-adapter.test.mjs:9:1
+✖ V5 module set and private spatial/academy assets are present (1.469195ms)
+  AssertionError [ERR_ASSERTION]: Final V5 Academy module must be present
+      at academy (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:4:32)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:9:85)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/v5-academy-adapter.test.mjs:10:1
+✖ every explicit learning owner persists together with its mission prerequisite atomically (0.264859ms)
+  AssertionError [ERR_ASSERTION]: Final V5 Academy module must be present
+      at academy (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:4:32)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:10:151)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/v5-academy-adapter.test.mjs:11:1
+✖ invalid learning owner leaves neither a task nor a dangling mission reference (0.248755ms)
+  AssertionError [ERR_ASSERTION]: Final V5 Academy module must be present
+      at academy (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:4:32)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:11:140)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/v5-academy-adapter.test.mjs:12:1
+✖ stale learning transfer cannot partially append its task or mission link (0.335255ms)
+  AssertionError [ERR_ASSERTION]: Final V5 Academy module must be present
+      at academy (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:4:32)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:12:135)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/v5-academy-adapter.test.mjs:13:1
+✖ old V4 learning booleans survive V5 transfers and reopening unchanged (0.228104ms)
+  AssertionError [ERR_ASSERTION]: Final V5 Academy module must be present
+      at academy (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:4:32)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:13:132)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/v5-academy-adapter.test.mjs:14:1
+✖ persisted active transfer prevents duplicate learning task creation (0.202174ms)
+  AssertionError [ERR_ASSERTION]: Final V5 Academy module must be present
+      at academy (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:4:32)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:14:130)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/v5-academy-adapter.test.mjs:15:1
+✖ new spatial graph uses locally persisted mission-task relationship (0.236517ms)
+  AssertionError [ERR_ASSERTION]: Final V5 Academy module must be present
+      at academy (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:4:32)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/v5-academy-adapter.test.mjs:15:91)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

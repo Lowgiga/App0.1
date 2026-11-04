@@ -1,0 +1,21 @@
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (10.348547ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (21.072431ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (3.621272ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (5.241124ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (2.635224ms)
+✔ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (7.630017ms)
+✔ late window resize failure also takes the controlled fallback path (3.746501ms)
+✔ 3D demand camera focus finishes once, preserves IDs and does not invoke selection callbacks (5.147343ms)
+✔ 3D rapid toggles finish at the last immediate camera target and policy changes settle immediately (12.960767ms)
+✔ 3D Escape and camera gestures cancel without fighting the user or scheduling a delayed fit (7.619832ms)
+✔ 3D context loss and disposal clear all transition frames including stale callbacks (8.870017ms)
+✔ 3D selection focus is bounded and a missing or cleared selection cancels the old destination (5.735139ms)
+✔ 3D hidden document and a renderer error during an animated frame stop scheduling immediately (8.965551ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 910.154718

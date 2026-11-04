@@ -1,0 +1,16 @@
+✔ backup roundtrips entire WorkState and saved module settings with zero writes (35.304943ms)
+✔ preview reports genuine changes and corruption is rejected (23.709516ms)
+✔ rollback records observed wall clock separately from logical export ordering including submillisecond revisions (19.182258ms)
+VALID_DENSE_GRAPH {"nodes":106,"edges":1722}
+DENSE_GRAPH_RESULT completed undefined 7 7
+✔ review: graph skill handles a valid dense V5 work graph (366.035144ms)
+✔ review: valid monotonic revision ahead of device clock remains backup-exportable (36.201196ms)
+✔ review: malformed reserved system envelope is not classified as a legitimate legacy backup (9.032895ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 943.556554

@@ -1,0 +1,27 @@
+✔ 100 simultaneous first writers have exactly one durable winner (91.49423ms)
+✔ abort after get before put commit rolls back (3.914974ms)
+✔ quota failure returns explicit 507 and leaves prior state (2.618389ms)
+✔ transaction abort after put success does not report durable success (2.540231ms)
+✔ future IndexedDB database version blocks current store without overwrite (3.409842ms)
+✔ absent object store is an explicit failure, no reset (0.71604ms)
+✔ v3 projected roundtrip preserves v4 metadata (4.087455ms)
+✔ bad clock rejects writes while persisted data remain readable (2.886533ms)
+✔ loaded records exceeding write budget remain readable and immutable on rewrite (73.776409ms)
+✔ 409 conflict permanently blocks stale form saves until full hook remount (87.955543ms)
+✔ REGRESSION: ambiguous failure with external revision must block retained stale form (22.355095ms)
+✔ REGRESSION: abnormal IndexedDB connection close allows safe reopen on next read (3.336442ms)
+✔ REGRESSION: local writes retain upstream UUID fallback when randomUUID unavailable (3.768394ms)
+✔ network sentinel sees zero fetch calls for state, action errors or unsupported routes (2.823889ms)
+✔ stale non-null first-write expectation cannot initialize an absent row (1.542046ms)
+✔ same-tab double submit permits one version write and reports conflict for the other (3.728784ms)
+✔ pre-aborted write and post-read object mutation cannot mutate persistent snapshot (2.573051ms)
+✔ REGRESSION: corrected device clock uses wall time for approval expiry while CAS stays monotonic (7.589096ms)
+✔ concurrent risk acceptance is exactly once, keeps condition and never fetches (9.061055ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 705.740987

@@ -1,0 +1,171 @@
+✔ learning graph provides five real course levels in 2D and 3D (4.522029ms)
+✔ lesson dependencies are recommendations and never executed app relationships (0.711062ms)
+✔ legacy quiz completion is retained without inventing a practice or transfer (0.624992ms)
+✔ unknown data never asserts personal achievements (0.896041ms)
+✔ a saved practice note and quiz show the real next case check (1.493312ms)
+✔ a random note cannot substitute for a saved practice (0.437619ms)
+✔ an open transfer remains open and points to its real task (0.662359ms)
+✔ done label without evidence and review cannot complete a transfer level (0.507105ms)
+✔ transitive invalid prerequisites and dependency cycles invalidate transfer completion (0.665844ms)
+✔ archived transfer is not offered as an active task (0.594527ms)
+✔ AR preflight distinguishes insecure context before any XR probe (0.25158ms)
+✔ AR preflight explains policy, missing API, unsupported device and probe errors (0.512483ms)
+✔ AR start errors distinguish denied permission from unavailable placement (0.191459ms)
+✔ AR placement requires both hit test and usable exit controls (0.658653ms)
+✔ placement cannot happen before a current hit and remains fixed until explicit reposition (0.35185ms)
+✔ losing a hit before placement clears stale coordinates (0.134884ms)
+✔ placement state copies matrices instead of retaining mutable frame buffers (0.083596ms)
+✔ hit source is disposed once on end and explicit cleanup (0.475186ms)
+✔ late hit source is cancelled after unmount during async acquisition (7.404126ms)
+✔ ended session cannot attach a late hit source (0.567546ms)
+✖ renderer uses explicit surface placement and disposes its browser hit source (1.87022ms)
+✔ UI reports real AR start failures and has explicit placement controls (0.26521ms)
+✔ help matches surface-placement controls and does not promise an unsupported free model (0.197928ms)
+✔ dense shared-prerequisite DAG is evaluated once per task, within the 60-task contract (118.591604ms)
+✔ completion cache is rebuilt for each state and cannot retain an old success (0.540045ms)
+✔ completion rejects work outside contract bounds without traversing an unbounded graph (0.541106ms)
+✔ ending a session aborts a never-settling hit-source request immediately (3.555402ms)
+✔ saved practice recommends the real required case recheck instead of a disabled transfer screen (0.573605ms)
+✔ AR startup cancellation is reachable inside the immersive overlay hit region (0.647867ms)
+✔ missing hit-test source result rejects clearly without retaining session listeners (0.476128ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 29
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 388.236755
+
+✖ failing tests:
+
+test at tests/level/level-ar-domain.mts:135:1
+✖ renderer uses explicit surface placement and disposes its browser hit source (1.87022ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /hitResource\?\.dispose\(\)/. Input:
+  
+  "'use client';\n" +
+    "import {saveTextFile,copyWithFeedback,copyPlatformText} from '../src/platform/runtime';\n" +
+    '\n' +
+    "import { useEffect, useRef } from 'react';\n" +
+    "import type { SpaceGraph } from '@/lib/space-model';\n" +
+    "import { acquireHitTestSource, withAbort } from '@/lib/ar-placement';\n" +
+    "import { surfaceSessionInit } from '@/lib/ar-support';\n" +
+    "import { horizontalHit, freshSurface, surfaceOffset, ARStartFailure, AREndFailure, ARStartLock, type ARPlacementMode, type ARState, type ARStage } from '@/lib/ar-runtime';\n" +
+    '\n' +
+    'export type SpaceControls = { reset: () => void; zoom: (factor: number) => void; focus: (id: string) => void; ar: (mode?: ARPlacementMode) => Promise<void>; centerAR: () => void; placeAR: () => boolean; cancelAR: () => void };\n' +
+    'type Props = { graph: SpaceGraph; selected: string; highlightedEdge: string | null; moving: boolean; powerSaver: boolean; allowMotion: boolean; holographic: boolean; controls: React.RefObject<SpaceControls | null>; onReady: (ready: boolean) => void; onError: (message: string) => void; onSelect: (id: string) => void; onAR: (active: boolean) => void; onARState: (state: ARState) => void; onARBusy: (busy: boolean) => void };\n' +
+    '\n' +
+    '/** One renderer, one resource owner. XR teardown is complete before an inline redraw. */\n' +
+    'export default function SpaceRenderer(props: Props) {\n' +
+    '  const host = useRef<HTMLDivElement>(null);\n' +
+    '  const latest = useRef(props); latest.current = props;\n' +
+    '  const refresh = useRef<(() => void) | null>(null);\n' +
+    '  useEffect(() => { refresh.current?.(); }, [props.selected, props.highlightedEdge, props.moving, props.allowMotion]);\n' +
+    '  const topology = JSON.stringify({ nodes: props.graph.nodes.map(n => [n.id, n.title, n.kind, n.origin, n.color, n.position]), edges: props.graph.edges.map(e => [e.id, e.from, e.to, e.origin]) });\n' +
+    '  useEffect(() => {\n' +
+    '    const initialGraph = latest.current.graph, powerSaver = latest.current.powerSaver, controlsRef = latest.current.controls;\n' +
+    '    let cancelled = false;\n' +
+    '    const disposers: (() => void)[] = [];\n' +
+    '    const dispose = () => { while (disposers.length) { try { disposers.pop()!(); } catch { /* Continue releasing the remaining resources. */ } } };\n' +
+    '    latest.current.onReady(false);\n' +
+    '    async function start() {\n' +
+    '      try {\n' +
+    "        const [T, { OrbitControls }] = await Promise.all([import('three'), import('three/addons/controls/OrbitControls.js')]);\n" +
+    '        if (cancelled || !host.current) return;\n' +
+    '        const container = host.current;\n' +
+    '        const renderer = new T.WebGLRenderer({ antialias: !powerSaver, alpha: true });\n' +
+    '        let xrBinding: Promise<void> | null = null;\n' +
+    '        const boundEnds = new Set<Promise<void>>();\n' +
+    '        const endedSessions = new WeakSet<XRSession>();\n' +
+    '        const trackedSessions = new WeakSet<XRSession>();\n' +
+    '        const endAttempts = new WeakMap<XRSession, { pending: boolean; promise: Promise<void> }>();\n' +
+    '        const unconfirmedEnds = new Set<XRSession>();\n' +
+    '        const inlinePixelRatio = Math.min(window.devicePixelRatio || 1, powerSaver ? 1 : 1.5);\n' +
+    '        disposers.push(() => {\n' +
+    '          renderer.setAnimationLoop(null); renderer.domElement.remove();\n' +
+    '          const finish = () => { renderer.setAnimationLoop(null); if (renderer.xr.getSession() === null) renderer.xr.isPresenting = false; renderer.dispose(); };\n' +
+    '          const pending = [...boundEnds, ...(xrBinding ? [xrBinding] : [])];\n' +
+    '          if (pending.length) void Promise.allSettled(pending).then(finish); else finish();\n' +
+    '        });\n' +
+    '        renderer.setPixelRatio(inlinePixelRatio);\n' +
+    '        renderer.setClearColor(0x101c1d, 1);\n' +
+    "        renderer.xr.enabled = true; renderer.xr.setReferenceSpaceType('local');\n" +
+    "        renderer.domElement.setAttribute('aria-label', 'Räumliches Netz. Die gleichwertige Knotenliste bietet Tastaturbedienung.');\n" +
+    '        container.appendChild(renderer.domElement);\n' +
+    '        const scene = new T.Scene(), group = new T.Group(); scene.add(group);\n' +
+    '        const camera = new T.PerspectiveCamera(45, 1, .01, 150);\n' +
+    '        const bounds = new T.Box3().setFromPoints(initialGraph.nodes.map(n => new T.Vector3(...n.position)));\n' +
+    '        const center = bounds.getCenter(new T.Vector3());\n' +
+    '        const radius = Math.max(3, bounds.getSize(new T.Vector3()).length() / 2);\n' +
+    '        const orbit = new OrbitControls(camera, renderer.domElement);\n' +
+    '        disposers.push(() => orbit.dispose());\n' +
+    '        orbit.enableDamping = false; orbit.minDistance = 2; orbit.maxDistance = 100; orbit.target.copy(center);\n' +
+    '        camera.position.copy(center).add(new T.Vector3(0, radius * .3, radius * 3.4));\n' +
+    '        orbit.update(); orbit.saveState();\n' +
+    '        const pickable: InstanceType<typeof T.Mesh>[] = [];\n' +
+    '        const surfaces: { id: string; mesh: InstanceType<typeof T.Mesh>; base: InstanceType<typeof T.MeshBasicMaterial>; focus: InstanceType<typeof T.ShaderMaterial> | null }[] = [];\n' +
+    '        const marks = new Map<string, InstanceType<typeof T.Group>>();\n' +
+    '        const edgeMarks = new Map<string, InstanceType<typeof T.Line>>();\n' +
+    '        for (const n of initialGraph.nodes) {\n' +
+    '          const mark = new T.Group(); mark.position.set(...n.position); group.add(mark); marks.set(n.id, mark);\n' +
+    "          const geometry = n.kind === 'agent' ? new T.IcosahedronGeometry(.26, 1) : new T.BoxGeometry(.34, .34, .34);\n" +
+    "          const material = new T.MeshBasicMaterial({ color: n.color, wireframe: n.origin !== 'own', transparent: true, opacity: .85 });\n" +
+    '          const mesh = new T.Mesh(geometry, material); mesh.userData.id = n.id; mark.add(mesh); pickable.push(mesh);\n' +
+    '          // This optional shader encodes selection. It is not remote agent activity.\n' +
+    '          const focusMaterial = latest.current.holographic ? new T.ShaderMaterial({\n' +
+    '            uniforms: { tint: { value: new T.Color(n.color) }, time: { value: 0 } },\n' +
+    "            vertexShader: 'varying vec3 point; void main(){point=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',\n" +
+    "            fragmentShader: 'uniform vec3 tint; uniform float time; varying vec3 point; void main(){float line=0.5+0.5*sin(point.y*36.0-time);gl_FragColor=vec4(tint*(0.8+line*0.3),0.50+line*0.25);}',\n" +
+    "            transparent: true, wireframe: n.origin !== 'own', depthWrite: false,\n" +
+    '          }) : null;\n' +
+    '          surfaces.push({ id: n.id, mesh, base: material, focus: focusMaterial });\n' +
+    '          if (focusMaterial) disposers.push(() => focusMaterial.dispose());\n' +
+    '          disposers.push(() => geometry.dispose(), () => material.dispose());\n' +
+    "          const textureCanvas = document.createElement('canvas'); textureCanvas.width = 512; textureCanvas.height = 160;\n" +
+    "          const ctx = textureCanvas.getContext('2d');\n" +
+    '          if (ctx) {\n' +
+    "            ctx.font = '500 52px system-ui'; ctx.textAlign = 'center'; ctx.fillStyle = '#e9f4ee';\n" +
+    '            let text = n.title; while (text.length > 1 && ctx.measureText(text).width > 470) text = text.slice(0, -1);\n' +
+    "            ctx.fillText(text + (text !== n.title ? '…' : ''), 256, 61);\n" +
+    "            ctx.font = '28px system-ui'; ctx.fillStyle = '#b2cabb';\n" +
+    "            ctx.fillText(n.origin === 'own' ? 'APP-STAND' : n.origin === 'template' ? 'VORLAGE' : n.origin === 'plan' ? 'GEPLANT' : 'SNAPSHOT', 256, 110);\n" +
+    '            const texture = new T.CanvasTexture(textureCanvas), labelMaterial = new T.SpriteMaterial({ map: texture, transparent: true, depthTest: false });\n' +
+    '            const label = new T.Sprite(labelMaterial); label.position.y = .6; label.scale.set(1.9, .594, 1); mark.add(label);\n' +
+    '            disposers.push(() => texture.dispose(), () => labelMaterial.dispose());\n' +
+    '          }\n' +
+    '        }\n' +
+    '        for (const edge of initialGraph.edges) {\n' +
+    '          const a = marks.get(edge.from), b = marks.get(edge.to); if (!a || !b) continue;\n' +
+    '          const geometry = new T.BufferGeometry().setFromPoints([a.position, b.position]);\n' +
+    "          const material = edge.origin !== 'own' ? new T.LineDashedMaterial({ color: 0x77948a, transparent: true, opacity: .35, dashSize: .1, gapSize: .08 }) : new T.LineBasicMaterial({ color: 0x9dbfb0, transparent: true, opacity: .55 });\n" +
+    "          const line = new T.Line(geometry, material); if (edge.origin !== 'own') line.computeLineDistances(); group.add(line); edgeMarks.set(edge.id, line);\n" +
+    '          disposers.push(() => geometry.dispose(), () => material.dispose());\n' +
+    '        }\n' +
+    '        const grid = new T.GridHelper(Math.max(8, radius * 2), 16, 0x36564b, 0x21372f); grid.position.y = bounds.min.y - .7; group.add(grid);\n' +
+    '        disposers.push(() => { grid.geometry.dispose(); for (const m of Array.isArray(grid.material) ? grid.material : [grid.material]) m.dispose(); });\n' +
+    '        const reticleGeometry = new T.RingGeometry(.055, .07, 32).rotateX(-Math.PI / 2), reticleMaterial = new T.MeshBasicMaterial({ color: 0xc7efa0, side: T.DoubleSide });\n' +
+    '        const reticle = new T.Mesh(reticleGeometry, reticleMaterial); reticle.matrixAutoUpdate = false; reticle.visible = false; scene.add(reticle);\n' +
+    '        disposers.push(() => reticleGeometry.dispose(), () => reticleMaterial.dispose());\n' +
+    '        const basePivot = new T.Vector3(center.x, bounds.min.y - .7, center.z);\n' +
+    '        let session: XRSession | null = null, hitSource: XRHitTestSource | null = null;\n' +
+    '        const startLock = new ARStartLock();\n' +
+    '        let startup: AbortController | null = null;\n' +
+    '        let hitResource: Awaited<ReturnType<typeof acquireHitTestSource>> | null = null;\n' +
+    "        let arMode: ARPlacementMode = 'surface', centerPending = false, endingUncertain = false, scale = .6 / (radius * 2), visible = true, lastTime = 0;\n" +
+    "        let tracking = false, hitAt: number | null = null, hitMatrix: Float32Array | null = null, placedMatrix: InstanceType<typeof T.Matrix4> | null = null, reported = '';\n" +
+    "        const reportAR = (phase: ARState['phase'], canPlace = false) => {\n" +
+    "          const key = phase + ':' + arMode + ':' + canPlace;\n" +
+    '          if (!cancelled && key !== reported) { reported = key; latest.current.onARState({ phase, mode: arMode, canPlace }); }\n' +
+    '        };\n' +
+    '        const stopHitTest = () => { const owned = hitResource; hitResource = null; if (owned) owned.dispose(); else try { hitSource?.cancel(); '... 16573 more characters
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/level/level-ar-domain.mts:139:10)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "'use client';\nimport {saveTextFile,copyWithFeedback,copyPlatformText} from '../src/platform/runtime';\n\nimport { useEffect, useRef } from 'react';\nimport type { SpaceGraph } from '@/lib/space-model';\nimport { acquireHitTestSource, withAbort } from '@/lib/ar-placement';\nimport { surfaceSessionInit } from '@/lib/ar-support';\nimport { horizontalHit, freshSurface, surfaceOffset, ARStartFailure, AREndFailure, ARStartLock, type ARPlacementMode, type ARState, type ARStage } from '@/lib/ar-runtime';\n\nexport type SpaceControls = { reset: () => void; zoom: (factor: number) => void; focus: (id: string) => void; ar: (mode?: ARPlacementMode) => Promise<void>; centerAR: () => void; placeAR: () => boolean; cancelAR: () => void };\ntype Props = { graph: SpaceGraph; selected: string; highlightedEdge: string | null; moving: boolean; powerSaver: boolean; allowMotion: boolean; holographic: boolean; controls: React.RefObject<SpaceControls | null>; onReady: (ready: boolean) => void; onError: (message: string) => void; onSelect: (id: string) => void; onAR: (active: boolean) => void; onARState: (state: ARState) => void; onARBusy: (busy: boolean) => void };\n\n/** One renderer, one resource owner. XR teardown is complete before an inline redraw. */\nexport default function SpaceRenderer(props: Props) {\n  const host = useRef<HTMLDivElement>(null);\n  const latest = useRef(props); latest.current = props;\n  const refresh = useRef<(() => void) | null>(null);\n  useEffect(() => { refresh.current?.(); }, [props.selected, props.highlightedEdge, props.moving, props.allowMotion]);\n  const topology = JSON.stringify({ nodes: props.graph.nodes.map(n => [n.id, n.title, n.kind, n.origin, n.color, n.position]), edges: props.graph.edges.map(e => [e.id, e.from, e.to, e.origin]) });\n  useEffect(() => {\n    const initialGraph = latest.current.graph, powerSaver = latest.current.powerSaver, controlsRef = latest.current.controls;\n    let cancelled = false;\n    const disposers: (() => void)[] = [];\n    const dispose = () => { while (disposers.length) { try { disposers.pop()!(); } catch { /* Continue releasing the remaining resources. */ } } };\n    latest.current.onReady(false);\n    async function start() {\n      try {\n        const [T, { OrbitControls }] = await Promise.all([import('three'), import('three/addons/controls/OrbitControls.js')]);\n        if (cancelled || !host.current) return;\n        const container = host.current;\n        const renderer = new T.WebGLRenderer({ antialias: !powerSaver, alpha: true });\n        let xrBinding: Promise<void> | null = null;\n        const boundEnds = new Set<Promise<void>>();\n        const endedSessions = new WeakSet<XRSession>();\n        const trackedSessions = new WeakSet<XRSession>();\n        const endAttempts = new WeakMap<XRSession, { pending: boolean; promise: Promise<void> }>();\n        const unconfirmedEnds = new Set<XRSession>();\n        const inlinePixelRatio = Math.min(window.devicePixelRatio || 1, powerSaver ? 1 : 1.5);\n        disposers.push(() => {\n          renderer.setAnimationLoop(null); renderer.domElement.remove();\n          const finish = () => { renderer.setAnimationLoop(null); if (renderer.xr.getSession() === null) renderer.xr.isPresenting = false; renderer.dispose(); };\n          const pending = [...boundEnds, ...(xrBinding ? [xrBinding] : [])];\n          if (pending.length) void Promise.allSettled(pending).then(finish); else finish();\n        });\n        renderer.setPixelRatio(inlinePixelRatio);\n        renderer.setClearColor(0x101c1d, 1);\n        renderer.xr.enabled = true; renderer.xr.setReferenceSpaceType('local');\n        renderer.domElement.setAttribute('aria-label', 'Räumliches Netz. Die gleichwertige Knotenliste bietet Tastaturbedienung.');\n        container.appendChild(renderer.domElement);\n        const scene = new T.Scene(), group = new T.Group(); scene.add(group);\n        const camera = new T.PerspectiveCamera(45, 1, .01, 150);\n        const bounds = new T.Box3().setFromPoints(initialGraph.nodes.map(n => new T.Vector3(...n.position)));\n        const center = bounds.getCenter(new T.Vector3());\n        const radius = Math.max(3, bounds.getSize(new T.Vector3()).length() / 2);\n        const orbit = new OrbitControls(camera, renderer.domElement);\n        disposers.push(() => orbit.dispose());\n        orbit.enableDamping = false; orbit.minDistance = 2; orbit.maxDistance = 100; orbit.target.copy(center);\n        camera.position.copy(center).add(new T.Vector3(0, radius * .3, radius * 3.4));\n        orbit.update(); orbit.saveState();\n        const pickable: InstanceType<typeof T.Mesh>[] = [];\n        const surfaces: { id: string; mesh: InstanceType<typeof T.Mesh>; base: InstanceType<typeof T.MeshBasicMaterial>; focus: InstanceType<typeof T.ShaderMaterial> | null }[] = [];\n        const marks = new Map<string, InstanceType<typeof T.Group>>();\n        const edgeMarks = new Map<string, InstanceType<typeof T.Line>>();\n        for (const n of initialGraph.nodes) {\n          const mark = new T.Group(); mark.position.set(...n.position); group.add(mark); marks.set(n.id, mark);\n          const geometry = n.kind === 'agent' ? new T.IcosahedronGeometry(.26, 1) : new T.BoxGeometry(.34, .34, .34);\n          const material = new T.MeshBasicMaterial({ color: n.color, wireframe: n.origin !== 'own', transparent: true, opacity: .85 });\n          const mesh = new T.Mesh(geometry, material); mesh.userData.id = n.id; mark.add(mesh); pickable.push(mesh);\n          // This optional shader encodes selection. It is not remote agent activity.\n          const focusMaterial = latest.current.holographic ? new T.ShaderMaterial({\n            uniforms: { tint: { value: new T.Color(n.color) }, time: { value: 0 } },\n            vertexShader: 'varying vec3 point; void main(){point=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',\n            fragmentShader: 'uniform vec3 tint; uniform float time; varying vec3 point; void main(){float line=0.5+0.5*sin(point.y*36.0-time);gl_FragColor=vec4(tint*(0.8+line*0.3),0.50+line*0.25);}',\n            transparent: true, wireframe: n.origin !== 'own', depthWrite: false,\n          }) : null;\n          surfaces.push({ id: n.id, mesh, base: material, focus: focusMaterial });\n          if (focusMaterial) disposers.push(() => focusMaterial.dispose());\n          disposers.push(() => geometry.dispose(), () => material.dispose());\n          const textureCanvas = document.createElement('canvas'); textureCanvas.width = 512; textureCanvas.height = 160;\n          const ctx = textureCanvas.getContext('2d');\n          if (ctx) {\n            ctx.font = '500 52px system-ui'; ctx.textAlign = 'center'; ctx.fillStyle = '#e9f4ee';\n            let text = n.title; while (text.length > 1 && ctx.measureText(text).width > 470) text = text.slice(0, -1);\n            ctx.fillText(text + (text !== n.title ? '…' : ''), 256, 61);\n            ctx.font = '28px system-ui'; ctx.fillStyle = '#b2cabb';\n            ctx.fillText(n.origin === 'own' ? 'APP-STAND' : n.origin === 'template' ? 'VORLAGE' : n.origin === 'plan' ? 'GEPLANT' : 'SNAPSHOT', 256, 110);\n            const texture = new T.CanvasTexture(textureCanvas), labelMaterial = new T.SpriteMaterial({ map: texture, transparent: true, depthTest: false });\n            const label = new T.Sprite(labelMaterial); label.position.y = .6; label.scale.set(1.9, .594, 1); mark.add(label);\n            disposers.push(() => texture.dispose(), () => labelMaterial.dispose());\n          }\n        }\n        for (const edge of initialGraph.edges) {\n          const a = marks.get(edge.from), b = marks.get(edge.to); if (!a || !b) continue;\n          const geometry = new T.BufferGeometry().setFromPoints([a.position, b.position]);\n          const material = edge.origin !== 'own' ? new T.LineDashedMaterial({ color: 0x77948a, transparent: true, opacity: .35, dashSize: .1, gapSize: .08 }) : new T.LineBasicMaterial({ color: 0x9dbfb0, transparent: true, opacity: .55 });\n          const line = new T.Line(geometry, material); if (edge.origin !== 'own') line.computeLineDistances(); group.add(line); edgeMarks.set(edge.id, line);\n          disposers.push(() => geometry.dispose(), () => material.dispose());\n        }\n        const grid = new T.GridHelper(Math.max(8, radius * 2), 16, 0x36564b, 0x21372f); grid.position.y = bounds.min.y - .7; group.add(grid);\n        disposers.push(() => { grid.geometry.dispose(); for (const m of Array.isArray(grid.material) ? grid.material : [grid.material]) m.dispose(); });\n        const reticleGeometry = new T.RingGeometry(.055, .07, 32).rotateX(-Math.PI / 2), reticleMaterial = new T.MeshBasicMaterial({ color: 0xc7efa0, side: T.DoubleSide });\n        const reticle = new T.Mesh(reticleGeometry, reticleMaterial); reticle.matrixAutoUpdate = false; reticle.visible = false; scene.add(reticle);\n        disposers.push(() => reticleGeometry.dispose(), () => reticleMaterial.dispose());\n        const basePivot = new T.Vector3(center.x, bounds.min.y - .7, center.z);\n        let session: XRSession | null = null, hitSource: XRHitTestSource | null = null;\n        const startLock = new ARStartLock();\n        let startup: AbortController | null = null;\n        let hitResource: Awaited<ReturnType<typeof acquireHitTestSource>> | null = null;\n        let arMode: ARPlacementMode = 'surface', centerPending = false, endingUncertain = false, scale = .6 / (radius * 2), visible = true, lastTime = 0;\n        let tracking = false, hitAt: number | null = null, hitMatrix: Float32Array | null = null, placedMatrix: InstanceType<typeof T.Matrix4> | null = null, reported = '';\n        const reportAR = (phase: ARState['phase'], canPlace = false) => {\n          const key = phase + ':' + arMode + ':' + canPlace;\n          if (!cancelled && key !== reported) { reported = key; latest.current.onARState({ phase, mode: arMode, canPlace }); }\n        };\n        const stopHitTest = () => { const owned = hitResource; hitResource = null; if (owned) owned.dispose(); else try { hitSource?.cancel(); "... 16573 more characters,
+    expected: /hitResource\?\.dispose\(\)/,
+    operator: 'match',
+    diff: 'simple'
+  }

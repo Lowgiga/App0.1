@@ -1,0 +1,63 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-mesh-graph-explorer-extension@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ adapter reuses real graph IDs and relationships without mutating V4 input (7.32806ms)
+✔ unknown state and source date stay explicitly unknown (2.010432ms)
+✔ events are retained records, bounded and never used to reconstruct current state (1.022472ms)
+✔ omitted archived and unresolved references are disclosed instead of fabricated nodes (1.152959ms)
+✔ invalid state, duplicate source IDs and invalid source dates are rejected (1.479181ms)
+✔ source detail never claims a dated snapshot when its timestamp is unknown (1.561305ms)
+✔ timeline exists only on demand and reaches the exact end without a further frame (1.616878ms)
+✔ rapid retarget, cancel, stale delivery and disposal cannot revive an old timeline (0.391932ms)
+✔ zero, invalid, capped and background-delayed duration are bounded and cancellation is reentrant (0.373042ms)
+✔ disabled, reduced-motion, power-saving and hidden states always beat requested transitions (0.31125ms)
+✔ 2D interpolation preserves IDs, truthful target membership and exact end coordinates (0.51041ms)
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (9.70177ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (18.081365ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (3.424314ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (4.239022ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (2.17531ms)
+✔ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (5.872345ms)
+✔ late window resize failure also takes the controlled fallback path (3.047786ms)
+✔ 3D demand camera focus finishes once, preserves IDs and does not invoke selection callbacks (4.252543ms)
+✔ 3D rapid toggles finish at the last immediate camera target and policy changes settle immediately (11.301722ms)
+✔ 3D Escape and camera gestures cancel without fighting the user or scheduling a delayed fit (6.489836ms)
+✔ 3D context loss and disposal clear all transition frames including stale callbacks (7.837348ms)
+✔ 3D selection focus is bounded and a missing or cleared selection cancels the old destination (4.923935ms)
+✔ 3D hidden document and a renderer error during an animated frame stop scheduling immediately (7.883197ms)
+✔ 3D two-pointer gesture retains priority after one pointer is canceled (8.403061ms)
+✔ unknown state is explicit and never shown as live or loaded-empty (39.837532ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (65.299377ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (39.618141ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (44.564565ms)
+✔ retained activity tells the truth about incomplete history and current graph (18.452395ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (20.30574ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (32.098502ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (35.14768ms)
+✔ primary text and controls scale with the host root font setting (28.632686ms)
+✔ opt-in 2D transitions animate layout positions and selection with exact ends but never host actions (47.400852ms)
+✔ 2D rapid layout changes, Escape, system preference, energy saving and unmount leave no pending frames (81.465604ms)
+✔ transition settings are labelled, serialized and have a legacy export without additive fields (46.589053ms)
+✔ legacy typed initial views remain valid without the additive setting (15.044776ms)
+✔ 2D focus frames only visible recorded neighbors and camera controls settle before panning (41.415722ms)
+✔ 2D hiding the document settles and cannot restart animation until visible (31.233127ms)
+✔ view config roundtrips and layout changes preserve selection and filters (4.720959ms)
+✔ config rejects unknown versions, inherited extras, NaN and oversized queries (1.825883ms)
+✔ filtering never clears selection and classifies hidden versus missing (6.013148ms)
+✔ scene caps nodes/edges, prioritizes selected node and reports exact omissions (3.353627ms)
+✔ each layout is finite and deterministic independent of input order (2.784078ms)
+✔ evidence layout places task prerequisites before dependent tasks and tolerates cycles (1.387122ms)
+✔ empty graph has safe nonzero bounds in every layout (0.195005ms)
+✔ focus mode shows the selected node and immediate recorded relations without clearing filters (1.443728ms)
+✔ legacy V1 config gains safe opt-in transition defaults and rejects malformed animation settings (0.713987ms)
+✔ legacy export strips only additive transition settings while ordinary export roundtrips (0.47046ms)
+ℹ tests 50
+ℹ suites 0
+ℹ pass 50
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1475.157495

@@ -1,0 +1,5 @@
+// Static integration guards, not device lifecycle or animation evidence.
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+const source=fs.readFileSync(new URL('../android/cue-native-ar/src/main/java/de/lowgiga/cuear/CueArActivity.java',import.meta.url),'utf8');
+test('native motion starts unchecked and observes existing OS settings without modifying them',()=>{assert.match(source,/motionToggle\.setChecked\(false\)/);assert.match(source,/registerContentObserver\(Settings.Global.getUriFor\(Settings.Global.ANIMATOR_DURATION_SCALE\)/);assert.match(source,/ACTION_POWER_SAVE_MODE_CHANGED/);assert.doesNotMatch(source,/Settings.Global.put|setAnimationScale/)});
+test('background closes the animation gate and unregisters policy observers',()=>{assert.match(source,/onPause\(\)\{foreground=false;refreshMotionPolicy\(\);stopObservingMotionPolicy\(\);/);assert.match(source,/renderer.setMotionAllowed\(ArMotionPolicy.allowed\(appAllows,motionOptIn,systemScale,powerSaver,foreground\)\)/)});

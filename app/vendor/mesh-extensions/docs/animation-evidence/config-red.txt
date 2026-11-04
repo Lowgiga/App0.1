@@ -1,0 +1,94 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-mesh-graph-explorer-extension@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ adapter reuses real graph IDs and relationships without mutating V4 input (6.982219ms)
+✔ unknown state and source date stay explicitly unknown (1.47745ms)
+✔ events are retained records, bounded and never used to reconstruct current state (1.353532ms)
+✔ omitted archived and unresolved references are disclosed instead of fabricated nodes (1.449507ms)
+✔ invalid state, duplicate source IDs and invalid source dates are rejected (1.996533ms)
+✔ source detail never claims a dated snapshot when its timestamp is unknown (2.015021ms)
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (11.039973ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (23.996123ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (4.401292ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (13.349859ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (3.592382ms)
+✔ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (8.452848ms)
+✔ late window resize failure also takes the controlled fallback path (4.232087ms)
+✔ unknown state is explicit and never shown as live or loaded-empty (50.381762ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (65.808897ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (45.890122ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (39.523023ms)
+✔ retained activity tells the truth about incomplete history and current graph (20.530112ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (23.188752ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (35.976298ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (28.649462ms)
+✔ primary text and controls scale with the host root font setting (27.528601ms)
+✔ view config roundtrips and layout changes preserve selection and filters (4.597219ms)
+✔ config rejects unknown versions, inherited extras, NaN and oversized queries (1.139691ms)
+✔ filtering never clears selection and classifies hidden versus missing (4.982801ms)
+✔ scene caps nodes/edges, prioritizes selected node and reports exact omissions (3.11382ms)
+✔ each layout is finite and deterministic independent of input order (1.984495ms)
+✔ evidence layout places task prerequisites before dependent tasks and tolerates cycles (0.925427ms)
+✔ empty graph has safe nonzero bounds in every layout (0.147082ms)
+✔ focus mode shows the selected node and immediate recorded relations without clearing filters (1.121813ms)
+✖ legacy V1 config gains safe opt-in transition defaults and rejects malformed animation settings (1.333783ms)
+✖ legacy export strips only additive transition settings while ordinary export roundtrips (0.395336ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 30
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1300.845235
+
+✖ failing tests:
+
+test at tests/view.test.ts:34:1
+✖ legacy V1 config gains safe opt-in transition defaults and rejects malformed animation settings (1.333783ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 'off'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/view.test.ts:38:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'off',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/view.test.ts:44:1
+✖ legacy export strips only additive transition settings while ordinary export roundtrips (0.395336ms)
+  Error [ZodError]: [
+    {
+      "code": "unrecognized_keys",
+      "keys": [
+        "transitions"
+      ],
+      "path": [],
+      "message": "Unrecognized key(s) in object: 'transitions'"
+    }
+  ]
+      at get error (file:///workspace/scratch/40c5c5523452/android-port/node_modules/zod/v3/types.js:39:31)
+      at ZodObject.parse (file:///workspace/scratch/40c5c5523452/android-port/node_modules/zod/v3/types.js:114:22)
+      at parseConfig (file:///workspace/scratch/40c5c5523452/mesh-extensions/src/view.ts:10:58)
+      at serializeConfig (file:///workspace/scratch/40c5c5523452/mesh-extensions/src/view.ts:11:64)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/view.test.ts:46:30)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12) {
+    issues: [ { code: 'unrecognized_keys', keys: [Array], path: [], message: "Unrecognized key(s) in object: 'transitions'" } ],
+    [errors]: [ { code: 'unrecognized_keys', keys: [Array], path: [], message: "Unrecognized key(s) in object: 'transitions'" } ]
+  }

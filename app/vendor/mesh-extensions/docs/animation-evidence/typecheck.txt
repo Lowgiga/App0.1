@@ -1,0 +1,5 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-mesh-graph-explorer-extension@0.1.0-candidate typecheck
+> tsc --noEmit
+

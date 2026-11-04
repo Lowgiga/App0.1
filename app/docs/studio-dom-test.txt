@@ -1,0 +1,28 @@
+ReferenceError: isSecureContext is not defined
+    at file:///workspace/scratch/40c5c5523452/cue-system/overlay/mesh-space.tsx:35:9
+    at Object.react_stack_bottom_frame (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:25989:20)
+    at runWithFiberInDEV (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:871:30)
+    at commitHookEffectListMount (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:13249:29)
+    at commitHookPassiveMountEffects (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:13336:11)
+    at reconnectPassiveEffects (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:15832:11)
+    at recursivelyTraverseReconnectPassiveEffects (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:15784:9)
+    at commitPassiveMountOnFiber (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:15675:17)
+    at recursivelyTraversePassiveMountEffects (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:15439:11)
+    at commitPassiveMountOnFiber (/workspace/scratch/40c5c5523452/cue-system/node_modules/react-dom/cjs/react-dom-client.development.js:15633:11) {
+  [stack]: [Getter/Setter],
+  [message]: 'isSecureContext is not defined'
+}
+
+The above error occurred in the <MeshSpace> component.
+
+React will try to recreate this component tree from scratch using the error boundary you provided, PanelErrorBoundary.
+
+✔ real integrated DOM opens Studio, computes actual checks and returns to original Academy (1259.21556ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2771.088877

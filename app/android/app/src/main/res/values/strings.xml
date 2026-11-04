@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">LowQuantFlow</string>
+    <string name="title_activity_main">LowQuantFlow</string>
+    <string name="package_name">de.lowgiga.cuecommandmesh.next</string>
+    <string name="custom_url_scheme">de.lowgiga.cuecommandmesh.next</string>
+</resources>

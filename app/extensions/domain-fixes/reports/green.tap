@@ -1,0 +1,30 @@
+✔ accepted unreferenced task removal emits one canonical event with the removed ID (8.013414ms)
+✔ multiple task removals have separate canonical IDs, monotonic sequence and 200-event retention (14.41068ms)
+✔ mission reference and task dependency still reject removal atomically (3.531876ms)
+✔ archive emits the unchanged task update without removal or duplicate event (0.960619ms)
+✔ event and interaction histories cannot be client-forged or replaced while removing a task (1.351979ms)
+✔ deletion remains CAS-protected and a rejected stale write changes nothing (0.748689ms)
+✔ deletion events participate in the existing total write budget before acceptance (1107.241515ms)
+✔ V3 projection and V4 canonical removal events keep the unchanged contracts (1.157125ms)
+✔ first focus call applies and exact request retry is still deduplicated (2.559199ms)
+✔ state-changing Created focus returns after a legal phase cycle (2.484496ms)
+✔ state-changing Planned focus returns after a legal phase cycle (2.80562ms)
+✔ state-changing Assigned focus returns after a legal phase cycle (2.893874ms)
+✔ task-start returns after legal reopening and still checks its dependencies (3.65064ms)
+✔ Working to Review can recur; Review opening remains once per semantic key despite unrelated revision or return (3.83303ms)
+✔ stale revision and stale suggestion cannot mutate a restored phase (1.316466ms)
+✔ untreated risks still suppress and reject repeated focus; acceptance remains exact scope (11.091355ms)
+✔ invalid phase jumps, acceptance prerequisites and closed missions are unchanged (2.042831ms)
+✔ 120-record interaction budget and history preservation still bound repeats (3.196149ms)
+✔ legacy merge keeps colliding rooms completely, including skipping incoming-only contributions (0.802841ms)
+✔ active legacy import UI explains unchanged rooms, skipped contributions and both exact budgets (0.520615ms)
+✔ actual NeuroPanel reoffers and executes restored focus through the local Actiondomain (605.806159ms)
+✔ actual IndexedDB transaction persists removal plus canonical event together and rejects stale retry (49.718373ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2156.946643
