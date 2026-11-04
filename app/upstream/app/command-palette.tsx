@@ -1,0 +1,7 @@
+'use client';
+import type { ElementType } from 'react';
+import { CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator } from '@/components/ui/command';
+export type PaletteItem = { id: string; title: string; note?: string; keywords?: string[]; icon: ElementType; run: () => void };
+export default function CommandPalette({ open, close, groups }: { open: boolean; close: () => void; groups: { heading: string; items: PaletteItem[] }[] }) {
+  return <CommandDialog open={open} onOpenChange={value => { if (!value) close(); }} title="Schnellsuche und Aktionen" description="Navigation, eigene Aufträge und passende Werkzeuge finden. Freier Text führt keine produktive Aktion aus." className="mesh-command" showCloseButton={false}><CommandInput placeholder="Mission, Aufgabe, Agent, Hilfe oder Werkzeug …" aria-label="Schnellsuche" /><CommandList><CommandEmpty>Kein passender Eintrag. Suchbegriff anpassen.</CommandEmpty>{groups.map((group, index) => <div key={group.heading}>{index > 0 && <CommandSeparator />}<CommandGroup heading={group.heading}>{group.items.map(item => <CommandItem key={item.id} value={item.id + ' ' + item.title} keywords={item.keywords} onSelect={() => { close(); item.run(); }}><item.icon /><span>{item.title}{item.note && <small>{item.note}</small>}</span></CommandItem>)}</CommandGroup></div>)}</CommandList><div className="command-footer">↑ ↓ auswählen · Enter öffnen · Esc schließen · Keine versteckte Ausführung</div></CommandDialog>;
+}

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+android/.gradle/
+android/**/build/
+android/local.properties
+android/.test-signing/
+*.keystore
+*.jks
+artifacts/
+.portability*/

@@ -1,0 +1,79 @@
+[
+  {
+    "name": "ended local-space race",
+    "pass": true
+  },
+  {
+    "name": "effect cleanup clears parent AR state",
+    "pass": true
+  },
+  {
+    "name": "pending start has an explicit cancellation control",
+    "pass": true
+  },
+  {
+    "name": "source acquisition ends immediately without waiting for browser promise",
+    "pass": true
+  },
+  {
+    "name": "renderer disposal waits for pending Three binding",
+    "pass": true
+  },
+  {
+    "name": "late binding cannot resurrect disposed renderer",
+    "pass": true
+  },
+  {
+    "name": "no Three resize after renderer disposal",
+    "pass": true
+  },
+  {
+    "name": "makeXRCompatible resolve restores inline pixel ratio and size",
+    "pass": true
+  },
+  {
+    "name": "makeXRCompatible reject restores inline pixel ratio and size",
+    "pass": true
+  },
+  {
+    "name": "late local-space rejection remains terminal",
+    "pass": true
+  },
+  {
+    "name": "repeated terminal cleanup preserves the prior inline rotation",
+    "pass": true
+  },
+  {
+    "scenario": "normal scan-loss-place-zoom-reposition-exit",
+    "result": "PASS",
+    "sourceCancelled": 1
+  },
+  {
+    "scenario": "explicit cancel while source pending",
+    "result": "PASS",
+    "lateCancelled": 1
+  },
+  {
+    "scenario": "explicit cancel while viewer pending",
+    "result": "PASS",
+    "lateCancelled": 0
+  },
+  {
+    "scenario": "explicit cancel while request pending",
+    "result": "PASS",
+    "lateCancelled": 0
+  },
+  {
+    "scenario": "explicit cancel while binding pending",
+    "result": "PASS",
+    "lateCancelled": 0
+  },
+  {
+    "scenario": "normal second session after late first binding",
+    "result": "PASS"
+  },
+  {
+    "scenario": "cancelled request resolves after next session became active",
+    "result": "PASS"
+  }
+]

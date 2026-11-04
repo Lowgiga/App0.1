@@ -1,0 +1,16 @@
+✔ native saved is returned only after driver confirmation (1.051625ms)
+✔ native cancel is not success (0.181063ms)
+✔ native IO error does not fall back to browser (0.503159ms)
+✔ repeat click rejects until first request settles, then retry works (0.214143ms)
+✔ native missing or malformed response is never saved (0.53064ms)
+✔ name MIME and UTF8 limits are validated before native side effect (10.379762ms)
+✔ browser fallback reports dispatched not saved (1.093579ms)
+✔ browser picker cancel is distinct and failed write aborts (0.568968ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 390.92048

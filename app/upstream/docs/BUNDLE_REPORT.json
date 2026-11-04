@@ -1,0 +1,353 @@
+{
+  "measuredAt": "2026-10-01T00:17:19.846Z",
+  "method": "gzip build assets; static imports of browser entry plus root client component; excludes dynamic imports; no network/hardware benchmark",
+  "appChunk": {
+    "bytes": 128780,
+    "gzip": 39865
+  },
+  "initialStaticJsGzip": 220477,
+  "initialFiles": [
+    "index-Cijqunib.js",
+    "rolldown-runtime-C60lm6uB.js",
+    "framework-D_rUT4EX.js",
+    "mesh-app-jBC38ark.js",
+    "button-BnD5o339.js",
+    "clipboard-list-Bh6PWwcg.js",
+    "arrow-up-right-CvwMFsYe.js",
+    "minus-BTBuuDX6.js",
+    "checkbox-DLzi-yMA.js",
+    "dist-0AmD3Jz_.js",
+    "dist-BXPBCtRA.js",
+    "work-constants-DPfuVCIJ.js",
+    "ids-JToSLuXb.js",
+    "download-85YBPFc2.js",
+    "file-check-corner-CTprWPy-.js",
+    "settings-2-DDdwdbDj.js",
+    "save-Bdq59yzl.js",
+    "search-Df0r4mZC.js",
+    "shield-check-BTafOhfD.js",
+    "target-By8RjAd5.js",
+    "triangle-alert-PULS8_Wl.js",
+    "types-BAzsur4q.js",
+    "input-C-JZLQQq.js",
+    "command-contract-WmsEpJqZ.js",
+    "work-contract-DxApgkIV.js",
+    "intelligence-CAwvJIdh.js",
+    "content-digest-BthzpsO9.js"
+  ],
+  "commandAdditionalGzip": 9202,
+  "baselineVersion": "1.2",
+  "appChunkAdditionalGzip": -2781,
+  "initialJsChangeGzip": 7945,
+  "css": {
+    "bytes": 220577,
+    "gzip": 36268
+  },
+  "cssGrowthPercent": 9.512603206283487,
+  "optionalAdditionalGzip": {
+    "coordination": 6612,
+    "intelligence": 10183,
+    "palette": 6640,
+    "spatial": 22755,
+    "spatialRenderer": 7240,
+    "threeAndOrbit": 189809
+  },
+  "lazyBoundaries": {
+    "coordinationOutsideInitial": true,
+    "rendererOutsideInitial": true,
+    "rendererOutside2DStatic": true,
+    "engineOutsideInitial": true,
+    "engineOutside2DStatic": true
+  },
+  "assets": [
+    {
+      "file": "OrbitControls-CrZeNq2s.js",
+      "bytes": 19939,
+      "gzip": 4460,
+      "initial": false
+    },
+    {
+      "file": "app-route-prefetch-policy-BtQN-fGt.js",
+      "bytes": 937,
+      "gzip": 485,
+      "initial": false
+    },
+    {
+      "file": "ar-runtime-_nUjDMbB.js",
+      "bytes": 4637,
+      "gzip": 2213,
+      "initial": false
+    },
+    {
+      "file": "archive-B9P7-Hdo.js",
+      "bytes": 243,
+      "gzip": 202,
+      "initial": false
+    },
+    {
+      "file": "arrow-up-right-CvwMFsYe.js",
+      "bytes": 157,
+      "gzip": 151,
+      "initial": true
+    },
+    {
+      "file": "button-BnD5o339.js",
+      "bytes": 33849,
+      "gzip": 11213,
+      "initial": true
+    },
+    {
+      "file": "checkbox-DLzi-yMA.js",
+      "bytes": 5756,
+      "gzip": 2438,
+      "initial": true
+    },
+    {
+      "file": "circle-DVCGfPej.js",
+      "bytes": 120,
+      "gzip": 123,
+      "initial": false
+    },
+    {
+      "file": "clipboard-list-Bh6PWwcg.js",
+      "bytes": 582,
+      "gzip": 341,
+      "initial": true
+    },
+    {
+      "file": "command-center-Bu6LXqPF.js",
+      "bytes": 28888,
+      "gzip": 8735,
+      "initial": false
+    },
+    {
+      "file": "command-contract-WmsEpJqZ.js",
+      "bytes": 10528,
+      "gzip": 3694,
+      "initial": true
+    },
+    {
+      "file": "command-palette-DJznz26b.js",
+      "bytes": 15360,
+      "gzip": 5784,
+      "initial": false
+    },
+    {
+      "file": "content-digest-BthzpsO9.js",
+      "bytes": 1605,
+      "gzip": 973,
+      "initial": true
+    },
+    {
+      "file": "coordination-panel-giMfc-xa.js",
+      "bytes": 15497,
+      "gzip": 6612,
+      "initial": false
+    },
+    {
+      "file": "dialog-sR_s4gWr.js",
+      "bytes": 2181,
+      "gzip": 856,
+      "initial": false
+    },
+    {
+      "file": "dist-0AmD3Jz_.js",
+      "bytes": 36255,
+      "gzip": 12082,
+      "initial": true
+    },
+    {
+      "file": "dist-BXPBCtRA.js",
+      "bytes": 5085,
+      "gzip": 2084,
+      "initial": true
+    },
+    {
+      "file": "download-85YBPFc2.js",
+      "bytes": 222,
+      "gzip": 184,
+      "initial": true
+    },
+    {
+      "file": "file-check-corner-CTprWPy-.js",
+      "bytes": 305,
+      "gzip": 231,
+      "initial": true
+    },
+    {
+      "file": "focus-C2iabGwV.js",
+      "bytes": 542,
+      "gzip": 312,
+      "initial": false
+    },
+    {
+      "file": "framework-D_rUT4EX.js",
+      "bytes": 190152,
+      "gzip": 59092,
+      "initial": true
+    },
+    {
+      "file": "help-panel-DBnJXOXp.js",
+      "bytes": 12178,
+      "gzip": 5281,
+      "initial": false
+    },
+    {
+      "file": "ids-JToSLuXb.js",
+      "bytes": 540,
+      "gzip": 388,
+      "initial": true
+    },
+    {
+      "file": "index-Cijqunib.js",
+      "bytes": 195284,
+      "gzip": 56398,
+      "initial": true
+    },
+    {
+      "file": "input-C-JZLQQq.js",
+      "bytes": 897,
+      "gzip": 493,
+      "initial": true
+    },
+    {
+      "file": "intelligence-CAwvJIdh.js",
+      "bytes": 5944,
+      "gzip": 2237,
+      "initial": true
+    },
+    {
+      "file": "layout-segment-context-BI5EPNDo.js",
+      "bytes": 494,
+      "gzip": 342,
+      "initial": false
+    },
+    {
+      "file": "mesh-app-jBC38ark.js",
+      "bytes": 128780,
+      "gzip": 39865,
+      "initial": true
+    },
+    {
+      "file": "mesh-space-VUCrnLpQ.js",
+      "bytes": 57601,
+      "gzip": 18864,
+      "initial": false
+    },
+    {
+      "file": "minus-BTBuuDX6.js",
+      "bytes": 890,
+      "gzip": 438,
+      "initial": true
+    },
+    {
+      "file": "neuro-panel-BLxX07UB.js",
+      "bytes": 27612,
+      "gzip": 8892,
+      "initial": false
+    },
+    {
+      "file": "plus-Dwd61sXw.js",
+      "bytes": 143,
+      "gzip": 142,
+      "initial": false
+    },
+    {
+      "file": "progress-B3b_XgWv.js",
+      "bytes": 2475,
+      "gzip": 1224,
+      "initial": false
+    },
+    {
+      "file": "rolldown-runtime-C60lm6uB.js",
+      "bytes": 694,
+      "gzip": 422,
+      "initial": true
+    },
+    {
+      "file": "save-Bdq59yzl.js",
+      "bytes": 317,
+      "gzip": 220,
+      "initial": true
+    },
+    {
+      "file": "search-Df0r4mZC.js",
+      "bytes": 164,
+      "gzip": 159,
+      "initial": true
+    },
+    {
+      "file": "settings-2-DDdwdbDj.js",
+      "bytes": 422,
+      "gzip": 282,
+      "initial": true
+    },
+    {
+      "file": "shield-check-BTafOhfD.js",
+      "bytes": 310,
+      "gzip": 241,
+      "initial": true
+    },
+    {
+      "file": "space-renderer-BwknU9IN.js",
+      "bytes": 11854,
+      "gzip": 5027,
+      "initial": false
+    },
+    {
+      "file": "streamed-icons-DyNgoF-W.js",
+      "bytes": 772,
+      "gzip": 490,
+      "initial": false
+    },
+    {
+      "file": "target-By8RjAd5.js",
+      "bytes": 216,
+      "gzip": 155,
+      "initial": true
+    },
+    {
+      "file": "three.module-D5CNd097.js",
+      "bytes": 736800,
+      "gzip": 185349,
+      "initial": false
+    },
+    {
+      "file": "triangle-alert-PULS8_Wl.js",
+      "bytes": 255,
+      "gzip": 202,
+      "initial": true
+    },
+    {
+      "file": "types-BAzsur4q.js",
+      "bytes": 90783,
+      "gzip": 22193,
+      "initial": true
+    },
+    {
+      "file": "work-constants-DPfuVCIJ.js",
+      "bytes": 2262,
+      "gzip": 1196,
+      "initial": true
+    },
+    {
+      "file": "work-contract-DxApgkIV.js",
+      "bytes": 7127,
+      "gzip": 3105,
+      "initial": true
+    },
+    {
+      "file": "workspace-panels-MCYxSZjS.js",
+      "bytes": 63972,
+      "gzip": 19949,
+      "initial": false
+    }
+  ],
+  "budgets": {
+    "appChunkGzip": 102400,
+    "appChunkAdditionalGzip": 102400,
+    "initialStaticJsGzip": 225280,
+    "commandAdditionalGzip": 46080,
+    "cssGrowthPercent": 10
+  }
+}

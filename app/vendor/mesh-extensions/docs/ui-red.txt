@@ -1,0 +1,111 @@
+✖ unknown state is explicit and never shown as live or loaded-empty (15.115962ms)
+✖ keyboard node selection survives layout/filter changes and inspector shows real evidence (10.304588ms)
+✖ navigation and preparation emit typed intents only after explicit clicks (3.75513ms)
+✖ save callback is explicit, exports serializable config and exposes rejection (2.993219ms)
+✖ retained activity tells the truth about incomplete history and current graph (3.531522ms)
+✖ host data removal leaves an explicit missing selection rather than selecting another node (3.561077ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 726.813864
+
+✖ failing tests:
+
+test at tests/ui.test.tsx:24:1
+✖ unknown state is explicit and never shown as live or loaded-empty (15.115962ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Datenstand unbekannt/. Input:
+  
+  ''
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:24:149)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /Datenstand unbekannt/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:25:1
+✖ keyboard node selection survives layout/filter changes and inspector shows real evidence (10.304588ms)
+  AssertionError [ERR_ASSERTION]: [data-node-id="mission:10000000-0000-4000-8000-000000000001"]
+      at find (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:19:77)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:25:186)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:26:1
+✖ navigation and preparation emit typed intents only after explicit clicks (3.75513ms)
+  AssertionError [ERR_ASSERTION]: [data-action="navigate"]
+      at find (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:19:77)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:26:422)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:27:1
+✖ save callback is explicit, exports serializable config and exposes rejection (2.993219ms)
+  AssertionError [ERR_ASSERTION]: [aria-label="Layout"]
+      at find (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:19:77)
+      at change (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:21:52)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:27:281)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:28:1
+✖ retained activity tells the truth about incomplete history and current graph (3.531522ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Keine Zustandsrekonstruktion/. Input:
+  
+  ''
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:28:168)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /Keine Zustandsrekonstruktion/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:29:1
+✖ host data removal leaves an explicit missing selection rather than selecting another node (3.561077ms)
+  AssertionError [ERR_ASSERTION]: [data-inspector]
+      at find (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:19:77)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:29:379)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

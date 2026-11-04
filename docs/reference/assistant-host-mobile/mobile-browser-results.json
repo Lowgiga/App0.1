@@ -1,0 +1,602 @@
+[
+  {
+    "mode": "mouse",
+    "errors": [],
+    "external": [],
+    "saveBefore": {
+      "x": 37,
+      "y": 761.5,
+      "width": 172.515625,
+      "height": 44
+    },
+    "events": [
+      {
+        "type": "pointerdown",
+        "pointer": "mouse",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mousedown",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "pointerup",
+        "pointer": "mouse",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mouseup",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "click",
+        "pointer": "mouse",
+        "target": "Missionraum speichern",
+        "nav": true
+      }
+    ],
+    "saveOnce": true,
+    "companion": {
+      "status": "static",
+      "position": "relative",
+      "stagePosition": "relative",
+      "overflow": "hidden"
+    },
+    "nav": {
+      "rect": {
+        "x": 0,
+        "y": 771.21875,
+        "width": 390,
+        "height": 72.78125,
+        "top": 771.21875,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "bottom": "0px",
+      "paddingBottom": "8px",
+      "buttons": [
+        {
+          "text": "\u00dcbersicht",
+          "rect": {
+            "x": 8,
+            "y": 780.21875,
+            "width": 89.296875,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 97.296875,
+            "bottom": 836,
+            "left": 8
+          }
+        },
+        {
+          "text": "Missionen",
+          "rect": {
+            "x": 102.890625,
+            "y": 780.21875,
+            "width": 89.3125,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 192.203125,
+            "bottom": 836,
+            "left": 102.890625
+          }
+        },
+        {
+          "text": "AI-Assistent",
+          "rect": {
+            "x": 197.796875,
+            "y": 780.21875,
+            "width": 89.296875,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 287.09375,
+            "bottom": 836,
+            "left": 197.796875
+          }
+        },
+        {
+          "text": "Einstellungen",
+          "rect": {
+            "x": 292.6875,
+            "y": 780.21875,
+            "width": 89.3125,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 382,
+            "bottom": 836,
+            "left": 292.6875
+          }
+        }
+      ]
+    },
+    "navigationWithCompanion": true,
+    "status": "pass"
+  },
+  {
+    "mode": "touch",
+    "errors": [],
+    "external": [],
+    "saveBefore": {
+      "x": 37,
+      "y": 761.5,
+      "width": 172.515625,
+      "height": 44
+    },
+    "events": [
+      {
+        "type": "pointerdown",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "pointerup",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mousedown",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mouseup",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "click",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": true
+      }
+    ],
+    "saveOnce": true,
+    "companion": {
+      "status": "static",
+      "position": "relative",
+      "stagePosition": "relative",
+      "overflow": "hidden"
+    },
+    "nav": {
+      "rect": {
+        "x": 0,
+        "y": 771.21875,
+        "width": 390,
+        "height": 72.78125,
+        "top": 771.21875,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "bottom": "0px",
+      "paddingBottom": "8px",
+      "buttons": [
+        {
+          "text": "\u00dcbersicht",
+          "rect": {
+            "x": 8,
+            "y": 780.21875,
+            "width": 89.296875,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 97.296875,
+            "bottom": 836,
+            "left": 8
+          }
+        },
+        {
+          "text": "Missionen",
+          "rect": {
+            "x": 102.890625,
+            "y": 780.21875,
+            "width": 89.3125,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 192.203125,
+            "bottom": 836,
+            "left": 102.890625
+          }
+        },
+        {
+          "text": "AI-Assistent",
+          "rect": {
+            "x": 197.796875,
+            "y": 780.21875,
+            "width": 89.296875,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 287.09375,
+            "bottom": 836,
+            "left": 197.796875
+          }
+        },
+        {
+          "text": "Einstellungen",
+          "rect": {
+            "x": 292.6875,
+            "y": 780.21875,
+            "width": 89.3125,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 382,
+            "bottom": 836,
+            "left": 292.6875
+          }
+        }
+      ]
+    },
+    "navigationWithCompanion": true,
+    "status": "pass"
+  },
+  {
+    "mode": "held-mouse",
+    "errors": [],
+    "external": [],
+    "saveBefore": {
+      "x": 37,
+      "y": 761.5,
+      "width": 172.515625,
+      "height": 44
+    },
+    "events": [
+      {
+        "type": "pointerdown",
+        "pointer": "mouse",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mousedown",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "pointerup",
+        "pointer": "mouse",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mouseup",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "click",
+        "pointer": "mouse",
+        "target": "Missionraum speichern",
+        "nav": true
+      }
+    ],
+    "saveOnce": true,
+    "companion": {
+      "status": "static",
+      "position": "relative",
+      "stagePosition": "relative",
+      "overflow": "hidden"
+    },
+    "nav": {
+      "rect": {
+        "x": 0,
+        "y": 771.21875,
+        "width": 390,
+        "height": 72.78125,
+        "top": 771.21875,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "bottom": "0px",
+      "paddingBottom": "8px",
+      "buttons": [
+        {
+          "text": "\u00dcbersicht",
+          "rect": {
+            "x": 8,
+            "y": 780.21875,
+            "width": 89.296875,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 97.296875,
+            "bottom": 836,
+            "left": 8
+          }
+        },
+        {
+          "text": "Missionen",
+          "rect": {
+            "x": 102.890625,
+            "y": 780.21875,
+            "width": 89.3125,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 192.203125,
+            "bottom": 836,
+            "left": 102.890625
+          }
+        },
+        {
+          "text": "AI-Assistent",
+          "rect": {
+            "x": 197.796875,
+            "y": 780.21875,
+            "width": 89.296875,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 287.09375,
+            "bottom": 836,
+            "left": 197.796875
+          }
+        },
+        {
+          "text": "Einstellungen",
+          "rect": {
+            "x": 292.6875,
+            "y": 780.21875,
+            "width": 89.3125,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 382,
+            "bottom": 836,
+            "left": 292.6875
+          }
+        }
+      ]
+    },
+    "navigationWithCompanion": true,
+    "status": "pass"
+  },
+  {
+    "mode": "held-touch",
+    "errors": [],
+    "external": [],
+    "saveBefore": {
+      "x": 37,
+      "y": 761.5,
+      "width": 172.515625,
+      "height": 44
+    },
+    "events": [
+      {
+        "type": "pointerdown",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "pointerup",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mousedown",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mouseup",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "click",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": true
+      }
+    ],
+    "saveOnce": true,
+    "companion": {
+      "status": "static",
+      "position": "relative",
+      "stagePosition": "relative",
+      "overflow": "hidden"
+    },
+    "nav": {
+      "rect": {
+        "x": 0,
+        "y": 771.21875,
+        "width": 390,
+        "height": 72.78125,
+        "top": 771.21875,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "bottom": "0px",
+      "paddingBottom": "8px",
+      "buttons": [
+        {
+          "text": "\u00dcbersicht",
+          "rect": {
+            "x": 8,
+            "y": 780.21875,
+            "width": 89.296875,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 97.296875,
+            "bottom": 836,
+            "left": 8
+          }
+        },
+        {
+          "text": "Missionen",
+          "rect": {
+            "x": 102.890625,
+            "y": 780.21875,
+            "width": 89.3125,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 192.203125,
+            "bottom": 836,
+            "left": 102.890625
+          }
+        },
+        {
+          "text": "AI-Assistent",
+          "rect": {
+            "x": 197.796875,
+            "y": 780.21875,
+            "width": 89.296875,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 287.09375,
+            "bottom": 836,
+            "left": 197.796875
+          }
+        },
+        {
+          "text": "Einstellungen",
+          "rect": {
+            "x": 292.6875,
+            "y": 780.21875,
+            "width": 89.3125,
+            "height": 55.78125,
+            "top": 780.21875,
+            "right": 382,
+            "bottom": 836,
+            "left": 292.6875
+          }
+        }
+      ]
+    },
+    "navigationWithCompanion": true,
+    "status": "pass"
+  },
+  {
+    "mode": "touch-landscape",
+    "errors": [],
+    "external": [],
+    "saveBefore": {
+      "x": 301,
+      "y": 176.625,
+      "width": 172.515625,
+      "height": 36
+    },
+    "events": [
+      {
+        "type": "pointerdown",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "pointerup",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mousedown",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "mouseup",
+        "pointer": null,
+        "target": "Missionraum speichern",
+        "nav": false
+      },
+      {
+        "type": "click",
+        "pointer": "touch",
+        "target": "Missionraum speichern",
+        "nav": true
+      }
+    ],
+    "saveOnce": true,
+    "companion": {
+      "status": "static",
+      "position": "relative",
+      "stagePosition": "relative",
+      "overflow": "hidden"
+    },
+    "nav": {
+      "rect": {
+        "x": 0,
+        "y": 325,
+        "width": 844,
+        "height": 65,
+        "top": 325,
+        "right": 844,
+        "bottom": 390,
+        "left": 0
+      },
+      "bottom": "0px",
+      "paddingBottom": "8px",
+      "buttons": [
+        {
+          "text": "\u00dcbersicht",
+          "rect": {
+            "x": 8,
+            "y": 334,
+            "width": 202.796875,
+            "height": 48,
+            "top": 334,
+            "right": 210.796875,
+            "bottom": 382,
+            "left": 8
+          }
+        },
+        {
+          "text": "Missionen",
+          "rect": {
+            "x": 216.390625,
+            "y": 334,
+            "width": 202.8125,
+            "height": 48,
+            "top": 334,
+            "right": 419.203125,
+            "bottom": 382,
+            "left": 216.390625
+          }
+        },
+        {
+          "text": "AI-Assistent",
+          "rect": {
+            "x": 424.796875,
+            "y": 334,
+            "width": 202.796875,
+            "height": 48,
+            "top": 334,
+            "right": 627.59375,
+            "bottom": 382,
+            "left": 424.796875
+          }
+        },
+        {
+          "text": "Einstellungen",
+          "rect": {
+            "x": 633.1875,
+            "y": 334,
+            "width": 202.8125,
+            "height": 48,
+            "top": 334,
+            "right": 836,
+            "bottom": 382,
+            "left": 633.1875
+          }
+        }
+      ]
+    },
+    "navigationWithCompanion": true,
+    "status": "pass"
+  }
+]

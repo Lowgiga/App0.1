@@ -1,0 +1,1 @@
+Ein Katalog kann 1078 Tools beschreiben, ohne dass eines eingerichtet, authentifiziert, freigegeben oder geprüft ist. Nur der Host kann aktuelle Capability-Evidence liefern. Keine Connector-Prüfung findet statt.

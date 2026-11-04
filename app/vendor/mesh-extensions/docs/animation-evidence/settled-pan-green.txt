@@ -1,0 +1,24 @@
+✔ unknown state is explicit and never shown as live or loaded-empty (36.973923ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (68.422545ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (41.197934ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (47.8524ms)
+✔ retained activity tells the truth about incomplete history and current graph (15.12418ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (19.46031ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (36.603645ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (28.922571ms)
+✔ primary text and controls scale with the host root font setting (26.3028ms)
+✔ opt-in 2D transitions animate layout positions and selection with exact ends but never host actions (41.070302ms)
+✔ 2D rapid layout changes, Escape, system preference, energy saving and unmount leave no pending frames (71.064279ms)
+✔ transition settings are labelled, serialized and have a legacy export without additive fields (39.43834ms)
+✔ legacy typed initial views remain valid without the additive setting (11.09226ms)
+✔ 2D focus frames only visible recorded neighbors and camera controls settle before panning (35.336393ms)
+✔ 2D hiding the document settles and cannot restart animation until visible (29.96965ms)
+✔ 2D pan interrupts a transition using the settled target viewport dimensions (25.457225ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1408.505707

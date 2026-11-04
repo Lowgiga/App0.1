@@ -1,0 +1,61 @@
+# LowQuantFlow · lokales Projektgedächtnis
+
+## Abgegrenzter Vertikalschnitt
+
+Studio → Projektgedächtnis bietet fünf Arten: Ziel, Entscheidung, verworfener Ansatz, offene Frage und nächster Schritt. Ein vorhandener Missionraum ist der eindeutige Projektkontext aus Raum-UUID plus Erstellzeit. Die alte Projektgruppe `custom` fasst damit nicht versehentlich mehrere Räume zusammen. Globale Aufgaben/Notizen und fremde Quellen werden nicht übernommen. Ein Raumtitelwechsel ändert die Identität nicht; eine neue Rauminstanz mit anderer Erstellzeit erbt keine alten Inhalte.
+
+Neue Einträge sind Vorschläge oder externe Behauptungen. Nur die bewusste Bestätigen-Aktion macht sie bestätigt. Die Herkunft bleibt erhalten. Korrektur eines bestätigten Eintrags erzeugt einen neuen Vorschlag, während die alte Entscheidung bestätigt bleibt. Seine ausdrückliche Ablösung markiert den alten Eintrag als abgelöst. Bekannte Ablöselinien können höchstens eine bestätigte Entscheidung enthalten, auch nach mehrstufigem Vergessen/Zurückholen. Ziel und nächster Schritt besitzen zusätzlich höchstens einen bestätigten Wert. Das ist eine strukturelle Konfliktprüfung, keine semantische Erkennung beliebiger widersprüchlicher Texte.
+
+Eintragstexte werden nicht als Instruktionen ausgeführt. Vorschläge, externe Behauptungen, Bestätigungen, Lernfortschritt und importierte historische Daten erweitern keine Rechte. Es gibt keinen Modell-/Netzaufruf, keine externe API-Anbindung, keine automatische Auftragsausführung und keine Kostenfunktion in diesem Schnitt. Die lokale Entwurfsicherung und das Wiederöffnen eines Arbeitspunkts sind unten gesondert beschrieben.
+
+## Speicherung und Migration
+
+Die vorhandene Klasse `LocalWorkStore` und ihr IndexedDB-Objectstore `work` werden weiterverwendet. Der additive Schlüssel `project-memory-v1` enthält die strikte Hülle `lowquantflow.project-memory-backup/v1` und pro Kontext `lowquantflow.project-memory/v1`. Es gibt keine zweite Datenbank, keinen zweiten WorkState und keine Änderung an V4-Arbeitsdaten, bestehender Datenbankversion, Importverträgen oder Android-ID. Fehlt der neue Schlüssel, wird nur ein leerer Lesestand geliefert; es wird nichts geschrieben oder automatisch zugeordnet.
+
+Arbeitsstand und Gedächtnis werden in derselben IndexedDB-Transaktion gelesen. Schreibaktionen prüfen sowohl die aktuelle WorkState-Revision als auch die Gedächtnisrevision des gewählten Kontexts. Genau ein konkurrierender Commit derselben Revision gewinnt. Erfolg erfolgt nach transaction.oncomplete. Fehler, unbekannte Versionen, beschädigte Herkunft/Revisionsketten und abgebrochene Anfragen führen nicht zu einem Leerersatz. Das ist kein Nachweis absoluter Haltbarkeit gegen Stromverlust, Betriebssystemabsturz, Deinstallation oder gelöschte App-Daten.
+
+Bis zu 100 dokumentierte Kontextinstanzen mit je bis zu 100 Einträgen sind erlaubt; Freitext ist auf 2.000 Zeichen und der gesamte neue Bestand auf 1.750.000 tatsächliche UTF-8-Bytes begrenzt. Historien werden nie automatisch abgeschnitten. Inhaltsschreibungen reservieren ausreichend Platz zum späteren Vergessen aller aktiven Einträge. Neue Inhalte oder Zurückholen können am Speicherlimit abgelehnt werden; Export gibt keinen Speicher frei. Permanente Löschung und automatische Bereinigung sind nicht implementiert.
+
+Wird ein Raum entfernt oder mit neuer Erstellzeit wiederangelegt, bleibt sein früheres Gedächtnis als abgetrennter historischer Kontext im Systembackup erhalten. Es wird nicht einer neuen Rauminstanz zugeordnet. Dieser Schnitt stellt solche abgetrennten Kontexte nicht produktiv wieder her. Ältere App-Builds kennen den neuen Schlüssel nicht; ein in einem älteren Build erzeugter Export enthält ihn nicht.
+
+## Vergessen und Export
+
+Vergessen ist ausdrücklich reversibel: Inhalt und Historie bleiben lokal erhalten, verschwinden aber aus aktiver Suche und Projektexport. Zurückholen setzt den Status auf Vorschlag und bestätigt nichts automatisch. Die historische Ansicht zeigt vergessene und abgelöste Einträge; Herkunft und Revisionen bleiben lesbar.
+
+Der bewusst angeforderte Projektexport enthält alle aktiven Einträge des gewählten Kontexts, unabhängig vom Suchfilter. Seine Positivliste umfasst Kontext-ID/Erstellzeit, Revision/Zeit, Eintrags-ID/Art/Status/Text und die typisierte Herkunft. Er enthält keine anderen Raumtexte, Raumtitel, freien Metadaten, separaten Quell-URLs aus Quellenmetadaten, kompletten Quellenkataloge, Revisionshistorien oder vergessenen/abgelösten Texte. Freitext wird unverändert übernommen und kann selbst URLs enthalten. Die dokumentarische Policy ist historical-only, externalActions:not-authorized und restoreAvailable:false.
+
+Zugangsdaten gehören nicht in Freitext. Geschlossene Schemata verhindern Credential-Felder in Metadaten; erkennbare Credential-Zuweisungen, Bearer-Header und übliche Token-/Private-Key-Muster werden zurückgewiesen. Eine Positivliste oder Musterprüfung kann beliebige in Freitext eingefügte Geheimnisse nicht vollständig erkennen. Vor Weitergabe ist die Inhaltsprüfung ausdrücklich erforderlich. Es werden keine Credentialquellen gelesen.
+
+## Systembackup
+
+Der bestehende portable Archivvertrag bleibt erhalten. Die data-Hülle nimmt optional den strikt validierten Bestandteil `projectMemory` auf. Der Studio-Systembackup-Export erfasst den vollständigen Gedächtnisbestand atomar mit der erwarteten WorkState-Revision. Wenn diese Erfassung fehlschlägt, wird kein vermeintlich vollständiges Backup heruntergeladen. Das Archiv enthält ausdrücklich alle Projektkontexte, Revisionshistorien, abgetrennten und vergessenen Inhalte. Gespeicherte Studio-Einstellungen kommen wie bisher aus ihrem eigenen PreferencesStore; die beiden Datenbanken bilden keine gemeinsame atomare Transaktion.
+
+Ältere Archive ohne diesen Bestandteil bleiben lesbar und werden ausdrücklich als ohne Projektgedächtnis gekennzeichnet. Vorschau und Roundtrip validieren bekannte Schemata, Herkunft, Revisionszustände, Ablöselinien und Grenzen; korrekt gehashte, aber ungültige Daten werden nicht durchgewinkt. `restoreAvailable:false` bleibt unverändert. Weder produktiver Restore noch automatische Preview→Next-Migration oder Cloud-Synchronisation sind hier umgesetzt.
+
+## Oberfläche und Lebenszyklus
+
+Die Studio-Erweiterung nutzt denselben Transport und die bestehenden Datei-/Buttondienste. Vor einem kontrollierten Projektwechsel wird die ausstehende Entwurfssicherung abgewartet. Bei Fehlern bleibt der Text sichtbar; der Nutzer kann bleiben, den Text separat sichern oder bewusst ohne bestätigte Sicherung wechseln. Tabwechsel halten den Editor verborgen gemountet. Ein Projektwechsel remountet die konkrete Kontextansicht, ohne fremde Projekttexte zu übernehmen. Verspätete Antworten können keinen anderen Kontext befüllen und keine neuere bestätigte Sicherung zurücksetzen. Ein Dateidialog wird nach Verlassen der vorbereitenden Ansicht nicht neu ausgelöst. Nach bereits gestarteter Plattform-Dateiübergabe gelten deren Rückgabestatus und Grenzen.
+
+Konflikt oder unklarer Schreibausgang sperrt weitere Änderungen. Der Entwurf bleibt im aktuellen Kontext sichtbar und muss vor Neuprüfung gesichert werden. Neu laden prüft erneut; es bestätigt keinen Vorschlag und wiederholt keinen Schreibauftrag automatisch. Archivierte Kontexte sind nur lesbar. Native Formfelder, Labels, Status-/Fehlerrollen, Details und umbruchfähige Bedienelemente sind vorhanden.
+
+## Persönliche Entwürfe und Fortsetzung
+
+Die additive lokale Route `POST /api/personal-continuation` verwaltet zwei getrennte Schlüssel im vorhandenen Objectstore: `personal-continuation-v1` für das strikte Entwurfsregister und `personal-view-v1` für den letzten bewusst gewählten Arbeitspunkt. Beide besitzen eigene Revisionen; reine Navigation und Entwurfssicherung verändern `WorkState.updatedAt` nicht. Es gibt keine neue Datenbank oder Paketabhängigkeit. Persönliche Entwürfe und Arbeitspunkte sind ausdrücklich nicht Bestandteil von Systembackup, Projektexport oder Restorevertrag.
+
+Ein Datensatz je Projektinkarnation aus UUID und exakter Erstellzeit speichert Composerart, ungetrimmten Text, Herkunft, optionale Quelle und Korrekturziel. Seine Basis enthält Arbeitsrevision, Gedächtnisrevision und gegebenenfalls Eintragsrevision. Bis zu 100 Datensätze und insgesamt 512 KiB UTF-8 sind zulässig; kein Eintrag wird still verdrängt. Zukunftsschemata, beschädigte Werte, Revisionsüberlauf und Speicherfehler werden nicht als leere neue Daten behandelt. Erkennbare Zugangsdatenmuster bleiben unzulässig; dies ist keine vollständige Geheimniserkennung.
+
+Nach 400 ms Eingabepause wird separat gesichert. Nur eine bestätigte Sicherung darf als gesichert erscheinen. Ein abruptes Prozessende kann letzte unbestätigte Zeichen verlieren; Browserwarnung und Autosave garantieren weder Stromverlustsicherheit noch Überleben einer App-Datenlöschung. Ein gespeicherter aktiver Entwurf wird nach Reload oder Projektwechsel zunächst angezeigt und erst mit „Entwurf öffnen“ in den Composer übernommen. Ein noch ungeöffneter Entwurf ist separat als Text exportierbar; bei offenem Editor werden exakt dessen aktuelle Zeichen exportiert, auch wenn er bewusst geleert wurde.
+
+Aktive Entwürfe behalten beim Autosave ihre alte Basis. Ein neuerer Arbeits-/Gedächtnisstand sperrt die Übernahme, bis der Nutzer die sichtbaren aktuellen Einträge verglichen und ausdrücklich eine neue Basis gewählt hat. Ein fehlendes Korrekturziel oder eine ungültige Quelle wird nicht neu zugeordnet. Die Arbeitsrevision ist weiterhin appweit: Auch eine globale Änderung kann eine erneute Prüfung erforderlich machen; es wird keine globale Projektisolation behauptet.
+
+`apply-draft` prüft Projektinkarnation, Entwurfsrevision und Basis und schreibt Gedächtnisvorschlag plus angewandten Entwurfsstatus in derselben Transaktion. Es bestätigt keine Entscheidung und startet keine reale Aktion. Ein verlorenes Antwortpaket wird durch bewusstes Wiederlesen geklärt, nicht durch automatische Schreibwiederholung. Zwei Tabs können dieselbe Revision nicht beide überschreiben. Angewandte/verworfen markierte Datensätze bleiben als lokale Abschlusszustände einschließlich Text erhalten, bis ein späterer Entwurf derselben Inkarnation sie ersetzt; Verwerfen ist keine zugesicherte physische Löschung.
+
+Kanonischer Projektlink ist `?studio=1&studioTab=memory&contextId=<UUID>&contextCreatedAt=<ISO>`. Texte stehen nie in URLs. Ausdrückliche Navigationslinks gewinnen gegenüber dem gespeicherten Arbeitspunkt; eine neuere Navigation gewinnt gegen verspätete Startantworten. Back/Forward legt keine weiteren Historyeinträge an. Ohne ausdrücklichen Link kann der letzte gültige Projektpunkt geöffnet werden. Startup liest ausschließlich; nur eine bewusste Projektauswahl merkt einen neuen Punkt. Prüfprozesse und externe Aktionen werden dabei nie automatisch gestartet. Archivierte Projekte bleiben lesend; gelöschte oder mit neuer Erstellzeit wiederverwendete Projekte übernehmen keine alten Entwürfe.
+
+Nicht Bestandteil dieses Schnitts sind eine neue abschaltbare Resume-Startpräferenz, eine regelbasierte Fortsetzungskarte, projektgebundene Aufgabenmigration, Cloud-Synchronisation, Modellaufrufe oder eine zusätzliche Entwurfs-Backup-/Restorefunktion.
+
+## Prüfumfang und offene Abnahme
+
+Neue Store-, Vertrags-, Backup- und React-DOM-Tests prüfen glückliche und fehlerhafte Pfade, Offlinebetrieb, CAS, Neustart, beschädigten Speicher, aktuelle Herkunft, bekannte Entscheidungskonflikte, Grenzen, StrictMode, Doppelklicks und Kontextwechsel bei verspätetem Lesen/Schreiben/Export. Die eingefrorenen Import-, Quality-, Recovery-, Diagnose-, Branding- und Studioregressionen werden auf den finalen Kandidatenbytes erneut ausgeführt.
+
+Automatisierte Prüfungen verwenden den vorhandenen Node-Testläufer, fake-indexeddb und Happy DOM auf vorhandenen Abhängigkeiten. Die vollständige serielle Projektprüfung, TypeScriptprüfung und der Vite-Webbuild sind getrennt mit ihren tatsächlichen Exitcodes und Quellhashes im jeweiligen Lieferprüfbericht auszuweisen. DOM-/Controller-Doubles ersetzen keine reale Browser-, WebView-, Screenreader-, Samsung-/Android-, GPU-, Touch- oder Stromverlustprüfung. Eine unabhängig erstellte APK eines älteren Quellstands ist kein nativer Nachweis dieser Entwurfserweiterung; reale Geräte- und Restoreabnahme bleiben offen.

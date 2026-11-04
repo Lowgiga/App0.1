@@ -1,0 +1,46 @@
+NATIVE_POLICY_DIAGNOSIS Die Einbettungsrichtlinie sperrt räumliches Tracking. Öffne die originale HTTPS-Seite direkt in einem kompatiblen Browser.
+✖ V6 delta: native WebView policy denial retains the proven unsupported-native diagnosis (1.801967ms)
+✔ V6 delta: learning levels, five graph nodes and transfer mapping remain coherent after backup (170.311965ms)
+✔ V6 delta: unsaved example state cannot export a personal cooperation brief (348.131666ms)
+COOP_EXPORTED_CONTEXT {"kind":"own-stored-app-state","updatedAt":"2026-09-30T23:54:05.438Z","missions":[],"activeTaskCount":11}
+✖ V6 delta: file and clipboard briefs retain local-installation provenance outside their UI (262.793871ms)
+✔ V6 delta: learning graph CTA opens the matching Academy phase and task workspace without writes (367.194455ms)
+✔ V6 delta: Academy workbook and selected lesson copy retain platform bindings (309.823281ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 4
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2440.032646
+
+✖ failing tests:
+
+test at reports/v6-level-review.boundaries.test.ts:12:1
+✖ V6 delta: native WebView policy denial retains the proven unsupported-native diagnosis (1.801967ms)
+  AssertionError [ERR_ASSERTION]: An Android WebView cannot be fixed by opening this local app URL or granting the feature policy
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/reports/v6-level-review.boundaries.test.ts:16:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'Die Einbettungsrichtlinie sperrt räumliches Tracking. Öffne die originale HTTPS-Seite direkt in einem kompatiblen Browser.',
+    expected: /Android WebView|native AR-Funktion/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at reports/v6-level-review.dom.test.tsx:73:1
+✖ V6 delta: file and clipboard briefs retain local-installation provenance outside their UI (262.793871ms)
+  AssertionError [ERR_ASSERTION]: Exported JSON itself must identify device-local state; UI-only caveat is lost when shared
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/reports/v6-level-review.dom.test.tsx:92:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '{\n  "schemaVersion": 1,\n  "revision": "mesh-cooperation-1.4.1",\n  "missionId": "mesh-low-integration-1",\n  "from": "codex",\n  "to": "low",\n  "generatedAt": "2026-09-30T23:54:05.515Z",\n  "state": "prepared-not-delivered",\n  "identity": {\n    "low": "user-reported",\n    "platforms": [\n      "Hermes / lokales Gerät",\n      "Cue"\n    ],\n    "acknowledgement": "not-received",\n    "directChannel": "not-verified"\n  },\n  "referenceCommit": "2b838b4f574acfaff72013c270a1fa637eb995c6",\n  "currentSourceHead": "Read the current source repository HEAD before starting; this reference is not the current HEAD.",\n  "mission": "Prüfe den real verfügbaren Zugang zu dieser privaten App und einer relevanten Integration. Dokumentiere Herkunft, Zeitpunkt, minimalen Scope, konkreten Leseabruf und Blocker. Auf Android zusätzlich 390px-Bedienung und optional WebGL/AR nach eigenem Start prüfen.",\n  "niche": "Integrationsbefunde, lokale Geräte-/Android-Prüfung und isolierte Adapterentwürfe",\n  "ownedPaths": [\n    "integrations/low/",\n    "tests/low/",\n    "docs/low/"\n  ],\n  "protectedPaths": [\n    "lib/work-contract.ts",\n    "lib/state-compat.ts",\n    "drizzle/",\n    "package.json",\n    "package-lock.json",\n    "pnpm-lock.yaml",\n    ".openai/",\n    "app/chatgpt-auth.ts",\n    "app/use-work-state.ts",\n    "app/api/state/route.ts",\n    "app/api/actions/route.ts"\n  ],\n  "limits": {\n    "maxDelegation": 0,\n    "maxReadCalls": 8,\n    "timeBudgetMinutes": 20,\n    "externalWrite": false,\n    "install": false,\n    "scheduler": false,\n    "credentialsInHandoff": false\n  },\n  "transport": {\n    "url": "https://cue-command-mesh.medezinander-4731.chatgpt.site/mcp",\n    "resource": "https://cue-command-mesh.medezinander-4731.chatgpt.site/mcp",\n    "tool": "mesh_get_collaboration_brief",\n    "access": "Existing owner authentication; client connection and consent required."\n  },\n  "rules": [\n    "Eigener Branch und eigenes Worktree je schreibendem Agenten.",\n    "Gemeinsame geschützte Dateien bleiben lesbar; Änderungen daran brauchen eine neue konkrete Übergabe.",\n    "Low bestätigt Mission, Umfang, aktuellen Basiscommit und Dateiliste vor seiner Arbeit.",\n    "Ein Arbeitsbrief, ein Ergebnis, ein unabhängiges Review; Zwischenmeldungen nur bei echten Blockern.",\n    "Der Referenzcommit bezeichnet den Ausgangsstand. Aktuellen Remote-HEAD vor Integration separat abgleichen.",\n    "Keine Tokens, Cookies oder Zugangsdaten zwischen Agenten kopieren.",\n    "Keine externen Schreibaktionen, Scheduler, Rechteänderungen oder gemeinsame produktive Veröffentlichung aus diesem Brief.",\n    "Kein eigener direkter Perplexity-/Cue-/Low-Aufruf in dieser Sitzung belegt. Andere Dienste nur auftragsbezogen verifizieren."\n  ],\n  "context": {\n    "kind": "own-stored-app-state",\n    "updatedAt": "2026-09-30T23:54:05.438Z",\n    "missions": [],\n    "activeTaskCount": 11\n  },\n  "expectedOutput": {\n    "format": "LowReport JSON",\n    "required": [\n      "schemaVersion",\n      "revision",\n      "missionId",\n      "briefHash",\n      "from",\n      "acknowledged",\n      "referenceCommit",\n      "baseCommit",\n      "status",\n      "summary",\n      "changedFiles",\n      "tests",\n      "blockers"\n    ],\n    "verification": "Submitted claims only. Identity, source HEAD, complete diff and tests must be independently reviewed before integration."\n  },\n  "returnTo": "Codex → unabhängiges Review → lowgiga",\n  "stopWhen": "Nach einem prüfbaren Ergebnis oder konkreten Auth-/Zugriffsblocker. Keine blinden Wiederholungen oder Umgehung über andere Clients.",\n  "briefHash": "9df354cd46567051a4412ac80fa354a96616495c816bfab5251ca0fc97d1e48b"\n}',
+    expected: /device-local|local-installation|Lokaler Arbeitsbrief|lokale Installation/,
+    operator: 'match',
+    diff: 'simple'
+  }

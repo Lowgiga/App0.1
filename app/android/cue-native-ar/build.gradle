@@ -1,0 +1,21 @@
+apply plugin: 'com.android.library'
+android {
+    namespace 'de.lowgiga.cuear'
+    compileSdk 36
+    defaultConfig { minSdk 24; consumerProguardFiles 'consumer-rules.pro' }
+    compileOptions { sourceCompatibility JavaVersion.VERSION_21; targetCompatibility JavaVersion.VERSION_21 }
+    // Dependency pins match the reviewed SDK36/Capacitor fixture; upgrades are a separate validation.
+    lint { abortOnError true; warningsAsErrors true }
+}
+dependencies {
+    implementation 'com.google.ar:core:1.54.0'
+    // Pinned to the existing Capacitor8.5.2/SDK36 host, not an accidental stale dependency.
+    //noinspection GradleDependency
+    implementation 'androidx.activity:activity:1.11.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    compileOnly project(':capacitor-android')
+    testImplementation 'junit:junit:4.13.2'
+    // Same JSON-java test implementation as the pinned Capacitor8.5.2 fixture.
+    //noinspection NewerVersionAvailable
+    testImplementation 'org.json:json:20250517'
+}

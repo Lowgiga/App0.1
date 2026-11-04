@@ -1,0 +1,73 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @cue/adaptive-surfaces@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ v1 admits frozen complete snapshot with host provenance (2.563335ms)
+✔ rejects boundary schema (0.549388ms)
+✔ rejects boundary catalogVersion (0.350469ms)
+✔ rejects boundary trusted (0.403829ms)
+✔ rejects boundary approved (0.421616ms)
+✔ rejects boundary data (0.349698ms)
+✔ rejects unregistered or unknown components and extra style/HTML fields (1.584289ms)
+✔ dangerous strings are data, never executable markup (0.674697ms)
+✔ rejects unknown actions and write-kind host configuration (1.202654ms)
+✔ denies prototype keys, path traversal, dotted and URL dataRefs (1.166399ms)
+✔ rejects duplicate JSON keys including escaped equivalents (0.343007ms)
+✔ rejects duplicate ids cycles dangling children multiple parents unreachable nodes (0.999096ms)
+✔ rejects graph depth, byte, text and component budgets (4.980744ms)
+✔ rejects non-JSON numbers and non-JSON raw input (0.230798ms)
+✔ rejection is atomic and session, surface and baseRevision are enforced (1.260771ms)
+✔ layout updates keep component ids and focus target must be immediate child (0.852325ms)
+✔ snapshot and registry mutation cannot change admitted action (1.425299ms)
+✔ intent requires admitted component, revision and one explicit activation per revision (0.720617ms)
+✔ rate limiting and subscriptions are deterministic and bounded (1.042332ms)
+✔ exported schema is closed and declares every built-in component (0.438491ms)
+✔ repeated rejected floods notify once per error rather than rerender for every packet (0.936993ms)
+✔ rejects lone Unicode surrogates, trailing garbage and malformed JSON (0.551171ms)
+✔ registry changes and invalid host limits cannot broaden admission (0.733206ms)
+✔ host intent cannot carry arbitrary URLs or methods even through trusted registry (0.412792ms)
+✔ suggestion intents are distinct from navigation and contain no approval or execution (0.536148ms)
+✔ untrusted labels and host provenance are visible, scripts stay escaped (30.829946ms)
+✔ unknown and stale host values differ from actual zero (13.965998ms)
+✔ actions are inert until native button activation, labels are host-owned and replay blocked (13.259328ms)
+✔ callback failures are caught, redacted and do not alter host data (5.708191ms)
+✔ layout updates preserve active button and invalid update retains last tree (8.079723ms)
+✔ removed focused component moves to surface host anchor (6.893684ms)
+✔ hostslots only receive bound host data; absent slots explicit; throwing slots contained (5.744402ms)
+✔ mismatched malformed or oversized host projection rejects visibly (3.072322ms)
+✔ task/source/event lists have stable records, explicit empty state and no raw links (3.908363ms)
+✔ CSS preserves relative font sizes, mobile wrapping and reduced motion (0.810852ms)
+✔ focus reparenting restores stable component action, with no automatic intent (5.162595ms)
+✔ external host focus is never stolen during updates (5.881248ms)
+✔ trusted slot render failure leaves provenance and other components usable (12.695221ms)
+✔ known lists reject duplicate identities and exceeding row limits visibly (4.474717ms)
+✔ root text enlargement preserves primary button scale in simulated CSS (22.188146ms)
+✖ pending intent cannot be reactivated when a newer layout revision arrives (6.543866ms)
+ℹ tests 41
+ℹ suites 0
+ℹ pass 40
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 868.42709
+
+✖ failing tests:
+
+test at tests/ui.test.tsx:59:1
+✖ pending intent cannot be reactivated when a newer layout revision arrives (6.543866ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:59:410)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
