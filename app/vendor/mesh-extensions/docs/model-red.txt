@@ -1,0 +1,118 @@
+✖ adapter reuses real graph IDs and relationships without mutating V4 input (6.2208ms)
+✖ unknown state and source date stay explicitly unknown (0.380094ms)
+✖ events are retained records, bounded and never used to reconstruct current state (0.937143ms)
+✖ omitted archived and unresolved references are disclosed instead of fabricated nodes (1.205618ms)
+✖ invalid state, duplicate source IDs and invalid source dates are rejected (0.996683ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 433.634948
+
+✖ failing tests:
+
+test at tests/model.test.ts:6:1
+✖ adapter reuses real graph IDs and relationships without mutating V4 input (6.2208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'agent:codex',
+  -   'agent:junior',
+  -   'agent:manus',
+  -   'agent:zimt',
+  -   'mission:10000000-0000-4000-8000-000000000001',
+  -   'source:report',
+  -   'task:tune-controls',
+  -   'task:tune-dashboard'
+  - ]
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/model.test.ts:6:238)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 'agent:codex', 'agent:junior', 'agent:manus', 'agent:zimt', 'mission:10000000-0000-4000-8000-000000000001', 'source:report', 'task:tune-controls', 'task:tune-dashboard' ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/model.test.ts:7:1
+✖ unknown state and source date stay explicitly unknown (0.380094ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'unknown'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/model.test.ts:7:120)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'unknown',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/model.test.ts:8:1
+✖ events are retained records, bounded and never used to reconstruct current state (0.937143ms)
+  TypeError: Cannot read properties of undefined (reading 'completeness')
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/model.test.ts:8:189)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/model.test.ts:9:1
+✖ omitted archived and unresolved references are disclosed instead of fabricated nodes (1.205618ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/model.test.ts:9:253)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/model.test.ts:10:1
+✖ invalid state, duplicate source IDs and invalid source dates are rejected (0.996683ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/model.test.ts:10:119)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'throws',
+    diff: 'simple'
+  }

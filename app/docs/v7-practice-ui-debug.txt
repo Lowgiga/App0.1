@@ -1,0 +1,26 @@
+✖ V7 four practice phases save through shared UI and keep derived Academy progress separate (572.316485ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1751.562758
+
+✖ failing tests:
+
+test at tests/system/review-navigation-motion.test.tsx:316:1
+✖ V7 four practice phases save through shared UI and keep derived Academy progress separate (572.316485ms)
+  AssertionError [ERR_ASSERTION]: Nächstes Praxislevel | PRAXISLEVEL · 2D → BEZIEHUNG → TIEFE → TRANSFERDein Netzwerk verstehen und anwenden.0 XP · Starter0 Quiz-XP + 0 Praxis-XP · 0/4 Praxislevel gespeichert1 · Herkunft in 2D2 · Verbindung verfolgen3 · Tiefe & Kamera4 · In Arbeit übertragen1 · Herkunft in 2DEinen Knoten auswählen und seinen Belegstatus korrekt einordnen.Aktuelle ÜbungsauswahlZimtManusJuniorChatGPT/CodexBedienung und SchnellnavigationDashboard individuell einstellenArbeitsprofile für AgentenMissionräume mit ausgewähltem KontextAufgaben mit Abhängigkeiten und BelegenInteraktiver 3D- und AR-VersuchsraumLernmissionen mit FortschrittPAZ-Baseline vor Dateiplan vergleichenMake-Parameter und Außenwirkungen lesenCue-GitHub-Lesezugriff nachweisenHermes-Gerät und Anschlussweg prüfenCue-Team Initialisierung · neueste FassungMake · Struktur lesend geprüftPAZ · main 7a2c918Cue · ProduktbeschreibungMake · Startwunsch im Cue-ChatJunior · Review beginntJunior · Schema und EnvJunior · Paper-Mode und BaselineJunior · TestentwurfZimt · Pilot-ScopeZimt · Make-MetadatenMake · Prüfung vor StartGitHubMakeHermesLevel 1 · Beleg oder Behauptung?Level 2 · Kontext gezielt übergebenLevel 3 · Zwei Commits, ein PlanLevel 4 · Automationen mit AugenmaßLevel 5 · Wann ist eine Aufgabe erledigt?Level 1 · Beleg oder Behauptung? · 2D-Struktur2D-Übung öffnenWelchen Herkunftsstatus hat deine Auswahl?Bewusst einordnenEigener App-StandQuellen-SnapshotGeplant / ungeprüftVorlage / Stand unbekanntÜbung korrekt eingeordnet. Speichere jetzt bewusst den persönlichen Levelstand.Praxis prüfenPraxislevel speichern25 Praxis-XP je einmalig gespeichertem Level, maximal 100. Deine bisherigen fünf Quizstände bleiben getrennt erhalten. 2D kann jedes Lernziel erreichen; AR und zusätzliche Rechte werden niemals durch XP freigeschaltet. | undefined
+      at press (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/review-navigation-motion.test.tsx:323:149)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/review-navigation-motion.test.tsx:330:15)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

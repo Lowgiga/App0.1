@@ -1,0 +1,48 @@
+✔ all exported UI paths use platform services without legacy Blob or clipboard fallbacks (2.983819ms)
+✔ typed navigation accepts only canonical view and bounded query (0.348796ms)
+✔ native file plugin is registered; no broad storage access; payload never in saved state (0.472563ms)
+✖ native clipboard validates Activity before dispatch and again in UI callback (1.113729ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 460.561854
+
+✖ failing tests:
+
+test at tests/system/overlay-contract.test.ts:13:1
+✖ native clipboard validates Activity before dispatch and again in UI callback (1.113729ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /activity == null/. Input:
+  
+  '(PluginCall call) {\n' +
+    '        String text = call.getString("text"); call.getData().remove("text");\n' +
+    '        if (text == null || text.getBytes(StandardCharsets.UTF_8).length > 1024 * 1024) { call.reject("Invalid clipboard text", "CLIPBOARD_LIMIT"); return; }\n' +
+    '        getActivity().runOnUiThread(() -> {\n' +
+    '            try {\n' +
+    '                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);\n' +
+    '                if (clipboard == null) throw new IllegalStateException("Clipboard unavailable");\n' +
+    '                clipboard.setPrimaryClip(ClipData.newPlainText("Command Mesh", text));\n' +
+    '                JSObject out = new JSObject(); out.put("status", "copied"); call.resolve(out);\n' +
+    '            } catch (RuntimeException error) { call.reject("Clipboard unavailable", "CLIPBOARD_FAILED"); }\n' +
+    '        });\n' +
+    '    }\n' +
+    '\n' +
+    '    '
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/overlay-contract.test.ts:13:359)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '(PluginCall call) {\n        String text = call.getString("text"); call.getData().remove("text");\n        if (text == null || text.getBytes(StandardCharsets.UTF_8).length > 1024 * 1024) { call.reject("Invalid clipboard text", "CLIPBOARD_LIMIT"); return; }\n        getActivity().runOnUiThread(() -> {\n            try {\n                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);\n                if (clipboard == null) throw new IllegalStateException("Clipboard unavailable");\n                clipboard.setPrimaryClip(ClipData.newPlainText("Command Mesh", text));\n                JSObject out = new JSObject(); out.put("status", "copied"); call.resolve(out);\n            } catch (RuntimeException error) { call.reject("Clipboard unavailable", "CLIPBOARD_FAILED"); }\n        });\n    }\n\n    ',
+    expected: /activity == null/,
+    operator: 'match',
+    diff: 'simple'
+  }

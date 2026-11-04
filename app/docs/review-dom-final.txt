@@ -1,0 +1,23 @@
+NAVIGATION_CALLS [{"kind":"push","url":"https://localhost/?view=space"},{"kind":"replace","url":"https://localhost/?view=space"}]
+✔ review: Back after Studio-to-original navigation retains Studio in history (589.150081ms)
+EMBEDDED_GRAPH mesh-explorer mesh-mode-work mesh-style-solid mesh-quality-low
+✔ review: the embedded graph obeys WorkState power saver quality (232.721082ms)
+MOTION_POLICY true
+✔ review: WorkState motion off cannot be bypassed inside graph controls (160.242417ms)
+STUDIO_DIALOGS []
+✔ review: a hidden original workspace does not open its global command dialog (495.104752ms)
+✔ review: all 17 original views remain navigable and use the shared WorkState (600.717758ms)
+✔ review: paused run survives Studio tab switches and resume advances exactly once (429.28944ms)
+RESUME_AFTER_MODE_SWITCH false
+✔ review: switching to original workspace within the same app session preserves paused continuation (273.995245ms)
+MOBILE_STUDIO_DIALOGS []
+✔ review: mobile sidebar shortcut is inactive while Studio is foreground (115.519382ms)
+✔ review: saving forced graph view preserves personal preferences and lifting override restores them (181.486509ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4202.052327

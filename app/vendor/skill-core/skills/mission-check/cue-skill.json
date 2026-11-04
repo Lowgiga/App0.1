@@ -1,0 +1,124 @@
+{
+  "namespace": "cue.command-mesh.skill/v1",
+  "id": "cue.mission-check",
+  "version": "1.0.0",
+  "name": "mission-check",
+  "description": "Mission prüfen: Prüfe ausschließlich eine bereitgestellte Mission mit ihren Schritten.",
+  "triggers": {
+    "intents": [
+      "mission-check"
+    ],
+    "anyTags": [
+      "mission",
+      "audit"
+    ],
+    "allTags": [],
+    "excludeTags": [
+      "execute",
+      "delete",
+      "install",
+      "external-write"
+    ],
+    "nodeTypes": [
+      "mission"
+    ]
+  },
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "steps": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "done": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "title",
+            "done"
+          ],
+          "additionalProperties": false
+        },
+        "maxItems": 1000
+      }
+    },
+    "required": [
+      "title",
+      "steps"
+    ],
+    "additionalProperties": false
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "mode": {
+        "type": "string",
+        "enum": [
+          "offline-deterministic"
+        ]
+      },
+      "title": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "stepCount": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "completedCount": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "issues": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "maxItems": 1001
+      }
+    },
+    "required": [
+      "mode",
+      "title",
+      "stepCount",
+      "completedCount",
+      "issues"
+    ],
+    "additionalProperties": false
+  },
+  "tools": [
+    {
+      "id": "core.mission.check",
+      "effect": "local-compute",
+      "authentication": "none",
+      "permissions": [
+        "compute:mission"
+      ]
+    }
+  ],
+  "handler": "mission-check",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "stage": "instruction",
+      "sha256": "sha256:7479c90acc2197508340217d5fbfa3cf5ec589aa164af38bf7fe3b5114a6cf8f"
+    },
+    {
+      "path": "references/semantics.md",
+      "stage": "resource",
+      "sha256": "sha256:dd248e2ab92eeba8ad4b1b8598bb25af0d2695621fbc0b01209b32da759e325f"
+    }
+  ],
+  "versionHash": "sha256:5ad33789588e75252ed822c2d58cb1a8dcbfb6cef437da31ec4aede806503fde"
+}

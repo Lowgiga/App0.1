@@ -1,0 +1,15 @@
+✔ V7 surface mode requires horizontal fresh hits, handles tracking loss and scales around base point (142.205141ms)
+✔ V7 free mode is explicit, never requests plane hits and only recenters on deliberate command (46.692088ms)
+✔ V7 end failure retains ownership and exit controls with no automatic retry (35.280561ms)
+✔ V7 failed renderer binding plus rejected end retains both exact diagnosis causes (32.354709ms)
+✔ confirmed end event wins over a subsequent rejection and does not invent end-unknown (30.997892ms)
+✔ V7 shader stays optional and motion/power policies stop animation without changing preferences (113.867965ms)
+✔ confirmed native end releases exit ownership even if the browser end promise never settles (26.531758ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 874.453283

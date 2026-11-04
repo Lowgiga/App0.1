@@ -1,0 +1,30 @@
+✔ accepted unreferenced task removal emits one canonical event with the removed ID (10.103503ms)
+✔ multiple task removals have separate canonical IDs, monotonic sequence and 200-event retention (16.536508ms)
+✔ mission reference and task dependency still reject removal atomically (3.954126ms)
+✔ archive emits the unchanged task update without removal or duplicate event (0.933328ms)
+✔ event and interaction histories cannot be client-forged or replaced while removing a task (1.541635ms)
+✔ deletion remains CAS-protected and a rejected stale write changes nothing (0.508326ms)
+✔ deletion events participate in the existing total write budget before acceptance (1364.82195ms)
+✔ V3 projection and V4 canonical removal events keep the unchanged contracts (1.334904ms)
+✔ first focus call applies and exact request retry is still deduplicated (2.017524ms)
+✔ state-changing Created focus returns after a legal phase cycle (2.758942ms)
+✔ state-changing Planned focus returns after a legal phase cycle (3.490125ms)
+✔ state-changing Assigned focus returns after a legal phase cycle (3.124654ms)
+✔ task-start returns after legal reopening and still checks its dependencies (2.703118ms)
+✔ Working to Review can recur; Review opening remains once per semantic key despite unrelated revision or return (4.362791ms)
+✔ stale revision and stale suggestion cannot mutate a restored phase (2.601615ms)
+✔ untreated risks still suppress and reject repeated focus; acceptance remains exact scope (13.46928ms)
+✔ invalid phase jumps, acceptance prerequisites and closed missions are unchanged (3.561763ms)
+✔ 120-record interaction budget and history preservation still bound repeats (1.212329ms)
+✔ legacy merge keeps colliding rooms completely, including skipping incoming-only contributions (2.094039ms)
+✔ active legacy import UI explains unchanged rooms, skipped contributions and both exact budgets (0.473544ms)
+✔ actual NeuroPanel reoffers and executes restored focus through the local Actiondomain (692.557305ms)
+✔ actual IndexedDB transaction persists removal plus canonical event together and rejects stale retry (45.571725ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2578.784475

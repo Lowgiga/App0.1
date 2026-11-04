@@ -1,0 +1,495 @@
+{
+  "version": "1.4.1",
+  "measuredAt": "2026-09-30T23:10:16.427506+00:00",
+  "status": "PASS",
+  "qualification": "Local implemented cooperation foundation; does not verify Low reachability, sender identity, delivery or actual remote work. Publication verified separately in Sites.",
+  "sourceBaseline": "2b838b4f574acfaff72013c270a1fa637eb995c6",
+  "stateVersion": 4,
+  "codeBoundary": "Own app worktree only; original app worktree and PAZ untouched; Auth/State/Migrations/Dependencies frozen",
+  "domain": {
+    "passed": 103,
+    "added": 22,
+    "command": "node --test tests/*domain*.mts"
+  },
+  "http": {
+    "passed": 174,
+    "added": 25,
+    "suites": {
+      "foundation-api.log": 40,
+      "intelligence-api.log": 36,
+      "collaboration-api.log": 25,
+      "tuning-api.log": 22,
+      "spatial-academy-api.log": 29,
+      "local-api.log": 22
+    },
+    "scope": "Own compiled worker and isolated local D1 with synthetic identities; no production authentication"
+  },
+  "browser": {
+    "cooperation": {
+      "measuredAt": "2026-09-30T23:07:17.038Z",
+      "status": "PASS",
+      "passed": 27,
+      "checks": [
+        {
+          "name": "Initial dashboard does not fetch the optional coordination panel",
+          "status": "PASS"
+        },
+        {
+          "name": "Agent view loads the real lazy cooperation panel",
+          "status": "PASS"
+        },
+        {
+          "name": "Low presence and acceptance are explicitly unverified",
+          "status": "PASS"
+        },
+        {
+          "name": "Clipboard contains a bounded unsent brief without private notes",
+          "status": "PASS"
+        },
+        {
+          "name": "UI export matches the own MCP content fingerprint",
+          "status": "PASS"
+        },
+        {
+          "name": "Copy and export neither dispatch Low nor create state events",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid report JSON produces a readable error",
+          "status": "PASS"
+        },
+        {
+          "name": "Reports outside Lows ownership are blocked",
+          "status": "PASS"
+        },
+        {
+          "name": "Divergent briefs remain visible and cannot be accepted",
+          "status": "PASS"
+        },
+        {
+          "name": "A matching manual report stays an unverified claim",
+          "status": "PASS"
+        },
+        {
+          "name": "HTML and reported commands remain inert text",
+          "status": "PASS"
+        },
+        {
+          "name": "CAS conflict preserves the raw report and invalidates its old brief",
+          "status": "PASS"
+        },
+        {
+          "name": "Conflict cannot overwrite another work note",
+          "status": "PASS"
+        },
+        {
+          "name": "Parallel work permits explicit historical claim storage without changing mission status",
+          "status": "PASS"
+        },
+        {
+          "name": "Successful acceptance stores only a labelled personal claim note",
+          "status": "PASS"
+        },
+        {
+          "name": "Claim acceptance emits exactly one canonical note event",
+          "status": "PASS"
+        },
+        {
+          "name": "Successful save clears the import draft",
+          "status": "PASS"
+        },
+        {
+          "name": "a11y-desktop-light has no automated WCAG A/AA violations",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "Reload retains the unverified report and leaves Low unconnected",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile 390px has no horizontal document overhang",
+          "status": "PASS"
+        },
+        {
+          "name": "Touch report validation is functional",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile cooperation controls have at least 44px touch targets",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "Keyboard focus is visible on cooperation controls",
+          "status": "PASS"
+        },
+        {
+          "name": "Reduced Motion is respected by the cooperation panel",
+          "status": "PASS"
+        },
+        {
+          "name": "a11y-mobile-dark has no automated WCAG A/AA violations",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "Unknown personal state cannot be copied or exported as current context",
+          "status": "PASS"
+        },
+        {
+          "name": "No unexpected browser errors in accepted and recovery flows",
+          "status": "PASS",
+          "detail": "[]"
+        }
+      ],
+      "metrics": {
+        "browser": "153.0.8010.0",
+        "a11y-desktop-light": [],
+        "mobileSmallTargets": [],
+        "a11y-mobile-dark": [],
+        "consoleExpected": [
+          {
+            "type": "error",
+            "message": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+          }
+        ],
+        "consoleUnexpected": [],
+        "scope": "Own compiled app and isolated D1; no real Low identity, client authentication or remote action is verified",
+        "viewports": [
+          "1440x1050",
+          "390x844"
+        ]
+      },
+      "screenshots": [
+        "coordination-desktop.png",
+        "coordination-mobile.png"
+      ]
+    },
+    "regression": {
+      "measuredAt": "2026-09-30T23:01:36.557Z",
+      "status": "PASS",
+      "passed": 44,
+      "checks": [
+        {
+          "name": "Page identity and meaningful 2D first render",
+          "status": "PASS"
+        },
+        {
+          "name": "No framework overlay or initial console error",
+          "status": "PASS"
+        },
+        {
+          "name": "Three.js and renderer are not fetched by 2D first view",
+          "status": "PASS"
+        },
+        {
+          "name": "Large graph caps safely at 32 visible nodes",
+          "status": "PASS"
+        },
+        {
+          "name": "Desktop ArrowDown follows the actual three-column grid",
+          "status": "PASS"
+        },
+        {
+          "name": "Keyboard focus remains visible",
+          "status": "PASS"
+        },
+        {
+          "name": "End navigates to last visible node",
+          "status": "PASS"
+        },
+        {
+          "name": "Home navigates back to first node",
+          "status": "PASS"
+        },
+        {
+          "name": "Relationship opens its actual neighbour",
+          "status": "PASS"
+        },
+        {
+          "name": "Guided hand-off highlights the planned relation",
+          "status": "PASS"
+        },
+        {
+          "name": "Guided explanation does not mutate state or start a worker",
+          "status": "PASS"
+        },
+        {
+          "name": "Selection link records a node without access parameters",
+          "status": "PASS"
+        },
+        {
+          "name": "Selection link survives reload",
+          "status": "PASS"
+        },
+        {
+          "name": "3D renders actual visible first-frame pixels",
+          "status": "PASS"
+        },
+        {
+          "name": "Focus changes the rendered viewpoint",
+          "status": "PASS"
+        },
+        {
+          "name": "Selection preserves the same canvas and renderer lifecycle",
+          "status": "PASS"
+        },
+        {
+          "name": "User-started rotation visibly changes the view",
+          "status": "PASS"
+        },
+        {
+          "name": "Reduced Motion disables view rotation",
+          "status": "PASS"
+        },
+        {
+          "name": "Reduced Motion produces a stable paused frame",
+          "status": "PASS"
+        },
+        {
+          "name": "Unsupported immersive AR stays disabled",
+          "status": "PASS"
+        },
+        {
+          "name": "Context loss recovers to a usable 2D map",
+          "status": "PASS"
+        },
+        {
+          "name": "Retry after context loss creates a fresh usable canvas",
+          "status": "PASS"
+        },
+        {
+          "name": "Practice cannot be saved without actual quiz and case checks",
+          "status": "PASS"
+        },
+        {
+          "name": "Wrong answer explains the missing proof",
+          "status": "PASS"
+        },
+        {
+          "name": "UI saves reasoning and completion while preserving old quiz state",
+          "status": "PASS"
+        },
+        {
+          "name": "UI creates a real open task with the selected owner",
+          "status": "PASS"
+        },
+        {
+          "name": "Mission and task reference persist atomically",
+          "status": "PASS"
+        },
+        {
+          "name": "Duplicate learning transfer is prevented in UI",
+          "status": "PASS"
+        },
+        {
+          "name": "Workbook export contains the saved reasoning and five topics",
+          "status": "PASS"
+        },
+        {
+          "name": "Browser reload retains saved practice progress",
+          "status": "PASS"
+        },
+        {
+          "name": "Saved reasoning remains available after reload",
+          "status": "PASS"
+        },
+        {
+          "name": "CAS conflict preserves answers and reasoning after context changes",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid mission context can be cleared without losing draft",
+          "status": "PASS"
+        },
+        {
+          "name": "User can save safely after conflict recovery",
+          "status": "PASS"
+        },
+        {
+          "name": "Automated WCAG A/AA checks pass for the new spatial workspace",
+          "status": "PASS"
+        },
+        {
+          "name": "390px viewport has no horizontal document overflow",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile large graph also remains bounded and scrollable",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile ArrowDown follows the two-column grid",
+          "status": "PASS"
+        },
+        {
+          "name": "New mobile interactive targets are at least 44px",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "Mobile applying view stays within 390px",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile dark-theme automated WCAG checks pass",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile navigation closes its menu and opens learning",
+          "status": "PASS"
+        },
+        {
+          "name": "Failed data load labels templates and blocks personal export",
+          "status": "PASS"
+        },
+        {
+          "name": "No unexpected console errors in successful and recovery flows",
+          "status": "PASS",
+          "detail": "[]"
+        }
+      ],
+      "metrics": {
+        "browser": "153.0.8010.0",
+        "firstFrame": {
+          "width": 749,
+          "height": 441,
+          "brightPixels": 6212,
+          "method": "screenshot pixels, software WebGL"
+        },
+        "a11yDesktop": [],
+        "mobileSmallTargets": [],
+        "a11yMobile": [],
+        "consoleExpected": [
+          {
+            "type": "error",
+            "message": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+          }
+        ],
+        "consoleUnexpected": [],
+        "testedViewports": [
+          "1440x1000",
+          "390x844"
+        ],
+        "scope": "Local compiled app, isolated D1, synthetic identity; software WebGL, no production sign-in, no hardware AR"
+      },
+      "screenshots": [
+        "space-desktop-2d.png",
+        "3d-first-frame.png",
+        "space-desktop-3d.png",
+        "space-mobile-top.png",
+        "space-mobile-academy.png",
+        "space-mobile-apply.png"
+      ]
+    }
+  },
+  "totalFunctionalChecks": 348,
+  "typecheck": {
+    "command": "node node_modules/typescript/bin/tsc --noEmit --noUnusedLocals --noUnusedParameters",
+    "exitCode": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "exitCode": 0
+  },
+  "bundle": {
+    "measuredAt": "2026-09-30T23:11:12.356Z",
+    "method": "gzip build assets; static imports of browser entry plus root client component; excludes dynamic imports; no network/hardware benchmark",
+    "appChunk": {
+      "bytes": 128806,
+      "gzip": 39851
+    },
+    "initialStaticJsGzip": 220712,
+    "appChunkAdditionalGzip": -2795,
+    "css": {
+      "bytes": 220192,
+      "gzip": 36196
+    },
+    "cssGrowthPercent": 9.321457473798134,
+    "optionalAdditionalGzip": {
+      "coordination": 6309,
+      "intelligence": 10182,
+      "palette": 6641,
+      "spatial": 15070,
+      "spatialRenderer": 3682,
+      "threeAndOrbit": 189809
+    },
+    "lazyBoundaries": {
+      "coordinationOutsideInitial": true,
+      "rendererOutsideInitial": true,
+      "rendererOutside2DStatic": true,
+      "engineOutsideInitial": true,
+      "engineOutside2DStatic": true
+    },
+    "budgets": {
+      "appChunkGzip": 102400,
+      "appChunkAdditionalGzip": 102400,
+      "initialStaticJsGzip": 225280,
+      "commandAdditionalGzip": 46080,
+      "cssGrowthPercent": 10
+    }
+  },
+  "boundedLoad": {
+    "scope": "own local compiled worker with 8 request threads; finite sample, no capacity extrapolation",
+    "readRequests": 128,
+    "readConcurrency": 8,
+    "readDurationSeconds": 0.2062,
+    "observedRequestsPerMinute": 37240.53,
+    "readMedianMs": 12.564,
+    "readP95Ms": 14.855,
+    "readMaxMs": 17.515,
+    "readErrorCount": 0,
+    "sameVersionWriteRace": {
+      "requests": 8,
+      "accepted": 1,
+      "conflicts": 7,
+      "storedNotes": 1,
+      "eventSequenceAtomic": true
+    }
+  },
+  "restartRecovery": {
+    "scope": "own compiled worker process restart and isolated local D1; no production backup restore",
+    "exactStateRetained": true,
+    "eventSequenceRetained": true,
+    "recoveryMs": 426.59
+  },
+  "review": {
+    "agent": "/root/initialization_review",
+    "role": "Independent read-only reviewer; not Low",
+    "status": "PASS after two corrected P2s",
+    "fixed": [
+      "Complete TAB filenames and control-character rejection in ownership guard",
+      "Explicit historical unverified claim storage after parallel work changes"
+    ],
+    "scope": "Static review, no independent browser or remote device execution"
+  },
+  "collaboration": {
+    "status": "PARTIAL",
+    "lowIdentity": "user-reported",
+    "directChannel": "not-verified",
+    "delivery": "not-confirmed",
+    "acknowledgement": "not-received",
+    "remoteObservation": {
+      "source": "Remote Desktop Commander · list_devices",
+      "observedAt": "2026-09-30T22:57:13.107Z",
+      "states": [
+        "offline",
+        "offline"
+      ],
+      "qualification": "Datierter Gerätebefund, kein Nachweis über Lows aktuellen Agentenstatus."
+    },
+    "mcp": "Real private app endpoint, read-only brief tool; does not prove connected Low client"
+  },
+  "productionBrowser": {
+    "priorApp": "Observed reachable in authenticated private cloud browser after previous MFA block",
+    "newModule": "Read-only check follows private deployment; production fixture writes deliberately excluded"
+  },
+  "open": [
+    "Actual Low/Cue client authorization and acknowledgement",
+    "Hardware Android/WebXR checks",
+    "Authenticated production write flow for new cooperation module",
+    "Real-user study and complete screenreader audit",
+    "Live integration adapters, production backup restore and external alerts"
+  ]
+}

@@ -1,0 +1,93 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @cue/adaptive-surfaces@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ v1 admits frozen complete snapshot with host provenance (2.695696ms)
+✔ rejects boundary schema (0.544231ms)
+✔ rejects boundary catalogVersion (0.416929ms)
+✔ rejects boundary trusted (0.472663ms)
+✔ rejects boundary approved (0.589509ms)
+✔ rejects boundary data (0.493033ms)
+✔ rejects unregistered or unknown components and extra style/HTML fields (1.605851ms)
+✔ dangerous strings are data, never executable markup (0.529249ms)
+✔ rejects unknown actions and write-kind host configuration (1.284057ms)
+✔ denies prototype keys, path traversal, dotted and URL dataRefs (2.377295ms)
+✔ rejects duplicate JSON keys including escaped equivalents (0.364209ms)
+✔ rejects duplicate ids cycles dangling children multiple parents unreachable nodes (0.962692ms)
+✔ rejects graph depth, byte, text and component budgets (3.568683ms)
+✔ rejects non-JSON numbers and non-JSON raw input (0.490931ms)
+✔ rejection is atomic and session, surface and baseRevision are enforced (1.303706ms)
+✔ layout updates keep component ids and focus target must be immediate child (0.581907ms)
+✔ snapshot and registry mutation cannot change admitted action (0.902431ms)
+✔ intent requires admitted component, revision and one explicit activation per revision (0.459053ms)
+✔ rate limiting and subscriptions are deterministic and bounded (0.614827ms)
+✔ exported schema is closed and declares every built-in component (0.374535ms)
+✖ repeated rejected floods notify once per error rather than rerender for every packet (2.28046ms)
+✔ rejects lone Unicode surrogates, trailing garbage and malformed JSON (0.343498ms)
+✔ registry changes and invalid host limits cannot broaden admission (0.634748ms)
+✔ host intent cannot carry arbitrary URLs or methods even through trusted registry (0.31797ms)
+✔ suggestion intents are distinct from navigation and contain no approval or execution (0.353924ms)
+✔ untrusted labels and host provenance are visible, scripts stay escaped (28.657642ms)
+✔ unknown and stale host values differ from actual zero (12.834337ms)
+✔ actions are inert until native button activation, labels are host-owned and replay blocked (11.399582ms)
+✔ callback failures are caught, redacted and do not alter host data (5.133532ms)
+✔ layout updates preserve active button and invalid update retains last tree (8.806532ms)
+✔ removed focused component moves to surface host anchor (6.983793ms)
+✔ hostslots only receive bound host data; absent slots explicit; throwing slots contained (5.526245ms)
+✔ mismatched malformed or oversized host projection rejects visibly (3.446768ms)
+✔ task/source/event lists have stable records, explicit empty state and no raw links (4.282749ms)
+✔ CSS preserves relative font sizes, mobile wrapping and reduced motion (0.77582ms)
+✔ focus reparenting restores stable component action, with no automatic intent (5.670442ms)
+✔ external host focus is never stolen during updates (4.814452ms)
+✔ trusted slot render failure leaves provenance and other components usable (13.064363ms)
+✔ known lists reject duplicate identities and exceeding row limits visibly (17.047491ms)
+✖ root text enlargement preserves primary button scale in simulated CSS (17.564791ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 38
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 848.244672
+
+✖ failing tests:
+
+test at tests/contract.test.ts:38:1
+✖ repeated rejected floods notify once per error rather than rerender for every packet (2.28046ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  100 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:39:48)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 100,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:47:1
+✖ root text enlargement preserves primary button scale in simulated CSS (17.564791ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 1.5
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:53:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 1.5,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

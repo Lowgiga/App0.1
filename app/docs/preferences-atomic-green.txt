@@ -1,0 +1,12 @@
+✔ stale settings save cannot delete another session history (10.90944ms)
+✔ simultaneous writes have one winner and no silently overwritten preferences (2.035389ms)
+✔ write abort after successful put does not report persisted success (2.007056ms)
+✔ legacy localStorage migration preserves history once and refuses corrupt legacy without overwriting (2.2221ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 507.522554

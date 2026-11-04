@@ -1,0 +1,20 @@
+✔ all exported UI paths use platform services without legacy Blob or clipboard fallbacks (1.779964ms)
+✔ typed navigation accepts only canonical view and bounded query (0.219621ms)
+✔ native file plugin is registered; no broad storage access; payload never in saved state (0.343297ms)
+✔ native saved is returned only after driver confirmation (1.979486ms)
+✔ native cancel is not success (0.246702ms)
+✔ native IO error does not fall back to browser (0.778304ms)
+✔ repeat click rejects until first request settles, then retry works (0.337339ms)
+✔ native missing or malformed response is never saved (0.543734ms)
+✔ name MIME and UTF8 limits are validated before native side effect (15.698233ms)
+✔ browser fallback reports dispatched not saved (1.209324ms)
+✔ browser picker cancel is distinct and failed write aborts (0.612373ms)
+✔ old view and Studio share one load and one mutation state (86.918674ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 932.798092

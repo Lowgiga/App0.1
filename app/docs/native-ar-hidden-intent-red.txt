@@ -1,0 +1,55 @@
+✔ native UI is inert until explicit action, discloses compatibility network lookup and never auto-opens after check (49.194396ms)
+✔ native UI hard power policy blocks both actions and exposes settings route (13.296308ms)
+✔ native UI suppresses duplicate launch and ignores returned stale membership revision without writes (11.691198ms)
+✔ native UI accepts only informational current selection and does not turn placed into a task outcome (9.857151ms)
+✔ native result after component unmount cannot select or mutate the app (7.101654ms)
+✖ late availability after leaving and reentering the retained view never opens native AR (16.963722ms)
+✖ native result is stale after any hidden-view transition even when current snapshot and active flag match again (17.421262ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 932.742103
+
+✖ failing tests:
+
+test at tests/system/native-ar-ui.test.tsx:68:1
+✖ late availability after leaving and reentering the retained view never opens native AR (16.963722ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /verlassen/. Input:
+  
+  'Native Kamera-AR · experimentellOptionaler ARCore-Adapter, noch nicht auf echter Hardware geprüft. Keine präzise Vermessung und keine physische Hologramm-Projektion. 2D und Bildschirm-3D bleiben verfügbar.Eine bewusste Kompatibilitätsprüfung kann Google über das Netz nach Geräteunterstützung fragen. „AR-Hinweise öffnen“ zeigt zuerst die native Datenschutzerklärung. Kamera und eine mögliche Installation/Aktualisierung von Google Play-Diensten für AR werden erst über den dortigen separaten Startknopf angefragt. Der Graph bleibt lokal.Das Modell dreht sich nicht automatisch. Das notwendige Kamerabild und räumliche Tracking reagieren auf deine eigene Gerätebewegung.Vollständiger gewählter Bereich „all“: 23 Knoten und 24 Beziehungen. Keine zusätzliche 32-Knoten-Kürzung. 0 Beschriftungen und 0 Detailtexte für AR verdichtet; vollständige Texte bleiben in der App. Linien sind schematisch und ohne Richtungs-/Beziehungsbeschriftung; 0 Verbindungen überlagern andere Linien. Alle Kanten bleiben im Snapshot.Kompatibilität prüfenAR-Hinweise öffnenARCore-Unterstützung gemeldet; Dienst installiert. Dies bestätigt weder Kamerafreigabe noch Tracking oder Platzierung.'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/native-ar-ui.test.tsx:74:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Native Kamera-AR · experimentellOptionaler ARCore-Adapter, noch nicht auf echter Hardware geprüft. Keine präzise Vermessung und keine physische Hologramm-Projektion. 2D und Bildschirm-3D bleiben verfügbar.Eine bewusste Kompatibilitätsprüfung kann Google über das Netz nach Geräteunterstützung fragen. „AR-Hinweise öffnen“ zeigt zuerst die native Datenschutzerklärung. Kamera und eine mögliche Installation/Aktualisierung von Google Play-Diensten für AR werden erst über den dortigen separaten Startknopf angefragt. Der Graph bleibt lokal.Das Modell dreht sich nicht automatisch. Das notwendige Kamerabild und räumliche Tracking reagieren auf deine eigene Gerätebewegung.Vollständiger gewählter Bereich „all“: 23 Knoten und 24 Beziehungen. Keine zusätzliche 32-Knoten-Kürzung. 0 Beschriftungen und 0 Detailtexte für AR verdichtet; vollständige Texte bleiben in der App. Linien sind schematisch und ohne Richtungs-/Beziehungsbeschriftung; 0 Verbindungen überlagern andere Linien. Alle Kanten bleiben im Snapshot.Kompatibilität prüfenAR-Hinweise öffnenARCore-Unterstützung gemeldet; Dienst installiert. Dies bestätigt weder Kamerafreigabe noch Tracking oder Platzierung.',
+    expected: /verlassen/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/system/native-ar-ui.test.tsx:80:1
+✖ native result is stale after any hidden-view transition even when current snapshot and active flag match again (17.421262ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'lesson:review'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/native-ar-ui.test.tsx:85:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'lesson:review' ],
+    expected: [],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,8 @@
+# Lint tools of the CI job "lint", pinned with hashes (pip install --require-hashes -r ...).
+# Hashes checked against pypi.org/pypi/<name>/<version>/json (2026-11-04); Linux x86_64 wheels
+# (ubuntu-24.04 runners). actionlint is not here: actionlint-py is a source package that
+# downloads the binary at build time, so CI verifies the official release archive instead.
+ruff==0.17.3 \
+    --hash=sha256:7fa4b0f931cdbcb8a52044f370a3eb429fb42eb88807b0e800fcaa98dd42b24e
+shellcheck-py==0.11.0.1 \
+    --hash=sha256:1b274df81de5b000ff78db433e7328b87e52e3c38481c60f8e488c3095beef05

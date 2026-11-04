@@ -1,0 +1,43 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-mesh-graph-explorer-extension@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ adapter reuses real graph IDs and relationships without mutating V4 input (7.964943ms)
+✔ unknown state and source date stay explicitly unknown (1.471639ms)
+✔ events are retained records, bounded and never used to reconstruct current state (1.09398ms)
+✔ omitted archived and unresolved references are disclosed instead of fabricated nodes (0.972547ms)
+✔ invalid state, duplicate source IDs and invalid source dates are rejected (1.635958ms)
+✔ source detail never claims a dated snapshot when its timestamp is unknown (1.729929ms)
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (10.303881ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (20.093296ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (4.788513ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (10.184912ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (3.267338ms)
+✔ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (7.158136ms)
+✔ late window resize failure also takes the controlled fallback path (4.196009ms)
+✔ unknown state is explicit and never shown as live or loaded-empty (40.840769ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (71.68241ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (39.235556ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (32.411084ms)
+✔ retained activity tells the truth about incomplete history and current graph (19.441352ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (18.527544ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (36.793725ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (26.999366ms)
+✔ primary text and controls scale with the host root font setting (23.366192ms)
+✔ view config roundtrips and layout changes preserve selection and filters (2.949319ms)
+✔ config rejects unknown versions, inherited extras, NaN and oversized queries (2.94743ms)
+✔ filtering never clears selection and classifies hidden versus missing (4.360287ms)
+✔ scene caps nodes/edges, prioritizes selected node and reports exact omissions (2.764429ms)
+✔ each layout is finite and deterministic independent of input order (2.672632ms)
+✔ evidence layout places task prerequisites before dependent tasks and tolerates cycles (1.833445ms)
+✔ empty graph has safe nonzero bounds in every layout (0.339051ms)
+✔ focus mode shows the selected node and immediate recorded relations without clearing filters (1.348474ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1192.484528

@@ -1,0 +1,75 @@
+{
+  "version": "1.3",
+  "stateVersion": 4,
+  "scope": "local compiled worker and managed preview; production sign-in not tested",
+  "checks": {
+    "foundationDomain": 24,
+    "intelligenceDomain": 30,
+    "localHttp": 22,
+    "tuningHttp": 22,
+    "foundationHttp": 40,
+    "intelligenceHttp": 36,
+    "total": 174
+  },
+  "boundedLoad": {
+    "scope": "own local compiled worker with 8 request threads; finite sample, no capacity extrapolation",
+    "readRequests": 128,
+    "readConcurrency": 8,
+    "readDurationSeconds": 0.2511,
+    "observedRequestsPerMinute": 30582.71,
+    "readMedianMs": 15.011,
+    "readP95Ms": 19.394,
+    "readMaxMs": 23.82,
+    "readErrorCount": 0,
+    "sameVersionWriteRace": {
+      "requests": 8,
+      "accepted": 1,
+      "conflicts": 7,
+      "storedNotes": 1,
+      "eventSequenceAtomic": true
+    }
+  },
+  "restartRecovery": {
+    "scope": "own compiled worker process restart and isolated local D1; no production backup restore",
+    "exactStateRetained": true,
+    "eventSequenceRetained": true,
+    "recoveryMs": 634.27
+  },
+  "queryPlan": [
+    {
+      "id": 3,
+      "parent": 0,
+      "notused": 39,
+      "detail": "SEARCH mesh_work USING INDEX sqlite_autoindex_mesh_work_1 (user_id=?)"
+    }
+  ],
+  "bundle": {
+    "appChunk": {
+      "bytes": 127753,
+      "gzip": 39634
+    },
+    "appChunkAdditionalGzip": -3012,
+    "initialStaticJsGzip": 217879,
+    "initialJsChangeGzip": 5347,
+    "css": {
+      "bytes": 213746,
+      "gzip": 35073
+    },
+    "cssGrowthPercent": 6.121131781329292,
+    "budgets": {
+      "appChunkGzip": 102400,
+      "appChunkAdditionalGzip": 102400,
+      "initialStaticJsGzip": 225280,
+      "commandAdditionalGzip": 46080,
+      "cssGrowthPercent": 10
+    }
+  },
+  "review": "Independent static review; relevant findings fixed and rechecked; reviewer did not run tests",
+  "blocked": [
+    "production authenticated browser E2E",
+    "real user study",
+    "external GitHub/Make/Cue adapters",
+    "real Android/WebGL/AR and screenreader audit",
+    "production backup restore and external SRE alert delivery"
+  ]
+}

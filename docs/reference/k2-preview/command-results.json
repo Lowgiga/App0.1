@@ -1,0 +1,14 @@
+{
+  "source": "c123f8ab5f155c61382a9b58208bb73e04b91a3188f8159241d588bd17285869",
+  "command": "npm run verify:quality -- --contract-sha256 2dcc49f273fd7378166463c2778cfd6cc4b8c46cd1c2d6313c206f6b86ec4489",
+  "status": "pass",
+  "exitCode": 0,
+  "runs": 1,
+  "report": "quality-report.json",
+  "appTests": 1459,
+  "qualityTests": 50,
+  "publisherReproduction": "pass",
+  "rootDocReproduction": "pass",
+  "browserRerun": "notrun; identical production assets verified",
+  "nativeDevice": "notrun"
+}

@@ -1,0 +1,157 @@
+{
+  "namespace": "cue.command-mesh.skill/v1",
+  "id": "cue.source-status",
+  "version": "1.0.0",
+  "name": "source-status",
+  "description": "Quellenstatus: Klassifiziere Quellen als Snapshot, ungeprüfte Live-Angabe oder unbekannt; keine Verbindungsprüfung.",
+  "triggers": {
+    "intents": [
+      "source-status"
+    ],
+    "anyTags": [
+      "source",
+      "status"
+    ],
+    "allTags": [],
+    "excludeTags": [
+      "execute",
+      "delete",
+      "install",
+      "external-write"
+    ],
+    "nodeTypes": [
+      "source",
+      "integration",
+      "tool"
+    ]
+  },
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "sources": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "snapshot",
+                "live-claim",
+                "unknown"
+              ]
+            },
+            "label": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "toolCount": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "label"
+          ],
+          "additionalProperties": false
+        },
+        "maxItems": 1000
+      }
+    },
+    "required": [
+      "sources"
+    ],
+    "additionalProperties": false
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "mode": {
+        "type": "string",
+        "enum": [
+          "offline-deterministic"
+        ]
+      },
+      "snapshotCount": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "liveClaimCount": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "unknownCount": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "installedToolCount": {
+        "type": "null"
+      },
+      "statuses": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "snapshot-only",
+                "unverified-live-claim",
+                "unknown"
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        "maxItems": 1000
+      }
+    },
+    "required": [
+      "mode",
+      "snapshotCount",
+      "liveClaimCount",
+      "unknownCount",
+      "installedToolCount",
+      "statuses"
+    ],
+    "additionalProperties": false
+  },
+  "tools": [
+    {
+      "id": "core.source.status",
+      "effect": "local-compute",
+      "authentication": "none",
+      "permissions": [
+        "compute:source-status"
+      ]
+    }
+  ],
+  "handler": "source-status",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "stage": "instruction",
+      "sha256": "sha256:17c4e1c0665b0e991d02e418029c59d1e91428f3489bddb1cc6f4337c8aed7ca"
+    },
+    {
+      "path": "references/semantics.md",
+      "stage": "resource",
+      "sha256": "sha256:57f7b89b6bb702313f2320e1d091d083da5069a3eebb85cab861154950ae1f62"
+    }
+  ],
+  "versionHash": "sha256:3548795a0c2cdd56748014e8ddb677489ee11e8f1e35ce2c365b344b058a542e"
+}

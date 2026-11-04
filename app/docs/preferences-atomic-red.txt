@@ -1,0 +1,60 @@
+✖ stale settings save cannot delete another session history (1.584509ms)
+✖ simultaneous writes have one winner and no silently overwritten preferences (0.245571ms)
+✖ write abort after successful put does not report persisted success (0.269376ms)
+✖ legacy localStorage migration preserves history once and refuses corrupt legacy without overwriting (2.331966ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 399.630412
+
+✖ failing tests:
+
+test at tests/system/preferences-store.test.ts:8:1
+✖ stale settings save cannot delete another session history (1.584509ms)
+  Error: not implemented
+      at PreferencesStore.load (file:///workspace/scratch/40c5c5523452/cue-system/src/preferences-store.ts:3:26)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/preferences-store.test.ts:9:24)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/system/preferences-store.test.ts:20:1
+✖ simultaneous writes have one winner and no silently overwritten preferences (0.245571ms)
+  Error: not implemented
+      at PreferencesStore.load (file:///workspace/scratch/40c5c5523452/cue-system/src/preferences-store.ts:3:26)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/preferences-store.test.ts:21:43)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/system/preferences-store.test.ts:30:1
+✖ write abort after successful put does not report persisted success (0.269376ms)
+  Error: not implemented
+      at PreferencesStore.load (file:///workspace/scratch/40c5c5523452/cue-system/src/preferences-store.ts:3:26)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/preferences-store.test.ts:30:141)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/system/preferences-store.test.ts:39:1
+✖ legacy localStorage migration preserves history once and refuses corrupt legacy without overwriting (2.331966ms)
+  Error: not implemented
+      at PreferencesStore.load (file:///workspace/scratch/40c5c5523452/cue-system/src/preferences-store.ts:3:26)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/preferences-store.test.ts:40:27)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
