@@ -1,0 +1,9 @@
+name: CI-Diagnose
+on: [push]
+permissions:
+  contents: read
+jobs:
+  plain:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "runner ok"
