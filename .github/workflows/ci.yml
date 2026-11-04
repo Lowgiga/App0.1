@@ -1,0 +1,126 @@
+name: LowQuantFlow Automated CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, "release/*" ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  toolchain-check:
+    name: Toolchain & Prerequisite Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+        continue-on-error: true
+
+      - name: Setup Java 21 JDK (Gradle Toolchain)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Verify Toolchain Prerequisites
+        run: |
+          chmod +x scripts/check_toolchain.sh 2>/dev/null || true
+          if [ -f scripts/check_toolchain.sh ]; then
+            bash scripts/check_toolchain.sh
+          else
+            echo "Toolchain check script skipped (not present in docs-only mode)."
+          fi
+
+  code-health-and-tests:
+    name: Typecheck, Verification & Tests
+    needs: toolchain-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Dependencies
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+          else
+            echo "package.json not found. Running in Documentation Verification Mode."
+          fi
+
+      - name: Validate Markdown Documentation Links
+        run: |
+          python3 -c "
+          import os, re
+          broken = []
+          for root, _, files in os.walk('docs'):
+              for file in files:
+                  if file.endswith('.md'):
+                      p = os.path.join(root, file)
+                      with open(p) as f:
+                          for text, link in re.findall(r'\[([^\]]+)\]\(([^)]+)\)', f.read()):
+                              if not link.startswith(('http://', 'https://', '#')):
+                                  target = os.path.normpath(os.path.join(os.path.dirname(p), link.split('#')[0]))
+                                  if target and not os.path.exists(target):
+                                      broken.append((p, link))
+          if broken:
+              print(f'Broken links found: {broken}')
+              exit(1)
+          print('Documentation links verified successfully.')
+          "
+
+      - name: Run Serial Test Verification
+        run: |
+          if [ -f package.json ]; then
+            npm run typecheck
+            npm run verify:serial
+          else
+            echo "App source code not present in docs repository. Tests skipped."
+          fi
+
+  android-build:
+    name: Android APK & Artifact Build
+    needs: code-health-and-tests
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21 JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Build Web Bundle & Sync Capacitor
+        run: |
+          if [ -f package.json ]; then
+            npm run build
+            npx cap sync android
+          else
+            echo "App source not present. Skipping web build & Capacitor sync."
+          fi
+
+      - name: Build Android APK
+        run: |
+          if [ -d android ]; then
+            cd android
+            ./gradlew assembleRelease --no-daemon
+          else
+            echo "Android project directory not present. Skipping Gradle build."
+          fi

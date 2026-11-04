@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">LowQuantFlow – Ideen verbinden. Klar weiterbauen.</title>
+  <desc id="desc">Originale Konzeptgrafik: fünf leuchtende Projektknoten und cyan-violette Datenwellen über einer räumlichen Werkstatt. Kein App-Screenshot und kein Buildstatus.</desc>
+<defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#050b1b"/><stop offset=".55" stop-color="#0b1631"/><stop offset="1" stop-color="#100d2c"/></linearGradient>
+    <radialGradient id="aura"><stop stop-color="#196293" stop-opacity=".65"/><stop offset=".5" stop-color="#142b61" stop-opacity=".4"/><stop offset="1" stop-color="#0b1026" stop-opacity="0"/></radialGradient>
+    <linearGradient id="stream" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="960" y2="600"><stop stop-color="#61f3ff"/><stop offset=".47" stop-color="#5a9cff"/><stop offset="1" stop-color="#cb86ff"/></linearGradient>
+    <linearGradient id="word" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#ffffff"/><stop offset=".55" stop-color="#dffbff"/><stop offset="1" stop-color="#c4b4ff"/></linearGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2c697f"/><stop offset="1" stop-color="#1b295a"/></linearGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#183554"/><stop offset="1" stop-color="#100d2e"/></linearGradient>
+    <filter id="glow" x="-70%" y="-70%" width="240%" height="240%"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="soft" x="-50%" y="-100%" width="200%" height="300%"><feGaussianBlur stdDeviation="12"/></filter>
+    <pattern id="dotgrid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#608bc5" opacity=".19"/></pattern>
+    <path id="wave1" d="M-80 448C40 212 178 570 329 375S596 229 730 365 909 491 1032 286"/>
+    <path id="wave2" d="M-62 484C92 288 177 532 363 427S586 270 733 391 895 477 1030 331"/>
+    <path id="wave3" d="M-48 385C146 218 154 505 344 362S605 309 757 427 957 431 1027 382"/>
+    <g id="small-node">
+      <ellipse cx="0" cy="46" rx="61" ry="19" fill="#33dafa" opacity=".12" filter="url(#soft)"/>
+      <path d="M0-29 42-5 0 20-42-5Z" fill="url(#top)" stroke="#6dd9f6" stroke-width="1.5"/>
+      <path d="M-42-5 0 20 0 61-42 36Z" fill="url(#face)" stroke="#367390" stroke-width="1.2"/>
+      <path d="M0 20 42-5 42 36 0 61Z" fill="#191844" stroke="#7565be" stroke-width="1.2"/>
+      <path d="M-26 1 0 16 27 0M0 28V48" fill="none" stroke="#80eaff" stroke-width="2" opacity=".85"/>
+      <circle cy="-5" r="7" fill="#c6fbff" filter="url(#glow)"/>
+      <circle class="pulse" cy="-5" r="15" fill="none" stroke="#64efff" stroke-width="2" opacity=".62"/>
+    </g>
+  </defs>
+  <style>
+    /* All animation ends at four seconds; the base SVG is the resting frame. */
+    .travel { animation: travel 4s cubic-bezier(.2,.65,.35,1) 1; }
+    .travel-back { animation: travelBack 4s ease-out 1; }
+    .packet { animation: packets 4s ease-out 1; }
+    .pulse { transform-box: fill-box; transform-origin: center; animation: nodePulse 4s ease-in-out 1; }
+    .core-pulse { transform-box: fill-box; transform-origin: center; animation: corePulse 4s ease-in-out 1; }
+    .orbit { transform-box: fill-box; transform-origin: center; animation: orbitPulse 4s ease-in-out 1; }
+    @keyframes travel { 0% { stroke-dashoffset: 540; opacity: .35; } 42% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: .9; } }
+    @keyframes travelBack { 0% { stroke-dashoffset: -390; opacity: .2; } 55% { opacity: .9; } 100% { stroke-dashoffset: 0; opacity: .65; } }
+    @keyframes packets { 0% { stroke-dashoffset: 420; } 100% { stroke-dashoffset: 0; } }
+    @keyframes nodePulse { 0%, 100% { transform: scale(1); opacity: .62; } 30% { transform: scale(1.65); opacity: .12; } 60% { transform: scale(1.08); opacity: .85; } }
+    @keyframes corePulse { 0%, 100% { transform: scale(1); opacity: .55; } 40% { transform: scale(1.32); opacity: .9; } 72% { transform: scale(1.08); opacity: .3; } }
+    @keyframes orbitPulse { 0%, 100% { transform: scale(1); opacity: .65; } 45% { transform: scale(1.11); opacity: .28; } }
+    @media (prefers-reduced-motion: reduce) {
+      .travel, .travel-back, .packet, .pulse, .core-pulse, .orbit { animation: none !important; }
+    }
+    @media print {
+      .travel, .travel-back, .packet, .pulse, .core-pulse, .orbit { animation: none !important; }
+    }
+  </style>
+  <rect width="960" height="600" rx="24" fill="url(#bg)"/>
+  <rect x="1" y="1" width="958" height="598" rx="23" fill="none" stroke="#324267"/>
+  <rect x="16" y="16" width="928" height="568" rx="16" fill="url(#dotgrid)"/>
+  <ellipse cx="496" cy="336" rx="500" ry="300" fill="url(#aura)"/>
+  <ellipse cx="780" cy="454" rx="245" ry="140" fill="#783dfa" opacity=".1" filter="url(#soft)"/>
+  <!-- All tiny grid marks and waves are decorative; no status is encoded. -->
+  <g fill="none" stroke="#385986" stroke-width="1" opacity=".28">
+    <path d="M90 526 479 260 895 526M185 542 479 260 795 542M314 555 479 260 656 555M479 260V566"/>
+    <path d="M273 398H690M215 438H754M152 482H826M85 528H898"/>
+  </g>
+  <g fill="none" stroke="url(#stream)" stroke-linecap="round">
+    <use href="#wave1" stroke-width="15" opacity=".14" filter="url(#soft)"/>
+    <use href="#wave2" stroke-width="10" opacity=".1" filter="url(#soft)"/>
+    <use href="#wave1" stroke-width="1.8" opacity=".8"/>
+    <use href="#wave2" stroke-width="1.2" opacity=".4"/>
+    <use href="#wave3" stroke-width="1.2" opacity=".4"/>
+    <use class="travel" href="#wave1" stroke-width="5" stroke-dasharray="48 190" stroke-dashoffset="0" opacity=".9" filter="url(#glow)"/>
+    <use class="travel-back" href="#wave3" stroke-width="3" stroke-dasharray="20 140" stroke-dashoffset="0" opacity=".65" filter="url(#glow)"/>
+  </g>
+  <g fill="none" stroke="#6bc8f2">
+    <ellipse class="orbit" cx="488" cy="394" rx="140" ry="56" stroke-width="2" opacity=".65"/>
+    <ellipse cx="488" cy="394" rx="173" ry="72" stroke-dasharray="3 14" opacity=".4"/>
+    <ellipse cx="488" cy="394" rx="204" ry="88" opacity=".18"/>
+  </g>
+  <g stroke="url(#stream)" fill="none">
+    <path d="M158 388 298 310 488 378 684 306 812 399" stroke-width="9" opacity=".3" filter="url(#glow)"/>
+    <path d="M158 388 298 310 488 378 684 306 812 399" stroke-width="2.5"/>
+    <path class="packet" d="M158 388 298 310 488 378 684 306 812 399" stroke-width="5" stroke-dasharray="24 118" stroke-dashoffset="0" stroke-linecap="round" opacity=".8" filter="url(#glow)"/>
+  </g>
+  <g transform="translate(158 357)"><use href="#small-node"/></g>
+  <g transform="translate(298 279) scale(.82)"><use href="#small-node"/></g>
+  <g transform="translate(684 275) scale(.82)"><use href="#small-node"/></g>
+  <g transform="translate(812 368)"><use href="#small-node"/></g>
+  <!-- Original abstract workshop core, not an application screenshot. -->
+  <g transform="translate(488 344)">
+    <ellipse cy="66" rx="106" ry="29" fill="#40f5ff" opacity=".12" filter="url(#soft)"/>
+    <path d="M0-73 84-26 0 23-84-26Z" fill="url(#top)" stroke="#9cf8ff" stroke-width="2"/>
+    <path d="M-84-26 0 23 0 93-84 44Z" fill="url(#face)" stroke="#46a7c7" stroke-width="2"/>
+    <path d="M0 23 84-26 84 44 0 93Z" fill="#211b52" stroke="#9c7be3" stroke-width="2"/>
+    <path d="M-61-12 0 24 61-12M0 39V72M-65 5-16 34M16 34 65 5" fill="none" stroke="#80f5ff" stroke-width="2.5" opacity=".95"/>
+    <path d="M0-51 43-26 0-1-43-26Z" fill="#09192f" stroke="#79eeff" stroke-width="2"/>
+    <path d="M-16-32V-20L0-11 19-22M2-43 20-33 2-23" fill="none" stroke="#e3ffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse class="core-pulse" cy="-26" rx="58" ry="34" fill="none" stroke="#6ef4ff" stroke-width="2" opacity=".55" filter="url(#glow)"/>
+  </g>
+  <g fill="#c4fcff" filter="url(#glow)">
+    <circle cx="222" cy="353" r="3"/><circle cx="597" cy="338" r="4"/><circle cx="748" cy="352" r="3"/>
+    <circle cx="83" cy="345" r="2"/><circle cx="888" cy="431" r="2"/><circle cx="378" cy="276" r="2"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="48" y="122" fill="url(#word)" font-size="89" font-weight="700" letter-spacing="-4">LowQuantFlow</text>
+    <text x="52" y="173" fill="#b5c9e4" font-size="36" letter-spacing=".1">Ideen verbinden. Klar weiterbauen.</text>
+  </g>
+  <g fill="none" stroke="url(#stream)" stroke-width="3" stroke-linecap="round">
+    <path d="M52 211H185"/><path d="M201 211H229" opacity=".6"/><path d="M244 211H253" opacity=".35"/>
+    <path d="M35 33H83M35 33V57M925 543V567H877"/>
+  </g>
+  <g fill="url(#stream)" opacity=".85"><path d="m428 533 14-8 14 8-14 8Z"/><path d="m470 533 14-8 14 8-14 8Z"/><path d="m512 533 14-8 14 8-14 8Z"/></g>
+</svg>
