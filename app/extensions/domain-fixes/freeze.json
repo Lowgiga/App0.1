@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "revision": 3,
+  "files": {
+    "README.md": "b4cd8fcfd3272e11cdf518c294a133099969489b9e0c906080126c6a7fc96714",
+    "files/scripts/build-domain-overlays.mjs": "b4dc0002a17b59f80fe9d76ed4e95cf5df716eaf1c260aa02f0ec6ab31327721",
+    "files/tests/domain-fixes.test.mjs": "230bdbe70ca189768f4fedb63f08500e3a45a4fe47685f33edab955535e99ef0",
+    "input-contract.json": "4b9c603607e74ccb8e702f03063c44abcb18854784306fef092db0605ba47285",
+    "integrate.mjs": "4982894dbb5ed7df98858b9998a77ff58fb419234362cc7ce3561f2864443476",
+    "integration.patch": "2c5585f10a470e1beec7a33e96b88731697fa266b533800fc9e0b6e654da66f3",
+    "reports/build.txt": "c020dbe28112ffa59eb189bcd3f0e9e160c37b3fdd907647ff7cf31bbe845779",
+    "reports/full-tests.txt": "af75c8337ed4095f031fac5b4b8da1964674debd1c340e963fbcdf5bf194d98a",
+    "reports/generate.txt": "7b1948e3bbb0144e9e842e77f2c0270af0c6fa4438f35ffd2af78038ac737545",
+    "reports/green.tap": "03977bdfcb8b370040f745d84f4099d7cf64c96526f84c0fd5aff3975f5e8b4a",
+    "reports/portability.txt": "69ee8e50a4f9de75bd8b42d67c3ba5995c5114cce372c83d9cb76689eff458ff",
+    "reports/provenance.txt": "ac7c5a113f96c376c304aea43c8730f6af895709fa8e395fd416e46be58dcd76",
+    "reports/red-generate.txt": "e63dc3094a7a7ee72acdb9fac179dfde9a8ad2f9c4250c0ecf57c483bdc03954",
+    "reports/red.tap": "259e6e599a8e5aa6005c62cc8584f82c97ca7fd7f19b59c3d30c30f782e72e02",
+    "reports/typecheck.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reports/v7-compatibility.json": "601e45bb5ead20a77895ce0831771100c6b4d0374c79d63bfbfe94ca07027c8d",
+    "files/src/task-review-impact.ts.txt": "912a423b17019fd92b7a67f1be3963d9245c68439762a5bc558b7afcadebddd6"
+  },
+  "scope": "Domain/event/focus and bounded legacy import notices only; reviewed task content and prerequisite-chain invalidation",
+  "validationCandidate": ".validation/candidate",
+  "validationUpstreamCommit": "23ae42c2d83d5b31dcc9f61adeefb22bb1e1f03a",
+  "compatibleFinalDomainCommit": "3e921804b13e0d7c70d1ff15474f0387e84d70b6",
+  "testCount": 512,
+  "focusedTests": 22,
+  "baselineExpectedFailures": 13,
+  "noRestoreScope": true,
+  "qualityRevision": {
+    "basis": "Frozen Next chain 2026-10-04",
+    "regressions": "tests/system/quality-data-regressions.test.ts",
+    "historicValidationFields": "testCount/focusedTests/baselineExpectedFailures describe revision 1, not the quality candidate"
+  },
+  "changePreviewRevision": {
+    "basis": "Exact project-memory freeze 2026-10-04",
+    "scope": "Extract unchanged R2 review rule for shared task preview and validation",
+    "regressions": "tests/system/change-preview-domain.test.ts",
+    "historicValidationFields": "testCount/focusedTests/baselineExpectedFailures remain historical revision-1 reports, not current results"
+  }
+}

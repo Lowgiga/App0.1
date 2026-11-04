@@ -1,0 +1,74 @@
+✖ Android Back explicitly navigates local web history before system root fallback (1.871222ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 421.895655
+
+✖ failing tests:
+
+test at tests/system/overlay-contract.test.ts:14:1
+✖ Android Back explicitly navigates local web history before system root fallback (1.871222ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /getOnBackPressedDispatcher\(\)\.addCallback/. Input:
+  
+  'package de.lowgiga.cuecommandmesh.preview;\n' +
+    '\n' +
+    'import android.content.ActivityNotFoundException;\n' +
+    'import android.content.Intent;\n' +
+    'import android.net.Uri;\n' +
+    'import android.os.Bundle;\n' +
+    'import android.webkit.WebResourceRequest;\n' +
+    'import android.webkit.WebView;\n' +
+    'import com.getcapacitor.BridgeActivity;\n' +
+    'import com.getcapacitor.BridgeWebViewClient;\n' +
+    'import com.getcapacitor.Logger;\n' +
+    '\n' +
+    'public class MainActivity extends BridgeActivity {\n' +
+    '    @Override\n' +
+    '    public void onCreate(Bundle savedInstanceState) {\n' +
+    '        registerPlugin(CueFilesPlugin.class);\n' +
+    '        super.onCreate(savedInstanceState);\n' +
+    '        if (bridge == null) return;\n' +
+    '        bridge.setWebViewClient(new BridgeWebViewClient(bridge) {\n' +
+    '            @Override\n' +
+    '            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {\n' +
+    '                if (openExternalWebUrl(request.getUrl())) return true;\n' +
+    '                return super.shouldOverrideUrlLoading(view, request);\n' +
+    '            }\n' +
+    '\n' +
+    '            @Override\n' +
+    '            @SuppressWarnings("deprecation")\n' +
+    '            public boolean shouldOverrideUrlLoading(WebView view, String url) {\n' +
+    '                if (openExternalWebUrl(Uri.parse(url))) return true;\n' +
+    '                return bridge.launchIntent(Uri.parse(url));\n' +
+    '            }\n' +
+    '        });\n' +
+    '    }\n' +
+    '\n' +
+    '    private boolean openExternalWebUrl(Uri url) {\n' +
+    '        if (!NavigationPolicy.requiresExternalBrowser(url.toString())) return false;\n' +
+    '        try {\n' +
+    '            startActivity(new Intent(Intent.ACTION_VIEW, url).addCategory(Intent.CATEGORY_BROWSABLE));\n' +
+    '        } catch (ActivityNotFoundException | SecurityException error) {\n' +
+    '            // Stay in the app rather than load an external origin into the bridge.\n' +
+    '            Logger.warn("No external browser available for this link");\n' +
+    '        }\n' +
+    '        return true;\n' +
+    '    }\n' +
+    '}\n'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/overlay-contract.test.ts:14:257)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'package de.lowgiga.cuecommandmesh.preview;\n\nimport android.content.ActivityNotFoundException;\nimport android.content.Intent;\nimport android.net.Uri;\nimport android.os.Bundle;\nimport android.webkit.WebResourceRequest;\nimport android.webkit.WebView;\nimport com.getcapacitor.BridgeActivity;\nimport com.getcapacitor.BridgeWebViewClient;\nimport com.getcapacitor.Logger;\n\npublic class MainActivity extends BridgeActivity {\n    @Override\n    public void onCreate(Bundle savedInstanceState) {\n        registerPlugin(CueFilesPlugin.class);\n        super.onCreate(savedInstanceState);\n        if (bridge == null) return;\n        bridge.setWebViewClient(new BridgeWebViewClient(bridge) {\n            @Override\n            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {\n                if (openExternalWebUrl(request.getUrl())) return true;\n                return super.shouldOverrideUrlLoading(view, request);\n            }\n\n            @Override\n            @SuppressWarnings("deprecation")\n            public boolean shouldOverrideUrlLoading(WebView view, String url) {\n                if (openExternalWebUrl(Uri.parse(url))) return true;\n                return bridge.launchIntent(Uri.parse(url));\n            }\n        });\n    }\n\n    private boolean openExternalWebUrl(Uri url) {\n        if (!NavigationPolicy.requiresExternalBrowser(url.toString())) return false;\n        try {\n            startActivity(new Intent(Intent.ACTION_VIEW, url).addCategory(Intent.CATEGORY_BROWSABLE));\n        } catch (ActivityNotFoundException | SecurityException error) {\n            // Stay in the app rather than load an external origin into the bridge.\n            Logger.warn("No external browser available for this link");\n        }\n        return true;\n    }\n}\n',
+    expected: /getOnBackPressedDispatcher\(\)\.addCallback/,
+    operator: 'match',
+    diff: 'simple'
+  }

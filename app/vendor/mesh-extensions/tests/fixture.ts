@@ -1,0 +1,6 @@
+import { emptyWork, savedWorkContract } from '../../../upstream/lib/work-contract.ts';
+import { missionContract, eventContract } from '../../../upstream/lib/command-contract.ts';
+export const MID = '10000000-0000-4000-8000-000000000001';
+export const AT = '2026-09-30T12:00:00.000Z';
+export const sources = [{ id: 'report', title: 'Dated test report', status: 'reported', file: 'report.md' }];
+export function fixture() { const w = emptyWork(); w.tasks = w.tasks.slice(0, 2); w.tasks[1].dependencies = [w.tasks[0].id]; w.command.missions = [missionContract.parse({ id: MID, title: 'Inspect actual workflow', goal: 'Review the documented task evidence', scope: 'Read only', project: 'cue', owner: 'manus', reviewer: 'junior', stage: 'Working', priority: 'P1', output: 'Review record', taskIds: w.tasks.map(t => t.id), roomId: null, sourceIds: ['report'], evidence: 'Actual evidence content', reviewed: false, checkpoint: 'Open checkpoint', archived: false, createdAt: AT, deadlineAt: null })]; w.command.events = [eventContract.parse({ id: '20000000-0000-4000-8000-000000000001', sequence: 51, at: AT, origin: 'app', entityId: MID, kind: 'mission-stage', title: 'Actual retained stage record', neuro_context: { stage: 'Working' } })]; w.updatedAt = AT; return savedWorkContract.parse(w); }

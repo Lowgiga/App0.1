@@ -1,0 +1,47 @@
+✔ 409 conflict permanently blocks stale form saves until full hook remount (113.185422ms)
+✖ REGRESSION: ambiguous failure with external revision must block retained stale form (34.333194ms)
+✖ failed ambiguous recovery cannot later re-fetch and rebase an old settings draft (20.866116ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 479.601411
+
+✖ failing tests:
+
+test at tests/hook-recovery.test.mjs:37:1
+✖ REGRESSION: ambiguous failure with external revision must block retained stale form (34.333194ms)
+  AssertionError [ERR_ASSERTION]: Retained old settings silently overwrite the newer fontScale after uncertain recovery; second save result=true
+  
+  100 !== 125
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/hook-recovery.test.mjs:37:940)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 100,
+    expected: 125,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/hook-recovery.test.mjs:38:1
+✖ failed ambiguous recovery cannot later re-fetch and rebase an old settings draft (20.866116ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/hook-recovery.test.mjs:38:834)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

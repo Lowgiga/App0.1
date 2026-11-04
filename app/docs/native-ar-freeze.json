@@ -1,0 +1,27 @@
+{
+  "version": "0.4.0-native-ar-preview",
+  "sourceCommit": "23ae42c2d83d5b31dcc9f61adeefb22bb1e1f03a",
+  "tests": {
+    "nodeDom": 490,
+    "rendererLifecycleDoubles": 18,
+    "jvmApp": 4,
+    "jvmNativeAr": 27,
+    "hardware": 0
+  },
+  "typecheck": "pass",
+  "build": "pass",
+  "relocatedBuild": "byte-identical",
+  "webAssetsCopiedAndVerified": 54,
+  "distContentSha256": "bee97f69820fb370a122b0b23ee520b98dc8bf251b578afc07982eb42c71fa6e",
+  "nativeModuleManifestSha256": "6cd46e58a998283b5a4044d31b856ac0d39f35d2640f6881e37f49013d29e915",
+  "nativeModuleFiles": 18,
+  "mainActivitySha256": "f919a0bb33cd9b25f5950bd003c53f4a9e3624b95c05680ae543989f8326c9f6",
+  "nativeHostCompileLint": "pass",
+  "appLintWarnings": 13,
+  "arModuleLintIssues": 0,
+  "apkProduced": false,
+  "restore": "preview-only",
+  "independentIntegrationRetest": "Revision5 full integration passed; Revision6 native palette independently reviewed",
+  "nativeModuleRevision": "review-ready-revision6",
+  "nativeDelta": "ButtonPalette state colors only; API/lifecycle/geometry unchanged"
+}

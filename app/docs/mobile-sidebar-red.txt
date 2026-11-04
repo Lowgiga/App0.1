@@ -1,0 +1,31 @@
+MOBILE_STUDIO_DIALOGS [
+  'NavigationArbeitsbereiche der App auswählen.COMMAND MESHLOWGIGA / MISSION CONTROLARBEITSBEREICHÜbersichtAgentenMissionsz'
+]
+✖ review: mobile sidebar shortcut is inactive while Studio is foreground (540.025652ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1685.186671
+
+✖ failing tests:
+
+test at tests/system/review-navigation-motion.test.tsx:211:1
+✖ review: mobile sidebar shortcut is inactive while Studio is foreground (540.025652ms)
+  AssertionError [ERR_ASSERTION]: Hidden original mobile SidebarProvider must not create a portal from Ctrl+B
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/review-navigation-motion.test.tsx:223:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

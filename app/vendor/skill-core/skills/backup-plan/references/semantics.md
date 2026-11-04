@@ -1,0 +1,1 @@
+Eine echte Prüfung braucht getrennte Freigabe und konkrete Werkzeuge. Nachweise: Inventar, Prüfsummen, isolierter Restore, Stichprobenvergleich und datierter Prüfbericht. hasRestoreEvidence=true ist nur eine Eingabeangabe.

@@ -1,0 +1,25 @@
+import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+let source=fs.readFileSync(path.join(root,'vendor/mesh-extensions/src/GraphExplorer.tsx'),'utf8');
+function replace(before,after){const count=source.split(before).length-1;if(count!==1)throw new Error(`Graph overlay drift (${count}): ${before}`);source=source.replace(before,after)}
+replace("import { Inspector } from './Inspector.tsx';","import { Inspector } from './Inspector.tsx';\nimport {applyGraphPolicy,type GraphHostPolicy} from '../src/graph/view-policy.ts';");
+replace('    initialConfig?: ViewConfigInput;','    initialConfig?: ViewConfigInput;\n    policy?: GraphHostPolicy;');
+replace('export function GraphExplorer({ graph, initialConfig, onConfigChange,','export function GraphExplorer({ graph, initialConfig, policy, onConfigChange,');
+replace('const [config, setConfig] = useState(() => parseConfig(initialConfig ?? defaultConfig()));','const [preferredConfig, setConfig] = useState(() => parseConfig(initialConfig ?? defaultConfig()));\n    const config=useMemo(()=>applyGraphPolicy(preferredConfig,policy),[preferredConfig,policy?.reduceMotion,policy?.powerSaver]);');
+replace('const next = updateConfig(config, patch);','const next = updateConfig(preferredConfig, patch);');
+replace('onSaveView(parseConfig(config))','onSaveView(parseConfig(preferredConfig))');
+replace('serializeConfig(config, { legacyV1: legacyExport })','serializeConfig(preferredConfig, { legacyV1: legacyExport })');
+replace('aria-label="Qualität" value={config.quality}','aria-label="Qualität" disabled={policy?.powerSaver} value={config.quality}');
+replace('aria-label="Übergänge" value={config.transitions}','aria-label="Übergänge" disabled={policy?.reduceMotion || policy?.powerSaver} value={config.transitions}');
+replace('type="checkbox" checked={config.reducedMotion}','type="checkbox" disabled={policy?.reduceMotion || policy?.powerSaver} checked={config.reducedMotion}');
+replace('<div className="mesh-summary" role="status">','{(policy?.reduceMotion||policy?.powerSaver)&&<p role="status" className="mesh-muted">Globale Vorgabe: {policy.powerSaver ? "Energiesparen erzwingt sparsame Qualität und ausgeschaltete Übergänge." : "Bewegung ist global ausgeschaltet."} Persönliche Ansichtsoptionen bleiben gespeichert.</p>}\n <div className="mesh-summary" role="status">');
+replace("    render3D?: (props: SpatialViewProps) => React.ReactNode;","    render3D?: (props: SpatialViewProps) => React.ReactNode;\n    renderSelectionContext?: (selectedId: string | null, focus: 'graph' | 'inspector') => React.ReactNode;");
+replace("onPrepare, render3D }: GraphExplorerProps)","onPrepare, render3D, renderSelectionContext }: GraphExplorerProps)");
+replace("    const [exportOpen, setExportOpen]","    const [confirmedSelection, setConfirmedSelection] = useState<{id:string;focus:'graph'|'inspector'}|null>(null);\n    const [exportOpen, setExportOpen]");
+replace("    const select = (id: string) => change({ selectedId: id });","    const select = (id: string, focus:'graph'|'inspector'='graph') => {setConfirmedSelection({id,focus});change({ selectedId: id });};");
+replace("</main><Inspector graph=","</main><div className=\"mesh-inspector-stack\">{renderSelectionContext?.(confirmedSelection?.id===config.selectedId?config.selectedId:null,confirmedSelection?.focus??'graph')}<Inspector graph=");
+replace("selectedId={config.selectedId} onSelect={select}","selectedId={config.selectedId} onSelect={id=>select(id,'inspector')}");
+replace("pending={pending}/></div>","pending={pending}/></div></div>");
+source=source.replaceAll("'./","'../vendor/mesh-extensions/src/");
+fs.writeFileSync(path.join(root,'overlay/graph-explorer.tsx'),source);
+console.log('Generated graph overlay with render-time host policy; vendor source remains pinned.');

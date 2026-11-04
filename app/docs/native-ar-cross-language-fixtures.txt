@@ -1,0 +1,2 @@
+base.json: actual native parser accepted 23 nodes and 24 edges
+max.json: actual native parser accepted 256 nodes and 4096 edges

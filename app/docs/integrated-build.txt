@@ -1,0 +1,76 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview build
+> npm run check:drift && npm run check:vendors && npm run overlay && tsc --noEmit && vite build && node scripts/build-manifest.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview check:drift
+> node scripts/provenance.mjs check
+
+No drift: 2b838b4f574acfaff72013c270a1fa637eb995c6; 193 byte-identical source files.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview check:vendors
+> node scripts/verify-vendors.mjs
+
+Verified 5 pinned modules against installed SHA-256 inventory
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview overlay
+> node scripts/build-overlay.mjs
+
+Generated explicit transport overlay; upstream UI remains byte-identical.
+Generated five explicit UI overlays; original sources remain byte-identical.
+vite v8.0.13 building client environment for production...
+[2Ktransforming...✓ 2029 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             1.22 kB │ gzip:   0.56 kB
+dist/assets/Studio-CQOv3umL.css             9.97 kB │ gzip:   2.77 kB
+dist/assets/index-EhbNQOrN.css            222.59 kB │ gzip:  37.03 kB
+dist/assets/circle-CdOIzqiX.js              0.12 kB │ gzip:   0.12 kB
+dist/assets/plus-BBdagRzu.js                0.14 kB │ gzip:   0.14 kB
+dist/assets/archive-So2XN27C.js             0.24 kB │ gzip:   0.20 kB
+dist/assets/focus-BaUn9TaY.js               0.54 kB │ gzip:   0.31 kB
+dist/assets/rolldown-runtime-S-ySWqyJ.js    0.69 kB │ gzip:   0.42 kB
+dist/assets/motion-Dk1SBQW7.js              1.18 kB │ gzip:   0.65 kB
+dist/assets/dialog-DwCJlShT.js              2.17 kB │ gzip:   0.86 kB
+dist/assets/progress-BPrInTTg.js            2.47 kB │ gzip:   1.22 kB
+dist/assets/command-contract-Dn7Mw2Ic.js    8.10 kB │ gzip:   2.87 kB
+dist/assets/space-renderer-Cyh04CnJ.js      8.45 kB │ gzip:   3.67 kB
+dist/assets/ThreeView-CUDyrpD-.js           9.66 kB │ gzip:   4.10 kB
+dist/assets/help-panel-kaUGe51-.js          9.81 kB │ gzip:   4.32 kB
+dist/assets/command-palette-DBCv0Nkf.js    15.05 kB │ gzip:   5.70 kB
+dist/assets/neuro-panel-DfhfpJaS.js        27.35 kB │ gzip:   8.81 kB
+dist/assets/command-center-CAZMsw4H.js     28.27 kB │ gzip:   8.48 kB
+dist/assets/button-IGgMRHn1.js             33.87 kB │ gzip:  11.33 kB
+dist/assets/native-select-BQ460gpZ.js      35.59 kB │ gzip:  10.31 kB
+dist/assets/mesh-space-Cxj1p5zQ.js         37.64 kB │ gzip:  13.28 kB
+dist/assets/types-xLbdNHjY.js              56.52 kB │ gzip:  12.94 kB
+dist/assets/workspace-panels-pYwq1x8k.js   59.02 kB │ gzip:  18.48 kB
+dist/assets/Studio-CSDGf7ek.js            126.75 kB │ gzip:  38.95 kB
+dist/assets/react-CM3CzyHR.js             211.46 kB │ gzip:  67.71 kB
+dist/assets/index-Vn53S5UP.js             357.11 kB │ gzip: 108.27 kB
+dist/assets/three-CHsNPgUk.js             756.80 kB │ gzip: 190.93 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 953ms
+{
+  "generatedAt": "2026-09-30T23:06:52.021Z",
+  "sourceCommit": "2b838b4f574acfaff72013c270a1fa637eb995c6",
+  "sourceLabel": "Sites V5 / App 1.4 / stateVersion 4",
+  "status": "Final upstream source imported; local-port preview NOT runtime-approved",
+  "distContentSha256": "e1abb9bcc0484b0c0634c7ad688b6dc443af0efab0032b7ef61ed52f8d244337",
+  "packageLockSha256": "de3141e7de21084d6281f88b70f827a0cfa1eef9a31ef74a82eceeb764d50fef",
+  "files": 48
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

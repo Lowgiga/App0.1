@@ -1,0 +1,46 @@
+✔ fresh local state is real production defaults and survives reopening (23.070847ms)
+✔ timestamps strictly increase under same and backward wall clocks (13.045362ms)
+✔ concurrent clients atomically enforce CAS without lost writes (3.477263ms)
+✔ failed validation rolls back and production task completion gates apply (2.58673ms)
+✔ forged events, unknown source references, and direct interaction edits are rejected (3.875363ms)
+✔ focus-follow invokes the production action and reconciliation with real events (6.511989ms)
+✔ risk planning really creates a task, keeps risk open and validates fingerprint (16.190073ms)
+✔ unknown remote routes and auth headers cannot trigger simulated success or network (0.61001ms)
+✔ malformed requests, wrong methods and oversized action input fail closed (0.540475ms)
+✔ pre-aborted request never mutates storage (1.907256ms)
+✔ corrupt state remains stored and blocks reads/writes without silent reset (2.722014ms)
+✔ future storage versions are not overwritten (1.89658ms)
+✔ unavailable IndexedDB is an explicit error rather than in-memory success (0.274985ms)
+✔ storage schema version has strict numeric type (1.447202ms)
+✔ aggregate UTF-8 write budget rejects before committing any changes (25.389174ms)
+✔ persisted v3 records migrate through the production contract without losing notes (1.5649ms)
+✖ corrected wall clock governs domain deadlines independently of monotonic CAS revision (3.911247ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 16
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 273.454239
+
+✖ failing tests:
+
+test at tests/local-adapter.test.ts:32:1
+✖ corrected wall clock governs domain deadlines independently of monotonic CAS revision (3.911247ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  400 !== 200
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:32:789)
+      at runNextTicks (node:internal/process/task_queues:65:5)
+      at process.processImmediate (node:internal/timers:502:9)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 400,
+    expected: 200,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,943 @@
+--- /dev/null
++++ b/lib/learning-levels.ts
+@@ -0,0 +1,46 @@
++import type { MeshTask, WorkState } from './work-contract.ts';
++import { lessons, type LessonId } from './academy.ts';
++
++export type LearningStatus = 'unknown' | 'open' | 'quiz-saved' | 'practice-saved' | 'transfer-open' | 'transfer-complete';
++export type LearningAction = { kind: 'learn' | 'practice' | 'transfer' | 'task' | 'repeat'; label: string };
++export type LearningLevel = { id: LessonId; number: number; title: string; status: LearningStatus; quizSaved: boolean; practiceSaved: boolean; transferComplete: boolean; transferTaskId: string | null; recommended: readonly LessonId[]; missingRecommended: LessonId[]; nextAction: LearningAction };
++export const learningStatusNames: Record<LearningStatus, string> = { unknown: 'Stand unbekannt', open: 'Quiz offen', 'quiz-saved': 'Quiz gespeichert', 'practice-saved': 'Übung dokumentiert', 'transfer-open': 'Transfer offen', 'transfer-complete': 'Transfer in der App belegt' };
++/** Curriculum recommendations, never retroactive locks or claimed user prerequisites. */
++export const recommendedLearning: Record<LessonId, readonly LessonId[]> = { evidence: [], handoff: ['evidence'], baseline: ['evidence'], automation: ['evidence', 'handoff'], review: ['handoff', 'baseline', 'automation'] };
++
++/** One bounded DFS per state: shared prerequisites are evaluated once, cycles and duplicate IDs fail closed. */
++function completionChecker(tasks: MeshTask[]): (id: string) => boolean {
++  // These are the existing V4 contract limits. Reject malformed oversized input before traversing it.
++  if (tasks.length > 60) return () => false;
++  const byId = new Map<string, MeshTask | null>();
++  for (const task of tasks) byId.set(task.id, byId.has(task.id) ? null : task);
++  const result = new Map<string, boolean>(), visiting = new Set<string>();
++  const complete = (id: string): boolean => {
++    if (result.has(id)) return result.get(id)!;
++    if (visiting.has(id)) return false;
++    const task = byId.get(id);
++    if (!task || task.status !== 'Erledigt' || !task.reviewed || task.evidence.trim().length < 12 || task.dependencies.length > 12 || new Set(task.dependencies).size !== task.dependencies.length) {
++      result.set(id, false); return false;
++    }
++    visiting.add(id);
++    const valid = task.dependencies.every(complete);
++    visiting.delete(id); result.set(id, valid);
++    return valid;
++  };
++  return complete;
++}
++
++/** Derived read-only levels reuse saved V4 learning, notes and tasks. No XP, state writes or certification. */
++export function buildLearningLevels(work: WorkState, known: boolean): LearningLevel[] {
++  const complete = completionChecker(known ? work.tasks : []);
++  return lessons.map((lesson, index) => {
++    const quizSaved = known && work.learning[lesson.id] === true;
++    const practiceSaved = known && quizSaved && work.notes.some(n => n.text.startsWith(`[Mesh Academy · ${lesson.id}]\n`) && n.text.includes('\nEigene Begründung: '));
++    // The existing V4 contract has no lesson foreign key; preserve its exact-title identity convention.
++    const task = known ? work.tasks.find(t => !t.archived && t.category === 'Lernen' && t.title === lesson.taskTitle) : undefined;
++    const transferComplete = !!task && complete(task.id);
++    const status: LearningStatus = !known ? 'unknown' : transferComplete ? 'transfer-complete' : task ? 'transfer-open' : practiceSaved ? 'practice-saved' : quizSaved ? 'quiz-saved' : 'open';
++    const nextAction: LearningAction = task && !transferComplete ? { kind: 'task', label: 'Transfer-Aufgabe prüfen' } : transferComplete ? { kind: 'repeat', label: 'An neuem Fall wiederholen' } : practiceSaved ? { kind: 'practice', label: 'Fall erneut prüfen und Transfer vorbereiten' } : quizSaved ? { kind: 'practice', label: 'Fall und Begründung üben' } : { kind: 'learn', label: 'Wissensfrage bearbeiten' };
++    return { id: lesson.id, number: index + 1, title: lesson.title, status, quizSaved, practiceSaved, transferComplete, transferTaskId: task?.id ?? null, recommended: recommendedLearning[lesson.id], missingRecommended: known ? recommendedLearning[lesson.id].filter(id => !work.learning[id]) : [], nextAction };
++  });
++}
+--- /dev/null
++++ b/lib/ar-support.ts
+@@ -0,0 +1,30 @@
++export type ARSupportCode = 'supported' | 'insecure' | 'policy-blocked' | 'api-missing' | 'unsupported' | 'probe-failed';
++export type ARSupport = { code: ARSupportCode; supported: boolean; message: string };
++type Environment = { secureContext: boolean; policyAllowsXR?: boolean; nativeApp?: boolean; xr?: Pick<XRSystem, 'isSessionSupported'> };
++
++/** Read-only capability probe. A positive probe does not prove hit-test, permissions or a working camera session. */
++export async function inspectARSupport(env: Environment): Promise<ARSupport> {
++  const no = (code: ARSupportCode, message: string): ARSupport => ({ code, supported: false, message });
++  if (!env.secureContext) return no('insecure', 'Kamera-AR braucht HTTPS oder localhost. Diese Seite läuft nicht in einem sicheren Kontext.');
++  if (env.policyAllowsXR === false) return no('policy-blocked', 'Die Einbettungsrichtlinie sperrt räumliches Tracking. Öffne die originale HTTPS-Seite direkt in einem kompatiblen Browser.');
++  if (!env.xr) return no('api-missing', env.nativeApp ? 'Diese App-WebView stellt WebXR nicht bereit. Öffne die HTTPS-Website separat in Chrome auf einem ARCore-fähigen Android-Gerät.' : 'Dieser Browser stellt WebXR nicht bereit. Prüfe die originale HTTPS-Seite in Chrome auf einem ARCore-fähigen Android-Gerät.');
++  try {
++    return await env.xr.isSessionSupported('immersive-ar') ? { code: 'supported', supported: true, message: 'Immersive AR wird gemeldet. Hit-Test, Kamerafreigabe und Bedienelemente werden erst beim bewussten Start geprüft.' } : no('unsupported', 'Der Browser meldet keine immersive AR-Unterstützung. Auf Android: ARCore-fähiges Gerät und aktivierte Google Play-Dienste für AR prüfen.');
++  } catch (error) {
++    return no('probe-failed', 'AR-Unterstützung konnte nicht geprüft werden. ' + arStartError(error));
++  }
++}
++
++export function arStartError(error: unknown): string {
++  const name = error && typeof error === 'object' && 'name' in error ? String(error.name) : '';
++  if (name === 'NotAllowedError') return 'Die AR-Freigabe wurde abgelehnt oder ist im Browser gesperrt. Prüfe die Website-Berechtigungen und starte AR erneut per Klick.';
++  if (name === 'SecurityError') return 'Die Sicherheitsrichtlinie verhindert AR. HTTPS, direkte Seitenöffnung und die Freigabe für xr-spatial-tracking prüfen.';
++  if (name === 'NotSupportedError') return 'Kamera-AR mit Hit-Test und bedienbarem Overlay wird hier nicht unterstützt. Eine normale 3D-Ansicht erkennt keine realen Flächen.';
++  if (name === 'InvalidStateError') return 'Die AR-Sitzung ist nicht startbereit oder eine andere XR-Sitzung ist aktiv. Beende sie und starte erneut.';
++  if (name === 'AbortError') return 'Der AR-Start wurde abgebrochen. Es wurde keine Fläche platziert.';
++  return 'Kamera-AR konnte nicht starten. Prüfe Geräteunterstützung, Website-Berechtigungen und Google Play-Dienste für AR. 2D und Bildschirm-3D bleiben verfügbar.';
++}
++
++export function surfaceSessionInit(root: HTMLElement): XRSessionInit {
++  return { requiredFeatures: ['hit-test', 'dom-overlay'], domOverlay: { root } };
++}
+--- /dev/null
++++ b/lib/ar-placement.ts
+@@ -0,0 +1,54 @@
++export type PlacementStatus = 'scanning' | 'surface-found' | 'placed';
++export const placementStatusNames: Record<PlacementStatus, string> = { scanning: 'Kamera langsam auf eine gut beleuchtete Fläche richten.', 'surface-found': 'Fläche gefunden. Mit „Hier platzieren“ bestätigen.', placed: 'Modell auf der erkannten Fläche platziert. Kein dauerhafter Raumanker.' };
++
++/** Keep the latest hit only. Placement is explicit; a lost hit never leaves a stale target. */
++export function createPlacementState() {
++  let candidate: number[] | null = null, placed: number[] | null = null;
++  return {
++    get status(): PlacementStatus { return placed ? 'placed' : candidate ? 'surface-found' : 'scanning'; },
++    get candidate() { return candidate?.slice() ?? null; },
++    get placed() { return placed?.slice() ?? null; },
++    update(matrix: ArrayLike<number> | null) {
++      if (placed) return;
++      const values = matrix ? Array.from(matrix) : [];
++      candidate = values.length === 16 && values.every(Number.isFinite) ? values : null;
++    },
++    place() { if (!placed && candidate) placed = candidate.slice(); return placed?.slice() ?? null; },
++    reset() { candidate = null; placed = null; },
++  };
++}
++
++/** Abort observation immediately; late browser promises remain handled by the caller. */
++export function withAbort<T>(operation: Promise<T>, signal: AbortSignal): Promise<T> {
++  return new Promise<T>((resolve, reject) => {
++    const abort = () => { cleanup(); reject(new DOMException('AR operation ended.', 'AbortError')); };
++    const cleanup = () => signal.removeEventListener('abort', abort);
++    operation.then(value => { cleanup(); if (signal.aborted) abort(); else resolve(value); }, error => { cleanup(); reject(error); });
++    if (signal.aborted) abort(); else signal.addEventListener('abort', abort, { once: true });
++  });
++}
++
++/** Ends observation immediately and cancels even a browser source delivered after abort/unmount. */
++export async function acquireHitTestSource(session: XRSession, isStale: () => boolean, signal?: AbortSignal) {
++  let source: XRHitTestSource | null = null, disposed = false;
++  const lifecycle = new AbortController();
++  const release = () => { const current = source; source = null; try { current?.cancel(); } catch { /* Already ended by the browser. */ } };
++  const dispose = () => { if (disposed) return; disposed = true; lifecycle.abort(); session.removeEventListener('end', dispose); signal?.removeEventListener('abort', dispose); release(); };
++  const abortError = () => new DOMException('AR placement setup ended.', 'AbortError');
++  session.addEventListener('end', dispose);
++  signal?.addEventListener('abort', dispose, { once: true });
++  if (signal?.aborted || isStale()) dispose();
++  try {
++    if (disposed) throw abortError();
++    const viewer = await withAbort(session.requestReferenceSpace('viewer'), lifecycle.signal);
++    if (disposed || isStale()) throw abortError();
++    if (!session.requestHitTestSource) throw new DOMException('Hit-test is unavailable.', 'NotSupportedError');
++    const sourceRequest = Promise.resolve(session.requestHitTestSource({ space: viewer, entityTypes: ['plane'] })).then(next => {
++      if (!next) throw new DOMException('Hit-test is unavailable.', 'NotSupportedError');
++      if (disposed || isStale()) { try { next.cancel(); } catch { /* Browser already released it. */ } throw abortError(); }
++      source = next; return next;
++    });
++    await withAbort(sourceRequest, lifecycle.signal);
++    return { get source() { return source; }, dispose };
++  } catch (error) { dispose(); throw error; }
++}
+--- a/lib/space-model.ts
++++ b/lib/space-model.ts
+@@ -1,16 +1,17 @@
++import { buildLearningLevels, learningStatusNames } from './learning-levels.ts';
+ import type { WorkState } from './work-contract.ts';
+ import { buildMissionGraph, type GraphNode, type MapSource } from './intelligence.ts';
+ 
+-export type SpaceKind = GraphNode['kind'] | 'system';
++export type SpaceKind = GraphNode['kind'] | 'system' | 'lesson';
+ export type SpaceOrigin = 'own' | 'snapshot' | 'plan' | 'template';
+ export type SpaceNode = Omit<GraphNode, 'kind' | 'origin'> & { kind: SpaceKind; origin: SpaceOrigin; color: number; position: [number, number, number] };
+ export type SpaceEdge = { id: string; from: string; to: string; relation: string; origin: 'own' | 'plan' | 'template' };
+ export type SpaceGraph = { nodes: SpaceNode[]; edges: SpaceEdge[] };
+-export type SpaceScope = 'team' | 'missions' | 'all';
+-export const kindNames: Record<SpaceKind, string> = { agent: 'Agent', mission: 'Mission', task: 'Aufgabe', room: 'Missionraum', source: 'Quelle', system: 'System' };
++export type SpaceScope = 'team' | 'missions' | 'learning' | 'all';
++export const kindNames: Record<SpaceKind, string> = { agent: 'Agent', mission: 'Mission', task: 'Aufgabe', room: 'Missionraum', source: 'Quelle', system: 'System', lesson: 'Lernlevel' };
+ export const originNames: Record<SpaceOrigin, string> = { own: 'Eigener App-Stand', snapshot: 'Quellen-Snapshot', plan: 'Geplant / ungeprüft', template: 'Vorlage / Stand unbekannt' };
+-export const relationNames: Record<string, string> = { owns: 'verantwortet', reviews: 'prüft', 'requests-review': 'gibt zur Gegenprüfung', 'depends-on': 'benötigt', reads: 'liest', 'supplies-context': 'liefert Kontext', delegates: 'übergibt an', integrates: 'Anschluss geplant' };
+-const colors: Record<SpaceKind, number> = { agent: 0xc7efa0, mission: 0x8bddd0, task: 0xffd092, room: 0xb8c7ff, source: 0xb3e8ff, system: 0xcab8f4 };
++export const relationNames: Record<string, string> = { owns: 'verantwortet', reviews: 'prüft', 'requests-review': 'gibt zur Gegenprüfung', 'depends-on': 'benötigt', reads: 'liest', 'supplies-context': 'liefert Kontext', delegates: 'übergibt an', integrates: 'Anschluss geplant', 'recommended-before': 'empfohlen vor' };
++const colors: Record<SpaceKind, number> = { agent: 0xc7efa0, mission: 0x8bddd0, task: 0xffd092, room: 0xb8c7ff, source: 0xb3e8ff, system: 0xcab8f4, lesson: 0xf3b4cf };
+ 
+ /** The spatial and 2D views share the existing semantic graph, never remote telemetry. */
+ export function buildSpaceGraph(work: WorkState, sources: MapSource[], known: boolean): SpaceGraph {
+@@ -29,11 +30,17 @@
+   const edges: SpaceEdge[] = semantic.edges.map(e => ({ ...e, origin: known ? 'own' : 'template' }));
+   const plans = [['agent:zimt', 'agent:manus', 'delegates'], ['agent:manus', 'agent:junior', 'requests-review'], ['agent:junior', 'agent:zimt', 'supplies-context'], ['agent:codex', 'system:github', 'integrates'], ['agent:manus', 'system:make', 'integrates'], ['agent:zimt', 'system:hermes', 'integrates']];
+   for (const [from, to, relation] of plans) edges.push({ id: `${from}/${relation}/${to}`, from, to, relation, origin: 'plan' });
++  const levels = buildLearningLevels(work, known);
++  for (const level of levels) {
++    const i = level.number - 1;
++    nodes.push({ id: 'lesson:' + level.id, entityId: level.id, title: `Level ${level.number} · ${level.title}`, kind: 'lesson', origin: known ? 'own' : 'template', color: colors.lesson, position: [(i % 3 - 1) * 2.6, 3.6 - Math.floor(i / 3) * 2, (i % 2) * 1.8 - .9], detail: `${learningStatusNames[level.status]}. Quiz: ${!known ? 'unbekannt' : level.quizSaved ? 'gespeichert' : 'offen'} · Übung: ${!known ? 'unbekannt' : level.practiceSaved ? 'dokumentiert' : 'offen'} · Transfer: ${!known ? 'unbekannt' : level.transferComplete ? 'in der App belegt' : 'offen'}. Nächster Schritt: ${level.nextAction.label}. Empfohlene Lernreihenfolge, keine Zugangssperre oder Zertifizierung.` });
++    for (const before of level.recommended) edges.push({ id: `lesson:${before}/recommended-before/lesson:${level.id}`, from: 'lesson:' + before, to: 'lesson:' + level.id, relation: 'recommended-before', origin: 'plan' });
++  }
+   return { nodes, edges };
+ }
+ 
+ export function visibleSpaceGraph(graph: SpaceGraph, scope: SpaceScope, selectedId: string, isolate: boolean, limit = 32): SpaceGraph & { total: number } {
+-  const allowed = graph.nodes.filter(n => scope === 'all' || n.kind === 'agent' || (scope === 'team' ? n.kind === 'system' : n.kind === 'mission'));
++  const allowed = graph.nodes.filter(n => scope === 'learning' ? n.kind === 'lesson' : scope === 'all' || n.kind === 'agent' || (scope === 'team' ? n.kind === 'system' : n.kind === 'mission'));
+   const neighbours = new Set(graph.edges.filter(e => e.from === selectedId || e.to === selectedId).flatMap(e => [e.from, e.to]));
+   const pool = isolate ? allowed.filter(n => n.id === selectedId || neighbours.has(n.id)) : allowed;
+   const selected = pool.find(n => n.id === selectedId);
+--- a/app/academy-panel.tsx
++++ b/app/academy-panel.tsx
+@@ -1,5 +1,5 @@
+ 'use client';
+-import { useMemo, useState } from 'react';
++import { useEffect, useMemo, useState } from 'react';
+ import { BookOpen, CheckCircle2, GraduationCap, Save, ArrowRight, Download, Target, RotateCcw } from 'lucide-react';
+ import { Button } from '@/components/ui/button';
+ import { Textarea } from '@/components/ui/textarea';
+@@ -9,20 +9,28 @@
+ import { createId } from '@/lib/ids';
+ import type { WorkState, MeshTask } from '@/lib/work-contract';
+ import { lessons, gradeChallenge, suggestLesson, createLearningTransfer, learningMissionCandidates, learningResultText } from '@/lib/academy';
++import { buildLearningLevels, learningStatusNames } from '@/lib/learning-levels';
+ import type { MapSource } from '@/lib/intelligence';
+-type Props = { work: WorkState; known: boolean; disabled: boolean; save: (w: WorkState) => Promise<boolean>; data: { sources: MapSource[] }; go: (view: any) => void; onExplore: (id: string) => void };
++export type AcademyControls = { openLesson: (id: string) => void };
++type Props = { controls?: React.RefObject<AcademyControls | null>; work: WorkState; known: boolean; disabled: boolean; save: (w: WorkState) => Promise<boolean>; data: { sources: MapSource[] }; go: (view: any) => void; onExplore: (id: string) => void };
+ 
+-export default function AcademyPanel({ work, known, disabled, save, data, go, onExplore }: Props) {
++export default function AcademyPanel({ work, known, disabled, save, data, go, onExplore, controls: controlsRef }: Props) {
+   const [index, setIndex] = useState(0), [phase, setPhase] = useState<'understand' | 'case' | 'apply'>('understand');
+   const [answer, setAnswer] = useState<number | null>(null), [checked, setChecked] = useState(false), [choices, setChoices] = useState<number[]>([]), [caseChecked, setCaseChecked] = useState(false), [reflection, setReflection] = useState('');
+   const [missionId, setMissionId] = useState(''), [taskOwner, setTaskOwner] = useState<MeshTask['owner']>('codex');
+-  const lesson = lessons[index], quizPassed = checked && answer === lesson.correct, casePassed = caseChecked && gradeChallenge(lesson, choices);
++  const lesson = lessons[index], quizPassed = checked ? answer === lesson.correct : known && !!work.learning[lesson.id] && answer === null, casePassed = caseChecked && gradeChallenge(lesson, choices);
+   const completed = lessons.filter(l => work.learning[l.id]).length, recommendation = useMemo(() => suggestLesson(work), [work]);
++  const levels = useMemo(() => buildLearningLevels(work, known), [work, known]), level = levels[index];
+   const savedResult = work.notes.find(n => n.text.startsWith(`[Mesh Academy · ${lesson.id}]\n`));
+   const existingTask = work.tasks.find(t => t.category === 'Lernen' && t.title === lesson.taskTitle && !t.archived);
+   const missionOptions = learningMissionCandidates(work), contextMission = missionOptions.find(m => m.id === missionId), contextInvalid = !!missionId && !contextMission;
+   const reset = () => { setAnswer(null); setChecked(false); setChoices([]); setCaseChecked(false); setReflection(''); setMissionId(''); setTaskOwner(lesson.id === 'review' ? 'junior' : 'codex'); setPhase('understand'); };
+   const chooseLesson = (i: number) => { setIndex(i); reset(); setTaskOwner(lessons[i].id === 'review' ? 'junior' : 'codex'); };
++  useEffect(() => {
++    if (!controlsRef) return;
++    controlsRef.current = { openLesson: id => { const i = lessons.findIndex(l => l.id === id); if (i < 0) return; chooseLesson(i); const next = levels[i].nextAction.kind; setPhase(next === 'practice' ? 'case' : next === 'transfer' || next === 'task' ? 'apply' : 'understand'); } };
++    return () => { controlsRef.current = null; };
++  });
+   const saveResult = async () => {
+     if (!quizPassed || !casePassed || reflection.trim().length < 20 || contextInvalid || work.notes.length >= 100) return;
+     const text = learningResultText(lesson, reflection) + (contextMission ? `\nGewählter Arbeitskontext: ${contextMission.title} (${contextMission.id}).` : '');
+@@ -41,10 +49,12 @@
+   return <section className="panel academy-panel" aria-label="Mesh Academy">
+     <div className="panel-title"><div><span className="eyebrow">MESH ACADEMY · VERSTEHEN → PRÜFEN → ANWENDEN</span><h2>Wissen, das in deine Arbeit übergeht.</h2></div><GraduationCap size={27} /></div>
+     <div className="learning-progress"><strong>{known ? completed * 20 + ' XP' : 'Stand unbekannt'}</strong><span>{known ? completed + ' / 5 Quizthemen gespeichert' : 'Persönlichen Stand zuerst laden'}</span><Progress aria-label="Gespeicherte Quizthemen" value={known ? completed * 20 : 0} /></div>
++    <div className="academy-transfer" aria-label="Lernlevel und nächste Aktion"><GraduationCap size={21} /><div><h4>Level {level.number} · {learningStatusNames[level.status]}</h4><p>{known ? `${levels.filter(l => l.practiceSaved).length} / 5 Übungen dokumentiert · ${levels.filter(l => l.transferComplete).length} / 5 Transfers in der App belegt` : 'Eigene Lernstände sind erst nach erfolgreichem Laden sichtbar.'}</p><p>Die Level sind eine empfohlene Lernreihenfolge. Alle Themen bleiben offen; Quiz-XP und Transferbelege werden getrennt gezählt.</p><div className="actions-row"><Button variant="outline" onClick={() => onExplore('lesson:' + lesson.id)}>Lernpfad in 2D / 3D erkunden</Button></div></div></div>
+     <div className="academy-recommendation"><div><span className="eyebrow">{known ? 'PASSENDER NÄCHSTER LERNSCHRITT' : 'LERNVORLAGE'}</span><strong>{recommendation.lesson.title}</strong><p>{known ? recommendation.reason : 'Du kannst die Inhalte ausprobieren. Speichern bleibt bis zum erfolgreichen Abruf deines Arbeitsstands gesperrt.'}</p></div><Button variant="outline" onClick={() => chooseLesson(lessons.indexOf(recommendation.lesson))}>Thema öffnen<ArrowRight size={16} /></Button></div>
+     <div className="academy-topics" aria-label="Lernthemen">{lessons.map((l, i) => <button key={l.id} aria-pressed={i === index} onClick={() => chooseLesson(i)}><span>{known && work.learning[l.id] ? <CheckCircle2 size={17} /> : i + 1}</span>{l.title}</button>)}</div>
+     <div className="academy-phase-nav" aria-label="Lernschritte">{([['understand', '1 · Verstehen'], ['case', '2 · Fall prüfen'], ['apply', '3 · Anwenden']] as const).map(([id, title]) => <button key={id} aria-pressed={phase === id} onClick={() => setPhase(id)}>{title}</button>)}</div>
+-    <h3>{lesson.title}</h3><p className="academy-goal">{lesson.goal}</p>
++    <h3>Level {level.number} · {lesson.title}</h3><p className="academy-goal">{lesson.goal}</p>
++    <div className="academy-prerequisites"><p className="short-note">Empfohlenes Vorwissen: {level.recommended.length ? level.recommended.map(id => lessons.find(l => l.id === id)!.title).join(' · ') : 'Keines. Hier kannst du beginnen.'}</p>{known && level.missingRecommended.length > 0 && <div className="actions-row">{level.missingRecommended.map(id => <Button key={id} variant="outline" onClick={() => chooseLesson(lessons.findIndex(l => l.id === id))}>Vorwissen üben: {lessons.find(l => l.id === id)!.title}</Button>)}</div>}<p className="short-note">Nächste Aktion: {level.nextAction.label}{existingTask ? ` · ${existingTask.title} (${existingTask.status})` : ''}</p>{level.nextAction.kind === 'task' && <Button variant="outline" onClick={() => go('matrix')}>Transfer-Aufgabe in der Matrix prüfen</Button>}</div>
+     {phase === 'understand' && <div><div className="academy-principle"><BookOpen size={19} /><p>{lesson.principle}</p></div><ol className="academy-steps">{lesson.steps.map(step => <li key={step}>{step}</li>)}</ol><Button variant="outline" onClick={() => onExplore(lesson.node)}>Im Netzwerk erkunden</Button><p className="lesson-question">{lesson.question}</p><div className="lesson-answers">{lesson.answers.map((a, i) => <button key={a} aria-pressed={answer === i} className={checked && answer === i ? i === lesson.correct ? 'correct' : 'incorrect' : ''} onClick={() => { setAnswer(i); setChecked(false); }}><span>{String.fromCharCode(65 + i)}</span>{a}</button>)}</div><div className="actions-row"><Button disabled={answer === null} onClick={() => setChecked(true)}>Antwort prüfen</Button><Button variant="outline" disabled={!quizPassed} onClick={() => setPhase('case')}>Zum Praxisfall<ArrowRight size={16} /></Button></div>{checked && <div className={'lesson-feedback ' + (quizPassed ? 'correct' : 'incorrect')} role="status"><strong>{quizPassed ? 'Richtig eingeordnet.' : 'Prüfe den Unterschied noch einmal.'}</strong><p>{lesson.explanation}</p></div>}</div>}
+     {phase === 'case' && <div><p className="lesson-question">{lesson.challenge.question}</p><p className="short-note">Wähle alle passenden Antworten. Es können mehrere richtig sein.</p><div className="lesson-answers">{lesson.challenge.choices.map((c, i) => <button key={c} aria-pressed={choices.includes(i)} onClick={() => { setChoices(v => v.includes(i) ? v.filter(x => x !== i) : [...v, i]); setCaseChecked(false); }}><span>{choices.includes(i) ? '✓' : String.fromCharCode(65 + i)}</span>{c}</button>)}</div><div className="actions-row"><Button disabled={!choices.length} onClick={() => setCaseChecked(true)}>Fall prüfen</Button><Button variant="outline" disabled={!quizPassed || !casePassed} onClick={() => setPhase('apply')}>In Arbeit übertragen<ArrowRight size={16} /></Button></div>{caseChecked && <div className={'lesson-feedback ' + (casePassed ? 'correct' : 'incorrect')} role="status"><strong>{casePassed ? 'Der Fall ist korrekt beurteilt.' : 'Deine Auswahl enthält noch eine Lücke oder eine unpassende Aussage.'}</strong><p>{lesson.challenge.explanation}</p></div>}</div>}
+     {phase === 'apply' && <div><div className="academy-transfer"><Target size={21} /><div><h4>{lesson.taskTitle}</h4><p>{lesson.acceptance}</p></div></div><label className="tuning-field"><span>Deine Begründung · mindestens 20 Zeichen</span><Textarea value={reflection} maxLength={1500} onChange={e => setReflection(e.target.value)} placeholder="Welche konkrete Beleglücke oder welcher nächste Schritt folgt aus deinem Fall?" /></label><div className="form-grid"><label className="tuning-field"><span>Optionaler Missionskontext</span><NativeSelect value={missionId} disabled={disabled || !known} onChange={e => setMissionId(e.target.value)}><NativeSelectOption value="">Nur in der Aufgabenmatrix anlegen</NativeSelectOption>{missionOptions.map(m => <NativeSelectOption value={m.id} key={m.id}>{m.title}</NativeSelectOption>)}</NativeSelect><small>Mit einer Mission wird die neue Aufgabe ausdrücklich als Voraussetzung verknüpft. Eine blockierte Mission wird dadurch nicht gelöst.</small></label><label className="tuning-field"><span>Verantwortliches App-Profil</span><NativeSelect value={taskOwner} disabled={disabled || !known} onChange={e => setTaskOwner(e.target.value as MeshTask['owner'])}>{work.profiles.map(p => <NativeSelectOption key={p.id} value={p.id}>{p.id[0].toUpperCase() + p.id.slice(1)} · {p.role}</NativeSelectOption>)}</NativeSelect><small>Ordnet Verantwortung in der App zu; startet keinen Agenten.</small></label></div>{contextInvalid && <p role="status">Die gewählte Mission ist inzwischen abgeschlossen, archiviert oder voll belegt. Bitte wähle einen anderen Kontext. <Button variant="outline" onClick={() => setMissionId('')}>Missionskontext entfernen</Button></p>}<p className="short-note">{quizPassed ? '✓ Wissensfrage geprüft' : '○ Wissensfrage noch prüfen'} · {casePassed ? '✓ Praxisfall geprüft' : '○ Praxisfall noch prüfen'}</p><div className="actions-row"><Button disabled={disabled || !quizPassed || !casePassed || reflection.trim().length < 20 || contextInvalid || work.notes.length >= 100} onClick={saveResult}><Save size={16} />Lernergebnis speichern</Button><Button variant="outline" disabled={disabled || !quizPassed || !casePassed || !!existingTask || contextInvalid || work.tasks.length >= 60} onClick={createTask}><Target size={16} />{existingTask ? 'Transfer-Aufgabe vorhanden' : 'Übungsauftrag in Matrix anlegen'}</Button><Button variant="outline" onClick={() => go(existingTask ? 'matrix' : lesson.view)}>Arbeitsbereich öffnen<ArrowRight size={16} /></Button></div>{work.notes.length >= 100 && <p role="status">Das Notizlimit ist erreicht. Exportiere dein Arbeitsbuch und verwalte vorhandene Notizen, bevor du eine weitere speicherst.</p>}{work.tasks.length >= 60 && !existingTask && <p role="status">Das Aufgabenlimit ist erreicht. Die Lernaufgabe wurde noch nicht angelegt.</p>}</div>}
+--- a/app/mesh-space.tsx
++++ b/app/mesh-space.tsx
+@@ -8,7 +8,9 @@
+ import { buildSpaceGraph, visibleSpaceGraph, guidedSteps, kindNames, originNames, relationNames, type SpaceGraph, type SpaceScope } from '@/lib/space-model';
+ import type { MapSource } from '@/lib/intelligence';
+ import type { SpaceControls } from './space-renderer';
+-import AcademyPanel from './academy-panel';
++import AcademyPanel, { type AcademyControls } from './academy-panel';
++import { inspectARSupport, arStartError } from '@/lib/ar-support';
++import { placementStatusNames, type PlacementStatus } from '@/lib/ar-placement';
+ const SpaceRenderer = lazy(() => import('./space-renderer'));
+ type Props = { work: WorkState; disabled: boolean; known: boolean; save: (w: WorkState) => Promise<boolean>; data: { sources: MapSource[] }; go: (view: any) => void };
+ 
+@@ -18,6 +20,8 @@
+   const [mode, setMode] = useState<'2d' | '3d'>('2d'), [isolate, setIsolate] = useState(false), [moving, setMoving] = useState(false);
+   const [ready, setReady] = useState(false), [error, setError] = useState(''), [arSupported, setARSupported] = useState(false), [arActive, setARActive] = useState(false), [arBusy, setARBusy] = useState(false);
+   const [arStatus, setARStatus] = useState('AR-Unterstützung wird geprüft.'), [guide, setGuide] = useState<number | null>(null);
++  const [placement, setPlacement] = useState<PlacementStatus>('scanning');
++  const academyControls = useRef<AcademyControls | null>(null);
+   const [edge, setEdge] = useState<string | null>(null);
+   const [reducedMotion, setReducedMotion] = useState(false);
+   const controls = useRef<SpaceControls | null>(null), explorer = useRef<HTMLElement>(null), academy = useRef<HTMLDivElement>(null), initialSelection = useRef(false);
+@@ -33,22 +37,24 @@
+   }, []);
+   useEffect(() => {
+     let current = true;
+-    if (!isSecureContext || !navigator.xr) { setARStatus('AR ist hier nicht verfügbar. 2D und 3D funktionieren ohne Kamerafreigabe.'); return; }
+-    navigator.xr.isSessionSupported('immersive-ar').then(supported => { if (current) { setARSupported(supported); setARStatus(supported ? 'Gerät meldet AR-Unterstützung. Kamera und AR starten ausschließlich nach deinem Klick.' : 'Dieser Browser meldet keine immersive AR-Unterstützung.'); } }).catch(() => { if (current) setARStatus('AR-Unterstützung konnte nicht bestätigt werden.'); });
++    const policyDocument = document as Document & { permissionsPolicy?: { allowsFeature: (name: string) => boolean }; featurePolicy?: { allowsFeature: (name: string) => boolean } };
++    const policy = policyDocument.permissionsPolicy || policyDocument.featurePolicy;
++    const nativeWindow = window as Window & { Capacitor?: { isNativePlatform?: () => boolean } };
++    void inspectARSupport({ secureContext: window.isSecureContext, xr: navigator.xr, policyAllowsXR: policy?.allowsFeature('xr-spatial-tracking'), nativeApp: nativeWindow.Capacitor?.isNativePlatform?.() }).then(result => { if (current) { setARSupported(result.supported); setARStatus(result.message); } });
+     return () => { current = false; };
+   }, []);
+   useEffect(() => {
+     if (!known || initialSelection.current) return; initialSelection.current = true;
+     const p = new URLSearchParams(location.search), id = p.get('spaceNode'), s = p.get('spaceScope');
+     if (id && graph.nodes.some(n => n.id === id)) { setSelected(id); setScope('all'); }
+-    if (s && ['team', 'missions', 'all'].includes(s)) setScope(s as SpaceScope);
++    if (s && ['team', 'missions', 'learning', 'all'].includes(s)) setScope(s as SpaceScope);
+   }, [graph, known]);
+   useEffect(() => { if (!visible.nodes.some(n => n.id === selected) && visible.nodes[0]) setSelected(visible.nodes[0].id); }, [selected, visible.nodes]);
+   const chooseGuide = (index: number) => { const step = guidedSteps[index]; setGuide(index); setSelected(step.node); setScope('team'); setIsolate(false); setEdge(step.edge); };
+-  const openNode = () => go(node.kind === 'agent' ? 'agents' : node.kind === 'mission' ? 'missions' : node.kind === 'task' ? 'matrix' : node.kind === 'room' ? 'chats' : node.kind === 'source' ? 'evidence' : node.entityId === 'github' ? 'pilot' : node.entityId === 'make' ? 'make' : 'connections');
+-  const exploreLesson = (id: string) => { setSelected(id); setScope('all'); setGuide(null); setEdge(null); explorer.current?.scrollIntoView({ behavior: 'instant', block: 'start' }); };
++  const openNode = () => { if (node.kind === 'lesson') { academyControls.current?.openLesson(node.entityId); academy.current?.scrollIntoView({ behavior: 'instant', block: 'start' }); return; } go(node.kind === 'agent' ? 'agents' : node.kind === 'mission' ? 'missions' : node.kind === 'task' ? 'matrix' : node.kind === 'room' ? 'chats' : node.kind === 'source' ? 'evidence' : node.entityId === 'github' ? 'pilot' : node.entityId === 'make' ? 'make' : 'connections'); };
++  const exploreLesson = (id: string) => { setSelected(id); setScope(id.startsWith('lesson:') ? 'learning' : 'all'); setIsolate(false); setGuide(null); setEdge(null); explorer.current?.scrollIntoView({ behavior: 'instant', block: 'start' }); };
+   const share = async () => { const url = new URL(location.href); url.searchParams.set('spaceNode', node.id); url.searchParams.set('spaceScope', scope); history.replaceState({}, '', url); try { await navigator.clipboard.writeText(url.toString()); toast.success('Link zur Auswahl kopiert. Er gewährt keinen zusätzlichen Zugriff.'); } catch { toast.error('Die Zwischenablage ist nicht verfügbar. Die Browseradresszeile enthält jetzt deinen Auswahl-Link.'); } };
+-  const startAR = async () => { try { await controls.current?.ar(); } catch { toast.error('AR braucht Geräteunterstützung und ein bedienbares DOM-Overlay. Die normale Szene bleibt verfügbar.'); } };
++  const startAR = async () => { try { await controls.current?.ar(); } catch (error) { const message = arStartError(error); setARStatus(message); toast.error(message); } };
+   const allowMotion = work.settings.motion !== 'off' && !work.settings.powerSaver && !reducedMotion;
+   return <div className="spatial-workspace">
+     <section className="space-hero"><div><span className="eyebrow">MESH EXPLORER · VERSTEHEN UND ANWENDEN</span><h2>Aus Beziehungen wird ein nächster Schritt.</h2><p>Eigene Arbeit erkunden, Übergaben verstehen und mit einem konkreten Lernauftrag weiterarbeiten.</p></div><Button variant="outline" onClick={() => academy.current?.scrollIntoView({ behavior: 'instant', block: 'start' })}><BookOpen size={17} />Zur Academy</Button></section>
+@@ -57,27 +63,28 @@
+         <div className="space-toolbar"><div className="actions-row">
+           <Button variant="outline" aria-pressed={mode === '2d'} disabled={arActive || arBusy} onClick={() => setMode('2d')}><Layers size={16} />2D-Struktur</Button>
+           <Button variant="outline" aria-pressed={mode === '3d'} disabled={arActive || arBusy} onClick={() => { setError(''); setMode('3d'); }}><Box size={16} />{error ? '3D erneut laden' : 'Räumliches 3D'}</Button>
+-          <NativeSelect aria-label="Netzwerkbereich" value={scope} disabled={arActive || arBusy} onChange={e => { setScope(e.target.value as SpaceScope); setIsolate(false); setGuide(null); setEdge(null); }}><NativeSelectOption value="team">Team & Systeme</NativeSelectOption><NativeSelectOption value="missions">Agenten & Missionen</NativeSelectOption><NativeSelectOption value="all">Gesamter App-Kontext</NativeSelectOption></NativeSelect>
++          <NativeSelect aria-label="Netzwerkbereich" value={scope} disabled={arActive || arBusy} onChange={e => { setScope(e.target.value as SpaceScope); setIsolate(false); setGuide(null); setEdge(null); }}><NativeSelectOption value="team">Team & Systeme</NativeSelectOption><NativeSelectOption value="missions">Agenten & Missionen</NativeSelectOption><NativeSelectOption value="learning">Lernlevel & Voraussetzungen</NativeSelectOption><NativeSelectOption value="all">Gesamter App-Kontext</NativeSelectOption></NativeSelect>
+           <Button variant="outline" aria-pressed={isolate} disabled={arActive || arBusy} onClick={() => setIsolate(v => !v)}><Focus size={16} />{isolate ? 'Alle im Bereich' : 'Nachbarschaft'}</Button>
+         </div></div>
+         <div className="space-legend"><span>{known ? '● App-Profil / eigene Arbeit' : '○ Vorlage / Stand unbekannt'}</span><span>□ Quellen-Snapshot</span><span>┄ Geplanter Anschluss</span><span>{visible.nodes.length} / {visible.total} Knoten{visible.total > 32 ? ' · Auswahl auf 32 begrenzt' : ''}</span></div>
+         {mode === '2d' ? <StructuralMap graph={visible} selected={node.id} highlighted={edge} onSelect={select} /> : <div className="space-stage" aria-busy={!ready}>
+-          <Suspense fallback={<div className="space-loading" role="status">3D-Modul wird geladen …</div>}><SpaceRenderer graph={visible} selected={node.id} highlightedEdge={edge} moving={moving} powerSaver={work.settings.powerSaver} allowMotion={allowMotion} controls={controls} onReady={setReady} onError={onError} onSelect={select} onAR={setARActive} onARBusy={setARBusy} /></Suspense>
++          <Suspense fallback={<div className="space-loading" role="status">3D-Modul wird geladen …</div>}><SpaceRenderer graph={visible} selected={node.id} highlightedEdge={edge} moving={moving} powerSaver={work.settings.powerSaver} allowMotion={allowMotion} controls={controls} onReady={setReady} onError={onError} onSelect={select} onAR={setARActive} onARBusy={setARBusy} onPlacement={setPlacement} /></Suspense>
+           {!ready && <div className="space-stage-loading" role="status">Szene wird aufgebaut. Die 2D-Struktur bleibt jederzeit erreichbar.</div>}
+         </div>}
+         {error && <p className="space-error" role="status">{error}</p>}
+-        {mode === '3d' && <div className="space-toolbar space-camera-controls"><Button variant="outline" disabled={!ready || arActive || arBusy || !allowMotion} aria-pressed={moving && allowMotion} onClick={() => setMoving(v => !v)}>{moving && allowMotion ? <Pause size={16} /> : <Play size={16} />}{moving && allowMotion ? 'Drehung pausieren' : 'Ansicht drehen'}</Button><Button variant="outline" disabled={!ready || arBusy} onClick={() => controls.current?.reset()}><RotateCcw size={16} />Zentrieren</Button><Button variant="outline" size="icon" aria-label="Heranzoomen" disabled={!ready || arBusy} onClick={() => controls.current?.zoom(.85)}><Plus size={16} /></Button><Button variant="outline" size="icon" aria-label="Herauszoomen" disabled={!ready || arBusy} onClick={() => controls.current?.zoom(1.15)}><Minus size={16} /></Button><Button variant="outline" disabled={!ready || arActive || arBusy} onClick={() => { setMoving(false); controls.current?.focus(node.id); }}><Focus size={16} />Auswahl fokussieren</Button><Button className="ar-button" disabled={!arSupported || !ready || arBusy} onClick={startAR}><Scan size={16} />{arBusy ? 'AR wird umgestellt …' : arActive ? 'AR beenden' : 'In AR ansehen'}</Button></div>}
+-        <p className="ar-status">{mode === '3d' ? 'Ziehen dreht, zwei Finger zoomen. Die Drehung ist eine Ansichtsbewegung, keine Agentenaktivität. ' : 'Knoten auswählen; Pfeile, Pos1 und Ende navigieren. Beziehungen stehen mit ihrer Bedeutung im Detailbereich. '}{arStatus}</p>
++        {mode === '3d' && <div className="space-toolbar space-camera-controls"><Button variant="outline" disabled={!ready || arActive || arBusy || !allowMotion} aria-pressed={moving && allowMotion} onClick={() => setMoving(v => !v)}>{moving && allowMotion ? <Pause size={16} /> : <Play size={16} />}{moving && allowMotion ? 'Drehung pausieren' : 'Ansicht drehen'}</Button><Button variant="outline" disabled={!ready || arBusy} onClick={() => controls.current?.reset()}><RotateCcw size={16} />Zentrieren</Button><Button variant="outline" size="icon" aria-label="Heranzoomen" disabled={!ready || arBusy} onClick={() => controls.current?.zoom(.85)}><Plus size={16} /></Button><Button variant="outline" size="icon" aria-label="Herauszoomen" disabled={!ready || arBusy} onClick={() => controls.current?.zoom(1.15)}><Minus size={16} /></Button><Button variant="outline" disabled={!ready || arActive || arBusy} onClick={() => { setMoving(false); controls.current?.focus(node.id); }}><Focus size={16} />Auswahl fokussieren</Button><Button className="ar-button" disabled={!arSupported || !ready || arBusy} onClick={startAR}><Scan size={16} />{arBusy ? 'AR wird umgestellt …' : arActive ? 'AR beenden' : 'Kamera-AR platzieren'}</Button></div>}
++        {arBusy && <Button variant="outline" onClick={() => { controls.current?.cancelAR(); setARStatus('AR-Abbruch angefordert. Ein noch offener Browserdialog kann geschlossen werden.'); }}>AR-Start abbrechen</Button>}
++        <p className="ar-status" role="status">{mode === '3d' ? 'Ziehen dreht, zwei Finger zoomen. Die Drehung ist eine Ansichtsbewegung, keine Agentenaktivität. ' : 'Knoten auswählen; Pfeile, Pos1 und Ende navigieren. Beziehungen stehen mit ihrer Bedeutung im Detailbereich. '}{arStatus}</p>
+         <div className="space-node-list" aria-label="Gleichwertige Knotenliste">{visible.nodes.map(n => <button key={n.id} aria-pressed={n.id === node.id} onClick={() => select(n.id)}>{n.title}<small>{kindNames[n.kind]}</small></button>)}</div>
+-        <div className="space-ar-overlay" hidden={!arActive}><strong>{node.title}</strong><p>Freies räumliches Modell · keine Flächenerkennung</p><div className="actions-row"><Button onClick={() => controls.current?.centerAR()}><Focus size={16} />Vor mir zentrieren</Button><Button variant="outline" onClick={() => controls.current?.zoom(.85)}>Größer</Button><Button variant="outline" onClick={() => controls.current?.zoom(1.15)}>Kleiner</Button><Button disabled={arBusy} onClick={startAR}>AR beenden</Button></div></div>
++        <div className="space-ar-overlay" hidden={!arActive && !arBusy}><strong>{node.title}</strong>{arBusy ? <><p role="status">Kamera-AR wird vorbereitet. Du kannst den Start abbrechen.</p><div className="actions-row"><Button onClick={() => controls.current?.cancelAR()}>Start abbrechen</Button></div></> : <><p role="status">{placementStatusNames[placement]}</p><div className="actions-row"><Button disabled={placement !== 'surface-found' || arBusy} onClick={() => controls.current?.placeAR()}><Focus size={16} />Hier platzieren</Button><Button variant="outline" disabled={arBusy} onClick={() => controls.current?.centerAR()}>Neu platzieren</Button><Button variant="outline" onClick={() => controls.current?.zoom(.85)}>Größer</Button><Button variant="outline" onClick={() => controls.current?.zoom(1.15)}>Kleiner</Button><Button disabled={arBusy} onClick={startAR}>AR beenden</Button></div></>}</div>
+       </section>
+-      <aside className="panel node-inspector" aria-label="Knotendetails"><span className="eyebrow">AUSGEWÄHLTER KNOTEN · {kindNames[node.kind]}</span><div className="node-mark" style={{ color: '#' + node.color.toString(16) }}><Box size={36} /></div><h2>{node.title}</h2><span className="pill neutral">{originNames[node.origin]}</span><p>{node.detail}</p><Button onClick={openNode}>Passenden Arbeitsbereich öffnen<ArrowUpRight size={16} /></Button><Button variant="outline" onClick={share}><Link2 size={16} />Auswahl-Link kopieren</Button>
++      <aside className="panel node-inspector" aria-label="Knotendetails"><span className="eyebrow">AUSGEWÄHLTER KNOTEN · {kindNames[node.kind]}</span><div className="node-mark" style={{ color: '#' + node.color.toString(16) }}><Box size={36} /></div><h2>{node.title}</h2><span className="pill neutral">{originNames[node.origin]}</span><p>{node.detail}</p><Button onClick={openNode}>{node.kind === 'lesson' ? 'Nächste Lernaktion öffnen' : 'Passenden Arbeitsbereich öffnen'}<ArrowUpRight size={16} /></Button><Button variant="outline" onClick={share}><Link2 size={16} />Auswahl-Link kopieren</Button>
+         <div className="space-relations"><h3>{relations.length} Beziehungen</h3>{relations.map(e => { const other = graph.nodes.find(n => n.id === (e.from === node.id ? e.to : e.from)); return other && <button key={e.id} onClick={() => { setSelected(other.id); setScope('all'); setEdge(e.id); setGuide(null); }}><strong>{e.from === node.id ? '→' : '←'} {other.title}</strong><span>{relationNames[e.relation] || e.relation} · {e.origin === 'plan' ? 'Planungsmodell' : known ? 'App-Zuordnung' : 'Vorlage'}</span></button>; })}{!relations.length && <p>Für diesen Knoten ist keine Beziehung gespeichert.</p>}</div>
+         <p className="short-note">App-Zuordnungen belegen Verantwortung im gespeicherten Stand. Geplante Kanten belegen keine Verbindung oder laufende Kommunikation. Quellen behalten ihren Snapshot-Status.</p>
+       </aside>
+     </section>
+     <section className="panel space-guide" aria-label="Geführter Agentenablauf"><div className="panel-title"><div><span className="eyebrow">GEFÜHRTE ERKLÄRUNG · KEINE AUSFÜHRUNG</span><h2>Wie ein Auftrag durchs Team läuft</h2></div><Route size={24} /></div><div className="space-guide-steps">{guidedSteps.map((s, i) => <button key={s.title} aria-current={guide === i ? 'step' : undefined} onClick={() => chooseGuide(i)}>{s.title}</button>)}</div>{guide === null ? <p>Wähle einen Schritt. Die Karte zeigt die passende Zuständigkeit und geplante Übergabe.</p> : <div className="space-guide-detail" role="status"><h3>{guidedSteps[guide].title}</h3><p>{guidedSteps[guide].text}</p><strong>Erwartetes Ergebnis: {guidedSteps[guide].output}</strong><div className="actions-row"><Button variant="outline" disabled={guide === 0} onClick={() => chooseGuide(guide - 1)}><ArrowLeft size={16} />Zurück</Button><Button disabled={guide === guidedSteps.length - 1} onClick={() => chooseGuide(guide + 1)}>Nächster Schritt<ArrowRight size={16} /></Button><Button variant="outline" onClick={() => academy.current?.scrollIntoView({ behavior: 'instant', block: 'start' })}>Mit einem Fall üben</Button></div></div>}</section>
+-    <div ref={academy}><AcademyPanel {...props} work={work} known={known} go={go} onExplore={exploreLesson} /></div>
++    <div ref={academy}><AcademyPanel controls={academyControls} {...props} work={work} known={known} go={go} onExplore={exploreLesson} /></div>
+   </div>;
+ }
+ 
+--- a/app/space-renderer.tsx
++++ b/app/space-renderer.tsx
+@@ -1,9 +1,11 @@
+ 'use client';
+ import { useEffect, useRef } from 'react';
+ import type { SpaceGraph } from '@/lib/space-model';
++import { surfaceSessionInit } from '@/lib/ar-support';
++import { acquireHitTestSource, createPlacementState, withAbort, type PlacementStatus } from '@/lib/ar-placement';
+ 
+-export type SpaceControls = { reset: () => void; zoom: (factor: number) => void; focus: (id: string) => void; ar: () => Promise<void>; centerAR: () => void };
+-type Props = { graph: SpaceGraph; selected: string; highlightedEdge: string | null; moving: boolean; powerSaver: boolean; allowMotion: boolean; controls: React.RefObject<SpaceControls | null>; onReady: (ready: boolean) => void; onError: (message: string) => void; onSelect: (id: string) => void; onAR: (active: boolean) => void; onARBusy: (busy: boolean) => void };
++export type SpaceControls = { reset: () => void; zoom: (factor: number) => void; focus: (id: string) => void; ar: () => Promise<void>; centerAR: () => void; placeAR: () => void; cancelAR: () => void };
++type Props = { graph: SpaceGraph; selected: string; highlightedEdge: string | null; moving: boolean; powerSaver: boolean; allowMotion: boolean; controls: React.RefObject<SpaceControls | null>; onReady: (ready: boolean) => void; onError: (message: string) => void; onSelect: (id: string) => void; onAR: (active: boolean) => void; onARBusy: (busy: boolean) => void; onPlacement: (status: PlacementStatus) => void };
+ 
+ /** One renderer, one resource owner. XR teardown is complete before an inline redraw. */
+ export default function SpaceRenderer(props: Props) {
+@@ -24,8 +26,15 @@
+         if (cancelled || !host.current) return;
+         const container = host.current;
+         const renderer = new T.WebGLRenderer({ antialias: !powerSaver, alpha: true });
+-        disposers.push(() => { renderer.setAnimationLoop(null); renderer.dispose(); renderer.domElement.remove(); });
+-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, powerSaver ? 1 : 1.5));
++        let xrBinding: Promise<void> | null = null, sessionEnding: Promise<void> | null = null;
++        disposers.push(() => {
++          renderer.setAnimationLoop(null); renderer.domElement.remove();
++          const finish = () => { renderer.setAnimationLoop(null); if (renderer.xr.getSession() === null) renderer.xr.isPresenting = false; renderer.dispose(); };
++          const pending = [xrBinding, sessionEnding].filter((p): p is Promise<void> => !!p);
++          if (pending.length) void Promise.allSettled(pending).then(finish); else finish();
++        });
++        const inlinePixelRatio = Math.min(window.devicePixelRatio || 1, powerSaver ? 1 : 1.5);
++        renderer.setPixelRatio(inlinePixelRatio);
+         renderer.setClearColor(0x101c1d, 1);
+         renderer.xr.enabled = true; renderer.xr.setReferenceSpaceType('local');
+         renderer.domElement.setAttribute('aria-label', 'Räumliches Netz. Die gleichwertige Knotenliste bietet Tastaturbedienung.');
+@@ -71,7 +80,26 @@
+         }
+         const grid = new T.GridHelper(Math.max(8, radius * 2), 16, 0x36564b, 0x21372f); grid.position.y = bounds.min.y - .7; group.add(grid);
+         disposers.push(() => { grid.geometry.dispose(); for (const m of Array.isArray(grid.material) ? grid.material : [grid.material]) m.dispose(); });
+-        let session: XRSession | null = null, xrBusy = false, centerPending = false, scale = .17, visible = true, lastTime = 0;
++        let session: XRSession | null = null, xrBusy = false, scale = .17, visible = true, lastTime = 0;
++        let startup: AbortController | null = null;
++        const endSession = (target: XRSession) => { sessionEnding = Promise.resolve().then(() => target.end()).catch(() => {}); return sessionEnding; };
++        const placement = createPlacementState();
++        let placementStatus: PlacementStatus = 'scanning';
++        let hitResource: Awaited<ReturnType<typeof acquireHitTestSource>> | null = null;
++        const reticleGeometry = new T.RingGeometry(.07, .095, 32).rotateX(-Math.PI / 2);
++        const reticleMaterial = new T.MeshBasicMaterial({ color: 0xc7efa0, side: T.DoubleSide });
++        const reticle = new T.Mesh(reticleGeometry, reticleMaterial); reticle.matrixAutoUpdate = false; reticle.visible = false; scene.add(reticle);
++        disposers.push(() => { reticleGeometry.dispose(); reticleMaterial.dispose(); scene.remove(reticle); });
++        const reportPlacement = () => { if (placement.status !== placementStatus) { placementStatus = placement.status; if (!cancelled) latest.current.onPlacement(placementStatus); } };
++        const clearPlacement = () => { hitResource?.dispose(); hitResource = null; placement.reset(); reticle.visible = false; reportPlacement(); };
++        const applyPlacement = (matrix: number[]) => {
++          const surface = new T.Matrix4().fromArray(matrix);
++          group.quaternion.setFromRotationMatrix(surface);
++          group.scale.setScalar(scale);
++          group.position.setFromMatrixPosition(surface).sub(new T.Vector3(center.x, grid.position.y, center.z).multiplyScalar(scale).applyQuaternion(group.quaternion));
++          group.visible = true;
++        };
++        const reposition = () => { if (!renderer.xr.isPresenting) return; placement.reset(); group.visible = false; reticle.visible = false; reportPlacement(); };
+         let inlinePose: { position: InstanceType<typeof T.Vector3>; quaternion: InstanceType<typeof T.Quaternion>; target: InstanceType<typeof T.Vector3>; rotation: InstanceType<typeof T.Euler> } | null = null;
+         const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+         const draw = () => { if (!cancelled && !renderer.getContext().isContextLost()) renderer.render(scene, camera); };
+@@ -82,15 +110,14 @@
+         };
+         const loop = (time: number, frame?: XRFrame) => {
+           if (cancelled || (!renderer.xr.isPresenting && (document.hidden || !visible))) return;
+-          if (renderer.xr.isPresenting && centerPending && frame) {
+-            const space = renderer.xr.getReferenceSpace(), pose = space && frame.getViewerPose(space);
+-            if (pose) {
+-              const matrix = new T.Matrix4().fromArray(pose.transform.matrix);
+-              group.position.set(0, 0, -1.25).applyMatrix4(matrix);
+-              group.quaternion.set(pose.transform.orientation.x, pose.transform.orientation.y, pose.transform.orientation.z, pose.transform.orientation.w);
+-              group.position.sub(center.clone().multiplyScalar(scale).applyQuaternion(group.quaternion));
+-              centerPending = false;
+-            }
++          if (renderer.xr.isPresenting && frame && placement.status !== 'placed') {
++            const space = renderer.xr.getReferenceSpace(), source = hitResource?.source;
++            const hit = space && source ? frame.getHitTestResults(source)[0] : null;
++            const pose = hit && space ? hit.getPose(space) : null;
++            placement.update(pose?.transform.matrix ?? null);
++            const candidate = placement.candidate; reticle.visible = !!candidate;
++            if (candidate) reticle.matrix.fromArray(candidate);
++            reportPlacement();
+           }
+           const delta = Math.min(.05, Math.max(0, (time - lastTime) / 1000)); lastTime = time;
+           if (!renderer.xr.isPresenting && latest.current.moving && !reduced.matches && latest.current.allowMotion) group.rotation.y += delta * .14;
+@@ -101,10 +128,14 @@
+           renderer.setAnimationLoop(animate ? loop : null); lastTime = 0; draw();
+         };
+         const restoreInline = () => {
+-          const savedPose = inlinePose; if (!savedPose) return; inlinePose = null;
+-          session = null; xrBusy = false; group.position.set(0, 0, 0); group.quaternion.identity(); group.scale.setScalar(1); renderer.setClearAlpha(1); orbit.enabled = true;
++          // Three 0.186 can set isPresenting after its awaited reference-space promise resolves,
++          // even if onSessionEnd already cleared getSession(). Repair only that terminal state.
++          if (renderer.xr.getSession() !== null) return;
++          renderer.setAnimationLoop(null); renderer.xr.isPresenting = false; renderer.setPixelRatio(inlinePixelRatio);
++          const savedPose = inlinePose; inlinePose = null;
++          clearPlacement(); session = null; xrBusy = false; group.visible = true; group.position.set(0, 0, 0); group.scale.setScalar(1); renderer.setClearAlpha(1); orbit.enabled = true;
+           if (cancelled) return;
+-          camera.position.copy(savedPose.position); camera.quaternion.copy(savedPose.quaternion); orbit.target.copy(savedPose.target); group.rotation.copy(savedPose.rotation); orbit.update();
++          if (savedPose) { camera.position.copy(savedPose.position); camera.quaternion.copy(savedPose.quaternion); orbit.target.copy(savedPose.target); group.rotation.copy(savedPose.rotation); orbit.update(); }
+           latest.current.onAR(false); latest.current.onARBusy(false); resize(); updateLoop();
+         };
+         // This event fires after Three.js restores its render target and canvas size.
+@@ -135,31 +166,52 @@
+           updateLoop();
+         };
+         controlsRef.current = {
+-          reset: () => { if (renderer.xr.isPresenting) { centerPending = true; return; } group.rotation.set(0, 0, 0); orbit.reset(); resize(); },
++          reset: () => { if (renderer.xr.isPresenting) { reposition(); return; } group.rotation.set(0, 0, 0); orbit.reset(); resize(); },
+           focus: id => { if (renderer.xr.isPresenting) return; const mark = marks.get(id); if (!mark) return; const offset = camera.position.clone().sub(orbit.target); offset.setLength(Math.min(offset.length(), 4.5)); orbit.target.copy(mark.getWorldPosition(new T.Vector3())); camera.position.copy(orbit.target).add(offset); orbit.update(); draw(); },
+-          zoom: factor => { if (renderer.xr.isPresenting) { scale = Math.max(.08, Math.min(.35, scale / factor)); group.scale.setScalar(scale); centerPending = true; return; } const offset = camera.position.clone().sub(orbit.target); offset.setLength(Math.max(2, Math.min(100, offset.length() * factor))); camera.position.copy(orbit.target).add(offset); orbit.update(); draw(); },
+-          centerAR: () => { centerPending = true; },
++          zoom: factor => { if (renderer.xr.isPresenting) { scale = Math.max(.08, Math.min(.35, scale / factor)); const matrix = placement.placed; if (matrix) applyPlacement(matrix); return; } const offset = camera.position.clone().sub(orbit.target); offset.setLength(Math.max(2, Math.min(100, offset.length() * factor))); camera.position.copy(orbit.target).add(offset); orbit.update(); draw(); },
++          centerAR: reposition,
++          placeAR: () => { if (!renderer.xr.isPresenting) return; const matrix = placement.place(); if (!matrix) return; applyPlacement(matrix); reticle.visible = false; reportPlacement(); },
++          cancelAR: () => { startup?.abort(); clearPlacement(); if (session) void endSession(session); },
+           ar: async () => {
+-            if (xrBusy || cancelled) return; xrBusy = true; latest.current.onARBusy(true);
++            if (cancelled) return;
++            if (xrBinding) throw new DOMException('A previous XR binding is still ending.', 'InvalidStateError');
++            if (xrBusy) return;
++            xrBusy = true; latest.current.onARBusy(true);
++            const attempt = new AbortController(); startup = attempt;
+             try {
+-              if (session) { await session.end(); return; }
+-              if (!navigator.xr || !isSecureContext) throw new Error('AR ist hier nicht verfügbar.');
++              if (session) { await endSession(session); return; }
++              if (!isSecureContext) throw new DOMException('A secure context is required.', 'SecurityError');
++              if (!navigator.xr) throw new DOMException('WebXR is unavailable.', 'NotSupportedError');
+               const overlay = container.closest('.space-view')?.querySelector<HTMLElement>('.space-ar-overlay');
+-              if (!overlay) throw new Error('Die AR-Bedienelemente sind nicht verfügbar.');
+-              // An interactive AR view needs its visible controls, including a reliable exit.
+-              const next = await navigator.xr.requestSession('immersive-ar', { requiredFeatures: ['dom-overlay'], domOverlay: { root: overlay } });
+-              if (cancelled) { await next.end(); return; }
++              if (!overlay) throw new DOMException('AR controls are unavailable.', 'NotSupportedError');
++              const requested = navigator.xr.requestSession('immersive-ar', surfaceSessionInit(overlay)).then(next => {
++                if (cancelled || attempt.signal.aborted) { void next.end().catch(() => {}); throw new DOMException('AR startup ended.', 'AbortError'); }
++                return next;
++              });
++              const next = await withAbort(requested, attempt.signal);
+               session = next;
++              let ended = false;
++              const endPlacement = () => { ended = true; attempt.abort(); clearPlacement(); next.removeEventListener('end', endPlacement); };
++              next.addEventListener('end', endPlacement);
+               inlinePose = { position: camera.position.clone(), quaternion: camera.quaternion.clone(), target: orbit.target.clone(), rotation: group.rotation.clone() };
+               try {
+-                await renderer.xr.setSession(next);
+-                if (cancelled || !renderer.xr.isPresenting) { await next.end().catch(() => {}); return; }
+-                orbit.enabled = false; group.scale.setScalar(scale); renderer.setClearAlpha(0); centerPending = true; latest.current.onAR(true); updateLoop();
+-              } catch (error) { await next.end().catch(() => {}); restoreInline(); throw error; }
+-            } finally { xrBusy = false; if (!cancelled) latest.current.onARBusy(false); }
++                hitResource = await acquireHitTestSource(next, () => cancelled || ended || session !== next, attempt.signal);
++                if (cancelled || ended || attempt.signal.aborted) throw new DOMException('AR startup ended.', 'AbortError');
++                const binding = renderer.xr.setSession(next).finally(() => {
++                  if (cancelled || ended || attempt.signal.aborted) restoreInline();
++                  if (xrBinding === binding) xrBinding = null;
++                });
++                xrBinding = binding;
++                await withAbort(binding, attempt.signal);
++                if (cancelled || ended || attempt.signal.aborted || !renderer.xr.isPresenting) throw new DOMException('AR startup ended.', 'AbortError');
++                orbit.enabled = false; group.visible = false; group.scale.setScalar(scale); renderer.setClearAlpha(0); placement.reset(); placementStatus = 'scanning'; latest.current.onPlacement('scanning'); latest.current.onAR(true); updateLoop();
++              } catch (error) { clearPlacement(); next.removeEventListener('end', endPlacement); await endSession(next); restoreInline(); throw error; }
++            } finally {
++              if (startup === attempt) { startup = null; xrBusy = false; if (!cancelled) latest.current.onARBusy(false); }
++            }
+           },
+         };
+-        disposers.push(() => { controlsRef.current = null; refresh.current = null; session?.end().catch(() => {}); });
++        disposers.push(() => { startup?.abort(); controlsRef.current = null; refresh.current = null; clearPlacement(); if (session) void endSession(session); });
+         resize(); refresh.current();
+         if (renderer.info.render.calls < 1 || container.clientWidth < 1) throw new Error('No valid first frame');
+         if (!cancelled) latest.current.onReady(true);
+@@ -168,7 +220,7 @@
+       }
+     }
+     void start();
+-    return () => { cancelled = true; dispose(); };
++    return () => { cancelled = true; latest.current.onAR(false); latest.current.onARBusy(false); latest.current.onPlacement('scanning'); latest.current.onReady(false); dispose(); };
+   }, [topology, props.powerSaver, props.controls]);
+   return <div ref={host} className="mesh-canvas" data-renderer="webgl" />;
+ }
+--- a/app/help-panel.tsx
++++ b/app/help-panel.tsx
+@@ -11,8 +11,8 @@
+   { title: 'Freigaben anfordern, ablehnen und dokumentieren', view: 'approvals', text: 'Aktion, Ziel, Daten, Grund, Auswirkung, Risiko, Prüfbeleg, Rückweg und Ablauf beschreiben. Inhalt zuerst speichern, Entscheidung danach. Genehmigen braucht einen konkreten Prüfbeleg und Rückweg. Entscheiden löst keine externe Aktion und keine Rechteänderung aus. Entschiedene Karten bleiben unveränderlich. Abgelaufene offene Anfragen können abgelehnt oder als neue Anfrage vorbereitet werden.' },
+   { title: 'Semantische 2D-Systemkarte', view: 'intelligence', text: '2D-Systemkarte öffnen. Jeder Knoten ist ein Button mit Details und verfolgbaren Beziehungen. Tab erreicht alle Knoten; Pfeiltasten wechseln zum Nachbarn, Pos1 und Ende zum ersten beziehungsweise letzten Knoten. Beziehungen können vollständig eingeblendet und per Tastatur geöffnet werden. Eigene Entitäten tragen Kreis und Herkunftstext, externe Quellen Quadrat und Herkunftstext. Die Karte ersetzt keine Live-Netzwerktests.' },
+   { title: '3D & Lernen: Mesh Explorer', view: 'space', text: 'Die 2D-Struktur erscheint zuerst. Team & Systeme, Agenten & Missionen oder gesamten App-Kontext wählen. Knoten öffnen ihre Details; Beziehungen zeigen Verantwortung, Voraussetzung oder ausdrücklich geplante Übergabe. Nachbarschaft isoliert direkt verbundene Knoten. Tab, Pfeile, Pos1 und Ende bedienen die Karte. Auswahl-Link kopieren erhält Knoten und Bereich, gewährt aber keinen Zugriff. Bei großen Beständen werden höchstens 32 Knoten gezeigt; über Beziehungen lässt sich auch eine zunächst ausgeblendete Auswahl verfolgen. Der geführte Agentenablauf erklärt vier Schritte ohne Agenten zu starten.' },
+-  { title: 'Mesh Academy: Fälle und Lerntransfer', view: 'space', text: 'Jedes der fünf Themen besitzt Prinzip, Wissensfrage, Fallprüfung und Anwendung. Antwort prüfen erklärt die Einordnung. Im Fall alle passenden Antworten wählen und erneut prüfen. In Anwenden mindestens 20 Zeichen eigene Begründung eingeben; Lernergebnis speichern hält Quizstand und Übungsnotiz gemeinsam fest. Eine echte, offene Transfer-Aufgabe lässt sich mit einem App-Profil als Owner anlegen. Optional eine offene Mission wählen: Die Aufgabe wird dann ausdrücklich ihre Voraussetzung. Dies löst keinen Blocker und startet keinen Agenten. Bestehende Quizabschlüsse bleiben erhalten. XP sind persönlicher Quizfortschritt, keine zertifizierte Kompetenz. Mein Arbeitsbuch exportieren lädt Themen und gespeicherte Übungsnotizen als Markdown herunter.' },
+-  { title: 'Räumliches 3D, AR und Wiederanlauf', view: 'space', text: 'Räumliches 3D lädt die Grafikmodule erst nach deinem Klick. Ziehen dreht die Kamera, Zoom und Auswahl fokussieren ändern den Blick. Die optionale Drehung ist Ansichtsbewegung, keine Agentenaktivität; Reduced Motion und Energiesparen halten sie an. Bei einem Startfehler oder verlorenen Grafikkontext kehrt die App zur 2D-Struktur zurück; 3D erneut laden versucht einen neuen Start. AR braucht einen sicheren Browser, immersive AR und DOM-Overlay für erreichbare Bedienelemente. In AR ansehen fragt erst nach deinem Klick an. Vor mir zentrieren, Größer, Kleiner und AR beenden steuern ein freies Modell ohne Flächenerkennung. Nach AR wird der frühere Kamerastand restauriert. Kamerabilder werden nicht aufgezeichnet oder hochgeladen. Geräteunterstützung ist kein Beleg für einen tatsächlich erfolgreichen Start.' },
++  { title: 'Mesh Academy: Fälle und Lerntransfer', view: 'space', text: 'Fünf Lernlevel zeigen dieselben Themen in 2D und echtem räumlichem 3D. Vorwissen-Kanten sind Empfehlungen; kein Thema wird gesperrt. Quiz, dokumentierte Übung und durch Beleg, Review und vollständige Voraussetzungen bestätigter App-Transfer werden getrennt angezeigt. Jedes Thema besitzt Prinzip, Wissensfrage, Fallprüfung und Anwendung. Antwort prüfen erklärt die Einordnung. Im Fall alle passenden Antworten wählen und erneut prüfen. In Anwenden mindestens 20 Zeichen eigene Begründung eingeben; Lernergebnis speichern hält Quizstand und Übungsnotiz gemeinsam fest. Eine echte, offene Transfer-Aufgabe lässt sich mit einem App-Profil als Owner anlegen. Optional eine offene Mission wählen: Die Aufgabe wird dann ausdrücklich ihre Voraussetzung. Dies löst keinen Blocker und startet keinen Agenten. Bestehende Quizabschlüsse bleiben erhalten. XP sind persönlicher Quizfortschritt, keine zertifizierte Kompetenz. Mein Arbeitsbuch exportieren lädt Themen und gespeicherte Übungsnotizen als Markdown herunter.' },
++  { title: 'Räumliches 3D, AR und Wiederanlauf', view: 'space', text: 'Räumliches 3D lädt die Grafikmodule erst nach deinem Klick. Ziehen dreht die Kamera, Zoom und Auswahl fokussieren ändern den Blick. Die optionale Drehung ist Ansichtsbewegung, keine Agentenaktivität; Reduced Motion und Energiesparen halten sie an. Bei einem Startfehler oder verlorenen Grafikkontext kehrt die App zur 2D-Struktur zurück; 3D erneut laden versucht einen neuen Start. Kamera-AR braucht HTTPS, einen unterstützten Browser, immersive AR, Hit-Test und ein DOM-Overlay mit erreichbaren Bedienelementen. Kamera-AR platzieren startet nur nach deinem Klick. Richte die Kamera langsam auf eine gut beleuchtete Fläche und bestätige die Zielmarkierung mit Hier platzieren. Neu platzieren sucht eine neue Fläche; Größer, Kleiner und AR beenden bleiben erreichbar. Es entsteht eine Flächenplatzierung für diese Sitzung, kein dauerhafter Raumanker. Fehlende Unterstützung oder verweigerte Freigabe werden konkret gemeldet. Nach AR wird der frühere Kamerastand restauriert. Kamerabilder werden nicht aufgezeichnet oder hochgeladen. Geräteunterstützung ist kein Beleg für einen tatsächlich erfolgreichen Start.' },
+   { title: 'Arbeitsprofile, Chats und Hand-offs', view: 'agents', text: 'Vier eigene Arbeitsprofile besitzen Rollen, Vorgaben, Modus, Ausgabeformat und Budgetvorgaben. Verbrauch und entfernte Aktivität werden nicht gemessen. Missionräume halten eigenen Auftrag, Notizen und manuell übernommene Rückmeldungen. Übergabe kopiert einen strukturierten Hand-off; die App sendet ihn nicht selbst und ist kein Live-KI-Chat.' },
+   { title: 'Export, Import und Wiederherstellung', view: 'settings', text: 'Export ist erst nach erfolgreichem Laden und außerhalb einer Speicherung verfügbar. Der Snapshot enthält den aktuellen Arbeitsstand. Import unterstützt Versionen 1–4 und führt zusammen; bestehende gespeicherte IDs gewinnen. In einem noch ungespeicherten Ziel werden die exportierten Aufgaben samt Voraussetzungen übernommen. Importierte Missionen beginnen erneut als Erstellt, Entscheidungen als offene Anfragen. Einstellungen, Profile und alte Ereignisse werden nicht destruktiv zurückgespielt. Dies ist kein vollständiger Datenbank-Restore.' },
+   { title: 'Speicherfehler und andere Tabs', view: 'activity', text: 'Bei einem Versionskonflikt wird der neue Serverstand geladen; Formularentwürfe bleiben zur Prüfung erhalten. Geht eine Antwort verloren, prüft die App den Serverstand vor einer Wiederholung. Nachgewiesene Speicherung wird bestätigt. Kann der Stand nicht geladen werden, bleibt Schreiben gesperrt. Export bleibt für einen zuvor erfolgreich geladenen Stand verfügbar; vor dem ersten erfolgreichen Laden ist er gesperrt. Gesamtes Arbeitsstandbudget: 1.750.000 UTF-8-Bytes; Einzelgrenzen gelten zusätzlich. Keine Secrets oder Zugangsdaten eingeben.' },
+--- /dev/null
++++ b/tests/level-ar-domain.mts
+@@ -0,0 +1,209 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { emptyWork } from '../lib/work-contract.ts';
++import { lessons, makeLearningTask, learningResultText } from '../lib/academy.ts';
++import { buildSpaceGraph, visibleSpaceGraph } from '../lib/space-model.ts';
++// Catch absent modules in the initial RED run so the failure is an explicit missing-feature assertion.
++const levels = await import('../lib/learning-levels.ts').catch(() => null);
++const ar = await import('../lib/ar-support.ts').catch(() => null);
++const placement = await import('../lib/ar-placement.ts').catch(() => null);
++
++test('learning graph provides five real course levels in 2D and 3D', () => {
++  const graph = buildSpaceGraph(emptyWork(), [], true);
++  assert.equal(graph.nodes.filter(n => n.kind === 'lesson').length, 5);
++  const view = visibleSpaceGraph(graph, 'learning', 'lesson:evidence', false);
++  assert.equal(view.nodes.length, 5);
++  assert.ok(view.edges.length > 0);
++  assert.ok(view.nodes.every(n => n.kind === 'lesson'));
++  assert.ok(new Set(view.nodes.map(n => n.position[2])).size > 1);
++});
++test('lesson dependencies are recommendations and never executed app relationships', () => {
++  const graph = buildSpaceGraph(emptyWork(), [], true);
++  const edges = graph.edges.filter(e => e.relation === 'recommended-before');
++  assert.ok(edges.length > 0); assert.ok(edges.every(e => e.origin === 'plan'));
++  assert.ok(edges.every(e => graph.nodes.some(n => n.id === e.from) && graph.nodes.some(n => n.id === e.to)));
++});
++test('legacy quiz completion is retained without inventing a practice or transfer', () => {
++  assert.ok(levels, 'Learning level derivation must exist');
++  const work = emptyWork(); work.learning.handoff = true; const before = JSON.stringify(work);
++  const level = levels.buildLearningLevels(work, true).find(l => l.id === 'handoff')!;
++  assert.equal(level.quizSaved, true); assert.equal(level.practiceSaved, false); assert.equal(level.transferComplete, false);
++  assert.equal(level.status, 'quiz-saved'); assert.equal(level.nextAction.kind, 'practice');
++  assert.ok(level.missingRecommended.includes('evidence')); assert.equal(JSON.stringify(work), before);
++});
++test('unknown data never asserts personal achievements', () => {
++  assert.ok(levels); const work = emptyWork(); for (const l of lessons) work.learning[l.id] = true;
++  assert.ok(levels.buildLearningLevels(work, false).every(l => l.status === 'unknown' && !l.quizSaved && !l.practiceSaved && !l.transferComplete));
++});
++test('a saved practice note and quiz show the real next case check', () => {
++  assert.ok(levels); const work = emptyWork(); work.learning.evidence = true;
++  work.notes.push({id:crypto.randomUUID(),text:learningResultText(lessons[0], 'Ein eigener datierter Abruf ist noch offen.'),createdAt:new Date().toISOString()});
++  const level = levels.buildLearningLevels(work, true)[0];
++  assert.equal(level.status, 'practice-saved'); assert.equal(level.nextAction.kind, 'practice');
++});
++test('a random note cannot substitute for a saved practice', () => {
++  assert.ok(levels); const work = emptyWork(); work.learning.evidence=true;
++  work.notes.push({id:crypto.randomUUID(),text:'Beleg oder Behauptung? Ich kenne es.',createdAt:new Date().toISOString()});
++  assert.equal(levels.buildLearningLevels(work, true)[0].practiceSaved, false);
++});
++test('an open transfer remains open and points to its real task', () => {
++  assert.ok(levels); const work = emptyWork(); const task = makeLearningTask(lessons[0], 'transfer-own'); work.tasks.push(task);
++  const level = levels.buildLearningLevels(work, true)[0];
++  assert.equal(level.transferComplete, false); assert.equal(level.transferTaskId, task.id); assert.equal(level.nextAction.kind, 'task');
++});
++test('done label without evidence and review cannot complete a transfer level', () => {
++  assert.ok(levels); const work = emptyWork(); const task = makeLearningTask(lessons[0], 'transfer-own'); task.status='Erledigt'; work.tasks.push(task);
++  assert.equal(levels.buildLearningLevels(work, true)[0].transferComplete, false);
++  task.evidence='Konkreter datierter Nachweis'; assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,false);
++  task.reviewed=true; assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,true);
++});
++test('transitive invalid prerequisites and dependency cycles invalidate transfer completion', () => {
++  assert.ok(levels); const work=emptyWork(); const task=makeLearningTask(lessons[0],'transfer-own');
++  task.status='Erledigt'; task.reviewed=true; task.evidence='Konkreter datierter Nachweis'; task.dependencies=['dep'];
++  const dep={...task,id:'dep',title:'Voraussetzung',dependencies:['missing']}; work.tasks.push(task,dep);
++  assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,false);
++  dep.dependencies=[task.id]; assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,false);
++  dep.dependencies=[]; assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,true);
++});
++test('archived transfer is not offered as an active task', () => {
++  assert.ok(levels); const work=emptyWork(); const task=makeLearningTask(lessons[0],'old'); task.archived=true; work.tasks.push(task);
++  assert.equal(levels.buildLearningLevels(work,true)[0].transferTaskId,null);
++});
++test('AR preflight distinguishes insecure context before any XR probe', async () => {
++  assert.ok(ar, 'AR diagnostics must exist'); let calls=0;
++  const result=await ar.inspectARSupport({secureContext:false,xr:{isSessionSupported:async()=>{calls++;return true;}}});
++  assert.equal(result.code,'insecure'); assert.equal(calls,0); assert.equal(result.supported,false);
++});
++test('AR preflight explains policy, missing API, unsupported device and probe errors', async () => {
++  assert.ok(ar);
++  assert.equal((await ar.inspectARSupport({secureContext:true,policyAllowsXR:false})).code,'policy-blocked');
++  assert.match((await ar.inspectARSupport({secureContext:true,nativeApp:true})).message,/Chrome|Browser/);
++  assert.equal((await ar.inspectARSupport({secureContext:true,xr:{isSessionSupported:async()=>false}})).code,'unsupported');
++  assert.equal((await ar.inspectARSupport({secureContext:true,xr:{isSessionSupported:async()=>{throw new Error('probe');}}})).code,'probe-failed');
++  assert.equal((await ar.inspectARSupport({secureContext:true,xr:{isSessionSupported:async()=>true}})).supported,true);
++});
++test('AR start errors distinguish denied permission from unavailable placement', () => {
++  assert.ok(ar); assert.match(ar.arStartError({name:'NotAllowedError'}),/Freigabe|abgelehnt/);
++  assert.match(ar.arStartError({name:'NotSupportedError'}),/Hit-Test|Flächen/);
++  assert.match(ar.arStartError({name:'SecurityError'}),/HTTPS|Richtlinie/);
++  assert.match(ar.arStartError({name:'InvalidStateError'}),/Sitzung/);
++  assert.match(ar.arStartError({name:'AbortError'}),/abgebrochen/);
++});
++test('AR placement requires both hit test and usable exit controls', () => {
++  assert.ok(ar); const root={} as HTMLElement;
++  assert.deepEqual(ar.surfaceSessionInit(root),{requiredFeatures:['hit-test','dom-overlay'],domOverlay:{root}});
++});
++const pose=(x:number)=>[1,0,0,0,0,1,0,0,0,0,1,0,x,0,-1,1];
++test('placement cannot happen before a current hit and remains fixed until explicit reposition', () => {
++  assert.ok(placement, 'Surface placement state must exist'); const p=placement.createPlacementState();
++  assert.equal(p.place(),null); assert.equal(p.status,'scanning'); p.update(pose(1)); assert.equal(p.status,'surface-found');
++  assert.deepEqual(p.place(),pose(1)); assert.equal(p.status,'placed'); p.update(pose(2)); assert.deepEqual(p.placed,pose(1));
++  p.reset(); assert.equal(p.placed,null); assert.equal(p.place(),null);
++});
++test('losing a hit before placement clears stale coordinates', () => {
++  assert.ok(placement); const p=placement.createPlacementState(); p.update(pose(1)); p.update(null);
++  assert.equal(p.status,'scanning'); assert.equal(p.place(),null);
++  p.update([1,2,3]); assert.equal(p.place(),null);
++  p.update([...pose(1).slice(0,15),NaN]); assert.equal(p.place(),null);
++});
++test('placement state copies matrices instead of retaining mutable frame buffers', () => {
++  assert.ok(placement); const p=placement.createPlacementState(); const value=pose(1); p.update(value); value[12]=8;
++  assert.equal(p.place()?.[12],1);
++});
++function mockSession(source: {cancel:()=>void}, pending?:Promise<typeof source>) {
++  const events=new EventTarget(); let referenceCalls=0,sourceCalls=0;
++  return {session:{addEventListener:events.addEventListener.bind(events),removeEventListener:events.removeEventListener.bind(events),requestReferenceSpace:async()=>{referenceCalls++;return {};},requestHitTestSource:async()=>{sourceCalls++;return pending??source;}} as unknown as XRSession, end:()=>events.dispatchEvent(new Event('end')), calls:()=>({referenceCalls,sourceCalls})};
++}
++test('hit source is disposed once on end and explicit cleanup', async () => {
++  assert.ok(placement); let cancelled=0; const mock=mockSession({cancel:()=>cancelled++});
++  const source=await placement.acquireHitTestSource(mock.session,()=>false); mock.end(); source.dispose();
++  assert.equal(cancelled,1); assert.deepEqual(mock.calls(),{referenceCalls:1,sourceCalls:1});
++});
++test('late hit source is cancelled after unmount during async acquisition', async () => {
++  assert.ok(placement); let cancelled=0,stale=false; let resolve!: (s:{cancel:()=>void})=>void;
++  const pending=new Promise<{cancel:()=>void}>(r=>resolve=r); const source={cancel:()=>cancelled++}; const mock=mockSession(source,pending);
++  const acquiring=placement.acquireHitTestSource(mock.session,()=>stale); await new Promise(r=>setImmediate(r)); assert.equal(mock.calls().sourceCalls,1); stale=true; resolve(source);
++  await assert.rejects(acquiring,{name:'AbortError'}); await new Promise(r=>setImmediate(r)); assert.equal(cancelled,1);
++});
++test('ended session cannot attach a late hit source', async () => {
++  assert.ok(placement); let cancelled=0; let resolve!: (s:{cancel:()=>void})=>void;
++  const pending=new Promise<{cancel:()=>void}>(r=>resolve=r); const source={cancel:()=>cancelled++}; const mock=mockSession(source,pending);
++  const acquiring=placement.acquireHitTestSource(mock.session,()=>false); await new Promise(r=>setImmediate(r)); assert.equal(mock.calls().sourceCalls,1); mock.end(); resolve(source);
++  await assert.rejects(acquiring,{name:'AbortError'}); await new Promise(r=>setImmediate(r)); assert.equal(cancelled,1);
++});
++
++test('renderer uses explicit surface placement and disposes its browser hit source', async () => {
++  const fs=await import('node:fs'); const renderer=fs.readFileSync(new URL('../app/space-renderer.tsx',import.meta.url),'utf8');
++  assert.match(renderer,/surfaceSessionInit\(overlay\)/); assert.match(renderer,/acquireHitTestSource/);
++  assert.match(renderer,/getHitTestResults/); assert.match(renderer,/placeAR:/);
++  assert.match(renderer,/hitResource\?\.dispose\(\)/);
++  assert.doesNotMatch(renderer,/group\.position\.set\(0, 0, -1\.25\)/);
++});
++test('UI reports real AR start failures and has explicit placement controls', async () => {
++  const fs=await import('node:fs'); const ui=fs.readFileSync(new URL('../app/mesh-space.tsx',import.meta.url),'utf8');
++  assert.match(ui,/arStartError\(error\)/); assert.match(ui,/setARStatus\(message\)/);
++  assert.match(ui,/Hier platzieren/); assert.match(ui,/placement !== 'surface-found'/);
++  assert.match(ui,/Lernlevel & Voraussetzungen/); assert.match(ui,/Nächste Lernaktion öffnen/);
++});
++test('help matches surface-placement controls and does not promise an unsupported free model', async () => {
++  const fs=await import('node:fs'); const help=fs.readFileSync(new URL('../app/help-panel.tsx',import.meta.url),'utf8');
++  assert.match(help,/Hier platzieren/); assert.match(help,/Hit-Test/); assert.doesNotMatch(help,/freies Modell ohne Flächenerkennung/);
++});
++
++test('dense shared-prerequisite DAG is evaluated once per task, within the 60-task contract', async () => {
++  const { spawnSync } = await import('node:child_process');
++  const result = spawnSync(process.execPath, ['--input-type=module', '--eval', `
++    import { emptyWork } from './lib/work-contract.ts';
++    import { lessons, makeLearningTask } from './lib/academy.ts';
++    import { buildLearningLevels } from './lib/learning-levels.ts';
++    const work=emptyWork(); let evidenceReads=0;
++    work.tasks=Array.from({length:60},(_,i)=>({
++      ...makeLearningTask(lessons[0],'dag-'+i), title:i===59?lessons[0].taskTitle:'Voraussetzung '+i,
++      status:'Erledigt', reviewed:true, dependencies:i===0?[]:i===1?['dag-0']:['dag-'+(i-1),'dag-'+(i-2)],
++      get evidence(){ evidenceReads++; return 'Konkreter geprüfter Abschlussbeleg'; }
++    }));
++    const first=buildLearningLevels(work,true)[0];
++    console.log(JSON.stringify({complete:first.transferComplete,evidenceReads}));
++  `], { cwd: new URL('../', import.meta.url), encoding: 'utf8', timeout: 2000 });
++  assert.equal(result.status, 0, 'A valid dense DAG must finish without the subprocess timeout: ' + result.error);
++  const actual=JSON.parse(result.stdout.trim()); assert.equal(actual.complete,true); assert.ok(actual.evidenceReads<=60, 'Each shared prerequisite should be evaluated only once');
++});
++test('completion cache is rebuilt for each state and cannot retain an old success', () => {
++  assert.ok(levels); const work=emptyWork(); const task=makeLearningTask(lessons[0],'memo');
++  task.status='Erledigt';task.reviewed=true;task.evidence='Konkreter geprüfter Abschlussbeleg';work.tasks=[task];
++  assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,true);
++  task.reviewed=false;assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,false);
++});
++test('completion rejects work outside contract bounds without traversing an unbounded graph', () => {
++  assert.ok(levels); const work=emptyWork(); const task=makeLearningTask(lessons[0],'bounded');
++  task.status='Erledigt';task.reviewed=true;task.evidence='Konkreter geprüfter Abschlussbeleg';
++  work.tasks=Array.from({length:61},(_,i)=>({...task,id:'too-many-'+i,title:i===0?task.title:'Anderer Eintrag '+i}));
++  assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,false);
++  work.tasks=[{...task,dependencies:Array.from({length:13},(_,i)=>'dependency-'+i)},...Array.from({length:13},(_,i)=>({...task,id:'dependency-'+i,title:'Voraussetzung '+i}))];
++  assert.equal(levels.buildLearningLevels(work,true)[0].transferComplete,false);
++});
++
++test('ending a session aborts a never-settling hit-source request immediately', async () => {
++  assert.ok(placement); let resolve!: (s:{cancel:()=>void})=>void;let cancelled=0;
++  const pending=new Promise<{cancel:()=>void}>(r=>resolve=r);const mock=mockSession({cancel(){}},pending);
++  const acquiring=placement.acquireHitTestSource(mock.session,()=>false);const outcome=acquiring.then(()=>false,error=>error.name==='AbortError');
++  await new Promise(r=>setImmediate(r));assert.equal(mock.calls().sourceCalls,1);mock.end();
++  assert.equal(await Promise.race([outcome,new Promise<boolean>(r=>setTimeout(()=>r(false),100))]),true);
++  resolve({cancel(){cancelled++;}});await new Promise(r=>setImmediate(r));assert.equal(cancelled,1);
++});
++test('saved practice recommends the real required case recheck instead of a disabled transfer screen', () => {
++  assert.ok(levels);const work=emptyWork();work.learning.evidence=true;
++  work.notes.push({id:crypto.randomUUID(),text:learningResultText(lessons[0],'Ein eigener datierter Abruf ist noch offen.'),createdAt:new Date().toISOString()});
++  const next=levels.buildLearningLevels(work,true)[0].nextAction;assert.equal(next.kind,'practice');assert.match(next.label,/Fall.*erneut|erneut.*Fall/);
++});
++test('AR startup cancellation is reachable inside the immersive overlay hit region', async () => {
++  const fs=await import('node:fs');const ui=fs.readFileSync(new URL('../app/mesh-space.tsx',import.meta.url),'utf8');
++  assert.match(ui,/className="space-ar-overlay" hidden=\{!arActive && !arBusy\}/);
++  assert.match(ui,/<div className="actions-row"><Button onClick=\{\(\) => controls\.current\?\.cancelAR\(\)\}>Start abbrechen/);
++});
++test('missing hit-test source result rejects clearly without retaining session listeners', async () => {
++  assert.ok(placement);const events=new EventTarget();
++  const session={addEventListener:events.addEventListener.bind(events),removeEventListener:events.removeEventListener.bind(events),requestReferenceSpace:async()=>({}),requestHitTestSource:()=>undefined} as unknown as XRSession;
++  await assert.rejects(placement.acquireHitTestSource(session,()=>false),{name:'NotSupportedError'});
++  events.dispatchEvent(new Event('end'));
++});
+--- /dev/null
++++ b/tests/level-ar-browser.mjs
+@@ -0,0 +1,99 @@
++// Optional QA toolchain: Playwright, axe-core, @napi-rs/canvas. No app dependency.
++// Own compiled app + isolated D1 only. Synthetic headers do not test Sites sign-in.
++// Third-party requests are blocked; no production identity or source guard is changed.
++import fs from 'node:fs'; import path from 'node:path'; import assert from 'node:assert/strict'; import crypto from 'node:crypto';
++import { Miniflare } from 'miniflare';
++import { fileURLToPath } from 'node:url';
++import { createRequire } from 'node:module';
++const require = createRequire(import.meta.url);
++const { chromium: pw } = await import(process.env.MESH_PLAYWRIGHT_MODULE || 'playwright');
++const { PNG } = await import(process.env.MESH_PNG_MODULE || 'pngjs');
++const axePath = process.env.MESH_AXE_SOURCE || require.resolve('axe-core/axe.min.js');
++const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'), output=process.env.MESH_BROWSER_AUDIT_OUTPUT || path.join('/tmp', 'cue-mesh-browser-qa'); fs.mkdirSync(output,{recursive:true});
++const origin='http://127.0.0.1:8789', user='spatial-e2e-'+crypto.randomUUID(), identity={'oai-authenticated-user-id':user,'oai-authenticated-user-email':'qa@example.invalid','X-Mesh-State-Version':'4'};
++const serverRoot=path.join(root,'dist/server');
++const modules=['index.js',...fs.readdirSync(serverRoot,{recursive:true}).filter(f=>f!=='index.js'&&/\.m?js$/.test(f))].map(f=>({type:'ESModule',path:path.join(serverRoot,f)}));
++const mf=new Miniflare({modules,modulesRoot:serverRoot,compatibilityDate:'2026-05-15',compatibilityFlags:['nodejs_compat'],host:'127.0.0.1',port:8789,cf:false,assets:{directory:path.join(root,'dist/client'),binding:'ASSETS',routerConfig:{has_user_worker:true}},d1Databases:{DB:'mesh-browser-only'},d1Persist:path.join(output,'isolated-d1')});
++const checks=[], consoleLog=[], screenshots=[], metrics={}; let browser;
++function check(name,condition,detail){assert.ok(condition,name); checks.push({name,status:'PASS',...(detail?{detail}:{})});console.log('PASS',name);}
++function watch(page){page.setDefaultTimeout(10000);page.on('pageerror',e=>consoleLog.push({type:'pageerror',message:e.message}));page.on('console',m=>{if(['error','warning'].includes(m.type())) consoleLog.push({type:m.type(),message:m.text()});});}
++async function shot(page,name){const file=output+'/'+name+'.png';await page.screenshot({path:file});screenshots.push(name+'.png');return file;}
++async function get(){const r=await fetch(origin+'/api/state',{headers:identity});assert.equal(r.status,200);return r.json();}
++async function put(state){const{updatedAt,...payload}=state;const r=await fetch(origin+'/api/state',{method:'PUT',headers:{...identity,'Content-Type':'application/json'},body:JSON.stringify({...payload,expectedUpdatedAt:updatedAt})});const body=await r.json();assert.equal(r.status,200,JSON.stringify(body));return body;}
++async function context(options={}){const c=await browser.newContext({viewport:{width:1440,height:1000},extraHTTPHeaders:identity,...options});await c.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());return c;}
++async function practice(page,topic,correct,caseChoices){
++ const panel=page.locator('.academy-panel');await panel.locator('.academy-topics').getByRole('button',{name:new RegExp(topic)}).click();
++ await panel.locator('.lesson-answers>button').nth(correct).click();await panel.getByRole('button',{name:'Antwort prüfen',exact:true}).click();await panel.getByRole('button',{name:'Zum Praxisfall',exact:true}).click();
++ for(const i of caseChoices) await panel.locator('.lesson-answers>button').nth(i).click();
++ await panel.getByRole('button',{name:'Fall prüfen',exact:true}).click();await panel.getByRole('button',{name:'In Arbeit übertragen',exact:true}).click();return panel;
++}
++try {
++ await mf.ready;const db=await mf.getD1Database('DB');await db.exec(fs.readFileSync(path.join(root,'drizzle/0000_ambitious_squirrel_girl.sql'),'utf8').replace('CREATE TABLE','CREATE TABLE IF NOT EXISTS').replace(/\s+/g,' '));
++ let state=await get();state.learning.handoff=true;
++ for(let i=0;i<20;i++) state.tasks.push({id:'spatial-fixture-'+i,title:'Belegte Übungsaufgabe '+(i+1),category:'Lernen',priority:'P2',owner:'codex',status:'Offen',acceptance:'Konkreten Befund und Umfang der Prüfung dokumentieren.',evidence:'',reviewed:false,dependencies:[],archived:false});
++ const missionId=crypto.randomUUID();state.command.missions.push({id:missionId,title:'Mein Lerntransfer · Testkontext',goal:'Beleglücke an einem eigenen Auftrag untersuchen.',scope:'Lokale Lernpraxis',project:'cue',owner:'manus',reviewer:'junior',stage:'Created',priority:'P1',output:'Prüfbarer Befund',taskIds:[],roomId:null,sourceIds:[],evidence:'',reviewed:false,checkpoint:'',archived:false,createdAt:new Date().toISOString()});state=await put(state);
++ browser=await pw.launch({...(process.env.MESH_CHROMIUM_EXECUTABLE ? { executablePath:process.env.MESH_CHROMIUM_EXECUTABLE } : {}),args:['--no-sandbox','--no-zygote','--single-process','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader'],headless:true});metrics.browser=browser.version();
++ const c=await context(),page=await c.newPage();watch(page);const requests=[];page.on('request',r=>requests.push(r.url()));
++ await page.goto(origin+'/?view=space',{waitUntil:'networkidle'});await page.getByText('● App-Profil / eigene Arbeit',{exact:true}).waitFor();
++ check('Page identity and meaningful 2D first render',page.url()===origin+'/?view=space'&&(await page.title()).includes('Cue Command Mesh')&&await page.locator('.space-map-node').count()===7);
++ check('No framework overlay or initial console error',consoleLog.length===0&&!await page.locator('vite-error-overlay').count());
++ check('Three.js and renderer are not fetched by 2D first view',!requests.some(url=>/three.module|OrbitControls|space-renderer/.test(url)));
++ await shot(page,'space-desktop-2d');
++ await page.getByRole('combobox',{name:'Netzwerkbereich'}).selectOption('all');
++ check('Large graph caps safely at 32 visible nodes',await page.locator('.space-map-node').count()===32&&(await page.locator('.space-legend').innerText()).includes('auf 32 begrenzt'));
++ const nodes=page.locator('.space-map-node');await nodes.first().focus();await nodes.first().press('ArrowDown');
++ check('Desktop ArrowDown follows the actual three-column grid',await nodes.nth(3).evaluate(el=>el===document.activeElement));
++ check('Keyboard focus remains visible',await nodes.nth(3).evaluate(el=>parseFloat(getComputedStyle(el).outlineWidth)>=3&&getComputedStyle(el).outlineStyle!=='none'));
++ await nodes.nth(3).press('End');check('End navigates to last visible node',await nodes.last().evaluate(el=>el===document.activeElement));await nodes.last().press('Home');check('Home navigates back to first node',await nodes.first().evaluate(el=>el===document.activeElement));
++ await page.locator('.space-relations').getByRole('button',{name:/Manus.*übergibt/}).click();check('Relationship opens its actual neighbour',await page.locator('.node-inspector h2').innerText()==='Manus');
++ await page.getByRole('combobox',{name:'Netzwerkbereich'}).selectOption('learning');
++ check('Learning scope shows five real levels',await page.locator('.space-map-node').count()===5);
++ await page.locator('.space-map-node').filter({hasText:'Level 4'}).click();
++ check('Selected level reports actual unfinished progress',await page.locator('.node-inspector').innerText().then(s=>s.includes('Quiz offen')&&s.includes('keine Zugangssperre')));
++ await page.getByRole('button',{name:'Nächste Lernaktion öffnen',exact:true}).click();
++ check('Level action opens the matching academy topic',await page.locator('.academy-panel h3').innerText()==='Level 4 · Automationen mit Augenmaß');
++ await page.locator('.academy-panel').getByRole('button',{name:'Lernpfad in 2D / 3D erkunden',exact:true}).click();
++ check('Academy returns to the selected level in the graph',await page.getByRole('combobox',{name:'Netzwerkbereich'}).inputValue()==='learning'&&(await page.locator('.node-inspector h2').innerText()).includes('Level 4'));
++ await page.locator('.space-map-node').filter({hasText:'Level 2'}).click(); await page.getByRole('button',{name:'Nächste Lernaktion öffnen',exact:true}).click();
++ check('Legacy saved quiz resumes the case without fabricating a transfer',await page.locator('.academy-phase-nav button[aria-pressed=true]').innerText()==='2 · Fall prüfen'&&(await page.locator('[aria-label="Lernlevel und nächste Aktion"]').innerText()).includes('0 / 5 Transfers'));
++ await shot(page,'level-academy-desktop');
++ await page.getByRole('combobox',{name:'Netzwerkbereich'}).selectOption('team');const writesBefore=requests.filter(url=>url.includes('/api/state')).length;
++ await page.getByRole('button',{name:'2 · Gezielt übergeben',exact:true}).click();check('Guided hand-off highlights the planned relation',await page.locator('.space-map-edges line.highlighted').count()===1&&await page.locator('.space-guide-detail').innerText().then(s=>s.includes('Artefakt + Quellen')));
++ check('Guided explanation does not mutate state or start a worker',requests.filter(url=>url.includes('/api/state')).length===writesBefore);
++ await page.getByRole('button',{name:'Auswahl-Link kopieren',exact:true}).click();check('Selection link records a node without access parameters',new URL(page.url()).searchParams.get('spaceNode')==='agent:manus'&&!/token|bypass/.test(page.url()));
++ await page.reload({waitUntil:'networkidle'});await page.getByText('● App-Profil / eigene Arbeit',{exact:true}).waitFor();check('Selection link survives reload',await page.locator('.node-inspector h2').innerText()==='Manus');
++ await page.getByRole('button',{name:'Räumliches 3D',exact:true}).click();await page.locator('.space-stage[aria-busy="false"]').waitFor({timeout:20000});const canvas=page.locator('.mesh-canvas canvas');const element=await canvas.elementHandle();
++ const png=await canvas.screenshot({path:output+'/3d-first-frame.png'});screenshots.push('3d-first-frame.png');const img=PNG.sync.read(png);const pixels=img.data;let bright=0;for(let i=0;i<pixels.length;i+=4) if(pixels[i]+pixels[i+1]+pixels[i+2]>180)bright++;metrics.firstFrame={width:img.width,height:img.height,brightPixels:bright,method:'screenshot pixels, software WebGL'};
++ check('3D renders actual visible first-frame pixels',img.width>100&&img.height>100&&bright>300);
++ await shot(page,'space-desktop-3d');await page.getByRole('button',{name:'Auswahl fokussieren',exact:true}).click();const focused=await canvas.screenshot();check('Focus changes the rendered viewpoint',!png.equals(focused));
++ await page.locator('.space-node-list').getByRole('button',{name:'Junior Agent',exact:true}).click();check('Selection preserves the same canvas and renderer lifecycle',await element.evaluate(el=>el.isConnected)&&await page.locator('.node-inspector h2').innerText()==='Junior');
++ await page.getByRole('button',{name:'Zentrieren',exact:true}).click();await page.getByRole('button',{name:'Ansicht drehen',exact:true}).click();const moving1=await canvas.screenshot();await page.waitForTimeout(250);const moving2=await canvas.screenshot();check('User-started rotation visibly changes the view',!moving1.equals(moving2));await page.getByRole('button',{name:'Drehung pausieren',exact:true}).click();
++ await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>matchMedia('(prefers-reduced-motion: reduce)').matches&&document.querySelector('.space-camera-controls button').disabled);check('Reduced Motion disables view rotation',await page.getByRole('button',{name:'Ansicht drehen',exact:true}).isDisabled());const still1=await canvas.screenshot();await page.waitForTimeout(150);const still2=await canvas.screenshot();check('Reduced Motion produces a stable paused frame',still1.equals(still2));
++ check('Unsupported immersive AR stays disabled',await page.getByRole('button',{name:'Kamera-AR platzieren',exact:true}).isDisabled());
++ const lost=await canvas.evaluate(el=>{const gl=el.getContext('webgl2')||el.getContext('webgl');const ext=gl?.getExtension('WEBGL_lose_context');if(!ext)return false;ext.loseContext();return true;});assert.ok(lost,'software GL must provide controlled loss');await page.getByRole('button',{name:'3D erneut laden',exact:true}).waitFor();check('Context loss recovers to a usable 2D map',await page.locator('.space-map-node').count()===7&&await page.locator('.space-error').isVisible());
++ await page.getByRole('button',{name:'3D erneut laden',exact:true}).click();await page.locator('.space-stage[aria-busy="false"]').waitFor();check('Retry after context loss creates a fresh usable canvas',!await element.evaluate(el=>el.isConnected)&&await page.locator('.mesh-canvas canvas').count()===1); await page.getByRole('combobox',{name:'Netzwerkbereich'}).selectOption('learning');await page.locator('.space-stage[aria-busy="false"]').waitFor();
++ check('Learning levels use an actual WebGL canvas',await page.locator('.mesh-canvas canvas').count()===1&&await page.locator('.space-node-list button').count()===5);
++ await shot(page,'learning-levels-3d');await page.getByRole('combobox',{name:'Netzwerkbereich'}).selectOption('team');await page.locator('.space-stage[aria-busy="false"]').waitFor();
++ // The scope rebuild is intentional; later selection lifecycle test owns the new canvas handle.
++await page.getByRole('button',{name:'2D-Struktur',exact:true}).click();
++ const academy=page.locator('.academy-panel');await academy.locator('.academy-topics').getByRole('button',{name:/Beleg oder Behauptung/}).click();await academy.getByRole('button',{name:'3 · Anwenden',exact:true}).click();check('Practice cannot be saved without actual quiz and case checks',await academy.getByRole('button',{name:'Lernergebnis speichern',exact:true}).isDisabled());
++ await academy.getByRole('button',{name:'1 · Verstehen',exact:true}).click();await academy.locator('.lesson-answers>button').first().click();await academy.getByRole('button',{name:'Antwort prüfen',exact:true}).click();check('Wrong answer explains the missing proof',await academy.locator('.lesson-feedback.incorrect').isVisible()&&(await academy.locator('.lesson-feedback').innerText()).includes('Profilbindung'));
++ let panel=await practice(page,'Beleg oder Behauptung',1,[1,2]);await panel.getByRole('textbox',{name:/Deine Begründung/}).fill('Anmeldung reicht nicht: Profilbindung und eigener Abruf brauchen jeweils einen datierten Beleg.');await panel.getByRole('combobox',{name:'Optionaler Missionskontext'}).selectOption(missionId);await panel.getByRole('combobox',{name:'Verantwortliches App-Profil'}).selectOption('manus');
++ await panel.getByRole('button',{name:'Lernergebnis speichern',exact:true}).click();await page.getByText('Quizstand und begründetes Lernergebnis gespeichert.',{exact:true}).waitFor();state=await get();check('UI saves reasoning and completion while preserving old quiz state',state.learning.evidence&&state.learning.handoff&&state.notes.some(n=>n.text.includes('Profilbindung und eigener Abruf')));
++ await panel.getByRole('button',{name:'Übungsauftrag in Matrix anlegen',exact:true}).click();await panel.getByRole('button',{name:'Transfer-Aufgabe vorhanden',exact:true}).waitFor();state=await get();const transfer=state.tasks.find(t=>t.title==='Lerntransfer: Connector-Zugriff belegen');check('UI creates a real open task with the selected owner',!!transfer&&transfer.owner==='manus'&&transfer.status==='Offen'&&transfer.reviewed===false&&transfer.evidence==='');check('Mission and task reference persist atomically',state.command.missions.find(m=>m.id===missionId).taskIds.includes(transfer.id));check('Duplicate learning transfer is prevented in UI',await panel.getByRole('button',{name:'Transfer-Aufgabe vorhanden',exact:true}).isDisabled());
++ const downloadEvent=page.waitForEvent('download');await panel.getByRole('button',{name:'Mein Arbeitsbuch exportieren',exact:true}).click();const download=await downloadEvent;await download.saveAs(output+'/mesh-academy-arbeitsbuch.md');check('Workbook export contains the saved reasoning and five topics',fs.readFileSync(output+'/mesh-academy-arbeitsbuch.md','utf8').includes('Profilbindung und eigener Abruf')&&fs.readFileSync(output+'/mesh-academy-arbeitsbuch.md','utf8').includes('Wann ist eine Aufgabe erledigt?'));
++ await page.reload({waitUntil:'networkidle'});await page.getByText('● App-Profil / eigene Arbeit',{exact:true}).waitFor();check('Browser reload retains saved practice progress',await page.locator('.learning-progress').innerText().then(s=>s.includes('40 XP')&&s.includes('2 / 5')));await page.locator('.academy-saved summary').click();check('Saved reasoning remains available after reload',await page.locator('.academy-saved').innerText().then(s=>s.includes('Profilbindung und eigener Abruf')));
++ panel=await practice(page,'Kontext gezielt übergeben',2,[0,2,3]);const draft='Ein anderer Reviewer braucht Scope, Quellen, offene Fragen und einen klaren Rückgabepunkt.';await panel.getByRole('textbox',{name:/Deine Begründung/}).fill(draft);await panel.getByRole('combobox',{name:'Optionaler Missionskontext'}).selectOption(missionId);state=await get();state.command.missions.find(m=>m.id===missionId).archived=true;await put(state);
++ await panel.getByRole('button',{name:'Lernergebnis speichern',exact:true}).click();await panel.getByRole('button',{name:'Missionskontext entfernen',exact:true}).waitFor();check('CAS conflict preserves answers and reasoning after context changes',await panel.getByRole('textbox',{name:/Deine Begründung/}).inputValue()===draft&&(await panel.innerText()).includes('✓ Praxisfall geprüft'));
++ await panel.getByRole('button',{name:'Missionskontext entfernen',exact:true}).click();check('Invalid mission context can be cleared without losing draft',await panel.getByRole('textbox',{name:/Deine Begründung/}).inputValue()===draft&&await panel.getByRole('button',{name:'Lernergebnis speichern',exact:true}).isEnabled());await panel.getByRole('button',{name:'Lernergebnis speichern',exact:true}).click();await page.getByText('Quizstand und begründetes Lernergebnis gespeichert.',{exact:true}).waitFor();check('User can save safely after conflict recovery',(await get()).notes.some(n=>n.text.includes(draft)));
++ await page.addScriptTag({path:axePath});const axeDesktop=await page.evaluate(async()=>axe.run('.spatial-workspace',{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}}));fs.writeFileSync(output+'/a11y-desktop.json',JSON.stringify(axeDesktop,null,2));metrics.a11yDesktop=axeDesktop.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}));check('Automated WCAG A/AA checks pass for the new spatial workspace',axeDesktop.violations.length===0);
++ const mobileContext=await context({viewport:{width:390,height:844},isMobile:true,hasTouch:true,colorScheme:'dark',reducedMotion:'reduce'}),mobile=await mobileContext.newPage();watch(mobile);await mobile.goto(origin+'/?view=space',{waitUntil:'networkidle'});await mobile.getByText('● App-Profil / eigene Arbeit',{exact:true}).waitFor();
++ check('390px viewport has no horizontal document overflow',await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await shot(mobile,'space-mobile-top');await mobile.getByRole('combobox',{name:'Netzwerkbereich'}).selectOption('all');check('Mobile large graph also remains bounded and scrollable',await mobile.locator('.space-map-node').count()===32&&await mobile.locator('.space-map-scroll').evaluate(el=>el.scrollHeight>el.clientHeight));await mobile.locator('.space-map-node').first().focus();await mobile.locator('.space-map-node').first().press('ArrowDown');check('Mobile ArrowDown follows the two-column grid',await mobile.locator('.space-map-node').nth(2).evaluate(el=>el===document.activeElement));
++ await mobile.getByRole('button',{name:'Zur Academy',exact:true}).click();await shot(mobile,'space-mobile-academy');await mobile.locator('.academy-panel').getByRole('button',{name:'3 · Anwenden',exact:true}).click();const tiny=await mobile.locator('.spatial-workspace').evaluate(root=>[...root.querySelectorAll('button,select,textarea,summary')].filter(el=>el.getClientRects().length&&getComputedStyle(el).visibility!=='hidden').map(el=>({name:el.getAttribute('aria-label')||el.textContent.trim().slice(0,70),width:el.getBoundingClientRect().width,height:el.getBoundingClientRect().height})).filter(b=>b.width<43.9||b.height<43.9));metrics.mobileSmallTargets=tiny;check('New mobile interactive targets are at least 44px',tiny.length===0,JSON.stringify(tiny));check('Mobile applying view stays within 390px',await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await shot(mobile,'space-mobile-apply');
++ await mobile.addScriptTag({path:axePath});const axeMobile=await mobile.evaluate(async()=>axe.run('.spatial-workspace',{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa']}}));fs.writeFileSync(output+'/a11y-mobile.json',JSON.stringify(axeMobile,null,2));metrics.a11yMobile=axeMobile.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}));check('Mobile dark-theme automated WCAG checks pass',axeMobile.violations.length===0);
++ await mobile.getByRole('button',{name:'Navigation öffnen',exact:true}).click();await mobile.getByRole('button',{name:'3D & Lernen',exact:true}).click();check('Mobile navigation closes its menu and opens learning',await mobile.getByRole('heading',{name:'3D & Lernen',exact:true}).isVisible());
++ const failedContext=await context(),failed=await failedContext.newPage();await failed.route('**/api/state',r=>r.abort());await failed.goto(origin+'/?view=space',{waitUntil:'networkidle'});await failed.getByText('○ Vorlage / Stand unbekannt',{exact:true}).waitFor();check('Failed data load labels templates and blocks personal export',await failed.locator('.node-inspector').innerText().then(s=>s.includes('Vorlage / Stand unbekannt'))&&await failed.locator('.academy-panel').getByRole('button',{name:'Mein Arbeitsbuch exportieren',exact:true}).isDisabled());
++ metrics.consoleExpected=consoleLog.filter(l=>/Context Lost|409|Conflict/.test(l.message));metrics.consoleUnexpected=consoleLog.filter(l=>!/Context Lost|409|Conflict/.test(l.message));check('No unexpected console errors in successful and recovery flows',metrics.consoleUnexpected.length===0,JSON.stringify(metrics.consoleUnexpected));
++ metrics.testedViewports=['1440x1000','390x844'];metrics.scope='Local compiled app, isolated D1, synthetic identity; software WebGL, no production sign-in, no hardware AR';
++} catch(error){metrics.failure=error.stack;console.error(error);process.exitCode=1;}
++finally {fs.writeFileSync(output+'/SPATIAL_BROWSER_AUDIT.json',JSON.stringify({measuredAt:new Date().toISOString(),status:metrics.failure?'PARTIAL':'PASS',passed:checks.length,checks,metrics,screenshots},null,2));await browser?.close();await mf.dispose();}
+--- /dev/null
++++ b/tests/level-ar-renderer.mjs
+@@ -0,0 +1,104 @@
++import fs from 'node:fs';
++import { createRequire } from 'node:module';
++const nativeRequire=createRequire(import.meta.url);
++import vm from 'node:vm';
++import assert from 'node:assert/strict';
++import ts from '../node_modules/typescript/lib/typescript.js';
++import * as Three from '../node_modules/three/build/three.module.js';
++import { WebXRManager } from '../node_modules/three/src/renderers/webxr/WebXRManager.js';
++const deferred=()=>{let resolve,reject;const promise=new Promise((r,j)=>{resolve=r;reject=j;});return{promise,resolve,reject}};
++const tick=()=>new Promise(r=>setImmediate(r));
++class Emitter extends EventTarget {}
++const scenarios=[];
++async function mount({pendingLocal=false,pendingSource=false,pendingCompatible=false,pendingRequest=false,pendingViewer=false}={}){
++  const local=deferred(),sourcePending=deferred(),compatible=deferred(),request=deferred(),viewer=deferred(); let sourceCancelled=0;
++ function makeSession(){let ended=false;
++  const session=new Emitter();session.inputSources=[];session.enabledFeatures=['hit-test','dom-overlay'];session.renderState={};session.environmentBlendMode='alpha-blend';
++  session.updateRenderState=s=>Object.assign(session.renderState,s);
++  session.requestReferenceSpace=async type=>type==='viewer'&&pendingViewer?viewer.promise:type==='local'&&pendingLocal?local.promise:{};
++  session.requestHitTestSource=async()=>pendingSource?sourcePending.promise:{cancel(){sourceCancelled++}};
++  session.requestAnimationFrame=()=>1;session.cancelAnimationFrame=()=>{};
++  session.end=async()=>{if(ended)throw new DOMException('Already ended','InvalidStateError');ended=true;session.dispatchEvent(new Event('end'))};
++ return session;} const session=makeSession();let requestedSession=session,requestCalls=0;
++  const overlay={hidden:true},host={clientWidth:600,clientHeight:440,appendChild(){},closest(){return{querySelector(){return overlay}}}};
++  const ready=deferred(),states={ready:false,active:false,busy:false,placement:'scanning',errors:[]};
++  const props={graph:{nodes:[{id:'one',title:'One',kind:'agent',origin:'own',color:0xff0000,position:[0,0,0]}],edges:[]},selected:'one',highlightedEdge:null,moving:false,powerSaver:false,allowMotion:false,controls:{current:null},onReady(v){states.ready=v;if(v)ready.resolve()},onError(m){states.errors.push(m);ready.reject(new Error(m))},onSelect(){},onAR(v){states.active=v;overlay.hidden=!v},onARBusy(v){states.busy=v;overlay.hidden=!(states.active||states.busy)},onPlacement(v){states.placement=v}};
++  const rendererRef={current:null};
++  const gl={getContextAttributes:()=>({xrCompatible:!pendingCompatible,alpha:true,depth:false,antialias:false,stencil:false}),isContextLost:()=>false,makeXRCompatible:()=>compatible.promise};
++  class FakeRenderer{
++    constructor(){rendererRef.current=this;this.domElement=new Emitter();Object.assign(this.domElement,{setAttribute(){},remove(){},getBoundingClientRect(){return{x:0,y:0,width:600,height:440}}});this.xr=new WebXRManager(this,gl);this.info={render:{calls:1}};this.pixel=1;this.width=600;this.height=440;this.alpha=1;this.disposed=false;this.events=[];}
++    setAnimationLoop(fn){this.loop=fn;}
++    dispose(){this.disposed=true;this.events.push('dispose');}
++    setPixelRatio(v){this.pixel=v} getPixelRatio(){return this.pixel}
++    setSize(w,h){this.width=w;this.height=h;this.events.push(['setSize',w,h,this.disposed])} getSize(vec){return vec.set(this.width,this.height)}
++    setClearColor(){}setClearAlpha(v){this.alpha=v}getContext(){return gl}
++    getRenderTarget(){return null}setRenderTarget(){} render(scene,camera){this.scene=scene;this.camera=camera;this.info.render.calls=1}
++  }
++  class Orbit{constructor(camera){this.camera=camera;this.target=new Three.Vector3();}update(){}saveState(){}reset(){}dispose(){}addEventListener(){}}
++  class Observer{observe(){}disconnect(){}}
++  const effects=[];let refs=0;
++  const hooks={useRef(v){return{current:refs++===0?host:v}},useEffect(fn){effects.push(fn)}};
++  const document=Object.assign(new Emitter(),{hidden:false,createElement(){return{width:0,height:0,getContext(){return{measureText(){return{width:20}},fillText(){}}}}}});
++  const media=Object.assign(new Emitter(),{matches:false});
++  const oldLayer=globalThis.XRWebGLLayer;
++  globalThis.XRWebGLLayer=class{constructor(){this.framebufferWidth=800;this.framebufferHeight=600;this.ignoreDepthValues=false}};
++  const require=id=>id==='react'?hooks:id==='react/jsx-runtime'?{jsx(){return null}}:id==='three'?{...Three,WebGLRenderer:FakeRenderer}:id.includes('OrbitControls')?{OrbitControls:Orbit}:id.startsWith('@/lib/')?nativeRequire(new URL(`../lib/${id.slice('@/lib/'.length)}.ts`,import.meta.url).pathname):(()=>{throw new Error(id)})();
++  const code=ts.transpileModule(fs.readFileSync(new URL('../app/space-renderer.tsx',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText;
++  const context={exports:{},require,window:{devicePixelRatio:1},document,navigator:{xr:{requestSession:async()=>{requestCalls++;return pendingRequest&&requestCalls===1?request.promise:requestedSession}}},isSecureContext:true,DOMException,AbortController,ResizeObserver:Observer,IntersectionObserver:Observer,matchMedia:()=>media};
++  vm.runInNewContext(code,context);context.exports.default(props);const cleanups=effects.map(fn=>fn()).filter(Boolean);await ready.promise;
++  return{session,states,renderer:rendererRef.current,local,sourcePending,compatible,request,viewer,makeSession,setNextSession(s){requestedSession=s},overlay,get sourceCancelled(){return sourceCancelled},controls:props.controls,unmount(){for(const cleanup of cleanups)cleanup()},restore(){globalThis.XRWebGLLayer=oldLayer}};
++}
++// Real installed Three.js XR manager and application control flow; browser/GPU edges are controlled doubles.
++const checks=[];
++{
++ const m=await mount({pendingLocal:true});const start=m.controls.current.ar();const rejected=assert.rejects(start,{name:'AbortError'});await tick();await m.session.end();m.local.resolve({});await rejected;await tick();
++ checks.push(['ended local-space race',!m.states.active&&!m.states.busy&&!m.renderer.xr.isPresenting&&m.renderer.xr.getSession()===null]);m.unmount();m.restore();
++}
++{
++ const m=await mount();await m.controls.current.ar();m.unmount();await tick();
++ checks.push(['effect cleanup clears parent AR state',!m.states.active&&!m.states.busy&&m.overlay.hidden&&m.controls.current===null&&m.sourceCancelled===1]);m.restore();
++}
++{
++ const m=await mount({pendingSource:true});const start=m.controls.current.ar();const rejected=assert.rejects(start,{name:'AbortError'});await tick();
++ checks.push(['pending start has an explicit cancellation control',typeof m.controls.current.cancelAR==='function']);
++ if(m.controls.current.cancelAR) await m.controls.current.cancelAR(); else await m.session.end();
++ let terminal=false;void rejected.then(()=>terminal=true);await tick();checks.push(['source acquisition ends immediately without waiting for browser promise',terminal&&!m.states.busy]);
++ m.sourcePending.resolve({cancel(){}});await rejected;m.unmount();m.restore();
++}
++{
++ const m=await mount({pendingLocal:true});const start=m.controls.current.ar();const rejected=assert.rejects(start,{name:'AbortError'});await tick();m.unmount();
++ checks.push(['renderer disposal waits for pending Three binding',!m.renderer.disposed]);
++ m.local.resolve({});await rejected;await tick();checks.push(['late binding cannot resurrect disposed renderer',m.renderer.disposed&&!m.renderer.xr.isPresenting&&!m.states.active&&!m.states.busy&&m.renderer.xr.getSession()===null]);
++ checks.push(['no Three resize after renderer disposal',!m.renderer.events.some(e=>Array.isArray(e)&&e[0]==='setSize'&&e[3])]);m.restore();
++}
++for (const fail of [false,true]) {
++ const m=await mount({pendingCompatible:true});const start=m.controls.current.ar();const rejected=assert.rejects(start,{name:'AbortError'});await tick();await m.session.end();
++ if(fail)m.compatible.reject(new Error('Compatibility failed late'));else m.compatible.resolve();
++ await rejected;await tick();checks.push(['makeXRCompatible '+(fail?'reject':'resolve')+' restores inline pixel ratio and size',m.renderer.pixel===1&&m.renderer.width===600&&m.renderer.height===440&&!m.renderer.xr.isPresenting&&m.renderer.xr.getSession()===null&&!m.states.busy]);m.unmount();m.restore();
++}
++{
++ const m=await mount({pendingLocal:true});const start=m.controls.current.ar();const rejected=assert.rejects(start,{name:'AbortError'});await tick();m.controls.current.cancelAR();m.local.reject(new Error('Space failed late'));await rejected;await tick();
++ checks.push(['late local-space rejection remains terminal',!m.states.busy&&!m.states.active&&!m.renderer.xr.isPresenting&&m.renderer.xr.getSession()===null]);m.unmount();m.restore();
++}
++{
++ const m=await mount();const position=m.renderer.camera.position.clone(),quaternion=m.renderer.camera.quaternion.clone();await m.controls.current.ar();const group=m.renderer.scene.children[0],reticle=m.renderer.scene.children[1];assert.equal(group.visible,false);assert.equal(m.states.placement,'scanning');const pose=x=>[1,0,0,0,0,1,0,0,0,0,1,0,x,0,-1,1];const frame=matrix=>({getHitTestResults(){return matrix?[{getPose(){return{transform:{matrix}}}}]:[]}});m.renderer.loop(1,frame(pose(2)));assert.equal(m.states.placement,'surface-found');assert.equal(reticle.visible,true);m.renderer.loop(2,frame(null));m.controls.current.placeAR();assert.equal(m.states.placement,'scanning');assert.equal(group.visible,false);m.renderer.loop(3,frame(pose(3)));m.controls.current.placeAR();assert.equal(m.states.placement,'placed');assert.equal(group.visible,true);assert.equal(reticle.visible,false);const x=group.position.x,z=group.position.z;m.controls.current.zoom(.85);assert.equal(group.position.x,x);assert.equal(group.position.z,z);m.controls.current.centerAR();assert.equal(group.visible,false);assert.equal(m.states.placement,'scanning');m.controls.current.placeAR();assert.equal(group.visible,false);m.renderer.camera.position.set(9,9,9);m.renderer.camera.quaternion.set(1,0,0,0);await m.controls.current.ar();assert.equal(m.states.active,false);assert.deepEqual(m.renderer.camera.position,position);assert.deepEqual(m.renderer.camera.quaternion.toArray(),quaternion.toArray());assert.equal(m.sourceCancelled,1);scenarios.push({scenario:'normal scan-loss-place-zoom-reposition-exit',result:'PASS',sourceCancelled:m.sourceCancelled});m.unmount();m.restore();
++}
++{
++ for(const stage of ['source','viewer','request','binding']){
++ const m=await mount({pendingSource:stage==='source',pendingViewer:stage==='viewer',pendingRequest:stage==='request',pendingLocal:stage==='binding'});const start=m.controls.current.ar();await tick();m.controls.current.cancelAR();const outcome=await Promise.race([start.then(()=> 'resolved',e=>e.name),new Promise(r=>setTimeout(()=>r('TIMEOUT'),100))]);assert.equal(outcome,'AbortError',stage);assert.equal(m.states.busy,false,stage);let lateCancelled=0;if(stage==='source')m.sourcePending.resolve({cancel(){lateCancelled++}});if(stage==='viewer')m.viewer.resolve({});if(stage==='request')m.request.resolve(m.session);if(stage==='binding')m.local.resolve({});await tick();assert.equal(m.renderer.xr.isPresenting,false,stage);if(stage==='source')assert.equal(lateCancelled,1);scenarios.push({scenario:`explicit cancel while ${stage} pending`,result:'PASS',lateCancelled});m.unmount();m.restore();
++ }
++ {
++ const m=await mount({pendingLocal:true});const start=m.controls.current.ar();await tick();await m.session.end();m.local.resolve({});await assert.rejects(start,{name:'AbortError'});await tick();const second=m.makeSession();m.setNextSession(second);await m.controls.current.ar();assert.equal(m.states.active,true);assert.equal(m.renderer.xr.getSession(),second);await m.controls.current.ar();assert.equal(m.states.active,false);assert.equal(m.renderer.xr.isPresenting,false);assert.equal(m.renderer.pixel,1);scenarios.push({scenario:'normal second session after late first binding',result:'PASS'});m.unmount();m.restore();
++ }
++ {
++ const m=await mount({pendingRequest:true});const start=m.controls.current.ar();await tick();m.controls.current.cancelAR();await assert.rejects(start,{name:'AbortError'});const second=m.makeSession();m.setNextSession(second);await m.controls.current.ar();m.request.resolve(m.session);await tick();assert.equal(m.states.active,true);assert.equal(m.renderer.xr.getSession(),second);await m.controls.current.ar();scenarios.push({scenario:'cancelled request resolves after next session became active',result:'PASS'});m.unmount();m.restore();
++ }
++}
++if(process.env.REVIEW_ROTATION){const m=await mount({pendingLocal:true});m.renderer.scene.children[0].rotation.y=.8;const start=m.controls.current.ar();await tick();await m.session.end();m.local.resolve({});await assert.rejects(start,{name:'AbortError'});await tick();scenarios.push({scenario:'inline group rotation after repeated late-binding restore',rotationY:m.renderer.scene.children[0].rotation.y,expected:.8});m.unmount();m.restore();}
++{
++ const m=await mount({pendingLocal:true});const group=m.renderer.scene.children[0];group.rotation.y=.8;
++ const start=m.controls.current.ar();const rejected=assert.rejects(start,{name:'AbortError'});await tick();await m.session.end();m.local.resolve({});await rejected;await tick();
++ checks.push(['repeated terminal cleanup preserves the prior inline rotation',Math.abs(group.rotation.y-.8)<1e-8]);m.unmount();m.restore();
++}
++console.log(JSON.stringify([...checks.map(([name,pass])=>({name,pass})),...scenarios],null,2));
++assert.ok(checks.every(([,pass])=>pass),'Every AR lifecycle invariant must pass');

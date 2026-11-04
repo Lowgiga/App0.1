@@ -1,0 +1,9 @@
+// Static wiring guards; native visual/device acceptance remains separate.
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+const read=n=>fs.readFileSync(new URL('../'+n,import.meta.url),'utf8'),base='android/cue-native-ar/src/main/';
+test('native Back closes an open local panel before closing AR',()=>{const s=read(base+'java/de/lowgiga/cuear/CueArActivity.java');assert.match(s,/if\(detailsState\.closePanel\(\)\)\{renderPanel\(\);return;\}/)});
+test('gear has an accessible label and bounded panels keep camera space',()=>{const s=read(base+'java/de/lowgiga/cuear/CueArActivity.java');assert.match(s,/setContentDescription\(getString\(R\.string\.cue_ar_settings\)\)/);assert.match(s,/private void renderPanel\(/);assert.match(s,/setMinHeight\(dp\(48\)\)/)});
+test('explicit app return is propagated as a bounded optional action',()=>{const a=read(base+'java/de/lowgiga/cuear/CueArActivity.java'),b=read(base+'java/de/lowgiga/cuear/CueNativeARPlugin.java');assert.match(a,/putExtra\("openDetails",openDetails\)/);assert.match(b,/getBooleanExtra\("openDetails",false\)/);assert.match(read('src/NativeARPanel.tsx'),/fresh\.onOpenDetails/)});
+test('native detail return can reveal the existing web inspector',()=>{const s=read('overlay/mesh-space.tsx');assert.match(s,/onOpenDetails=\{revealInspector\}/);assert.match(s,/ref=\{inspector\}/)});
+
+test('all native selection routes synchronize the guarded picker centrally',()=>{const s=read(base+'java/de/lowgiga/cuear/CueArActivity.java');assert.match(s,/private void showSelection\(int index\)\{[^}]*selected=detailsState.selectedId\(\);if\(picker.getSelectedItemPosition\(\)!=index\+1\)picker.setSelection\(index\+1\)/);assert.match(s,/pos==picker.getSelectedItemPosition\(\)/);assert.match(s,/graph.nodes.get\(index\).id.equals\(renderer.selectedId\(\)\)/)});
