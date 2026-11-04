@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/contracts/omega.event.v1.schema.json",
+  "title": "omega.event/v1",
+  "description": "Signiertes Ereignis eines Knotens. Ed25519 ueber kanonisches JSON (RFC 8785) ohne sig. Replay-Schutz: seq streng steigend je node. dataClass 'secret' verlaesst den Knoten nie.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "node",
+    "seq",
+    "hlc",
+    "type",
+    "dataClass",
+    "payload",
+    "sig"
+  ],
+  "properties": {
+    "schema": {
+      "const": "omega.event/v1"
+    },
+    "node": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "hlc": {
+      "type": "string",
+      "pattern": "^\\d{15}\\.\\d{6}\\.[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "type": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9-]*)+$"
+    },
+    "dataClass": {
+      "enum": [
+        "public",
+        "internal",
+        "personal",
+        "financial",
+        "secret"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    },
+    "sig": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  }
+}

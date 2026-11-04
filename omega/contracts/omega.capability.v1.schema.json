@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/contracts/omega.capability.v1.schema.json",
+  "title": "omega.capability/v1",
+  "description": "Faehigkeit mit ablaufendem Nachweis (OMG-02, Form wie docs/31). effect = OperationEffect aus app/src/assistant/policy.ts; Wiederholung nur fuer pure und read-only. Nachweis hoechstens 24 h gueltig.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "id",
+    "provider",
+    "node",
+    "effect",
+    "requires",
+    "state",
+    "evidence",
+    "fallbacks"
+  ],
+  "properties": {
+    "schema": {
+      "const": "omega.capability/v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$"
+    },
+    "provider": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "binary",
+            "app",
+            "service",
+            "plugin",
+            "model",
+            "os"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "node": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "effect": {
+      "enum": [
+        "pure",
+        "read-only",
+        "write",
+        "unknown"
+      ]
+    },
+    "requires": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$"
+      }
+    },
+    "state": {
+      "enum": [
+        "available",
+        "degraded",
+        "unavailable"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkId",
+        "status",
+        "verifiedAt",
+        "expiresAt"
+      ],
+      "properties": {
+        "checkId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9.-]{0,127}$"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "skipped"
+          ]
+        },
+        "verifiedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?Z$"
+        },
+        "expiresAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,3})?Z$"
+        }
+      }
+    },
+    "fallbacks": {
+      "type": "array",
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$"
+      }
+    }
+  }
+}

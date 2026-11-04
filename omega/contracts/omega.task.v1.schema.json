@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/contracts/omega.task.v1.schema.json",
+  "title": "omega.task/v1",
+  "description": "Aufgabe nach dem Missionsmodell der App (missionStages, stageTransitions, agentIds). Jeder Stufenwechsel braucht einen gueltigen Fencing-Token; 'Approved' nur mit verbrauchter Freigabe.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "taskId",
+    "kind",
+    "cls",
+    "risk",
+    "stage",
+    "profile",
+    "createdHlc",
+    "origin"
+  ],
+  "properties": {
+    "schema": {
+      "const": "omega.task/v1"
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "kind": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.-]{0,63}$"
+    },
+    "cls": {
+      "enum": [
+        "safety",
+        "observe",
+        "reversible",
+        "sensitive",
+        "irreversible",
+        "self-modify"
+      ]
+    },
+    "change": {
+      "enum": [
+        "proposal",
+        "config",
+        "prompt",
+        "capability-read-only",
+        "adapter",
+        "module",
+        "trust-kernel",
+        "policy"
+      ]
+    },
+    "risk": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "stage": {
+      "enum": [
+        "Created",
+        "Planned",
+        "Assigned",
+        "Working",
+        "Waiting",
+        "Blocked",
+        "Review",
+        "Approved",
+        "Done",
+        "Error"
+      ]
+    },
+    "profile": {
+      "enum": [
+        "zimt",
+        "manus",
+        "junior",
+        "codex"
+      ]
+    },
+    "createdHlc": {
+      "type": "string",
+      "pattern": "^\\d{15}\\.\\d{6}\\.[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "origin": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "input": {
+      "type": "object"
+    },
+    "approvalId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

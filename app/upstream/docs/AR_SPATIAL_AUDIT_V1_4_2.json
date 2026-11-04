@@ -1,0 +1,904 @@
+{
+  "version": "1.4.2",
+  "measuredAt": "2026-10-01T00:18:58Z",
+  "status": "PASS",
+  "source": {
+    "branch": "feat/codex-spatial-ar-1-4-2",
+    "referenceCommit": "23ae42c2d83d5b31dcc9f61adeefb22bb1e1f03a",
+    "releaseCommit": "The Sites saved-version source.commit_sha identifies the exact pushed release; this file is included in that commit."
+  },
+  "domain": {
+    "passed": 132,
+    "newARAndLevelChecks": 29,
+    "failed": 0,
+    "command": "node --experimental-strip-types --test tests/*.mts",
+    "exitCode": 0
+  },
+  "http": {
+    "passed": 195,
+    "suites": {
+      "ar-spatial-api": 21,
+      "collaboration-api": 25,
+      "foundation-api": 40,
+      "intelligence-api": 36,
+      "local-api": 22,
+      "spatial-academy-api": 29,
+      "tuning-api": 22
+    },
+    "checks": {
+      "ar-spatial-api": [
+        "existing state version 4 loads without a new migration",
+        "old quiz state is present before new levels",
+        "three additive personal level notes persist while old quiz remains",
+        "level save emits one canonical notes event without fictional remote activity",
+        "level save changes no agent rights approvals or interactions",
+        "optional target mission can be prepared separately",
+        "transfer task note and mission reference commit atomically",
+        "atomic transfer records three sequential canonical app events",
+        "transfer creates no automatic worker activity approval or review",
+        "reload retains exact full state including personal records",
+        "version 3 reader retains old quizzes and new ordinary notes",
+        "legacy write retains all spatial notes and version 4 command references",
+        "legacy update preserved the real transfer reference and event sequence",
+        "transfer cannot be falsely closed without evidence and review",
+        "duplicate personal record IDs are rejected",
+        "missing mission task reference rejects the whole write",
+        "invalid writes create no partial note task or event",
+        "stale revision cannot overwrite the transferred level",
+        "a different user has none of these personal records tasks or missions",
+        "POST is explicitly unsupported and cannot mutate state",
+        "DELETE is explicitly unsupported and cannot mutate state"
+      ],
+      "collaboration-api": [
+        "private collaboration data requires authenticated identity",
+        "catalog exposes four read-only operations without private mission context",
+        "isolated own state is readable",
+        "fixture has a genuine own stored context",
+        "brief returns only bounded own mission context",
+        "private notes goals account identifiers and permissions are not copied into context",
+        "brief keeps direct connection delivery identity and acknowledgement unknown",
+        "external writing installation and scheduling are disallowed in brief",
+        "MCP and private state carry the same observed storage version",
+        "same private content has stable brief fingerprint",
+        "fingerprint matches independent Python SHA-256",
+        "repeated brief reads create no notes events approvals or missions",
+        "other authenticated user sees none of first users missions",
+        "different own context produces different fingerprint",
+        "nonempty arguments never start actions",
+        "array arguments are rejected",
+        "no remote worker start operation is available",
+        "foreign browser origin is rejected",
+        "unsupported protocol is rejected",
+        "MCP GET does not create a session or event stream",
+        "ordinary CAS write preserves a manually supplied claim note",
+        "claim storage does not mark a mission agent or approval completed",
+        "claim storage records one canonical own note event",
+        "changed own context makes old brief fingerprint stale",
+        "old storage revision returns conflict instead of overwriting"
+      ],
+      "foundation-api": [
+        "modern GET returns state version and empty command defaults",
+        "already open 1.1 clients receive only legacy response fields",
+        "new mission persists with one canonical app event",
+        "client cannot erase canonical event log",
+        "missing mission task rejected without event",
+        "rejected changes leave state and event log unchanged",
+        "allowed phase change has increasing event sequence",
+        "stale tab cannot overwrite mission or generate event",
+        "409 leaves exactly the accepted events",
+        "approval request persists as pending and not executed",
+        "decision cannot silently change request target",
+        "decision time is canonical server time and execution remains false",
+        "decided approval content cannot change",
+        "app cannot claim execution through state write",
+        "phase jump and unfinished task cannot produce completed mission",
+        "second identity cannot read missions approvals or event log",
+        "legacy save response remains parseable for 1.1 client",
+        "legacy PUT preserves command entities and canonical history",
+        "legacy read maps modern start view to compatible overview",
+        "modern read retains configured modern start view",
+        "legacy full-state round trip succeeds without modern fields",
+        "legacy ordinary save does not overwrite modern start view",
+        "future state version rejected",
+        "new expired approval is rejected",
+        "mission lifecycle persists Assigned",
+        "mission lifecycle persists Working",
+        "mission lifecycle persists Review",
+        "mission approval without documented review rejected",
+        "mission with completed task proof and distinct reviewer can be accepted",
+        "pending decision prevents mission completion",
+        "declined request is recorded without execution",
+        "completed mission persists after prerequisites and review",
+        "reopening task cannot invalidate completed mission silently",
+        "completed mission content requires reopening review",
+        "accepted mission cannot retain review after task criteria change",
+        "completed mission protects transitive prerequisite proof in API",
+        "mission archive retains completed content and event history",
+        "short validity request initially persists",
+        "expired request cannot be approved with forged old timestamp",
+        "expired request can be declined without validity extension"
+      ],
+      "intelligence-api": [
+        "v4 state exposes strict matrix defaults and real empty interaction log",
+        "state rejects unsupported POST",
+        "state rejects unsupported DELETE",
+        "state rejects unsupported PATCH",
+        "action endpoint rejects unsupported read method",
+        "own actions require identity",
+        "cross-origin actions rejected",
+        "cross-site actions rejected",
+        "misleading JSON media type rejected",
+        "invalid action JSON rejected",
+        "action body has independent streaming size limit",
+        "new mission derives weights and explicit absent deadline",
+        "focus action advances valid Created to Planned",
+        "focus action emits meaningful progress weight for Planned",
+        "replay of stale Created action is conflict",
+        "focus action advances valid Planned to Assigned",
+        "focus action emits meaningful progress weight for Assigned",
+        "replay of stale Planned action is conflict",
+        "focus action advances valid Assigned to Working",
+        "focus action emits meaningful progress weight for Working",
+        "replay of stale Assigned action is conflict",
+        "next eligible task starts without invented worker execution",
+        "real blocked phase creates high-priority scored event",
+        "forged risk revision cannot be accepted",
+        "risk decision needs meaningful reason",
+        "risk console creates linked real task",
+        "repeated planning is not duplicated",
+        "risk acceptance records stability but keeps blocker intact",
+        "normal state PUT cannot alter validated interaction log",
+        "client cannot change canonical event context",
+        "other identity cannot read mission or decisions",
+        "v3 response excludes all v4 command metadata",
+        "legacy v3 save after new interactions succeeds",
+        "legacy save preserves matrix interaction records and weights",
+        "HTTP reload returns exact persisted state and server events",
+        "no fake Make start endpoint exists"
+      ],
+      "local-api": [
+        "state requires identity",
+        "fresh identity has empty state",
+        "invalid JSON is rejected",
+        "unknown markers rejected",
+        "cross-origin state write rejected",
+        "initial state persists",
+        "reload reads persisted state",
+        "second identity is isolated",
+        "matching version updates",
+        "stale version cannot overwrite",
+        "conflict leaves current state intact",
+        "MCP initialize negotiates declared version",
+        "four declared read-only MCP tools preserve existing operations",
+        "MCP data read requires identity",
+        "MCP status reads dated snapshot",
+        "MCP plan reads only own stored notes",
+        "MCP Make reports inactive snapshot",
+        "MCP rejects array arguments",
+        "MCP rejects null request",
+        "MCP rejects unknown origin",
+        "MCP rejects unsupported protocol header",
+        "stateless MCP does not invent SSE"
+      ],
+      "spatial-academy-api": [
+        "existing v4 state loads with learning object",
+        "pre-existing quiz completion can be persisted",
+        "v3 reader still sees its original quiz completion",
+        "reasoning note and quiz flag commit in one accepted update",
+        "saving deep practice preserves older completion",
+        "learning and notes create exactly their two server events",
+        "practice events remain sequential",
+        "practice events do not pretend to be remote worker calls",
+        "reload returns the same persisted reasoning and flags",
+        "real learning transfer task is created open and unreviewed",
+        "transfer event points at the real task ID",
+        "practice cannot create an approval or execute an external action",
+        "learning task cannot be completed without evidence and review",
+        "colliding transfer task IDs are rejected",
+        "colliding result note IDs are rejected",
+        "invalid transfer dependency is rejected",
+        "invented certification field is rejected",
+        "all rejected practice writes leave existing state intact",
+        "independent update advances the revision",
+        "stale quiz save reports 409 instead of overwriting another update",
+        "conflict recovery read retains both reasoning and independent note",
+        "another user sees none of the saved practice records",
+        "older v3 client can still save after deep practice",
+        "legacy roundtrip retains learning notes, tasks and sequential server history",
+        "optional own mission context can be created normally",
+        "mission prerequisite and new learning task commit together",
+        "linked transfer emits exactly the mission and task changes",
+        "reloaded mission has a real existing task reference",
+        "invalid mission learning reference is rejected without modifying the link"
+      ],
+      "tuning-api": [
+        "old shape gains workspace defaults",
+        "settings profiles and learning persist together",
+        "legacy PUT preserves all new fields",
+        "unknown setting rejected",
+        "profile cannot widen external rights",
+        "duplicate agent profile rejected",
+        "done without proof and review rejected",
+        "proof without review rejected",
+        "unfinished dependency blocks completion",
+        "missing dependency rejected",
+        "cyclic dependencies rejected",
+        "self dependency rejected",
+        "proven reviewed completion with completed dependency accepted",
+        "reopening prerequisite invalidates dependent completion",
+        "mission room contribution persists",
+        "reload retains settings and room context",
+        "second user cannot read rooms or settings",
+        "duplicate room messages rejected",
+        "archive is reversible persisted status",
+        "restore retains contributions",
+        "stale tab cannot overwrite new workspace",
+        "conflict preserves saved state"
+      ]
+    },
+    "command": "python tests/run-api-audit.py",
+    "completion": "Exit code and complete final check count required per suite",
+    "exitCode": 0,
+    "scope": "Own compiled Worker, isolated local D1 and synthetic identities; no production auth dispatch"
+  },
+  "browser": {
+    "arAndLevels": {
+      "measuredAt": "2026-10-01T00:09:20.888Z",
+      "status": "PASS",
+      "passed": 43,
+      "checks": [
+        {
+          "name": "Personal levels preserve existing quiz XP without implying spatial completion",
+          "status": "PASS"
+        },
+        {
+          "name": "Future levels stay locked until the previous one is stored",
+          "status": "PASS"
+        },
+        {
+          "name": "Unvalidated level cannot be saved",
+          "status": "PASS"
+        },
+        {
+          "name": "Wrong provenance returns actionable feedback",
+          "status": "PASS"
+        },
+        {
+          "name": "Correct 2D orientation grants exactly 25 personal XP",
+          "status": "PASS"
+        },
+        {
+          "name": "Reload resumes the actual next level",
+          "status": "PASS"
+        },
+        {
+          "name": "Relationship practice opens its actual source selection",
+          "status": "PASS"
+        },
+        {
+          "name": "Following the edge selects its actual target and highlights it",
+          "status": "PASS"
+        },
+        {
+          "name": "3D level focus changes pixels of the actual WebGL scene",
+          "status": "PASS"
+        },
+        {
+          "name": "Normal 3D cannot be recorded as camera AR",
+          "status": "PASS"
+        },
+        {
+          "name": "Persisted perspective records a personal 3D path without camera certification",
+          "status": "PASS"
+        },
+        {
+          "name": "Optional real GLSL selection shader changes the rendered scene",
+          "status": "PASS"
+        },
+        {
+          "name": "Selected hologram stays visually static with Reduced Motion",
+          "status": "PASS"
+        },
+        {
+          "name": "CAS conflict exposes stale mission while preserving the level draft",
+          "status": "PASS"
+        },
+        {
+          "name": "Stale mission can be explicitly cleared without losing reasoning",
+          "status": "PASS"
+        },
+        {
+          "name": "Transfer creates one genuine open unreviewed task and level note together",
+          "status": "PASS"
+        },
+        {
+          "name": "All four practice levels award only 100 XP alongside old quiz XP",
+          "status": "PASS"
+        },
+        {
+          "name": "Four-level completion and original quiz survive reload",
+          "status": "PASS"
+        },
+        {
+          "name": "Desktop spatial level components pass automated WCAG A/AA",
+          "status": "PASS"
+        },
+        {
+          "name": "390px expanded practice workspace has no horizontal overflow",
+          "status": "PASS"
+        },
+        {
+          "name": "Spatial practice touch targets are at least 44px",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "390px dark spatial workspace passes automated accessibility checks",
+          "status": "PASS"
+        },
+        {
+          "name": "Equal 2D learning route completes without loading a WebGL canvas",
+          "status": "PASS"
+        },
+        {
+          "name": "Permission rejection preserves exact browser name message and phase",
+          "status": "PASS"
+        },
+        {
+          "name": "Rejected table request uses required plane and overlay features without hidden fallback",
+          "status": "PASS"
+        },
+        {
+          "name": "Explicit free mode requests overlay without falsely requesting a plane",
+          "status": "PASS"
+        },
+        {
+          "name": "Native end during delayed viewer setup keeps start locked",
+          "status": "PASS"
+        },
+        {
+          "name": "Old deferred start returns to the same usable inline renderer",
+          "status": "PASS"
+        },
+        {
+          "name": "Starting AR does not declare a placed surface before a pose",
+          "status": "PASS"
+        },
+        {
+          "name": "Simulated fresh horizontal hit enables conscious placement",
+          "status": "PASS"
+        },
+        {
+          "name": "Placement changes real renderer state only after user action",
+          "status": "PASS"
+        },
+        {
+          "name": "Scaling preserves placed state instead of recentering on viewer",
+          "status": "PASS"
+        },
+        {
+          "name": "Tracking loss disables surface placement and reports the interruption",
+          "status": "PASS"
+        },
+        {
+          "name": "Repositioning explicitly clears old placement",
+          "status": "PASS"
+        },
+        {
+          "name": "DOM overlay suppresses accidental XR selection",
+          "status": "PASS"
+        },
+        {
+          "name": "Unconfirmed end retains an actionable exit without claiming inactivity",
+          "status": "PASS"
+        },
+        {
+          "name": "Further frames cannot overwrite unknown end state",
+          "status": "PASS"
+        },
+        {
+          "name": "User-triggered retry confirms end and restores normal 3D controls",
+          "status": "PASS"
+        },
+        {
+          "name": "Hit-test failure plus failed cleanup preserves both errors and owned exit",
+          "status": "PASS"
+        },
+        {
+          "name": "Failed cleanup is never automatically retried",
+          "status": "PASS"
+        },
+        {
+          "name": "Native end during delayed graphics binding discards the stale renderer safely",
+          "status": "PASS"
+        },
+        {
+          "name": "After cancelled graphics binding 3D can start with a fresh renderer",
+          "status": "PASS"
+        },
+        {
+          "name": "No unexpected console or shader compile errors across these flows",
+          "status": "PASS",
+          "detail": "[]"
+        }
+      ],
+      "metrics": {
+        "browser": "153.0.8010.0",
+        "desktopViolations": [],
+        "smallMobileTargets": [],
+        "mobileViolations": [],
+        "consoleUnexpected": [],
+        "scope": "Own compiled app, isolated D1 and synthetic identities. Real software WebGL pixels plus explicitly simulated XR lifecycle/poses. No production login, camera, actual device, physical surface or AR tracking verification."
+      },
+      "screenshots": [
+        "spatial-levels-complete.png",
+        "spatial-levels-mobile.png",
+        "ar-diagnosis-renderer-recovery.png"
+      ]
+    },
+    "spatialRegression": {
+      "measuredAt": "2026-10-01T00:10:58.322Z",
+      "status": "PASS",
+      "passed": 44,
+      "checks": [
+        {
+          "name": "Page identity and meaningful 2D first render",
+          "status": "PASS"
+        },
+        {
+          "name": "No framework overlay or initial console error",
+          "status": "PASS"
+        },
+        {
+          "name": "Three.js and renderer are not fetched by 2D first view",
+          "status": "PASS"
+        },
+        {
+          "name": "Large graph caps safely at 32 visible nodes",
+          "status": "PASS"
+        },
+        {
+          "name": "Desktop ArrowDown follows the actual three-column grid",
+          "status": "PASS"
+        },
+        {
+          "name": "Keyboard focus remains visible",
+          "status": "PASS"
+        },
+        {
+          "name": "End navigates to last visible node",
+          "status": "PASS"
+        },
+        {
+          "name": "Home navigates back to first node",
+          "status": "PASS"
+        },
+        {
+          "name": "Relationship opens its actual neighbour",
+          "status": "PASS"
+        },
+        {
+          "name": "Guided hand-off highlights the planned relation",
+          "status": "PASS"
+        },
+        {
+          "name": "Guided explanation does not mutate state or start a worker",
+          "status": "PASS"
+        },
+        {
+          "name": "Selection link records a node without access parameters",
+          "status": "PASS"
+        },
+        {
+          "name": "Selection link survives reload",
+          "status": "PASS"
+        },
+        {
+          "name": "3D renders actual visible first-frame pixels",
+          "status": "PASS"
+        },
+        {
+          "name": "Focus changes the rendered viewpoint",
+          "status": "PASS"
+        },
+        {
+          "name": "Selection preserves the same canvas and renderer lifecycle",
+          "status": "PASS"
+        },
+        {
+          "name": "User-started rotation visibly changes the view",
+          "status": "PASS"
+        },
+        {
+          "name": "Reduced Motion disables view rotation",
+          "status": "PASS"
+        },
+        {
+          "name": "Reduced Motion produces a stable paused frame",
+          "status": "PASS"
+        },
+        {
+          "name": "Unsupported immersive AR stays disabled",
+          "status": "PASS"
+        },
+        {
+          "name": "Context loss recovers to a usable 2D map",
+          "status": "PASS"
+        },
+        {
+          "name": "Retry after context loss creates a fresh usable canvas",
+          "status": "PASS"
+        },
+        {
+          "name": "Practice cannot be saved without actual quiz and case checks",
+          "status": "PASS"
+        },
+        {
+          "name": "Wrong answer explains the missing proof",
+          "status": "PASS"
+        },
+        {
+          "name": "UI saves reasoning and completion while preserving old quiz state",
+          "status": "PASS"
+        },
+        {
+          "name": "UI creates a real open task with the selected owner",
+          "status": "PASS"
+        },
+        {
+          "name": "Mission and task reference persist atomically",
+          "status": "PASS"
+        },
+        {
+          "name": "Duplicate learning transfer is prevented in UI",
+          "status": "PASS"
+        },
+        {
+          "name": "Workbook export contains the saved reasoning and five topics",
+          "status": "PASS"
+        },
+        {
+          "name": "Browser reload retains saved practice progress",
+          "status": "PASS"
+        },
+        {
+          "name": "Saved reasoning remains available after reload",
+          "status": "PASS"
+        },
+        {
+          "name": "CAS conflict preserves answers and reasoning after context changes",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid mission context can be cleared without losing draft",
+          "status": "PASS"
+        },
+        {
+          "name": "User can save safely after conflict recovery",
+          "status": "PASS"
+        },
+        {
+          "name": "Automated WCAG A/AA checks pass for the new spatial workspace",
+          "status": "PASS"
+        },
+        {
+          "name": "390px viewport has no horizontal document overflow",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile large graph also remains bounded and scrollable",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile ArrowDown follows the two-column grid",
+          "status": "PASS"
+        },
+        {
+          "name": "New mobile interactive targets are at least 44px",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "Mobile applying view stays within 390px",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile dark-theme automated WCAG checks pass",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile navigation closes its menu and opens learning",
+          "status": "PASS"
+        },
+        {
+          "name": "Failed data load labels templates and blocks personal export",
+          "status": "PASS"
+        },
+        {
+          "name": "No unexpected console errors in successful and recovery flows",
+          "status": "PASS",
+          "detail": "[]"
+        }
+      ],
+      "metrics": {
+        "browser": "153.0.8010.0",
+        "firstFrame": {
+          "width": 749,
+          "height": 441,
+          "brightPixels": 6212,
+          "method": "screenshot pixels, software WebGL"
+        },
+        "a11yDesktop": [],
+        "mobileSmallTargets": [],
+        "a11yMobile": [],
+        "consoleExpected": [
+          {
+            "type": "error",
+            "message": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+          }
+        ],
+        "consoleUnexpected": [],
+        "testedViewports": [
+          "1440x1000",
+          "390x844"
+        ],
+        "scope": "Local compiled app, isolated D1, synthetic identity; software WebGL, no production sign-in, no hardware AR"
+      },
+      "screenshots": [
+        "space-desktop-2d.png",
+        "3d-first-frame.png",
+        "space-desktop-3d.png",
+        "space-mobile-top.png",
+        "space-mobile-academy.png",
+        "space-mobile-apply.png"
+      ]
+    },
+    "collaboration": {
+      "measuredAt": "2026-10-01T00:10:53.172Z",
+      "status": "PASS",
+      "passed": 27,
+      "checks": [
+        {
+          "name": "Initial dashboard does not fetch the optional coordination panel",
+          "status": "PASS"
+        },
+        {
+          "name": "Agent view loads the real lazy cooperation panel",
+          "status": "PASS"
+        },
+        {
+          "name": "Low presence and acceptance are explicitly unverified",
+          "status": "PASS"
+        },
+        {
+          "name": "Clipboard contains a bounded unsent brief without private notes",
+          "status": "PASS"
+        },
+        {
+          "name": "UI export matches the own MCP content fingerprint",
+          "status": "PASS"
+        },
+        {
+          "name": "Copy and export neither dispatch Low nor create state events",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid report JSON produces a readable error",
+          "status": "PASS"
+        },
+        {
+          "name": "Reports outside Lows ownership are blocked",
+          "status": "PASS"
+        },
+        {
+          "name": "Divergent briefs remain visible and cannot be accepted",
+          "status": "PASS"
+        },
+        {
+          "name": "A matching manual report stays an unverified claim",
+          "status": "PASS"
+        },
+        {
+          "name": "HTML and reported commands remain inert text",
+          "status": "PASS"
+        },
+        {
+          "name": "CAS conflict preserves the raw report and invalidates its old brief",
+          "status": "PASS"
+        },
+        {
+          "name": "Conflict cannot overwrite another work note",
+          "status": "PASS"
+        },
+        {
+          "name": "Parallel work permits explicit historical claim storage without changing mission status",
+          "status": "PASS"
+        },
+        {
+          "name": "Successful acceptance stores only a labelled personal claim note",
+          "status": "PASS"
+        },
+        {
+          "name": "Claim acceptance emits exactly one canonical note event",
+          "status": "PASS"
+        },
+        {
+          "name": "Successful save clears the import draft",
+          "status": "PASS"
+        },
+        {
+          "name": "a11y-desktop-light has no automated WCAG A/AA violations",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "Reload retains the unverified report and leaves Low unconnected",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile 390px has no horizontal document overhang",
+          "status": "PASS"
+        },
+        {
+          "name": "Touch report validation is functional",
+          "status": "PASS"
+        },
+        {
+          "name": "Mobile cooperation controls have at least 44px touch targets",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "Keyboard focus is visible on cooperation controls",
+          "status": "PASS"
+        },
+        {
+          "name": "Reduced Motion is respected by the cooperation panel",
+          "status": "PASS"
+        },
+        {
+          "name": "a11y-mobile-dark has no automated WCAG A/AA violations",
+          "status": "PASS",
+          "detail": "[]"
+        },
+        {
+          "name": "Unknown personal state cannot be copied or exported as current context",
+          "status": "PASS"
+        },
+        {
+          "name": "No unexpected browser errors in accepted and recovery flows",
+          "status": "PASS",
+          "detail": "[]"
+        }
+      ],
+      "metrics": {
+        "browser": "153.0.8010.0",
+        "a11y-desktop-light": [],
+        "mobileSmallTargets": [],
+        "a11y-mobile-dark": [],
+        "consoleExpected": [
+          {
+            "type": "error",
+            "message": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+          }
+        ],
+        "consoleUnexpected": [],
+        "scope": "Own compiled app and isolated D1; no real Low identity, client authentication or remote action is verified",
+        "viewports": [
+          "1440x1050",
+          "390x844"
+        ]
+      },
+      "screenshots": [
+        "coordination-desktop.png",
+        "coordination-mobile.png"
+      ]
+    }
+  },
+  "totalFunctionalChecks": 441,
+  "typecheck": {
+    "exitCode": 0,
+    "command": "tsc --noEmit --noUnusedLocals --noUnusedParameters --incremental false"
+  },
+  "build": {
+    "exitCode": 0,
+    "command": "npm run build",
+    "warning": "Large optional Three.js chunk; lazy boundary verified"
+  },
+  "budget": {
+    "measuredAt": "2026-10-01T00:17:19.846Z",
+    "appChunk": {
+      "bytes": 128780,
+      "gzip": 39865
+    },
+    "appChunkAdditionalGzip": -2781,
+    "initialStaticJsGzip": 220477,
+    "css": {
+      "bytes": 220577,
+      "gzip": 36268
+    },
+    "cssGrowthPercent": 9.512603206283487,
+    "optionalAdditionalGzip": {
+      "coordination": 6612,
+      "intelligence": 10183,
+      "palette": 6640,
+      "spatial": 22755,
+      "spatialRenderer": 7240,
+      "threeAndOrbit": 189809
+    },
+    "lazyBoundaries": {
+      "coordinationOutsideInitial": true,
+      "rendererOutsideInitial": true,
+      "rendererOutside2DStatic": true,
+      "engineOutsideInitial": true,
+      "engineOutside2DStatic": true
+    },
+    "budgets": {
+      "appChunkGzip": 102400,
+      "appChunkAdditionalGzip": 102400,
+      "initialStaticJsGzip": 225280,
+      "commandAdditionalGzip": 46080,
+      "cssGrowthPercent": 10
+    }
+  },
+  "boundedLoad": {
+    "scope": "own local compiled worker with 8 request threads; finite sample, no capacity extrapolation",
+    "readRequests": 128,
+    "readConcurrency": 8,
+    "readDurationSeconds": 0.2266,
+    "observedRequestsPerMinute": 33885.45,
+    "readMedianMs": 12.683,
+    "readP95Ms": 25.875,
+    "readMaxMs": 27.556,
+    "readErrorCount": 0,
+    "sameVersionWriteRace": {
+      "requests": 8,
+      "accepted": 1,
+      "conflicts": 7,
+      "storedNotes": 1,
+      "eventSequenceAtomic": true
+    }
+  },
+  "localRecovery": {
+    "scope": "own compiled worker process restart and isolated local D1; no production backup restore",
+    "exactStateRetained": true,
+    "eventSequenceRetained": true,
+    "recoveryMs": 620.84
+  },
+  "independentReview": {
+    "reviewer": "/root/initialization_review",
+    "status": "PASS",
+    "scope": "Read-only source review; reviewer did not execute browser or hardware tests",
+    "corrected": [
+      "Native XR end must not release an incomplete start lock",
+      "Unknown XR end must retain session ownership and reachable exit",
+      "Stale mission context must remain visible and removable without losing draft",
+      "Late renderer binding after native end must discard stale renderer",
+      "AR overlay must remain above the sidebar"
+    ]
+  },
+  "capabilities": {
+    "realWebGLFrames": "PASS",
+    "realGLSLSelectionShader": "PASS",
+    "simulatedWebXRLifecycle": "PASS",
+    "physicalCameraPassthrough": "NOT RUN",
+    "physicalPlanePlacementAndDrift": "NOT RUN",
+    "lowIdentityAndDelivery": "NOT VERIFIED",
+    "productionBackupRestore": "NOT RUN",
+    "realUserStudy": "NOT RUN",
+    "deviceScreenreader": "NOT RUN"
+  },
+  "publication": {
+    "audience": "Existing owner-only Site; no audience changes",
+    "record": "Sites saved version and terminal deployment status are the publication evidence",
+    "newAutomation": false,
+    "newRemoteIntegration": false
+  },
+  "limitations": [
+    "Software-WebGL does not measure a phone GPU or battery",
+    "Simulated XR test fixtures do not certify real camera passthrough, plane sensors or anchors",
+    "Levels and XP are personal practice records, not execution permission or signed certification",
+    "Finite local load sample is not a requests-per-minute capacity guarantee",
+    "AG-UI, A2UI, MCP Apps and native packaging remain explicitly prioritized future adapters"
+  ]
+}

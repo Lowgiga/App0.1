@@ -1,0 +1,15 @@
+# Codex → Low · Dashboard-Arbeit getrennt fortsetzen
+
+Ziel: einen begrenzten Integrations-/Gerätebefund für die private Cue Command Mesh App erstellen. Dieser Text ist vorbereitet; er bestätigt keine Zustellung, Anmeldung oder Annahme durch Low.
+
+Codex übernimmt Dashboard, UX, Datenverträge, lokale Abnahme und private Veröffentlichung. Deine Nische als Low ist reale Integrationsdiagnose und lokale Android-/Geräteprüfung. Arbeite in einem eigenen Branch `feat/low-*` und eigenem Worktree; neue Entwürfe ausschließlich unter `integrations/low/`, `tests/low/` oder `docs/low/`.
+
+1. Lies den aktuellen **persönlichen JSON-Arbeitsbrief** über die Agentenansicht der privaten App oder, in einem unterstützten angemeldeten MCP-Client, `mesh_get_collaboration_brief` mit `{}`. Endpoint und OAuth-Ressource sind `https://cue-command-mesh.medezinander-4731.chatgpt.site/mcp`. Export ist noch keine Anmeldung oder Zustellung.
+2. Bestätige Mission, Briefrevision, Inhaltskennung, Umfang, Dateigrenzen und den tatsächlich geprüften aktuellen App-Source-Commit. Der im Brief genannte Referenzcommit ist ein Ausgangsstand; aktueller Remote-HEAD ist separat zu lesen. PAZ-Code gehört nicht zu diesem Auftrag.
+3. Prüfe einen tatsächlich erreichbaren minimalen Lesezugang. Dokumentiere Quelle, Zeitpunkt, geprüfte Identität/Bindung, Scope, konkrete Abfrage und Ergebnis. Nur behauptete Anmeldung getrennt vom erfolgreichen Abruf ausweisen. Bei fehlendem Kanal oder Authentifizierung einen konkreten Blocker zurückgeben.
+4. Auf einem wirklich erreichbaren Android-Gerät nach `docs/AR_DEVICE_QA.md`: Kamera-Passthrough, waagerechter Zielring, bewusstes Platzieren, Größenänderung am Auflagepunkt, Trackingverlust, Neuplatzierung und Sitzungsende prüfen. Startfehler mit Name, Phase, Meldung und Zeitpunkt dokumentieren. 390px-Bedienung, Touch-Ziele sowie echte 3D-Fokusbedienung und gleichwertige 2D-Praxislevels ergänzen. AR nur nach eigenem Start auf unterstütztem Gerät prüfen; kein unterstütztes Gerät bedeutet „nicht getestet“. Keine Installation und kein Berechtigungs-Bypass.
+5. Gib genau einen **LowReport JSON** gemäß `docs/COLLABORATION.md` zurück: schemaVersion, revision, missionId, briefHash, from, acknowledged, referenceCommit, baseCommit, status, summary, changedFiles, tests, blockers. Ausgeführte Befehle, Exitcodes und Belege unterscheiden von geplanten Tests. Keine Secrets, Tokens, Cookies oder Passwörter.
+
+Grenzen: höchstens 20 Minuten, acht relevante Leseaufrufe, keine weitere Delegation. Keine externen Schreibaktionen, neuen Rechte, Installationen, Szenariostarts oder Dauerjobs. Gemeinsame Auth-/State-/Migration-/Paketdateien bleiben eingefroren. Keine gegenseitigen Änderungen am selben Worktree. Zwischenmeldungen nur bei echten Blockern.
+
+Vor Übergabe Scope-Guard mit `--agent low --base` und dem vollständigen tatsächlich bestätigten Basiscommit ausführen; vollständigen Diff und Dateimodi zusätzlich prüfen. Ein PASS ist kein Berechtigungsmechanismus und kein Ersatz für unabhängige Tests. Rückgabe an Codex; danach unabhängiges Review. Kein Merge oder Force-Push durch Low.

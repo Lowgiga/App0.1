@@ -1,0 +1,20 @@
+{
+  "sourceSha256": "eb2cd9999c02906d86054ae3b2127d26b45c8812022e68ed69800a2c526f11d4",
+  "sourceFiles": 1013,
+  "contractSha256": "592525a78c17468c61cb82776e22131076d9f6491359a4be8cfb5d5e6ca6de87",
+  "qualityStatus": "pass",
+  "exitCode": 0,
+  "releaseClaim": "web-built",
+  "stages": {
+    "preflight": "pass",
+    "qualityTests": "pass",
+    "verifySerial": "pass",
+    "postflight": "pass",
+    "sourceStability": "pass"
+  },
+  "buildContentSha256": "61630478600df1644a24e8f8bc8d40fe04c646fcda6b1534d5d2896d3ace3f73",
+  "buildFiles": 61,
+  "previousWebBuildIdentical": true,
+  "originalAdoptedSource": "ec72e48ca40e06307b5da17093ff46b6bf6cce89c13a6a2011aaa9df896ef9f1",
+  "labelSource": "47ac0aa9829e1595c3dec9d4aa2bb6d878b186301af5dfdc92b5f7d3c5a27f29"
+}

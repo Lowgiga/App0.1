@@ -1,0 +1,108 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-mesh-graph-explorer-extension@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ adapter reuses real graph IDs and relationships without mutating V4 input (10.109872ms)
+✔ unknown state and source date stay explicitly unknown (2.298435ms)
+✔ events are retained records, bounded and never used to reconstruct current state (1.839242ms)
+✔ omitted archived and unresolved references are disclosed instead of fabricated nodes (1.716247ms)
+✔ invalid state, duplicate source IDs and invalid source dates are rejected (2.315721ms)
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (11.862319ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (19.675824ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (3.508639ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (9.25351ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (2.682764ms)
+✖ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (3.7146ms)
+✖ late window resize failure also takes the controlled fallback path (3.948272ms)
+✔ unknown state is explicit and never shown as live or loaded-empty (45.18745ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (69.677746ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (47.688235ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (39.302843ms)
+✔ retained activity tells the truth about incomplete history and current graph (17.130401ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (21.526733ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (27.840703ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (38.285474ms)
+✖ primary text and controls scale with the host root font setting (31.617807ms)
+✔ view config roundtrips and layout changes preserve selection and filters (3.688961ms)
+✔ config rejects unknown versions, inherited extras, NaN and oversized queries (1.091766ms)
+✔ filtering never clears selection and classifies hidden versus missing (4.363769ms)
+✔ scene caps nodes/edges, prioritizes selected node and reports exact omissions (2.259667ms)
+✔ each layout is finite and deterministic independent of input order (2.07622ms)
+✔ evidence layout places task prerequisites before dependent tasks and tolerates cycles (1.339399ms)
+✔ empty graph has safe nonzero bounds in every layout (0.146441ms)
+✔ focus mode shows the selected node and immediate recorded relations without clearing filters (1.297746ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 26
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1260.446255
+
+✖ failing tests:
+
+test at tests/three.test.ts:38:1
+✖ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (3.7146ms)
+  AssertionError [ERR_ASSERTION]: Got unwanted exception.
+  Actual message: "DPR failure"
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:58:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: Error: DPR failure
+        at Object.setPixelRatio (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:54:23)
+        at resize (file:///workspace/scratch/40c5c5523452/mesh-extensions/src/three-controller.ts:68:18)
+        at file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:58:35
+        at getActual (node:assert:611:5)
+        at strict.doesNotThrow (node:assert:779:32)
+        at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:58:16)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1382:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+        at Test.postRun (node:internal/test_runner/test:1522:19),
+    expected: undefined,
+    operator: 'doesNotThrow',
+    diff: 'simple'
+  }
+
+test at tests/three.test.ts:66:1
+✖ late window resize failure also takes the controlled fallback path (3.948272ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:67:260)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:45:1
+✖ primary text and controls scale with the host root font setting (31.617807ms)
+  AssertionError [ERR_ASSERTION]: primary controls must be at least 1rem at default root size
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:52:12)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

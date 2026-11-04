@@ -1,0 +1,65 @@
+{
+  "status": "pass",
+  "firstHeldAfterSecondRelease": true,
+  "subsequentTapSaved": true,
+  "events": [
+    {
+      "type": "pointerdown",
+      "id": 3,
+      "buttons": 1,
+      "trusted": true,
+      "nav": false
+    },
+    {
+      "type": "pointerdown",
+      "id": 4,
+      "buttons": 1,
+      "trusted": true,
+      "nav": false
+    },
+    {
+      "type": "pointerup",
+      "id": 3,
+      "buttons": 0,
+      "trusted": true,
+      "nav": false
+    },
+    {
+      "type": "lostpointercapture",
+      "id": 3,
+      "buttons": 0,
+      "trusted": true,
+      "nav": false
+    },
+    {
+      "type": "pointerup",
+      "id": 4,
+      "buttons": 0,
+      "trusted": true,
+      "nav": false
+    },
+    {
+      "type": "lostpointercapture",
+      "id": 4,
+      "buttons": 0,
+      "trusted": true,
+      "nav": false
+    }
+  ],
+  "captureTransferWhileHeld": [
+    {
+      "type": "pointerdown",
+      "id": 2,
+      "buttons": 1,
+      "trusted": true,
+      "nav": false
+    },
+    {
+      "type": "lostpointercapture",
+      "id": 2,
+      "buttons": 1,
+      "trusted": true,
+      "nav": false
+    }
+  ]
+}

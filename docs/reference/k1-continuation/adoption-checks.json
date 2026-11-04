@@ -1,0 +1,25 @@
+{
+  "sourceBefore": "2e0bfd89d96c5486a769b2bf92ab2fa09b0a8de12798cdad078d4a5a9b7c6311",
+  "sourceAfter": "09739de34172b88d8e6907a24108a926439d5fc296226286bc395cda83dabd49",
+  "diff": {
+    "added": [],
+    "removed": [],
+    "changed": [
+      "quality/baselines/accepted.json",
+      "quality/contract.json"
+    ]
+  },
+  "baseline": {
+    "entries": 1019,
+    "bytes": 115281,
+    "sha256": "b6fde220143dc52f2f8e6f0f618156fbda30e9f0812140c08ee4fe05f889808e"
+  },
+  "contract": {
+    "bytes": 19004,
+    "sha256": "af5f825b4e59a98a8af25015680fb577530c8cefed439096c2d33b06c5ac650f"
+  },
+  "old29GroupsUnchanged": true,
+  "protectedGroups": 33,
+  "exceptions": [],
+  "externalPin": "af5f825b4e59a98a8af25015680fb577530c8cefed439096c2d33b06c5ac650f"
+}

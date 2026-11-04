@@ -1,0 +1,22 @@
+✔ R1 pending callback survives structural reparenting and blocks a second activation (33.792093ms)
+✔ R2 pending status and aria-busy remain visible across a newer revision (7.513358ms)
+✔ R3 corrected host slot data recovers a render error without replacing slot identity (13.688449ms)
+✔ malformed JSON corpus rejects and does not mutate last admitted snapshot (1.441832ms)
+✔ valid JSON differential corpus preserves finite values and Unicode (0.419031ms)
+✔ prototype, data ref and action ref variants never broaden lookup (2.546436ms)
+✔ host action source and emitted target remain deeply immutable (0.480524ms)
+✔ proposed HTML and host row markup cannot create DOM or network requests (8.843011ms)
+✔ rejected updates keep previous action consumption and tree unchanged (0.821067ms)
+✔ focus and host callbacks never activate when grouping/reordering the surface (7.724486ms)
+✔ source runtime contains no dynamic execution, HTML injection or fetch sink (0.632803ms)
+✔ R1 pending callback survives component removal then readdition (9.13442ms)
+✔ R3 corrected slot recovers on a fresh admitted revision (7.420798ms)
+✔ slot error is contained without retrying on unrelated host rerenders (9.538058ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 746.221747

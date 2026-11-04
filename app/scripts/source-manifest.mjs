@@ -1,0 +1,10 @@
+import fs from 'node:fs';import path from 'node:path';import crypto from 'node:crypto';import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const selected=['src','overlay','scripts','upstream','vendor','android','licenses','provenance','tests','extensions'];
+const ignore=new Set(['node_modules','.gradle','local.properties','.test-signing']);
+const walk=d=>fs.readdirSync(d,{withFileTypes:true}).filter(e=>!ignore.has(e.name)&&!(d.includes('/android')&&e.name==='build')).flatMap(e=>e.isDirectory()?walk(path.join(d,e.name)):[path.join(d,e.name)]);
+const filenames=[...selected.flatMap(s=>walk(path.join(root,s))),...['README.md','.gitignore','package.json','package-lock.json','tsconfig.json','vite.config.ts','postcss.config.mjs','capacitor.config.json','provenance.json','integration-manifest.json','index.html'].map(f=>path.join(root,f))];
+const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
+const files=Object.fromEntries(filenames.sort().map(f=>[path.relative(root,f),hash(fs.readFileSync(f))]));
+const manifest={version:JSON.parse(fs.readFileSync(path.join(root,'package.json'),'utf8')).version,sourceContentSha256:hash(JSON.stringify(files)),files};
+fs.writeFileSync(path.join(root,'docs/integration-source-manifest.json'),JSON.stringify(manifest,null,2)+'\n');console.log(JSON.stringify({sourceContentSha256:manifest.sourceContentSha256,files:Object.keys(files).length}));

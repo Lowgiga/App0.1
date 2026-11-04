@@ -1,0 +1,3 @@
+# Python-Bytecode nie einchecken (wurde in 089be18 versehentlich mitgenommen)
+__pycache__/
+*.py[cod]

@@ -1,0 +1,64 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2023"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "upstream/*"
+      ],
+      "@/lib/learning-levels": [
+        "overlay/lib/learning-levels.ts"
+      ],
+      "@/lib/ar-support": [
+        "overlay/lib/ar-support.ts"
+      ],
+      "@/lib/ar-placement": [
+        "overlay/lib/ar-placement.ts"
+      ],
+      "@/lib/intelligence": [
+        "overlay/lib/intelligence.ts"
+      ],
+      "@/lib/space-model": [
+        "overlay/lib/space-model.ts"
+      ],
+      "@/lib/spatial-learning": [
+        "overlay/lib/spatial-learning.ts"
+      ],
+      "@/lib/ar-runtime": [
+        "overlay/lib/ar-runtime.ts"
+      ]
+    },
+    "types": [
+      "node",
+      "react",
+      "react-dom"
+    ],
+    "allowJs": true,
+    "checkJs": false
+  },
+  "include": [
+    "src",
+    "overlay",
+    "tests",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "upstream/app/api",
+    "upstream/app/chatgpt-auth.ts",
+    "overlay/level-base"
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "checks": [
+      "individual room style applies only to selected persistent room"
+    ],
+    "status": "fail",
+    "failure": "Page.reload: net::ERR_HTTP_RESPONSE_CODE_FAILURE\nCall log:\n  - waiting for navigation until \"networkidle\"\n",
+    "trace": "Traceback (most recent call last):\n  File \"/workspace/lowquantflow-evidence/integration/room-regression/room-qa.py\", line 13, in <module>\n    p.get_by_role('button',name='Speichern',exact=True).click();expect(p.get_by_role('button',name='Darstellung anpassen',exact=True)).to_be_visible();p.reload(wait_until='networkidle');p.get_by_label('Netzwerkbereich',exact=True).select_option('all');p.locator('.space-map-node').filter(has_text='Appearance QA').click();p.get_by_role('button',name='Darstellung anpassen',exact=True).click();expect(p.get_by_label('Kernfarbe',exact=True)).to_have_value('#bb2266');expect(p.get_by_label('Form',exact=True)).to_have_value('cube');r['checks'].append('individual room save/reload retains style and binding')\n                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 9921, in reload\n    self._sync(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_page.py\", line 568, in reload\n    await self._channel.send(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py\", line 76, in send\n    return await self._connection.wrap_api_call(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py\", line 632, in wrap_api_call\n    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None\nplaywright._impl._errors.Error: Page.reload: net::ERR_HTTP_RESPONSE_CODE_FAILURE\nCall log:\n  - waiting for navigation until \"networkidle\"\n\n"
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "checks": [
+      "individual room style applies only to selected persistent room",
+      "individual room save/reload retains style and binding",
+      "room WebGL preview changes pixels; cancel restores exact rotated canvas pixels without remount"
+    ],
+    "camera": {
+      "sameCanvas": true,
+      "pixelIdenticalAfterCancel": true
+    },
+    "status": "pass"
+  }
+]
