@@ -1,0 +1,249 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "checks": [
+      "individual room style applies only to selected persistent room",
+      "individual room save/reload retains style and binding",
+      "room WebGL preview changes pixels; cancel restores exact rotated canvas pixels without remount"
+    ],
+    "http": [
+      {
+        "url": "http://127.0.0.1:4177/?view=chats",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/index-kYK_luXh.css",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/work-constants-BXn0q3L7.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/rolldown-runtime-QTnfLwEv.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/command-contract-BHMHwByn.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/local-errors-BT3SOIqq.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/types-Db3rIUJ-.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/content-digest-BqOA8ILx.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/button-CVmTG4fC.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/react-P9rLeD1T.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/index-b5DFY9rq.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/favicon.svg",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/archive-DZde6u-2.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/plus-Dn8txv-k.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/progress-C_bSZRE8.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/workspace-panels-Dhgqb5gX.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/?view=space",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/index-b5DFY9rq.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/rolldown-runtime-QTnfLwEv.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/work-constants-BXn0q3L7.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/types-Db3rIUJ-.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/command-contract-BHMHwByn.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/local-errors-BT3SOIqq.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/index-kYK_luXh.css",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/react-P9rLeD1T.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/button-CVmTG4fC.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/content-digest-BqOA8ILx.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/WebNodeGlyph-BigIJ06X.css",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/progress-C_bSZRE8.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/plus-Dn8txv-k.js",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/focus-4ExCfbY4.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/ar-runtime-xNRwqsQV.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/WebNodeGlyph-CmU48yU4.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/mesh-space-C6x5_iRA.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/favicon.svg",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/?view=space",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/index-kYK_luXh.css",
+        "status": 304
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/types-Db3rIUJ-.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/rolldown-runtime-QTnfLwEv.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/command-contract-BHMHwByn.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/work-constants-BXn0q3L7.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/local-errors-BT3SOIqq.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/button-CVmTG4fC.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/content-digest-BqOA8ILx.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/index-b5DFY9rq.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/react-P9rLeD1T.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/WebNodeGlyph-BigIJ06X.css",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/mesh-space-C6x5_iRA.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/WebNodeGlyph-CmU48yU4.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/progress-C_bSZRE8.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/ar-runtime-xNRwqsQV.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/plus-Dn8txv-k.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/focus-4ExCfbY4.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/favicon.svg",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/space-renderer-CemWptr_.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:4177/assets/three-CDJtaTIQ.js",
+        "status": 200
+      }
+    ],
+    "requestFailures": [],
+    "warnings": [
+      "[.WebGL-0x2afc00135600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x2afc00135600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x2afc00135600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x2afc00135600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    ],
+    "camera": {
+      "sameCanvas": true,
+      "pixelIdenticalAfterCancel": true
+    },
+    "status": "pass"
+  }
+]

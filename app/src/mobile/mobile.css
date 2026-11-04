@@ -1,0 +1,23 @@
+.lq-mobile-actionbar-host{display:none}
+.lq-mobile-actionbar-spacer{height:calc(var(--lq-mobile-bar-height,calc(4.5rem + env(safe-area-inset-bottom,0px))) + var(--lq-mobile-bottom-inset,0px))}
+.lq-mobile-actionbar{position:fixed;z-index:30;inset-inline:0;bottom:var(--lq-mobile-bottom-inset,0px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,4.5rem),1fr));gap:.35rem;padding:.5rem max(.5rem,env(safe-area-inset-right,0px)) max(.5rem,env(safe-area-inset-bottom,0px)) max(.5rem,env(safe-area-inset-left,0px));border-top:1px solid var(--border);background:var(--card);color:var(--foreground);box-sizing:border-box}
+.lq-mobile-actionbar button,.lq-mobile-preferences button,.lq-mobile-preferences select{min-width:48px;min-height:48px;height:auto;font:inherit;font-size:1rem;line-height:1.35;white-space:normal;overflow-wrap:anywhere;border:1px solid var(--border);border-radius:var(--radius,.5rem);background:var(--card);color:var(--foreground);padding:.5rem;box-sizing:border-box}
+.lq-mobile-actionbar button{width:100%;min-width:0;font-size:.875rem}
+.lq-mobile-actionbar button[aria-current=page]{background:var(--primary);color:var(--primary-foreground);border-color:var(--primary);font-weight:700}
+.lq-mobile-actionbar button:disabled,.lq-mobile-preferences button:disabled,.lq-mobile-preferences select:disabled{opacity:.6;cursor:not-allowed}
+.lq-mobile-actionbar button:focus-visible,.lq-mobile-preferences :focus-visible,.lq-mobile-context summary:focus-visible{outline:3px solid var(--ring,currentColor);outline-offset:2px}
+.lq-mobile-preferences,.lq-mobile-context{min-width:0;max-width:100%;font-size:1rem;overflow-wrap:anywhere}
+.lq-mobile-preferences details,.lq-mobile-context{border:1px solid var(--border);border-radius:var(--radius,.5rem);padding:.5rem;margin:.5rem 0}
+.lq-mobile-preferences summary,.lq-mobile-context summary{min-height:48px;font-size:1rem;line-height:1.4;padding:.65rem .25rem;box-sizing:border-box;cursor:pointer;overflow-wrap:anywhere}
+.system-studio .lq-mobile-preferences button,.system-studio .lq-mobile-preferences select,.system-studio .lq-mobile-preferences summary,.system-studio .lq-mobile-context summary{min-height:48px}
+.lq-mobile-preferences fieldset{min-width:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:.75rem;border:0;padding:.5rem 0}
+.lq-mobile-preferences legend{font-weight:600}
+.lq-mobile-preferences label{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.lq-mobile-preferences select{width:100%;max-width:100%}
+.lq-mobile-preferences-actions{display:flex;flex-wrap:wrap;gap:.5rem}
+.lq-mobile-preferences-actions button{flex:1 1 10rem}
+.lq-mobile-preferences [role=alert]{border-inline-start:3px solid var(--destructive);padding:.5rem;color:var(--foreground);background:var(--muted)}
+.lq-mobile-preferences [role=status]:empty{display:none}
+.lq-mobile-preferences[hidden]{display:none!important}
+@media(max-width:64rem),(pointer:coarse){.lq-mobile-actionbar-host{display:block}}
+@media(prefers-reduced-motion:reduce){.lq-mobile-actionbar-host *,.lq-mobile-preferences *,.lq-mobile-context *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

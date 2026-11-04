@@ -1,0 +1,65 @@
+[
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "name": "desktop",
+    "url": "http://127.0.0.1:4177/?studio=1",
+    "errors": [],
+    "warnings": [
+      "[.WebGL-0x1ac400186e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x1ac400186e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x1ac400186e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[.WebGL-0x1ac400186e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    ],
+    "checks": [
+      "page identity, nonblank, no framework overlay",
+      "three colors, cube, large reflected in rendered SVG; preview unsaved",
+      "cancel restores original style",
+      "save and reload retain all channels/shape/size",
+      "reset remains draft; cancel restores saved style",
+      "actual WebGL scene: camera label projections and canvas stable after rotation and style edits",
+      "no horizontal viewport overflow"
+    ],
+    "title": "LowQuantFlow \u00b7 lokal",
+    "camera": {
+      "sameCanvas": true,
+      "identicalProjectedLabels": 27
+    },
+    "overflow": {
+      "viewport": 1440,
+      "document": 1440
+    },
+    "status": "pass"
+  },
+  {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "name": "mobile",
+    "url": "http://127.0.0.1:4177/?studio=1",
+    "errors": [],
+    "warnings": [],
+    "checks": [
+      "page identity, nonblank, no framework overlay",
+      "three colors, cube, large reflected in rendered SVG; preview unsaved",
+      "cancel restores original style",
+      "save and reload retain all channels/shape/size",
+      "reset remains draft; cancel restores saved style",
+      "actual WebGL scene: camera label projections and canvas stable after rotation and style edits",
+      "no horizontal viewport overflow"
+    ],
+    "title": "LowQuantFlow \u00b7 lokal",
+    "camera": {
+      "sameCanvas": true,
+      "identicalProjectedLabels": 27
+    },
+    "overflow": {
+      "viewport": 390,
+      "document": 390
+    },
+    "status": "pass"
+  }
+]

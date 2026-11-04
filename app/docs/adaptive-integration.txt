@@ -1,0 +1,11 @@
+✔ real integrated DOM opens Studio, computes actual checks and returns to original Academy (893.586412ms)
+✔ adaptive host projects canonical WorkState and unknown stays unknown (5.200531ms)
+✔ all internal layouts admit closed schema, intents route only to typed local destinations (4.567437ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2068.716382

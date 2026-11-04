@@ -1,0 +1,13 @@
+✔ adapter reuses real graph IDs and relationships without mutating V4 input (8.395631ms)
+✔ unknown state and source date stay explicitly unknown (1.791121ms)
+✔ events are retained records, bounded and never used to reconstruct current state (1.464809ms)
+✔ omitted archived and unresolved references are disclosed instead of fabricated nodes (0.960318ms)
+✔ invalid state, duplicate source IDs and invalid source dates are rejected (1.671111ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 644.263004

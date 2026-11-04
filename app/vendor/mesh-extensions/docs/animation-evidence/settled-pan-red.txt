@@ -1,0 +1,43 @@
+✔ unknown state is explicit and never shown as live or loaded-empty (40.411487ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (73.443987ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (46.002891ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (42.603523ms)
+✔ retained activity tells the truth about incomplete history and current graph (16.424642ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (20.893461ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (36.162169ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (31.777676ms)
+✔ primary text and controls scale with the host root font setting (28.651626ms)
+✔ opt-in 2D transitions animate layout positions and selection with exact ends but never host actions (46.614193ms)
+✔ 2D rapid layout changes, Escape, system preference, energy saving and unmount leave no pending frames (81.875654ms)
+✔ transition settings are labelled, serialized and have a legacy export without additive fields (44.578473ms)
+✔ legacy typed initial views remain valid without the additive setting (13.384937ms)
+✔ 2D focus frames only visible recorded neighbors and camera controls settle before panning (38.167874ms)
+✔ 2D hiding the document settles and cannot restart animation until visible (33.752705ms)
+✖ 2D pan interrupts a transition using the settled target viewport dimensions (20.34239ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 15
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1480.930881
+
+✖ failing tests:
+
+test at tests/ui.test.tsx:215:1
+✖ 2D pan interrupts a transition using the settled target viewport dimensions (20.34239ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  -2 !== 40
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:224:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -2,
+    expected: 40,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

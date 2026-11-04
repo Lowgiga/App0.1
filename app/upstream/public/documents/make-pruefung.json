@@ -1,0 +1,70 @@
+{
+  "id": 7098897,
+  "name": "Integration Make AI Agent",
+  "status": "inactive",
+  "intervalSeconds": 900,
+  "readVerified": true,
+  "startedByThisApp": false,
+  "requestedInCue": true,
+  "executionVerified": false,
+  "url": "https://eu1.make.com/2189688/scenarios/7098897",
+  "modules": [
+    {
+      "id": 1,
+      "module": "ai-local-agent:RunLocalAIAgent",
+      "version": 0,
+      "root": "main"
+    },
+    {
+      "id": 2,
+      "module": "knowledge:KnowledgeStandAlone",
+      "version": 1,
+      "parent": {
+        "moduleId": 1,
+        "kind": "tool",
+        "index": 0,
+        "label": "Agent knowledge"
+      }
+    },
+    {
+      "id": 6,
+      "module": "mcp-client:McpToolsForAgent",
+      "version": 1,
+      "parent": {
+        "moduleId": 1,
+        "kind": "tool",
+        "index": 1,
+        "label": "MCP Tools"
+      }
+    },
+    {
+      "id": 3,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "follows": 1
+    }
+  ],
+  "connections": [
+    {
+      "id": 9194281,
+      "label": "Make's AI Provider (default)",
+      "status": "ok",
+      "app": "ai-provider",
+      "usedByModules": [
+        1
+      ]
+    },
+    {
+      "id": 10194421,
+      "label": "HI123",
+      "status": "ok",
+      "app": "mcp",
+      "usedByModules": [
+        6
+      ]
+    }
+  ],
+  "lastEdit": "2026-08-25T23:57:26.485Z",
+  "trigger": "scheduled",
+  "evidenceSource": "make-direct"
+}

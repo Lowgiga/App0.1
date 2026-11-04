@@ -1,0 +1,122 @@
+{
+  "namespace": "cue.command-mesh.skill/v1",
+  "id": "cue.backup-plan",
+  "version": "1.0.0",
+  "name": "backup-plan",
+  "description": "Backup-Prüfplan: Erstelle aus einer Backup-Beschreibung einen Prüfplan ohne Datenzugriff oder Wiederherstellung.",
+  "triggers": {
+    "intents": [
+      "backup-plan"
+    ],
+    "anyTags": [
+      "backup",
+      "plan"
+    ],
+    "allTags": [],
+    "excludeTags": [
+      "execute",
+      "delete",
+      "install",
+      "external-write"
+    ],
+    "nodeTypes": [
+      "backup",
+      "mission"
+    ]
+  },
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "location": {
+        "type": "string",
+        "maxLength": 500
+      },
+      "hasChecksum": {
+        "type": "boolean"
+      },
+      "hasRestoreEvidence": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "name",
+      "location",
+      "hasChecksum",
+      "hasRestoreEvidence"
+    ],
+    "additionalProperties": false
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "mode": {
+        "type": "string",
+        "enum": [
+          "offline-deterministic"
+        ]
+      },
+      "backup": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "verified": {
+        "type": "boolean",
+        "enum": [
+          false
+        ]
+      },
+      "steps": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "maxItems": 1000
+      },
+      "warnings": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "maxItems": 1000
+      }
+    },
+    "required": [
+      "mode",
+      "backup",
+      "verified",
+      "steps",
+      "warnings"
+    ],
+    "additionalProperties": false
+  },
+  "tools": [
+    {
+      "id": "core.backup.plan",
+      "effect": "local-compute",
+      "authentication": "none",
+      "permissions": [
+        "compute:backup-plan"
+      ]
+    }
+  ],
+  "handler": "backup-plan",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "stage": "instruction",
+      "sha256": "sha256:68cd93d16a4470f292c2f29f867c2367d178ccea70de5a34aa4eb8351423683a"
+    },
+    {
+      "path": "references/semantics.md",
+      "stage": "resource",
+      "sha256": "sha256:4392432935e873017051d717fe6ed28b6b5d8263074cb6863b32098e3e2e449c"
+    }
+  ],
+  "versionHash": "sha256:5e5c08633b7e41de28008a5066db189a04e01681d9d3ecc261bfcdd7daa35509"
+}

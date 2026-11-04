@@ -1,0 +1,66 @@
+{
+  "baseCommit": "101819e118597876f70b18b807c5de56569eb9a2",
+  "baseSourceSha256": "f57200cd8e13f840f2bffb12ffc43d2ace1dcab3dc4a8abaab67b17721588429",
+  "sourceSha256": "09739de34172b88d8e6907a24108a926439d5fc296226286bc395cda83dabd49",
+  "sourceFiles": 1021,
+  "adoption": {
+    "sourceBefore": "2e0bfd89d96c5486a769b2bf92ab2fa09b0a8de12798cdad078d4a5a9b7c6311",
+    "sourceAfter": "09739de34172b88d8e6907a24108a926439d5fc296226286bc395cda83dabd49",
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [
+        "quality/baselines/accepted.json",
+        "quality/contract.json"
+      ]
+    },
+    "baseline": {
+      "entries": 1019,
+      "bytes": 115281,
+      "sha256": "b6fde220143dc52f2f8e6f0f618156fbda30e9f0812140c08ee4fe05f889808e"
+    },
+    "contract": {
+      "bytes": 19004,
+      "sha256": "af5f825b4e59a98a8af25015680fb577530c8cefed439096c2d33b06c5ac650f"
+    },
+    "old29GroupsUnchanged": true,
+    "protectedGroups": 33,
+    "exceptions": [],
+    "externalPin": "af5f825b4e59a98a8af25015680fb577530c8cefed439096c2d33b06c5ac650f"
+  },
+  "publisherPatches": {
+    "publisher-against-pr9-101819e.patch": {
+      "bytes": 72630,
+      "sha256": "271d7a9c4cf898e13166d30154db4ede80f36e68fb78a2b662a3d2e8a754afad"
+    },
+    "quality-adoption-only.patch": {
+      "bytes": 12191,
+      "sha256": "72cffe9e068f6ae22b163d29f10f28461470c567c812f3bd9844715a143b07c4"
+    }
+  },
+  "qualityStatus": "pass",
+  "qualityExitCode": 0,
+  "stages": {
+    "preflight": "pass",
+    "qualityTests": "pass",
+    "verifySerial": "pass",
+    "postflight": "pass",
+    "sourceStability": "pass"
+  },
+  "releaseClaim": "web-built",
+  "tests": 1417,
+  "qualityTests": 50,
+  "manualEvidence": {
+    "browserVisual": "not-run",
+    "touchAccessibility": "not-run",
+    "gpuPerformanceBattery": "not-run",
+    "nativeUnitTests": "not-run",
+    "nativeLint": "not-run",
+    "nativePermissionFlows": "not-run",
+    "deviceVerification": "not-run"
+  },
+  "buildContentSha256": "f8dfc12b85deba95ecaf7efa4c6875830450632b65c47cb3063f9ef0d6a68c6a",
+  "buildFiles": 61,
+  "browserAssetIdentity": "Identical to independently reviewed K1 browser build; no new browser/native/device claim",
+  "note": "Condensed current verification inventory; no new package or release is created by repository publication."
+}

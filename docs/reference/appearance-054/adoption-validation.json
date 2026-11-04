@@ -1,0 +1,22 @@
+{
+  "before": "5c6d6b93d8dc8afec3a29825f79f4487222571d722c39f3a082ec922b49bd127",
+  "after": "eb2cd9999c02906d86054ae3b2127d26b45c8812022e68ed69800a2c526f11d4",
+  "diff": {
+    "added": [],
+    "removed": [],
+    "changed": [
+      "quality/baselines/accepted.json",
+      "quality/contract.json"
+    ]
+  },
+  "baseline": {
+    "bytes": 114410,
+    "entries": 1011,
+    "sha256": "3ed87d4406c9bec03032890a4b6ec8cd7c00689cefc3fbfa08794c9ef2605597"
+  },
+  "contract": {
+    "bytes": 10543,
+    "groups": 23,
+    "sha256": "592525a78c17468c61cb82776e22131076d9f6491359a4be8cfb5d5e6ca6de87"
+  }
+}

@@ -1,0 +1,540 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview verify
+> npm run check:portability && npm test && npm run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview check:portability
+> node scripts/check-portability.mjs
+
+Runtime, overlays, build scripts and Android sources have no absolute development paths or local SDK config
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview test
+> npm run test:base && npm run test:integration && npm run test:reviewer && npm run test:vendors
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview test:base
+> node --test tests/*.test.ts tests/*.test.mjs upstream/tests/*domain.mts
+
+✔ final timestamp is included in the committed UTF-8 budget (576.222118ms)
+✔ draft revisions cannot silently rebase to a newer loaded state (1.131657ms)
+✔ after conflict only a new session clears the write gate (0.241594ms)
+✔ Tailwind scans current upstream UI, excluding archived and test-only candidates (529.751934ms)
+✔ 409 conflict permanently blocks stale form saves until full hook remount (113.371598ms)
+✔ REGRESSION: ambiguous failure with external revision must block retained stale form (28.690676ms)
+✔ failed ambiguous recovery cannot later re-fetch and rebase an old settings draft (17.404762ms)
+✔ reconciled own write remains confirmed but uncertain-session drafts cannot write again (23.876305ms)
+✔ fresh local state is real production defaults and survives reopening (54.943726ms)
+✔ timestamps strictly increase under same and backward wall clocks (32.753895ms)
+✔ concurrent clients atomically enforce CAS without lost writes (6.823202ms)
+✔ failed validation rolls back and production task completion gates apply (6.102756ms)
+✔ forged events, unknown source references, and direct interaction edits are rejected (6.284499ms)
+✔ focus-follow invokes the production action and reconciliation with real events (11.363601ms)
+✔ risk planning really creates a task, keeps risk open and validates fingerprint (25.690391ms)
+✔ unknown remote routes and auth headers cannot trigger simulated success or network (0.882452ms)
+✔ malformed requests, wrong methods and oversized action input fail closed (0.751473ms)
+✔ pre-aborted request never mutates storage (2.696868ms)
+✔ corrupt state remains stored and blocks reads/writes without silent reset (11.945383ms)
+✔ future storage versions are not overwritten (2.213068ms)
+✔ unavailable IndexedDB is an explicit error rather than in-memory success (0.286462ms)
+✔ storage schema version has strict numeric type (1.413001ms)
+✔ aggregate UTF-8 write budget rejects before committing any changes (27.677408ms)
+✔ persisted v3 records migrate through the production contract without losing notes (1.823982ms)
+✔ corrected wall clock governs domain deadlines independently of monotonic CAS revision (4.472145ms)
+✔ unexpected IndexedDB connection close allows a fresh read without clearing stored data (32.130155ms)
+✔ canonical event IDs reuse upstream getRandomValues fallback without randomUUID (7.952555ms)
+✔ V5 module set and private spatial/academy assets are present (3.625719ms)
+✔ every explicit learning owner persists together with its mission prerequisite atomically (74.635899ms)
+✔ invalid learning owner leaves neither a task nor a dangling mission reference (9.093486ms)
+✔ stale learning transfer cannot partially append its task or mission link (14.371287ms)
+✔ old V4 learning booleans survive V5 transfers and reopening unchanged (8.75765ms)
+✔ persisted active transfer prevents duplicate learning task creation (5.009226ms)
+✔ new spatial graph uses locally persisted mission-task relationship (9.300038ms)
+✔ HTTP-preview UUID fallback keeps version-4 format and unique identifiers (2.852674ms)
+✔ legacy saved records gain isolated empty command defaults and version 4 (16.325214ms)
+✔ future state versions and unknown nested fields are rejected (2.922468ms)
+✔ legacy PUT remains supported without command fields (0.335736ms)
+✔ unknown mission task, room and source references are rejected (1.31926ms)
+✔ new missions cannot bypass the Created phase (1.616128ms)
+✔ legal phase changes are accepted and illegal jumps rejected (2.720714ms)
+✔ approval and completion require proof and independent review (1.524269ms)
+✔ changing a task prerequisite cannot leave a mission completed (0.962081ms)
+✔ closed mission content must return to review before editing (0.935731ms)
+✔ completed mission review binds task acceptance evidence and dependencies (1.73695ms)
+✔ expired pending request may be declined without extending validity (1.354693ms)
+✔ completed mission protects transitive prerequisite proof until review reopens (0.864134ms)
+✔ pending mission approval prevents completion (0.707727ms)
+✔ decision is bound to immutable content and cannot be created as approved (0.693156ms)
+✔ closed decision cannot be altered or removed (0.436048ms)
+✔ expired request cannot be approved using a backdated client decision (0.599485ms)
+✔ app event timestamps, sequence and provenance derive from accepted changes (1.5446ms)
+✔ client cannot insert or reset canonical events (0.575939ms)
+✔ event limit preserves monotonic sequence after rotation (91.147346ms)
+✔ v1 v2 v3 exports decode and future/string versions fail (1.317377ms)
+✔ import preserves current IDs, profiles, settings and canonical event log (1.25634ms)
+✔ imported decisions are re-proposed, mission review and stage reset (1.090084ms)
+✔ combined snapshot capacity and unknown sources are validated (4.520048ms)
+{"graphNodes":56,"graphEdges":53,"iterations":500,"elapsedMs":13.899424999999951,"scope":"local pure selector, not rendered interaction benchmark"}
+{"mergeRestoreMs":0.3273739999999634,"scope":"local merge import, not full database restore"}
+✔ bounded profiles reject negative, fractional, nonfinite and unknown values (3.942307ms)
+✔ rules distinguish closure, review, conflict and true unknown context (0.409998ms)
+✔ v3 state migrates to v4 with computed mission and event profiles (13.51186ms)
+✔ clients cannot raise mission weights independent of factual phase (0.393394ms)
+✔ historical alarm events do not create a current conflict (1.71736ms)
+✔ deadline signal is derived only from an explicitly entered real time (8.456196ms)
+✔ risk acceptance produces a real immutable record and stability event, not resolution (3.482212ms)
+✔ changed risk condition needs a new decision (4.276781ms)
+✔ stale or forged risk fingerprint cannot be accepted (0.74913ms)
+✔ risk planning creates a linked task and keeps condition open (2.139377ms)
+✔ focus recommendation is suppressed by untreated real risks (0.708529ms)
+✔ following recommendation changes valid stage and produces causal server events (1.137575ms)
+✔ task-start honors dependency state and never auto-completes a task (2.926524ms)
+✔ acceptance gates count actual remaining criteria instead of predicting time (0.446734ms)
+✔ 2D graph has namespaced nodes, valid endpoints and typed relations (0.688919ms)
+✔ large semantic graph remains bounded and assembles quickly locally (15.183092ms)
+✔ unknown focus/room source and cross-domain IDs are rejected (0.392332ms)
+✔ v3 response strips every new strict-schema field and preserves history on save (1.156054ms)
+✔ fresh target import retains completed prerequisite graph (3.100316ms)
+✔ saved current tasks still win over imported colliding content (0.398221ms)
+✔ global UTF-8 budget rejects aggregate overflow despite legal individual fields (15.459699ms)
+✔ lost response reconciliation confirms stable IDs instead of duplicating notes (3.014137ms)
+✔ lost action response is reconciled by appended server interaction record (1.512722ms)
+✔ accepted risk follows exact scope even after event log rotation (2.356404ms)
+✔ lost room response remains confirmed after a subsequent contribution (1.256085ms)
+✔ action confirmation requires exact request and original condition (1.728657ms)
+✔ automatic modal is separate opt-in from a nonmodal priority hint (0.54355ms)
+✔ new room response remains confirmed after another user contribution (6.560035ms)
+✔ content digest agrees with Node SHA-256 across padding, Unicode and escaping (5.306464ms)
+✔ long legal escaped content retains compact actionable risk revision (4.91895ms)
+✔ all existing learning IDs remain compatible with State v4 (5.226684ms)
+✔ lesson references point only to actual supplied source snapshots (0.246793ms)
+✔ spatial graph names are unique and edges have existing endpoints (0.997174ms)
+✔ unknown state never labels personal nodes or edges as loaded work (0.817443ms)
+✔ source evidence retains snapshot origin even with loaded personal state (0.833257ms)
+✔ external systems and agent handoffs stay explicit planning relationships (0.773647ms)
+✔ team scope includes four app profiles and three planned systems (0.607286ms)
+✔ neighbour isolation includes only direct relationships and selected node (0.734477ms)
+✔ large graph is bounded while selected node survives the cap (0.849432ms)
+✔ ordinary node selection keeps identical topology and camera layout (1.186751ms)
+✔ archived work disappears without dangling dependency edges (0.425202ms)
+✔ graph reflects the current configured role instead of a static role claim (1.622698ms)
+✔ guided steps refer to actual planned edges and return the review to Zimt (0.443899ms)
+✔ every practice case rejects partial, extraneous and duplicate selections (0.206672ms)
+✔ lesson examples can always be explored in the real graph (0.334184ms)
+✔ learning recommendation considers real blocked mission before other topics (1.37206ms)
+✔ learning recommendation never claims a saved topic is unfinished (0.413594ms)
+✔ all transfer tasks pass the existing strict schema and start unverified (0.272641ms)
+✔ saving quiz and reasoning preserves all existing booleans, notes and profiles (1.418429ms)
+✔ practice outcome and task events use the existing sequential event mechanism (1.612492ms)
+✔ backup merge retains old quiz progress and new learning notes and tasks (1.193581ms)
+✔ learning result records the exact reflection and limits its claim to personal practice (0.090015ms)
+✔ explicit mission transfer creates its task and reference in one valid state (1.592192ms)
+✔ unlinked learning transfer never changes a mission or marks its status done (0.506634ms)
+✔ transfer respects review, closure, archive and exact 20-task reference capacity (0.784333ms)
+✔ duplicate topic and task capacity reject transfer without mutating prior state (1.783891ms)
+✔ linking a learning prerequisite preserves a blocked mission condition (0.518923ms)
+ℹ tests 115
+ℹ suites 0
+ℹ pass 115
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 913.247683
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview test:integration
+> node --import ./scripts/register.mjs --test tests/system/*.test.ts tests/system/*.test.tsx
+
+✔ backup roundtrips entire WorkState and saved module settings with zero writes (50.633855ms)
+✔ preview reports genuine changes and corruption is rejected (33.486731ms)
+✔ golden mission/task/source/event fixture stays identical through backup across graph workflow and adaptive projections (51.175031ms)
+✔ Studio controls scale with root font; touch targets and reduced-motion fallbacks are declared (21.047387ms)
+✔ all exported UI paths use platform services without legacy Blob or clipboard fallbacks (2.839493ms)
+✔ typed navigation accepts only canonical view and bounded query (0.27832ms)
+✔ native file plugin is registered; no broad storage access; payload never in saved state (0.451972ms)
+✔ native clipboard validates Activity before dispatch and again in UI callback (0.351601ms)
+✔ native saved is returned only after driver confirmation (3.250733ms)
+✔ native cancel is not success (0.310939ms)
+✔ native IO error does not fall back to browser (1.424529ms)
+✔ repeat click rejects until first request settles, then retry works (0.383849ms)
+✔ native missing or malformed response is never saved (0.434816ms)
+✔ name MIME and UTF8 limits are validated before native side effect (12.976514ms)
+✔ browser fallback reports dispatched not saved (3.118655ms)
+✔ browser picker cancel is distinct and failed write aborts (0.854519ms)
+✔ old view and Studio share one load and one mutation state (81.380212ms)
+✔ real integrated DOM opens Studio, computes actual checks and returns to original Academy (932.714511ms)
+✔ adaptive host projects canonical WorkState and unknown stays unknown (5.628029ms)
+✔ all internal layouts admit closed schema, intents route only to typed local destinations (5.028354ms)
+✔ preferences persist exact graph motion and workflow configuration (2.772492ms)
+✔ invalid storage is not silently replaced; storage failure surfaces (0.994099ms)
+✔ workflow inputs derive from actual tasks and declared source snapshot (4.551205ms)
+✔ real browser catalog and fixed handlers execute and pause/resume without external rights (55.465684ms)
+✔ foreign resume and duplicate invocation cannot manufacture results (12.594507ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2432.273405
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview test:reviewer
+> node --test tests/reviewer/*.test.mjs
+
+✔ 100 simultaneous first writers have exactly one durable winner (100.852645ms)
+✔ abort after get before put commit rolls back (5.966019ms)
+✔ quota failure returns explicit 507 and leaves prior state (2.352599ms)
+✔ transaction abort after put success does not report durable success (2.417707ms)
+✔ future IndexedDB database version blocks current store without overwrite (1.541195ms)
+✔ absent object store is an explicit failure, no reset (0.733626ms)
+✔ v3 projected roundtrip preserves v4 metadata (4.258373ms)
+✔ bad clock rejects writes while persisted data remain readable (2.689577ms)
+✔ loaded records exceeding write budget remain readable and immutable on rewrite (77.69892ms)
+✔ 409 conflict permanently blocks stale form saves until full hook remount (87.642078ms)
+✔ REGRESSION: ambiguous failure with external revision must block retained stale form (26.860621ms)
+✔ REGRESSION: abnormal IndexedDB connection close allows safe reopen on next read (3.511867ms)
+✔ REGRESSION: local writes retain upstream UUID fallback when randomUUID unavailable (2.44621ms)
+✔ network sentinel sees zero fetch calls for state, action errors or unsupported routes (3.150362ms)
+✔ stale non-null first-write expectation cannot initialize an absent row (1.858694ms)
+✔ same-tab double submit permits one version write and reports conflict for the other (6.227173ms)
+✔ pre-aborted write and post-read object mutation cannot mutate persistent snapshot (2.106878ms)
+✔ REGRESSION: corrected device clock uses wall time for approval expiry while CAS stays monotonic (3.921264ms)
+✔ concurrent risk acceptance is exactly once, keeps condition and never fetches (9.425067ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 657.21098
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview test:vendors
+> node --import ./scripts/register.mjs --test vendor/mesh-extensions/tests/*.test.ts vendor/mesh-extensions/tests/*.test.tsx vendor/adaptive-surfaces/tests/*.test.ts vendor/adaptive-surfaces/tests/*.test.tsx vendor/skill-core/tests/*.test.mjs vendor/local-workflows/tests/*.test.mjs vendor/portable-kit/test/backup.test.mjs
+
+✔ v1 admits frozen complete snapshot with host provenance (3.722295ms)
+✔ rejects boundary schema (0.779386ms)
+✔ rejects boundary catalogVersion (0.449157ms)
+✔ rejects boundary trusted (0.51009ms)
+✔ rejects boundary approved (0.579795ms)
+✔ rejects boundary data (0.45734ms)
+✔ rejects unregistered or unknown components and extra style/HTML fields (3.338937ms)
+✔ dangerous strings are data, never executable markup (0.713777ms)
+✔ rejects unknown actions and write-kind host configuration (1.100591ms)
+✔ denies prototype keys, path traversal, dotted and URL dataRefs (2.32003ms)
+✔ rejects duplicate JSON keys including escaped equivalents (0.487826ms)
+✔ rejects duplicate ids cycles dangling children multiple parents unreachable nodes (3.588283ms)
+✔ rejects graph depth, byte, text and component budgets (2.236984ms)
+✔ rejects non-JSON numbers and non-JSON raw input (0.338541ms)
+✔ rejection is atomic and session, surface and baseRevision are enforced (1.600654ms)
+✔ layout updates keep component ids and focus target must be immediate child (0.796742ms)
+✔ snapshot and registry mutation cannot change admitted action (1.202974ms)
+✔ intent requires admitted component, revision and one explicit activation per revision (0.76248ms)
+✔ rate limiting and subscriptions are deterministic and bounded (1.003073ms)
+✔ exported schema is closed and declares every built-in component (0.308715ms)
+✔ repeated rejected floods notify once per error rather than rerender for every packet (0.82843ms)
+✔ rejects lone Unicode surrogates, trailing garbage and malformed JSON (0.436799ms)
+✔ registry changes and invalid host limits cannot broaden admission (1.347593ms)
+✔ host intent cannot carry arbitrary URLs or methods even through trusted registry (0.321605ms)
+✔ suggestion intents are distinct from navigation and contain no approval or execution (0.508397ms)
+✔ untrusted labels and host provenance are visible, scripts stay escaped (48.976387ms)
+✔ unknown and stale host values differ from actual zero (18.290821ms)
+✔ actions are inert until native button activation, labels are host-owned and replay blocked (20.700017ms)
+✔ callback failures are caught, redacted and do not alter host data (8.499782ms)
+✔ layout updates preserve active button and invalid update retains last tree (13.040902ms)
+✔ removed focused component moves to surface host anchor (9.421883ms)
+✔ hostslots only receive bound host data; absent slots explicit; throwing slots contained (9.300269ms)
+✔ mismatched malformed or oversized host projection rejects visibly (4.768303ms)
+✔ task/source/event lists have stable records, explicit empty state and no raw links (8.659372ms)
+✔ CSS preserves relative font sizes, mobile wrapping and reduced motion (0.691523ms)
+✔ focus reparenting restores stable component action, with no automatic intent (6.864616ms)
+✔ external host focus is never stolen during updates (5.365274ms)
+✔ trusted slot render failure leaves provenance and other components usable (16.637849ms)
+✔ known lists reject duplicate identities and exceeding row limits visibly (6.362938ms)
+✔ root text enlargement preserves primary button scale in simulated CSS (29.001308ms)
+✔ pending intent cannot be reactivated when a newer layout revision arrives (16.257144ms)
+✔ review R1 pending delivery survives reparenting then remove and readd (21.03387ms)
+✔ review R2 pending status persists across revisions and clears after old delivery settles (7.99483ms)
+✔ review R3 corrected host data and fresh revision each reset a failed stable slot (26.087173ms)
+✔ review R1 remount of whole renderer retains session pending delivery and safely settles after unmount (12.912188ms)
+✔ browser catalog verifies all four real packages and separates metadata from content (43.693808ms)
+✔ modified resource bytes and manifest hashes fail during initialization (5.869504ms)
+✔ undeclared or missing resources cannot enter catalog (3.889467ms)
+✔ traversal, duplicate keys, malformed metadata and unknown bundle fields fail closed (5.144791ms)
+✔ verified private snapshot cannot be changed through original bundles or metadata copies (11.087175ms)
+✔ catalog enforces count and byte budgets before use (4.026203ms)
+✔ demo performs four actual host self-tests and four kernel calls across pause/resume (93.806061ms)
+✔ catalog and run option getters are refused without invocation (42.158526ms)
+✔ abort and budget after the synchronous handler suppress its result and success event (70.178283ms)
+✔ budget exhaustion is resumable with new evidence, paused wall time is excluded (41.786786ms)
+✔ resume can use a fresh runner with same trusted store but never a foreign store (60.946878ms)
+✔ two runners racing to resume cannot both execute the remaining prefix (34.620255ms)
+✔ checkpoint output hash tampering, unknown authorization and nonprefix completion are refused (68.029959ms)
+✔ external requirements are rejected despite a newly recomputed matching manifest hash (8.60444ms)
+✔ frontmatter mismatch fails even when attacker recomputes every content checksum (6.206161ms)
+✔ static bundled package data exactly matches the reviewed skill-core inventory (0.663802ms)
+✔ public runtime import graph has no Node, network, shell, dynamic import or dependency package (1.044236ms)
+✔ events are copied, paged and listener exceptions cannot synthesize or prevent completion (31.960397ms)
+✔ a bare SHA checksum of caller data is never an accepted resume proof (15.525049ms)
+✔ rejected async evidence is refused without an unhandled rejection escaping the runner (66.842522ms)
+✔ a abort observed during the precommit store read discards uncommitted output (90.82515ms)
+✔ a budget observed during the precommit store read discards uncommitted output (29.387236ms)
+✔ a rollback observed during the precommit store read discards uncommitted output (20.852897ms)
+✔ a host evidence provider throwing null yields a saved HOST_FAILURE (20.711343ms)
+✔ a host evidence provider throwing undefined yields a saved HOST_FAILURE (7.719926ms)
+✔ async observer rejections are isolated without changing successful execution (186.059511ms)
+✔ a abort during final CAS preserves committed output but suppresses pipeline success (31.533183ms)
+✔ a budget during final CAS preserves committed output but suppresses pipeline success (34.884348ms)
+✔ executes the four real handlers in order, committing outputs before success events (62.479566ms)
+✔ pause and resume skip only the stored verified prefix and demand fresh evidence (70.171208ms)
+✔ caller JSON cannot smuggle completed steps into resume, and stale references fail (30.371285ms)
+✔ input, version and limit drift block resume without executing (118.867902ms)
+✔ abort before start never executes and aborted checkpoints cannot resume (10.325446ms)
+✔ requestPause and abort during real event-loop boundaries stop following steps (38.737215ms)
+✔ handler failure stops all following steps and has no success event for failed step (13.352713ms)
+✔ expired, revoked, missing and reused evidence stop before the next execution (54.209425ms)
+✔ asynchronous evidence is rejected rather than leaving an unbounded pending provider (15.205217ms)
+✔ time budget checked after evidence; zero successful steps when the deadline was crossed (15.397437ms)
+✔ clock rollback and nonfinite clocks fail closed and rollback remains poisoned (33.478332ms)
+✔ concurrent invocation on one runner is rejected before asynchronous preparation (50.796156ms)
+✔ shared store running reservation stops a second runner from executing same pipeline (46.329157ms)
+✔ corrupt trusted-store prefix and outputs are rejected on resume (193.933439ms)
+✔ CAS conflict and lying store do not publish successful execution (33.997996ms)
+✔ strict specification validation rejects excess steps, invalid schema, extra code and wrong kinds (155.984763ms)
+✔ caller mutations during asynchronous preparation cannot change the pinned input (43.152215ms)
+✔ bounded event retention is visible and events contain no inputs, outputs or evidence (37.972312ms)
+✔ checkpoint has only data bindings, never capabilities or raw input (10.609385ms)
+✔ trusted memory store has atomic exact-revision compare-and-swap (2.960616ms)
+✔ memory store never aliases caller records or read snapshots (4.387779ms)
+✔ memory store validates IDs, revisions, JSON, capacity and byte budgets (4.317142ms)
+✔ adapter reuses real graph IDs and relationships without mutating V4 input (8.017134ms)
+✔ unknown state and source date stay explicitly unknown (2.650318ms)
+✔ events are retained records, bounded and never used to reconstruct current state (1.646283ms)
+✔ omitted archived and unresolved references are disclosed instead of fabricated nodes (1.165378ms)
+✔ invalid state, duplicate source IDs and invalid source dates are rejected (1.667385ms)
+✔ source detail never claims a dated snapshot when its timestamp is unknown (2.142873ms)
+✔ timeline exists only on demand and reaches the exact end without a further frame (2.268362ms)
+✔ rapid retarget, cancel, stale delivery and disposal cannot revive an old timeline (0.314965ms)
+✔ zero, invalid, capped and background-delayed duration are bounded and cancellation is reentrant (0.213733ms)
+✔ disabled, reduced-motion, power-saving and hidden states always beat requested transitions (0.226451ms)
+✔ 2D interpolation preserves IDs, truthful target membership and exact end coordinates (0.319342ms)
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (10.399177ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (20.748118ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (4.024491ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (5.168246ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (2.38004ms)
+✔ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (7.704692ms)
+✔ late window resize failure also takes the controlled fallback path (5.607168ms)
+✔ 3D demand camera focus finishes once, preserves IDs and does not invoke selection callbacks (6.54334ms)
+✔ 3D rapid toggles finish at the last immediate camera target and policy changes settle immediately (17.10892ms)
+✔ 3D Escape and camera gestures cancel without fighting the user or scheduling a delayed fit (7.971965ms)
+✔ 3D context loss and disposal clear all transition frames including stale callbacks (12.541849ms)
+✔ 3D selection focus is bounded and a missing or cleared selection cancels the old destination (5.469491ms)
+✔ 3D hidden document and a renderer error during an animated frame stop scheduling immediately (12.682693ms)
+✔ 3D two-pointer gesture retains priority after one pointer is canceled (3.679761ms)
+✔ 3D selection-only framing retains zoom and caps its full translation at twenty percent (3.613941ms)
+✔ large-to-small and small-to-large camera fits retain frame zero and safe clipping until exact completion (14.581646ms)
+✔ only a genuine single-pointer primary tap selects; pinch, cancellation and drag-return do not (9.264991ms)
+✔ camera transition far envelope also includes translated destination geometry (6.991838ms)
+✔ unknown state is explicit and never shown as live or loaded-empty (37.055248ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (70.002108ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (44.838639ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (49.28021ms)
+✔ retained activity tells the truth about incomplete history and current graph (23.97131ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (23.935737ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (38.240967ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (29.515665ms)
+✔ primary text and controls scale with the host root font setting (24.696414ms)
+✔ opt-in 2D transitions animate layout positions and selection with exact ends but never host actions (36.240529ms)
+✔ 2D rapid layout changes, Escape, system preference, energy saving and unmount leave no pending frames (70.943629ms)
+✔ transition settings are labelled, serialized and have a legacy export without additive fields (20.081062ms)
+✔ legacy typed initial views remain valid without the additive setting (23.471817ms)
+✔ 2D focus frames only visible recorded neighbors and camera controls settle before panning (22.296445ms)
+✔ 2D hiding the document settles and cannot restart animation until visible (17.54048ms)
+✔ 2D pan interrupts a transition using the settled target viewport dimensions (15.406621ms)
+✔ view config roundtrips and layout changes preserve selection and filters (2.980857ms)
+✔ config rejects unknown versions, inherited extras, NaN and oversized queries (1.105888ms)
+✔ filtering never clears selection and classifies hidden versus missing (3.703878ms)
+✔ scene caps nodes/edges, prioritizes selected node and reports exact omissions (1.956071ms)
+✔ each layout is finite and deterministic independent of input order (1.929941ms)
+✔ evidence layout places task prerequisites before dependent tasks and tolerates cycles (1.001861ms)
+✔ empty graph has safe nonzero bounds in every layout (0.189987ms)
+✔ focus mode shows the selected node and immediate recorded relations without clearing filters (1.334523ms)
+✔ legacy V1 config gains safe opt-in transition defaults and rejects malformed animation settings (0.527236ms)
+✔ legacy export strips only additive transition settings while ordinary export roundtrips (0.417189ms)
+✔ Unicode and every supplied field survive a detached full-field roundtrip (18.853951ms)
+✔ same inputs produce deterministic bytes regardless of object key order (8.053338ms)
+✔ a payload bitflip is rejected (5.736764ms)
+✔ metadata is integrity-protected too (3.073566ms)
+✔ future envelope and app schema versions are rejected even when correctly hashed (4.614161ms)
+✔ incomplete required metadata is rejected on both export and import (25.426656ms)
+✔ inconsistent source revision, timestamp, state version and policy are rejected (5.100224ms)
+✔ the identical total UTF-8 byte limit applies before export and import (8.706274ms)
+✔ malformed JSON and non-string imports are rejected (0.717282ms)
+✔ prototype-pollution keys are rejected at every depth before validation (4.566804ms)
+✔ known credential-bearing keys are rejected instead of silently redacted (0.622109ms)
+✔ non-JSON export data, cycles, sparse arrays and getters are rejected losslessly (0.58986ms)
+✔ injected schema is mandatory and a failed or throwing validator stops both paths (6.003316ms)
+✔ accepted schema derivations are reported without replacing original fields (2.387221ms)
+✔ validator receives a detached read-only value and cannot mutate the source (0.95418ms)
+✔ integrity metadata rejects incorrect payload byte count and unknown fields (16.176582ms)
+✔ restore preparation exposes conflicts in a populated target without changing either side (3.477155ms)
+✔ a missing target must be explicit; absent and identical targets remain preview-only (3.775545ms)
+✔ invalid or oversized current state cannot be used as a restore baseline (6.238942ms)
+✔ deeply nested untrusted JSON fails with a controlled bound (0.509348ms)
+✔ duplicate JSON properties including escaped equivalents are rejected as ambiguous (1.50525ms)
+✔ valid UTC timestamps without milliseconds and with higher precision roundtrip (10.506729ms)
+✔ async schema acceptance works and array order stays significant (2.819072ms)
+✔ null update timestamp is preserved and invalid options are rejected (3.50017ms)
+✔ credential-bearing import is rejected even with a recomputed checksum (1.243927ms)
+✔ large comparisons report bounded details with accurate conflict totals (15.018456ms)
+✔ source timestamp ordering retains sub-millisecond precision (8.67105ms)
+✔ four original examples have standard skill names and valid hashes (36.015039ms)
+✔ mission checks supplied values without inventing completion (23.816848ms)
+✔ graph explains adjacency and reports dangling links deterministically (17.409892ms)
+✔ backup output is a plan and never a false restore confirmation (8.047661ms)
+✔ source status never calls a snapshot catalog installed tools (9.00205ms)
+✔ portable browser import graph has no node modules or execution/network APIs (1.121972ms)
+✔ largest valid mission returns every issue within its output schema (16.761674ms)
+✔ routing is deterministic exact structured matching with visible reasons (8.762729ms)
+✔ negative tags veto positives and allTags and nodeTypes constrain selection (2.022211ms)
+✔ catalogue or text claims never upgrade capabilities to ready (2.35975ms)
+✔ readiness requires explicit host evidence and full package verification (5.185918ms)
+✔ fake serialized copied expired and foreign authority handles never grant rights (5.413336ms)
+✔ host tool configuration authentication authorization and test stay separate (3.416985ms)
+✔ unknown tools and external writes remain blocked even with optimistic host claims (3.467621ms)
+✔ skill evidence is version-pinned and a passing run is not a source claim (3.270834ms)
+✔ offline dispatch checks input/output schema and emits honest deterministic results (6.451753ms)
+✔ content replacement after verification is detected before executing (3.289562ms)
+✔ prompt bundle keeps injected skill text in untrusted data and enforces full byte budget (5.97903ms)
+✔ inspector exposes match reasons missing rights and actual test evidence (2.708846ms)
+✔ aggregate readiness cannot say authorized when a tool explicitly denies permission (2.520041ms)
+✔ revocation immediately blocks reuse and omitted built-in permissions cannot bypass the host (4.088407ms)
+✔ output schema mismatches stop dispatch instead of publishing unvalidated results (3.720156ms)
+✔ observed expiry and clock rollback permanently invalidate evidence (0.544521ms)
+✔ event history stays readable bounded and paginated after long local sessions (61.01415ms)
+✔ catalog metadata is separate from instruction and resource reads (7.885015ms)
+✔ versions hash all manifest semantics and declared content hashes (2.327171ms)
+✔ metadata corruption and unversioned changed manifests fail closed (1.586003ms)
+✔ traversal absolute paths backslashes encoded paths and undeclared resources are refused (1.235554ms)
+✔ symlinks in package contents and root ancestors are refused (2.55882ms)
+✔ resources are lazy and changed content never passes verification (1.937623ms)
+✔ script resources and unknown contract fields rejected without execution (2.074309ms)
+✔ metadata and file size caps fail closed (5.284101ms)
+✔ SKILL frontmatter standard name and description must agree and allowed-tools grants nothing (1.679002ms)
+✔ strict schemas validate real data and reject unknown keys and unsupported keywords (2.816098ms)
+✔ duplicate ids never override another skill silently (2.21431ms)
+✔ hard-linked files are refused (0.702209ms)
+✔ malformed sparse JSON arrays are refused (0.225891ms)
+✔ duplicate JSON keys cannot hide conflicting manifest values (0.664192ms)
+✔ semantic versions reject leading zeros (0.829831ms)
+✔ UTF-8 BOM resource content preserves exact bytes for hashing (1.694606ms)
+✔ manifest scalar identifiers versions and hashes never accept coerced arrays (4.866572ms)
+✔ schema scalar types and enum constraints cannot be silently coerced or ignored (0.409758ms)
+✔ loader event history survives repeated progressive reads with bounded retention (383.250739ms)
+ℹ tests 220
+ℹ suites 0
+ℹ pass 220
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2403.452743
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview build
+> npm run check:drift && npm run check:vendors && npm run overlay && tsc --noEmit && vite build && node scripts/build-manifest.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview check:drift
+> node scripts/provenance.mjs check
+
+No drift: 2b838b4f574acfaff72013c270a1fa637eb995c6; 193 byte-identical source files.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview check:vendors
+> node scripts/verify-vendors.mjs
+
+Verified 5 pinned modules against installed SHA-256 inventory
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.2.0-v5-integrated-preview overlay
+> node scripts/build-overlay.mjs
+
+Generated explicit transport overlay; upstream UI remains byte-identical.
+Generated five explicit UI overlays; original sources remain byte-identical.
+vite v8.0.13 building client environment for production...
+[2Ktransforming...✓ 2029 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             1.22 kB │ gzip:   0.56 kB
+dist/assets/Studio-CQOv3umL.css             9.97 kB │ gzip:   2.77 kB
+dist/assets/index-EhbNQOrN.css            222.59 kB │ gzip:  37.03 kB
+dist/assets/circle-CdOIzqiX.js              0.12 kB │ gzip:   0.12 kB
+dist/assets/plus-BBdagRzu.js                0.14 kB │ gzip:   0.14 kB
+dist/assets/archive-So2XN27C.js             0.24 kB │ gzip:   0.20 kB
+dist/assets/focus-BaUn9TaY.js               0.54 kB │ gzip:   0.31 kB
+dist/assets/rolldown-runtime-S-ySWqyJ.js    0.69 kB │ gzip:   0.42 kB
+dist/assets/motion-Dk1SBQW7.js              1.18 kB │ gzip:   0.65 kB
+dist/assets/dialog-DwCJlShT.js              2.17 kB │ gzip:   0.86 kB
+dist/assets/progress-BPrInTTg.js            2.47 kB │ gzip:   1.22 kB
+dist/assets/command-contract-Dn7Mw2Ic.js    8.10 kB │ gzip:   2.87 kB
+dist/assets/space-renderer-Cyh04CnJ.js      8.45 kB │ gzip:   3.67 kB
+dist/assets/ThreeView-CUDyrpD-.js           9.66 kB │ gzip:   4.10 kB
+dist/assets/help-panel-kaUGe51-.js          9.81 kB │ gzip:   4.32 kB
+dist/assets/command-palette-DBCv0Nkf.js    15.05 kB │ gzip:   5.70 kB
+dist/assets/neuro-panel-DfhfpJaS.js        27.35 kB │ gzip:   8.81 kB
+dist/assets/command-center-CAZMsw4H.js     28.27 kB │ gzip:   8.48 kB
+dist/assets/button-IGgMRHn1.js             33.87 kB │ gzip:  11.33 kB
+dist/assets/native-select-BQ460gpZ.js      35.59 kB │ gzip:  10.31 kB
+dist/assets/mesh-space-Cxj1p5zQ.js         37.64 kB │ gzip:  13.28 kB
+dist/assets/types-xLbdNHjY.js              56.52 kB │ gzip:  12.94 kB
+dist/assets/workspace-panels-pYwq1x8k.js   59.02 kB │ gzip:  18.48 kB
+dist/assets/Studio-CSDGf7ek.js            126.75 kB │ gzip:  38.95 kB
+dist/assets/react-CM3CzyHR.js             211.46 kB │ gzip:  67.71 kB
+dist/assets/index-Vn53S5UP.js             357.11 kB │ gzip: 108.27 kB
+dist/assets/three-CHsNPgUk.js             756.80 kB │ gzip: 190.93 kB
+
+✓ built in 1.08s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+{
+  "generatedAt": "2026-09-30T23:08:43.973Z",
+  "sourceCommit": "2b838b4f574acfaff72013c270a1fa637eb995c6",
+  "sourceLabel": "Sites V5 / App 1.4 / stateVersion 4",
+  "status": "Final upstream source imported; local-port preview NOT runtime-approved",
+  "distContentSha256": "e1abb9bcc0484b0c0634c7ad688b6dc443af0efab0032b7ef61ed52f8d244337",
+  "packageLockSha256": "de3141e7de21084d6281f88b70f827a0cfa1eef9a31ef74a82eceeb764d50fef",
+  "files": 48
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

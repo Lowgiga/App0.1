@@ -1,0 +1,7 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+✔ Copying web assets from dist to android/app/src/main/assets/public in 8.08ms
+✔ Creating capacitor.config.json in android/app/src/main/assets in 486.05μs
+✔ copy android in 31.74ms
+✔ Updating Android plugins in 5.98ms
+✔ update android in 35.66ms
+[info] Sync finished in 0.103s

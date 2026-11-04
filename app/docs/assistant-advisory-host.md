@@ -1,0 +1,25 @@
+# Providerneutraler Beratungshost (interner Stand 0.5.4)
+
+Ausgang: APP-Commit 76e222d09b301f2acf5ec6c1db010f8e0bf13be8, geprüfte quality-source-v1 eb2cd9999c02906d86054ae3b2127d26b45c8812022e68ed69800a2c526f11d4. Dieser Entwicklungsschritt ergänzt den vorhandenen Beratungsfluss, installiert kein Modell und aktiviert keine Providerverbindung.
+
+## Design und Dateiverantwortung
+
+- contracts.ts bleibt die bestehende strikte Grenze: Identität/Basis/Produzent/Bytebudget und Quellenzulässigkeit prüfen; confirmed nur als exakte Wiederholung bestätigter Hostaussagen. Die aus geprüften Daten erzeugte Hostzusammenfassung bleibt erhalten. Freie Adapter-summary wird weiterhin nicht als Fakt angezeigt.
+- AssistantAdvice.tsx rendert ausschließlich bereits validierte proposal/external-claim-Einträge als React-Text in einer getrennten Region. Keine HTML-Injektion, Linkerzeugung, Markdownausführung, Aktion oder automatische Übernahme. Quellen dürfen leer sein, werden dann ausdrücklich als fehlend gekennzeichnet; vorhandene Referenzen sind keine Wahrheitsbestätigung. confirmed bleibt in der Hostgrundlage, nicht in der unbestätigten Kartenliste.
+- AssistantPanel.tsx und AssistantConfigPreview.tsx verwenden dieselbe Darstellung und die geprüfte Produzentenidentität. Die bereits gespeicherte projektbezogene continuation.detail öffnet oder schließt Quelldetails; Zweckeinstellungen der Beratung erscheinen als Kontext. Keine zusätzliche Settingsdatenbank, keine Änderung des Vorschlagsanlasses, kein Hintergrundtimer.
+- adapter-factory.ts stellt eine reine hostseitige Factory bereit: Eingabe advisor/specialist, Ausgabe AdvisoryAdapter. Nur createAssistantSession nimmt sie optional an; der Produktionshook verwendet unverändert createSimulator. Factory/Adapter erhalten keinen WorkTransport, Store, Commitcallback oder Zustimmungszugang. Keine URL-/global-/LocalStorage-Konfiguration für Adapter.
+- runtime.ts erhält getrennte Metadaten für noch nicht abgewickelte Adapterpromises. Nach Stop/Timeout/Superseded wird das Ergebnis sofort verworfen; ein nicht kooperierender invoke-Aufruf kann weiter offen bleiben. pendingAdapterCalls wird erst bei tatsächlicher Promise-Erfüllung/Ablehnung vermindert. Auch Promise-Settlement beweist kein externes Engine-Ende: engineEnd bleibt ausdrücklich not-attested. Diese Zählung ist keine Token-/Kosten-/CPU-Abrechnung und erweitert keine Modellrechte.
+- logging.ts projiziert optional producer.mode/bindingId aus der hostseitig validierten Bindung; result-Provenienz muss im Validator damit übereinstimmen. Ereignisse vor Bindung bleiben unavailable. Unbekannte Felder, Texte und Fehlerobjekte werden weiterhin nicht aufgenommen. Begonnene/abgewiesene Aufrufe sind kein validiertes Ergebnis.
+- use-assistant-session.ts bindet Metadaten an die aktive Session; nach deactivation keine späten Updates. Abbruch löscht Ergebnis und Zustimmungsvorschau; keine Aussage, dass eine fremde Engine angehalten wurde. Vor/nach Beratung wird die aktuelle Basis gelesen. Fehler einer erneuten Beratung dürfen alte Beratung nicht als aktuelles Ergebnis stehen lassen. In der UI wird eine inzwischen blockierte/veraltete Antwort nicht angezeigt.
+
+## Unveränderte Autoritätsgrenzen
+
+transaction.ts, local-adapter.ts, Verträge für Zustimmungen/Commit/Receipt und die bestehende Preview → aktuelle Zustimmung → Commit → separat gelesener Receipt-Kette bleiben unverändert. Modelltext kann weder Bestätigung noch Freigabe verleihen. Renderkomponenten bekommen ausschließlich Daten; keine Übernahmeschaltfläche an freien Aussagen.
+
+Runtime-POLICY sperrt weiterhin jedes echte lokale oder entfernte Modell, auch bei behaupteten verified-/Token-/Abort-Fähigkeiten. Für spätere Integration braucht es tatsächliche Engine-/Token-/Abbruch-/Kosten- und Modellevidenz sowie eine gesondert geprüfte Bindung. Adapter-Testnaht ist kein installierter Provider. Synthetische model-Produzenten existieren nur in Testfixtures zur Validator-/Darstellungsprüfung; der Produktbetrieb zeigt weiter Offline-Simulation.
+
+## Prüfstrategie
+
+Red/Green: fehlende sichtbare Claims, fehlende Produzentenmetadaten und ungetrenntes Adapter-Settlement; anschließend ignorierte Factory und stehenbleibende alte Beratung sowie festes Simulatorlabel in der Fachprüfung. Replaytests nutzen Gates statt zufälliger Zeitplanung. Fälle: gültig, malformed, übergroß, fremde Referenz, gefälschtes confirmed, stale Basis, dynamisch geänderte Workrevision, Abbruch, Projektwechsel, Superseded, verspätete Erfüllung. Bestehende Budget-, Reparatur-, Receipt-, Doubleclick-/CAS-Tests bleiben aktiv.
+
+Darstellungstests prüfen escaped HTML-/URL-Text, Quellenzuordnung, Trennung bestätigter Aussagen, synthetische Modellherkunft, bestehende Kompakt-/Detail-Einstellung und fehlende Schreibaufrufe. Browserprüfung nutzt frische lokale Profile, echten Produktionsbuild und Desktop/Mobil. Keine Nutzerdaten, keine neue Preview-/APK-/Libraryauslieferung. Qualitybaseline wird für Entwicklungsänderungen nicht automatisch angepasst; unabhängige Review/Adoption bleibt separat.

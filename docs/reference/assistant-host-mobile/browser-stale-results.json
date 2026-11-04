@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "desktop",
+    "kind": "memory",
+    "errors": [],
+    "external": [],
+    "workStateUnchanged": true,
+    "reloadRecovers": true,
+    "status": "pass"
+  },
+  {
+    "mode": "desktop",
+    "kind": "config",
+    "errors": [],
+    "external": [],
+    "workStateUnchanged": true,
+    "reloadRecovers": true,
+    "status": "pass"
+  },
+  {
+    "mode": "mobile",
+    "kind": "memory",
+    "errors": [],
+    "external": [],
+    "workStateUnchanged": true,
+    "reloadRecovers": true,
+    "status": "pass"
+  },
+  {
+    "mode": "mobile",
+    "kind": "config",
+    "errors": [],
+    "external": [],
+    "workStateUnchanged": true,
+    "reloadRecovers": true,
+    "status": "pass"
+  }
+]

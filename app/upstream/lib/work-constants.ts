@@ -1,0 +1,9 @@
+export const checkIds = ['baseline', 'schema', 'unknown', 'env', 'paper', 'tests'] as const;
+export const viewIds = ['overview', 'agents', 'missions', 'approvals', 'activity', 'intelligence', 'help', 'connections', 'pilot', 'make', 'lab', 'addons', 'evidence', 'chats', 'matrix', 'space', 'settings'] as const;
+export const modeIds = ['FAST', 'DEEP', 'RESEARCH COUNCIL', 'DEV LOOP', 'BUILD', 'OPS'] as const;
+export const agentIds = ['zimt', 'manus', 'junior', 'codex'] as const;
+export const projectIds = ['paz', 'make', 'cue', 'hermes', 'custom'] as const;
+export const categories = ['Bedienung', 'Funktion', 'Einstellungen', 'Integration', 'Visualisierung', 'Lernen'] as const;
+export const taskStatuses = ['Offen', 'In Arbeit', 'Blockiert', 'Review', 'Erledigt'] as const;
+export const widgetIds = ['metrics', 'mission', 'team', 'connections', 'timeline', 'queue'] as const;
+export const agentNames: Record<typeof agentIds[number], string> = { zimt: 'Zimt', manus: 'Manus', junior: 'Junior', codex: 'ChatGPT/Codex' };

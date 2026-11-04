@@ -1,0 +1,1 @@
+Runtime, overlays, build scripts and Android sources have no absolute development paths or local SDK config
