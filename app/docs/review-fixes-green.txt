@@ -1,0 +1,17 @@
+✔ live host policy reaches 3D and bounds scene without destroying saved preferences (84.330623ms)
+NAVIGATION_CALLS [{"kind":"push","url":"https://localhost/?view=space"},{"kind":"replace","url":"https://localhost/?view=space"}]
+✔ review: Back after Studio-to-original navigation retains Studio in history (562.964278ms)
+EMBEDDED_GRAPH mesh-explorer mesh-mode-work mesh-style-solid mesh-quality-low
+✔ review: the embedded graph obeys WorkState power saver quality (234.138115ms)
+MOTION_POLICY true
+✔ review: WorkState motion off cannot be bypassed inside graph controls (144.561106ms)
+STUDIO_DIALOGS []
+✔ review: a hidden original workspace does not open its global command dialog (474.796985ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2607.950946

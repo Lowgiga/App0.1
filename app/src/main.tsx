@@ -1,0 +1,12 @@
+import React from 'react';
+import {createRoot} from 'react-dom/client';
+import data from '../upstream/lib/mesh-data.json';
+import {LocalWorkStore} from './local-adapter';
+import {WorkTransportProvider} from './work-transport';
+import {SharedWorkStateProvider} from './shared-work-state';
+import SystemApp from './system-app';
+import '../upstream/app/globals.css';
+import './port.css';
+import './system.css';
+const transport=new LocalWorkStore({sources:data.sources.map(s=>s.id)});
+createRoot(document.getElementById('root')!).render(<React.StrictMode><WorkTransportProvider transport={transport}><SharedWorkStateProvider><SystemApp data={data}/></SharedWorkStateProvider></WorkTransportProvider></React.StrictMode>);

@@ -1,0 +1,35 @@
+import './build-document-overlay.mjs';
+await import('./build-level-overlay.mjs');
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+let source=fs.readFileSync(path.join(root,'upstream/app/use-work-state.ts'),'utf8');
+function replace(before,after){const count=source.split(before).length-1;if(count!==1)throw new Error(`Hook drift: expected one anchor, found ${count}: ${before}`);source=source.replace(before,after);}
+replace("import { toast } from 'sonner';","import { toast } from 'sonner';\nimport {useWorkTransport} from '../src/work-transport';\nimport {ConflictGate} from '../src/conflict-gate';");
+replace('export function useWorkState() {','export function useWorkState() {\n  const transport = useWorkTransport();\n  const conflictGate = useRef(new ConflictGate());');
+replace("'Arbeitsstand wird geladen …'","'Lokaler Arbeitsstand wird geladen …'");
+replace("'Arbeitsstand gespeichert · '","'Lokal auf diesem Gerät gespeichert · '");
+replace("'Dein Arbeitsstand ist bereit'","'Lokaler Arbeitsstand bereit · keine Cloud-Synchronisation'");
+replace('if (saving.current && !duringSave) return false;','if (conflictGate.current.requiresReload) return false;\n    if (saving.current && !duringSave) return false;');
+replace("fetch('/api/state'","transport.request('/api/state'");
+replace('fetch(url,','transport.request(url,');
+replace("if (!r.ok) throw new Error('Arbeitsstand nicht erreichbar');","if (!r.ok) { const result=await r.json().catch(()=>({})); throw new Error(result.error || 'Lokaler Arbeitsstand nicht erreichbar'); }");
+replace('} catch {\n      if (!controller.signal.aborted','} catch (error) {\n      if (!controller.signal.aborted');
+replace("setStorage('Arbeitsstand nicht erreichbar. Speichern ist bis zu einem erfolgreichen Abruf gesperrt. Der letzte geladene Snapshot bleibt exportierbar.');","setStorage((error instanceof Error ? error.message : 'Lokaler Arbeitsstand nicht erreichbar.') + ' Speichern ist bis zu einem erfolgreichen Abruf gesperrt. Der letzte geladene Snapshot bleibt exportierbar.');");
+replace('}, [accept]);','}, [accept, transport]);');
+replace("if (r.status === 409) { uncertain = false; await load(true); toast.error('Ein anderer Tab hat gespeichert. Aktueller Stand geladen; Formularentwürfe bleiben erhalten. Erneut prüfen.'); return false; }","if (r.status === 409) { uncertain = false; await load(true); conflictGate.current.trip(); failed.current = true; setStorageError(true); setStorage('Lokaler Speicherkonflikt. Entwürfe bleiben sichtbar. Vor weiteren Änderungen Entwürfe sichern und App vollständig neu laden.'); toast.error('Ein anderer lokaler Tab hat gespeichert. Entwürfe sichern und App vollständig neu laden.'); return false; }");
+
+replace('const recovered = await load(true);', "const recovered = await load(true);\n        conflictGate.current.trip(); failed.current = true; setStorageError(true);\n        setStorage('Schreibantwort unklar. Sichtbare ungespeicherte Entwürfe vor dem vollständigen Neuladen manuell sichern. Weitere Änderungen bleiben bis dahin gesperrt.');");
+replace("toast.success('Speicherung nach Antwortverlust im neu geladenen Serverstand bestätigt.');", "setStorage('Gespeicherte Änderung lokal bestätigt. Wegen der unterbrochenen Antwort sind weitere Änderungen gesperrt. Sichtbare ungespeicherte Entwürfe sichern und App vollständig neu laden.'); toast.success('Gespeicherte Änderung lokal bestätigt. Vor weiteren Änderungen Entwürfe sichern und vollständig neu laden.');");
+replace("toast.error(recovered ? 'Der Ausgang der Anfrage war unklar. Der Serverstand wurde neu geladen. Prüfe den Verlauf vor einer Wiederholung.' : 'Der Ausgang der Anfrage ist unklar. Erst den Serverstand neu laden, dann den Verlauf prüfen.');", "toast.error('Der Ausgang der Anfrage ist nicht bestätigt. Speichern bleibt gesperrt. Sichtbare Entwürfe sichern, App vollständig neu laden und Verlauf prüfen.');");
+replace('}, [accept, load]);','}, [accept, load, transport]);');
+replace('const changeWork = (next: WorkState) => {const error=workSizeError(next);',"const changeWork = (next: WorkState) => {const conflict=conflictGate.current.assertWritable(next.updatedAt,current.current.updatedAt);if(conflict){failed.current=true;setStorageError(true);setStorage(conflict);toast.error(conflict);return Promise.resolve(false)}const error=workSizeError(next);");
+source=source.replaceAll('Serverstand','lokalen Speicherstand').replaceAll('Speicherung nach Antwortverlust im neu geladenen lokalen Speicherstand bestätigt.','Lokale Speicherung nach unterbrochener Antwort im neu geladenen Gerätestand bestätigt.');
+fs.mkdirSync(path.join(root,'overlay'),{recursive:true});fs.writeFileSync(path.join(root,'overlay/use-work-state.ts'),source);
+console.log('Generated explicit transport overlay; upstream UI remains byte-identical.');
+await import('./build-ui-overlays.mjs');
+await import('./build-graph-overlay.mjs');
+await import('./build-sidebar-overlay.mjs');
+await import('./build-domain-overlays.mjs');
+await import('./build-legacy-import-overlay.mjs');

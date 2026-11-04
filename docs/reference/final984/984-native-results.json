@@ -1,0 +1,92 @@
+{
+  "tests": [
+    {
+      "path": "android/app/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuecommandmesh.preview.NavigationPolicyTest.xml",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.ArDetailsStateTest.xml",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.ArLifecycleTest.xml",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.ArMotionPolicyTest.xml",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.ArTrackingStatusTest.xml",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.ButtonPaletteTest.xml",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.GraphAppearanceTest.xml",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.GraphSnapshotTest.xml",
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.HologramGeometryTest.xml",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.HologramMotionTest.xml",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.SceneMathTest.xml",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "android/cue-native-ar/build/test-results/testDebugUnitTest/TEST-de.lowgiga.cuear.SnapshotHandoffTest.xml",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "total": 62,
+  "app_tests": 4,
+  "ar_tests": 58,
+  "lint_issues": 0
+}

@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {Window} from 'happy-dom';
+const w=new Window({url:'https://localhost/'});
+Object.defineProperty(globalThis,'window',{configurable:true,value:w});
+Object.defineProperty(globalThis,'document',{configurable:true,value:w.document});
+Object.defineProperty(globalThis,'navigator',{configurable:true,value:w.navigator});
+let options:any,payload='';
+(w as any).showSaveFilePicker=async(value:unknown)=>{options=value;return{createWritable:async()=>({write:async(text:string)=>{payload=text},close:async()=>{},abort:async()=>{}})}};
+const {saveTextFile}=await import('../../src/platform/runtime.ts');
+test('personal draft text export offers the actual txt extension and only the requested text',async()=>{const result=await saveTextFile('LowQuantFlow-personal-draft.txt','Only this personal draft','text/plain');assert.equal(result.status,'saved');assert.equal(options.suggestedName,'LowQuantFlow-personal-draft.txt');assert.deepEqual(options.types[0].accept,{'text/plain':['.txt']});assert.equal(payload,'Only this personal draft')});

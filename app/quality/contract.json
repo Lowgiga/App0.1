@@ -1,0 +1,139 @@
+{
+  "schema": "lowquantflow.quality-contract/v1",
+  "baseline": {
+    "path": "quality/baselines/accepted.json",
+    "sha256": "52762ca353ec57dc656d5798f3310490179acdfd7d6ebffddcd237a46eec70f2"
+  },
+  "protectedBehaviors": [
+    {
+      "id": "draft.cas-context",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-store.test.ts",
+          "name": "two tabs get one CAS winner and revisions remain monotonic through discard and new drafts"
+        },
+        {
+          "path": "tests/system/personal-continuation-store.test.ts",
+          "name": "autosave keeps stale base; only explicit rebase can authorize applying against a changed work snapshot"
+        },
+        {
+          "path": "tests/system/personal-continuation-store.test.ts",
+          "name": "archived and replaced incarnations retain detached drafts but cannot apply or rebase them"
+        }
+      ]
+    },
+    {
+      "id": "draft.apply-once",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-store.test.ts",
+          "name": "explicit apply atomically creates one proposal and durable receipt makes a lost-response retry idempotent"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "lost apply response reconciles one proposal and clears only the applied composer"
+        }
+      ]
+    },
+    {
+      "id": "navigation.latest-wins",
+      "cases": [
+        {
+          "path": "tests/system/continuation-context-integration.test.tsx",
+          "name": "new Assistant route wins over a late failed flush from invalid Back with context hints installed"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "newer Forward cancels a pending invalid-Back clear without discarding its editor"
+        }
+      ]
+    },
+    {
+      "id": "context.read-only",
+      "cases": [
+        {
+          "path": "tests/system/context-assistance.test.ts",
+          "name": "local generation has no writes, callbacks, or network capability and does not change data"
+        },
+        {
+          "path": "tests/system/continuation-context-integration.test.tsx",
+          "name": "retained draft and work revision survive graph hints while hint preferences preserve all other settings"
+        }
+      ]
+    },
+    {
+      "id": "context.dedupe",
+      "cases": [
+        {
+          "path": "tests/system/context-assistance.test.ts",
+          "name": "same source and observed version dedupe across distinct object IDs"
+        },
+        {
+          "path": "tests/system/context-assistance.test.ts",
+          "name": "changed work revision permits a new hint for an unchanged source after cooldown"
+        }
+      ]
+    },
+    {
+      "id": "config.receipt",
+      "cases": [
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "preview and review write nothing; explicit commit is verified by separate receipt read"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "invalid verified readback cannot produce a success state"
+        }
+      ]
+    },
+    {
+      "id": "mobile.targets",
+      "cases": [
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "bar exposes at most four named native buttons and reports current internal destination"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "bar arrow and Home/End keys move focus without executing navigation or trapping Tab"
+        },
+        {
+          "path": "tests/system/mobile-layout.test.ts",
+          "name": "mobile controls declare 48 CSS-pixel targets and text follows 200 percent root scaling"
+        }
+      ]
+    },
+    {
+      "id": "motion.stop",
+      "cases": [
+        {
+          "path": "tests/system/companion-controller.test.ts",
+          "name": "unmount aborts generation; late fulfilled scene is disposed and never rendered"
+        },
+        {
+          "path": "tests/system/companion-controller.test.ts",
+          "name": "hiding during load pauses late result without reload, resume uses same scene"
+        }
+      ]
+    },
+    {
+      "id": "backup.honesty",
+      "cases": [
+        {
+          "path": "tests/system/project-memory-backup.test.ts",
+          "name": "older archives remain readable and explicitly have no memory coverage"
+        },
+        {
+          "path": "tests/system/personal-draft-export.test.ts",
+          "name": "personal draft text export offers the actual txt extension and only the requested text"
+        },
+        {
+          "path": "tests/system/quality-ui-regressions.test.tsx",
+          "name": "R4: backup screen describes the bounded schema check without claiming semantic validation of historical extras"
+        }
+      ]
+    }
+  ],
+  "exceptions": []
+}

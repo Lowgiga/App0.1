@@ -1,0 +1,12 @@
+✔ all exported UI paths use platform services without legacy Blob or clipboard fallbacks (1.64475ms)
+✔ typed navigation accepts only canonical view and bounded query (0.269346ms)
+✔ native file plugin is registered; no broad storage access; payload never in saved state (0.37841ms)
+✔ native clipboard validates Activity before dispatch and again in UI callback (0.247753ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 423.599651

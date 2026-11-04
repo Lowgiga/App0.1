@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {analyzeTechnicalIntake,technicalIntakeContract} from '../src/technical-intelligence/intake.ts';
+const base={schema:'omega.technical-intake/v1',requestId:'123e4567-e89b-42d3-a456-426614174000',createdAt:'2026-11-03T18:00:00Z',source:'manual',platform:'unknown',language:'unknown',intent:'diagnose',content:'pkg install git && rm -rf "$HOME/cache"',environmentFacts:[]};
+test('rejects empty and oversized input',()=>{assert.equal(technicalIntakeContract.safeParse({...base,content:'   '}).success,false);assert.equal(technicalIntakeContract.safeParse({...base,content:'x'.repeat(32769)}).success,false);});
+test('detects Termux, compound syntax and destructive operation without execution',()=>{const r=analyzeTechnicalIntake(base);assert.equal(r.detected.platform,'termux');assert.equal(r.execution,'not-run');assert.ok(r.findings.some(x=>x.title==='Destruktive Operation erkannt'));assert.ok(r.findings.some(x=>x.title==='Zusammengesetzte Shell-Syntax erkannt'));});
+test('redacts secrets from evidence',()=>{const r=analyzeTechnicalIntake({...base,platform:'linux',language:'bash',content:'export API_KEY=sk-abcdefghijklmnop123456'});assert.equal(r.redactions.count,1);assert.ok(!JSON.stringify(r).includes('sk-abcdefghijklmnop123456'));});
+test('explicit user platform and language override heuristics',()=>{const r=analyzeTechnicalIntake({...base,platform:'windows-powershell',language:'powershell',content:'pkg install git'});assert.equal(r.detected.platform,'windows-powershell');assert.equal(r.detected.language,'powershell');assert.equal(r.detected.basis,'user');});
+test('clean scan is not a security certificate',()=>{const r=analyzeTechnicalIntake({...base,content:'echo hello'});assert.ok(r.limits.some(x=>x.includes('kein Sicherheitsnachweis')));});
+test('rejects malformed and unknown fields',()=>{assert.throws(()=>analyzeTechnicalIntake({...base,unexpected:true}),/INVALID_INTAKE/);assert.throws(()=>analyzeTechnicalIntake({...base,content:''}),/INVALID_INTAKE/);});

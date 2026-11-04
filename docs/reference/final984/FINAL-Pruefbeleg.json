@@ -1,0 +1,66 @@
+{
+  "source_tree_sha256": "8be6face68bfa3307c92deb86d386850215c7d41e2fe781ac2206278a54dd7ea",
+  "command": "npm run verify:quality -- --contract-sha256 09e370e0db63c6b420adcac7ac5594b8d4721ced73d46a65759d5b0a22ca56a3",
+  "exit": 0,
+  "groups": [
+    50,
+    224,
+    774,
+    19,
+    220,
+    30,
+    7
+  ],
+  "host_tests": 1324,
+  "quality_fixture_tests": 50,
+  "product_test_cases": 1274,
+  "failures": 0,
+  "skips": 0,
+  "act_warnings": 0,
+  "renderer_scenarios": 18,
+  "typecheck": "PASS",
+  "drift": "PASS",
+  "build": "PASS",
+  "build_files": 57,
+  "build_bytes": 5940515,
+  "build_tree_sha256": "1f21d2c73d306e9feb35e5b4b6a23587f0c8527b33a2ce767c4ed16c49cc682a",
+  "quality_source_scope": {
+    "sha256": "28d178b0085bfb154a963e14bd4817ff8da8eef481213b08787d6afa6559b8ee",
+    "sourceScope": "quality-source-v1"
+  },
+  "quality_stages": "all pass; no source drift",
+  "independently_accepted_contract_pin": "09e370e0db63c6b420adcac7ac5594b8d4721ced73d46a65759d5b0a22ca56a3",
+  "native_offline_command": "gradle --offline --no-daemon --console=plain --max-workers=2 :app:testDebugUnitTest :cue-native-ar:testDebugUnitTest :cue-native-ar:lintDebug",
+  "native_exit": 0,
+  "native_tasks_executed": 117,
+  "native_unit_tests": 62,
+  "native_AR_tests": 58,
+  "native_app_tests": 4,
+  "native_lint_issues": 0,
+  "native_evidence_scope": "Separate actual Gradle evidence; the quality wrapper itself does not run native/device checks",
+  "versionCode": 11,
+  "versionName": "0.5.3-prototype-20261005",
+  "applicationId": "de.lowgiga.cuecommandmesh.next",
+  "namespace": "de.lowgiga.cuecommandmesh.preview",
+  "dependency_records_changed": false,
+  "package_lock_change": "Only the two root package-version fields; no dependency entry changed",
+  "browser_device_gpu_instrumentation": "NOT RUN for this candidate",
+  "apk": "NOT BUILT by integrator; separate native worker follows final source/dist freeze",
+  "independent_review": "FINAL PASS: all984 source and57 build files, accepted pin and all five gate phases, full host-test log and native XML/lint results independently verified; no open code findings",
+  "scope": [
+    "Complete reviewed977 prototype",
+    "Approved version11 metadata and consistency regression",
+    "Reviewed local quality gate with deliberately adopted baseline and trusted external pin"
+  ],
+  "known_build_warnings": [
+    "Vite chunks larger than500kB remain",
+    "Gradle deprecation notices remain",
+    "npm reports the pre-existing http-proxy environment configuration as unknown; no environment or network configuration was changed"
+  ],
+  "historical_limits": [
+    "Earlier930 archive-before-start act timing observation remains documented",
+    "958 catalog-initialization act wait was fixed with preserved assertions and bounded timeout after independent red/green reproduction",
+    "966 stale label selector was corrected without changing assertions; later terminal-statusP2 was independently closed in977",
+    "No mandatory remote CI/branch protection or tamper-proof local self-attestation is claimed"
+  ]
+}

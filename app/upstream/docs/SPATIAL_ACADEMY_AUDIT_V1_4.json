@@ -1,0 +1,340 @@
+{
+  "version": "1.4",
+  "stateVersion": 4,
+  "measuredAt": "2026-09-30T22:19:43.366Z",
+  "sourceBaseCommit": "8bb56544677a7433a2566da3885ada6cd31b1b0d",
+  "scope": "Compiled local app, isolated D1, synthetic identities; software WebGL. Private production publication is a separate Sites operation.",
+  "checks": {
+    "foundationDomain": 24,
+    "intelligenceDomain": 30,
+    "spatialAcademyDomain": 27,
+    "localHttp": 22,
+    "tuningHttp": 22,
+    "foundationHttp": 40,
+    "intelligenceHttp": 36,
+    "spatialAcademyHttp": 29,
+    "domainAndHttpTotal": 230,
+    "browser": 44,
+    "total": 274
+  },
+  "browser": {
+    "measuredAt": "2026-09-30T22:19:43.366Z",
+    "status": "PASS",
+    "passed": 44,
+    "checks": [
+      {
+        "name": "Page identity and meaningful 2D first render",
+        "status": "PASS"
+      },
+      {
+        "name": "No framework overlay or initial console error",
+        "status": "PASS"
+      },
+      {
+        "name": "Three.js and renderer are not fetched by 2D first view",
+        "status": "PASS"
+      },
+      {
+        "name": "Large graph caps safely at 32 visible nodes",
+        "status": "PASS"
+      },
+      {
+        "name": "Desktop ArrowDown follows the actual three-column grid",
+        "status": "PASS"
+      },
+      {
+        "name": "Keyboard focus remains visible",
+        "status": "PASS"
+      },
+      {
+        "name": "End navigates to last visible node",
+        "status": "PASS"
+      },
+      {
+        "name": "Home navigates back to first node",
+        "status": "PASS"
+      },
+      {
+        "name": "Relationship opens its actual neighbour",
+        "status": "PASS"
+      },
+      {
+        "name": "Guided hand-off highlights the planned relation",
+        "status": "PASS"
+      },
+      {
+        "name": "Guided explanation does not mutate state or start a worker",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection link records a node without access parameters",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection link survives reload",
+        "status": "PASS"
+      },
+      {
+        "name": "3D renders actual visible first-frame pixels",
+        "status": "PASS"
+      },
+      {
+        "name": "Focus changes the rendered viewpoint",
+        "status": "PASS"
+      },
+      {
+        "name": "Selection preserves the same canvas and renderer lifecycle",
+        "status": "PASS"
+      },
+      {
+        "name": "User-started rotation visibly changes the view",
+        "status": "PASS"
+      },
+      {
+        "name": "Reduced Motion disables view rotation",
+        "status": "PASS"
+      },
+      {
+        "name": "Reduced Motion produces a stable paused frame",
+        "status": "PASS"
+      },
+      {
+        "name": "Unsupported immersive AR stays disabled",
+        "status": "PASS"
+      },
+      {
+        "name": "Context loss recovers to a usable 2D map",
+        "status": "PASS"
+      },
+      {
+        "name": "Retry after context loss creates a fresh usable canvas",
+        "status": "PASS"
+      },
+      {
+        "name": "Practice cannot be saved without actual quiz and case checks",
+        "status": "PASS"
+      },
+      {
+        "name": "Wrong answer explains the missing proof",
+        "status": "PASS"
+      },
+      {
+        "name": "UI saves reasoning and completion while preserving old quiz state",
+        "status": "PASS"
+      },
+      {
+        "name": "UI creates a real open task with the selected owner",
+        "status": "PASS"
+      },
+      {
+        "name": "Mission and task reference persist atomically",
+        "status": "PASS"
+      },
+      {
+        "name": "Duplicate learning transfer is prevented in UI",
+        "status": "PASS"
+      },
+      {
+        "name": "Workbook export contains the saved reasoning and five topics",
+        "status": "PASS"
+      },
+      {
+        "name": "Browser reload retains saved practice progress",
+        "status": "PASS"
+      },
+      {
+        "name": "Saved reasoning remains available after reload",
+        "status": "PASS"
+      },
+      {
+        "name": "CAS conflict preserves answers and reasoning after context changes",
+        "status": "PASS"
+      },
+      {
+        "name": "Invalid mission context can be cleared without losing draft",
+        "status": "PASS"
+      },
+      {
+        "name": "User can save safely after conflict recovery",
+        "status": "PASS"
+      },
+      {
+        "name": "Automated WCAG A/AA checks pass for the new spatial workspace",
+        "status": "PASS"
+      },
+      {
+        "name": "390px viewport has no horizontal document overflow",
+        "status": "PASS"
+      },
+      {
+        "name": "Mobile large graph also remains bounded and scrollable",
+        "status": "PASS"
+      },
+      {
+        "name": "Mobile ArrowDown follows the two-column grid",
+        "status": "PASS"
+      },
+      {
+        "name": "New mobile interactive targets are at least 44px",
+        "status": "PASS",
+        "detail": "[]"
+      },
+      {
+        "name": "Mobile applying view stays within 390px",
+        "status": "PASS"
+      },
+      {
+        "name": "Mobile dark-theme automated WCAG checks pass",
+        "status": "PASS"
+      },
+      {
+        "name": "Mobile navigation closes its menu and opens learning",
+        "status": "PASS"
+      },
+      {
+        "name": "Failed data load labels templates and blocks personal export",
+        "status": "PASS"
+      },
+      {
+        "name": "No unexpected console errors in successful and recovery flows",
+        "status": "PASS",
+        "detail": "[]"
+      }
+    ],
+    "metrics": {
+      "browser": "153.0.8010.0",
+      "firstFrame": {
+        "width": 749,
+        "height": 441,
+        "brightPixels": 6212,
+        "method": "screenshot pixels, software WebGL"
+      },
+      "a11yDesktop": [],
+      "mobileSmallTargets": [],
+      "a11yMobile": [],
+      "consoleExpected": [
+        {
+          "type": "error",
+          "message": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+        }
+      ],
+      "consoleUnexpected": [],
+      "testedViewports": [
+        "1440x1000",
+        "390x844"
+      ],
+      "scope": "Local compiled app, isolated D1, synthetic identity; software WebGL, no production sign-in, no hardware AR"
+    },
+    "screenshots": [
+      "space-desktop-2d.png",
+      "3d-first-frame.png",
+      "space-desktop-3d.png",
+      "space-mobile-top.png",
+      "space-mobile-academy.png",
+      "space-mobile-apply.png"
+    ]
+  },
+  "boundedLoad": {
+    "scope": "own local compiled worker with 8 request threads; finite sample, no capacity extrapolation",
+    "readRequests": 128,
+    "readConcurrency": 8,
+    "readDurationSeconds": 0.2099,
+    "observedRequestsPerMinute": 36591.46,
+    "readMedianMs": 11.108,
+    "readP95Ms": 25.178,
+    "readMaxMs": 27.117,
+    "readErrorCount": 0,
+    "sameVersionWriteRace": {
+      "requests": 8,
+      "accepted": 1,
+      "conflicts": 7,
+      "storedNotes": 1,
+      "eventSequenceAtomic": true
+    }
+  },
+  "restartRecovery": {
+    "scope": "own compiled worker process restart and isolated local D1; no production backup restore",
+    "exactStateRetained": true,
+    "eventSequenceRetained": true,
+    "recoveryMs": 424.47
+  },
+  "queryPlan": [
+    {
+      "id": 3,
+      "parent": 0,
+      "notused": 39,
+      "detail": "SEARCH mesh_work USING INDEX sqlite_autoindex_mesh_work_1 (user_id=?)"
+    }
+  ],
+  "bundle": {
+    "method": "gzip build assets; static imports of browser entry plus root client component; excludes dynamic imports; no network/hardware benchmark",
+    "appChunk": {
+      "bytes": 128110,
+      "gzip": 39673
+    },
+    "appChunkAdditionalGzip": -2973,
+    "initialStaticJsGzip": 219736,
+    "initialJsChangeGzip": 7204,
+    "css": {
+      "bytes": 219795,
+      "gzip": 36122
+    },
+    "cssGrowthPercent": 9.12435395224831,
+    "optionalAdditionalGzip": {
+      "intelligence": 10148,
+      "palette": 6637,
+      "spatial": 15049,
+      "spatialRenderer": 3682,
+      "threeAndOrbit": 189809
+    },
+    "lazyBoundaries": {
+      "rendererOutsideInitial": true,
+      "rendererOutside2DStatic": true,
+      "engineOutsideInitial": true,
+      "engineOutside2DStatic": true
+    },
+    "budgets": {
+      "appChunkGzip": 102400,
+      "appChunkAdditionalGzip": 102400,
+      "initialStaticJsGzip": 225280,
+      "commandAdditionalGzip": 46080,
+      "cssGrowthPercent": 10
+    }
+  },
+  "review": {
+    "owner": "/root/initialization_review",
+    "method": "Independent static review, no reviewer browser or test run",
+    "result": "No remaining concrete blockers in reviewed changes",
+    "corrected": [
+      "XR inline redraw occurs after Three renderer cleanup",
+      "Selection does not recreate the renderer or reset camera",
+      "Required DOM overlay keeps AR controls reachable",
+      "Failed AR startup and duplicate rollback cleaned up",
+      "Invalid mission context can be removed without discarding the draft"
+    ]
+  },
+  "referenceMismatchLedger": [
+    {
+      "reference": "Ordinary 3D viewport blank in uploaded screenshots",
+      "result": "Default semantic 2D always usable; software WebGL screenshot contains 6262 bright pixels in a 749x441 canvas",
+      "limit": "Original initial blank frame not independently reproduced on user hardware"
+    },
+    {
+      "reference": "Uploaded video renders the original seven AR nodes",
+      "result": "Preserved optional AR; centered, scaled model and explicit exit controls; corrected paused inline redraw after XR end",
+      "limit": "New hardware AR session not executed"
+    },
+    {
+      "reference": "Five one-question learning topics",
+      "result": "Same saved IDs retained; five principles, multi-choice cases, explanations, reflection notes, owner-selectable real tasks and optional mission prerequisites",
+      "limit": "XP denote saved personal practice, not external execution or competency certification"
+    }
+  ],
+  "open": [
+    "Production owner-authenticated browser E2E; OpenAI login currently reaches passkey MFA",
+    "Actual Android/WebXR/device GPU and screenreader audit",
+    "Real user usability study",
+    "External GitHub/Make/Cue adapters and worker health",
+    "Production backup restore and external SRE alert delivery"
+  ]
+}

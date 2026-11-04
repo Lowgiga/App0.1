@@ -1,0 +1,30 @@
+{
+  "moduleRevision": "review-ready-revision6",
+  "manifestSha256": "6cd46e58a998283b5a4044d31b856ac0d39f35d2640f6881e37f49013d29e915",
+  "changedModuleFiles": [
+    "src/main/java/de/lowgiga/cuear/CueArActivity.java",
+    "src/main/java/de/lowgiga/cuear/ButtonPalette.java",
+    "src/test/java/de/lowgiga/cuear/ButtonPaletteTest.java"
+  ],
+  "moduleFilesVerified": 18,
+  "hostCompile": "pass",
+  "nativeTests": 27,
+  "appTests": 4,
+  "failures": 0,
+  "lintErrors": 0,
+  "appScaffoldWarnings": 13,
+  "moduleLintWarnings": 0,
+  "projectTests": 490,
+  "rendererLifecycleDoubles": 18,
+  "typescript": "pass",
+  "webBuild": "pass",
+  "webContentSha256": "bee97f69820fb370a122b0b23ee520b98dc8bf251b578afc07982eb42c71fa6e",
+  "mainActivitySha256": "f919a0bb33cd9b25f5950bd003c53f4a9e3624b95c05680ae543989f8326c9f6",
+  "hardwareVerified": false,
+  "apkProducedHere": false,
+  "contrast": {
+    "enabled": 12.8216,
+    "disabled": 5.8705,
+    "basis": "computed opaque palette colors; no physical screenshot/OEM verification"
+  }
+}

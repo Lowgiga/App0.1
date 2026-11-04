@@ -1,0 +1,17 @@
+# Bounded local workflows specification
+
+The adapter consumes the unchanged `skill-core` browser API. Runtime code has no Node, filesystem, network, shell, dynamic package loading or model calls. Only the four existing built-in deterministic handlers can run. A backup plan never restores data, and a source classification never proves a live connection.
+
+A browser catalog is initialized asynchronously from a statically bundled inventory. WebCrypto verifies every manifest and declared resource; subsequent synchronous access uses the private immutable verified snapshot. Package hashes establish integrity against the host's bundle, not publisher identity.
+
+A closed pipeline specification contains 1–8 uniquely identified ordered steps, concrete skill versions/hashes, schema-valid bounded JSON inputs and limits of at most eight steps and 1000 ms active time per invocation. No executable code is accepted. The runner owns the real kernel. Inputs/specifications are copied before asynchronous work.
+
+Before each step: check abort, pause, monotonic clock/budget, package/version binding, schema/input hash, and fresh host evidence. Evidence is issued/resolved only by trusted host code and never placed in a checkpoint. A synchronous evidence provider is called anew per attempted step; a recycled handle is refused. An evidence callback cannot be used as a general executor.
+
+A trusted host store provides atomic compare-and-swap revisions. Only a pipeline ID and exact revision may be supplied for resume; foreign checkpoint JSON is never accepted. Resume loads a stored record, verifies its closed schema, complete prefix, hashes, output schemas and specification binding. A checksum is not authenticity; the host store is the provenance boundary, and its write API must not be exposed to packages, prompts or UI-supplied JSON. The supplied in-memory store keeps copied records privately. No crash durability is claimed.
+
+A running CAS record reserves the pipeline across runner instances sharing the same store. No overlapping invocation is allowed on a runner. A concurrent/stale writer is refused. Committed output and checkpoint precede the next step and any success event. Pause yields a resumable checkpoint. Abort and failures are terminal; budget exhaustion can resume. Input/version/limit drift requires a new pipeline ID, never silent continuation. Resuming a completed record returns verified results without execution. An interrupted running record cannot be automatically resumed.
+
+Budget/abort checks occur before and after each synchronous handler, asynchronous hashing and boundary yields. A handler cannot be preempted; results arriving after abort/deadline before commit are discarded, never reported successful. Stop checks also bracket result/final CAS commits. A stop delivered during an already successful atomic write retains its committed outputs, saves the terminal stop, and suppresses the corresponding success event. A worker-based terminable host is required for hard preemption. Paused time is excluded; every resume has its own <=1000 ms budget. Clock rollback poisons the runner.
+
+Events describe actual starts, verified commits and terminal states only. Events exclude raw inputs, outputs, evidence and exception text. Retention is bounded, with first/last sequence and dropped count visible. There is no invented live activity, durable replay or Android background execution claim.

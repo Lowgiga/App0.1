@@ -1,0 +1,60 @@
+--- a/scripts/build-overlay.mjs
++++ b/scripts/build-overlay.mjs
+@@ -31,3 +31,4 @@
+ await import('./build-ui-overlays.mjs');
+ await import('./build-graph-overlay.mjs');
+ await import('./build-sidebar-overlay.mjs');
++await import('./build-domain-overlays.mjs');
+--- a/src/local-domain.ts
++++ b/src/local-domain.ts
+@@ -1,8 +1,8 @@
+ import { workContract, savedWorkContract, type WorkState } from '../upstream/lib/work-contract.ts';
+ import { actionContract } from '../upstream/lib/interaction-contract.ts';
+-import { workChangeErrors, withCanonicalDecisionTimes, withAppEvents } from '../upstream/lib/work-updates.ts';
+-import { applyIntelligenceAction } from '../upstream/lib/intelligence-actions.ts';
+-import { getAttention } from '../upstream/lib/intelligence.ts';
++import { workChangeErrors, withCanonicalDecisionTimes, withAppEvents } from '../overlay/lib/work-updates.ts';
++import { applyIntelligenceAction } from '../overlay/lib/intelligence-actions.ts';
++import { getAttention } from '../overlay/lib/intelligence.ts';
+ import { workSizeError } from '../upstream/lib/work-budget.ts';
+ import { preserveLegacyFields } from '../upstream/lib/state-compat.ts';
+ import { LocalStateError } from './local-errors.ts';
+@@ -18,7 +18,7 @@
+   const sizeError=workSizeError(state);if(sizeError)throw invalid(sizeError);
+   return state;
+ }
+-/** Mirrors upstream state route, using unchanged production domain functions. */
++/** Local state route: frozen contracts plus explicit canonical-event overlay. */
+ export function applyLocalWrite(current:WorkState,input:unknown,now:Date,sources:readonly string[],version:string|null):WorkState {
+   const parsed=workContract.safeParse(input);if(!parsed.success)throw invalid(parsed.error.issues.find(i=>i.code==='custom')?.message||'Ungültige Eingabe. Bitte Felder und Werte prüfen.');
+   const {expectedUpdatedAt,stateVersion:_version,...changes}=parsed.data;checkRevision(current,expectedUpdatedAt);
+--- a/scripts/register.mjs
++++ b/scripts/register.mjs
+@@ -9,6 +9,7 @@
+  resolve(specifier,context,next){
+    if(specifier.startsWith('.')&&context.parentURL){const name=path.basename(specifier).replace(/\.tsx?$/,'');const importer=fileURLToPath(context.parentURL);if(uiOverlays.has(name)&&(importer.includes('/upstream/app/')||importer.includes('/overlay/')||importer===path.join(root,'src/system-app.tsx')))return next(pathToFileURL(path.join(root,'overlay',name+'.tsx')).href,context);}
+    if(/^@\/lib\/(learning-levels|ar-support|ar-placement|space-model|spatial-learning|ar-runtime)(\.ts)?$/.test(specifier))return next(pathToFileURL(path.join(root,'overlay/lib',specifier.split('/').at(-1).replace(/\.ts$/,'')+'.ts')).href,context);
++   if(/^@\/lib\/intelligence(?:\.ts)?$/.test(specifier))return next(pathToFileURL(path.join(root,'overlay/lib/intelligence.ts')).href,context);
+    if(specifier.startsWith('@/'))specifier=pathToFileURL(path.join(root,'upstream',specifier.slice(2))).href;
+    if((specifier.startsWith('.')||specifier.startsWith('file:')) && context.parentURL){const url=new URL(specifier,context.parentURL);if(!path.extname(url.pathname)){for(const ext of ['.ts','.tsx','.mjs'])if(existsSync(fileURLToPath(url)+ext))return next(url.href+ext,context)}}
+    return next(specifier,context);
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -12,4 +12,4 @@
+  if(importer===path.join(root,'src/system-app.tsx')&&source.includes('mesh-app'))candidate='mesh-app';
+  if(candidate&&overlays.has(candidate))return path.join(root,'overlay',candidate+'.tsx');
+  if(importer.startsWith(path.join(root,'overlay'))&&source.startsWith('./')){for(const ext of ['.tsx','.ts']){const file=path.join(root,'upstream/app',source+ext);if(fs.existsSync(file))return file}}
+- }},react()],resolve:{alias:[...['learning-levels','ar-support','ar-placement','space-model','spatial-learning','ar-runtime'].map(name=>({find:new RegExp('^@/lib/'+name+'(?:\\.ts)?$'),replacement:path.join(root,'overlay/lib',name+'.ts')})),{find:'@',replacement:path.join(root,'upstream')}]},publicDir:'upstream/public',base:'/',build:{outDir:'dist',sourcemap:false,rollupOptions:{output:{manualChunks(id){if(id.includes('/three/'))return 'three';if(/\/(react|react-dom|scheduler)\//.test(id))return 'react';}}}},server:{host:'127.0.0.1',port:4173,strictPort:true},preview:{host:'127.0.0.1',port:4173,strictPort:true}});
++ }},react()],resolve:{alias:[{find:/^@\/lib\/intelligence(?:\.ts)?$/,replacement:path.join(root,'overlay/lib/intelligence.ts')},...['learning-levels','ar-support','ar-placement','space-model','spatial-learning','ar-runtime'].map(name=>({find:new RegExp('^@/lib/'+name+'(?:\\.ts)?$'),replacement:path.join(root,'overlay/lib',name+'.ts')})),{find:'@',replacement:path.join(root,'upstream')}]},publicDir:'upstream/public',base:'/',build:{outDir:'dist',sourcemap:false,rollupOptions:{output:{manualChunks(id){if(id.includes('/three/'))return 'three';if(/\/(react|react-dom|scheduler)\//.test(id))return 'react';}}}},server:{host:'127.0.0.1',port:4173,strictPort:true},preview:{host:'127.0.0.1',port:4173,strictPort:true}});
+--- a/tsconfig.json
++++ b/tsconfig.json
+@@ -29,6 +29,9 @@
+       "@/lib/ar-placement": [
+         "overlay/lib/ar-placement.ts"
+       ],
++      "@/lib/intelligence": [
++        "overlay/lib/intelligence.ts"
++      ],
+       "@/lib/space-model": [
+         "overlay/lib/space-model.ts"
+       ],
