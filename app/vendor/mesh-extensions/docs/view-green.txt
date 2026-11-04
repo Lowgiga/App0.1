@@ -1,0 +1,20 @@
+✔ adapter reuses real graph IDs and relationships without mutating V4 input (6.831516ms)
+✔ unknown state and source date stay explicitly unknown (1.69046ms)
+✔ events are retained records, bounded and never used to reconstruct current state (1.436868ms)
+✔ omitted archived and unresolved references are disclosed instead of fabricated nodes (1.220201ms)
+✔ invalid state, duplicate source IDs and invalid source dates are rejected (1.537369ms)
+✔ view config roundtrips and layout changes preserve selection and filters (3.895596ms)
+✔ config rejects unknown versions, inherited extras, NaN and oversized queries (1.175773ms)
+✔ filtering never clears selection and classifies hidden versus missing (3.97075ms)
+✔ scene caps nodes/edges, prioritizes selected node and reports exact omissions (2.389655ms)
+✔ each layout is finite and deterministic independent of input order (2.342023ms)
+✔ evidence layout places task prerequisites before dependent tasks and tolerates cycles (1.388064ms)
+✔ empty graph has safe nonzero bounds in every layout (0.1526ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 503.948194

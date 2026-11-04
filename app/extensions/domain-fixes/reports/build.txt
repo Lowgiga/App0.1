@@ -1,0 +1,90 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.4.0-native-ar-preview build
+> npm run check:drift && npm run check:vendors && npm run check:native-ar && npm run overlay && tsc --noEmit && vite build && node scripts/build-manifest.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.4.0-native-ar-preview check:drift
+> node scripts/provenance.mjs check
+
+No drift: 23ae42c2d83d5b31dcc9f61adeefb22bb1e1f03a; 208 byte-identical source files.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.4.0-native-ar-preview check:vendors
+> node scripts/verify-vendors.mjs
+
+Verified 5 pinned modules against installed SHA-256 inventory
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.4.0-native-ar-preview check:native-ar
+> node scripts/verify-native-ar.mjs
+
+Verified native AR revision 6: all 18 reviewed module files byte-identical
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-system@0.4.0-native-ar-preview overlay
+> node scripts/build-overlay.mjs
+
+Bundled four allowlisted original text documents without runtime URL loading
+Applied reviewed Level/AR revision 3 as separate source layer, preserving V6 cooperation help
+Generated explicit transport overlay; upstream UI remains byte-identical.
+Generated eight explicit UI overlays; original sources remain byte-identical.
+Generated graph overlay with render-time host policy; vendor source remains pinned.
+Generated active-aware SidebarProvider; original UI component preserved.
+Generated explicit local domain overlays and bounded legacy-import notices; originals untouched.
+vite v8.0.13 building client environment for production...
+[2Ktransforming...✓ 2048 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               1.31 kB │ gzip:   0.58 kB
+dist/assets/Studio-CQOv3umL.css               9.97 kB │ gzip:   2.77 kB
+dist/assets/index-DAqHV64k.css              223.21 kB │ gzip:  37.14 kB
+dist/assets/circle-UyaIVCA_.js                0.13 kB │ gzip:   0.13 kB
+dist/assets/plus-Bm5Plw10.js                  0.15 kB │ gzip:   0.15 kB
+dist/assets/archive-wjyOyHsA.js               0.25 kB │ gzip:   0.21 kB
+dist/assets/focus-DugiVof8.js                 0.55 kB │ gzip:   0.32 kB
+dist/assets/rolldown-runtime-S-ySWqyJ.js      0.69 kB │ gzip:   0.42 kB
+dist/assets/motion-DNOdcqyW.js                1.18 kB │ gzip:   0.65 kB
+dist/assets/native-select-UmnDWaBi.js         2.13 kB │ gzip:   1.13 kB
+dist/assets/dialog-CHwwYw7z.js                2.19 kB │ gzip:   0.87 kB
+dist/assets/dist-CX8Lgdli.js                  2.39 kB │ gzip:   1.08 kB
+dist/assets/progress-BCsD9V0l.js              2.47 kB │ gzip:   1.22 kB
+dist/assets/ar-placement-ClPUGc5N.js          4.21 kB │ gzip:   1.95 kB
+dist/assets/command-contract-D_jUuCoS.js      8.10 kB │ gzip:   2.86 kB
+dist/assets/ThreeView-CuJDgiaq.js             9.66 kB │ gzip:   4.10 kB
+dist/assets/space-renderer-CVL79Pr9.js       10.37 kB │ gzip:   4.35 kB
+dist/assets/help-panel-CKBQRKQg.js           11.38 kB │ gzip:   4.97 kB
+dist/assets/command-palette-DTJIh-VK.js      15.09 kB │ gzip:   5.72 kB
+dist/assets/coordination-panel-BIOKXEIP.js   15.83 kB │ gzip:   6.55 kB
+dist/assets/neuro-panel-DpdVqVkt.js          27.36 kB │ gzip:   8.82 kB
+dist/assets/command-center-43pwvwc1.js       28.27 kB │ gzip:   8.48 kB
+dist/assets/createLucideIcon-BuEHWFBA.js     33.87 kB │ gzip:  11.36 kB
+dist/assets/mesh-space-DulULSoj.js           52.77 kB │ gzip:  18.40 kB
+dist/assets/types-xLbdNHjY.js                56.52 kB │ gzip:  12.94 kB
+dist/assets/workspace-panels-x0MKtRjQ.js     59.07 kB │ gzip:  18.48 kB
+dist/assets/Studio-Bxbjq-iZ.js              129.72 kB │ gzip:  40.03 kB
+dist/assets/react-CM3CzyHR.js               211.46 kB │ gzip:  67.71 kB
+dist/assets/index-CQlE9Rtn.js               439.74 kB │ gzip: 136.72 kB
+dist/assets/three-o_TmddCw.js               756.80 kB │ gzip: 190.93 kB
+
+✓ built in 1.03s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+{
+  "generatedAt": "2026-10-01T00:59:57.039Z",
+  "sourceCommit": "23ae42c2d83d5b31dcc9f61adeefb22bb1e1f03a",
+  "sourceLabel": "Sites V6 / App 1.4.1 / stateVersion 4",
+  "status": "Final upstream source imported; local-port preview NOT runtime-approved",
+  "distContentSha256": "fa145e2c5f25fa038ab95236c59a8449053a254f23d234786be89aaff7c30fd3",
+  "packageLockSha256": "8c26415506db1ad60f4a68be62fe132ddb640f14c1cd498f317603d8160fd9f9",
+  "files": 53
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

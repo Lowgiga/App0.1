@@ -1,0 +1,19 @@
+NATIVE_POLICY_DIAGNOSIS Diese Capacitor-App nutzt Android WebView und bietet kein Browser-WebXR. Kamera-AR benötigt eine separat integrierte native AR-Funktion. 2D und Bildschirm-3D bleiben verfügbar.
+✔ V6 delta: native WebView policy denial retains the proven unsupported-native diagnosis (1.825643ms)
+✔ V6 delta: learning levels, five graph nodes and transfer mapping remain coherent after backup (146.853744ms)
+✔ V6 delta: local brief hash is deterministic, distinct from cloud and used by report matching (21.423605ms)
+✔ V6 delta: unsaved example state cannot export a personal cooperation brief (339.574766ms)
+COOP_EXPORTED_CONTEXT {"kind":"device-local","updatedAt":"2026-09-30T23:58:28.824Z","missions":[],"activeTaskCount":11,"provenance":{"schema":"cue.local-collaboration/v1","origin":"local-installation","personalCloudImport":"not-verified","personalWebsiteAssignment":"not-established","notice":"Lokaler Arbeitsbrief dieser Installation. Kein verifizierter persönlicher Cloudimport liegt vor. Die private Website und ihr MCP-Leseweg haben einen separaten Arbeitsstand."}}
+✔ V6 delta: file and clipboard briefs retain local-installation provenance outside their UI (268.15394ms)
+✔ V6 delta: learning graph CTA opens the matching Academy phase and task workspace without writes (368.906447ms)
+✔ V6 delta: Academy workbook and selected lesson copy retain platform bindings (287.410993ms)
+✔ V6 delta: received cooperation report stays inert and saves only an explicitly unverified note (234.121883ms)
+✔ V6 delta: website-bound report is rejected as current local work in the actual UI (148.674616ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2856.096136

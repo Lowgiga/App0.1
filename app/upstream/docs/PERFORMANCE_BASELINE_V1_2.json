@@ -1,0 +1,14 @@
+{
+  "version": "1.2",
+  "commit": "51ab92090a2e6941a7d71e322f1cce24e8ccb095",
+  "appChunk": {
+    "bytes": 137726,
+    "gzip": 42646
+  },
+  "initialStaticJsGzip": 212532,
+  "css": {
+    "bytes": 201417,
+    "gzip": 32968
+  },
+  "method": "v1.2 build archived asset; gzip level 6"
+}

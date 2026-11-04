@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "revision": "mesh-cooperation-1.4.2",
+  "referenceCommit": "23ae42c2d83d5b31dcc9f61adeefb22bb1e1f03a",
+  "missionId": "mesh-low-integration-1",
+  "identity": {
+    "low": "user-reported",
+    "platforms": [
+      "Hermes / lokales Gerät",
+      "Cue"
+    ],
+    "acknowledgement": "not-received",
+    "directChannel": "not-verified"
+  },
+  "remoteObservation": {
+    "source": "Remote Desktop Commander · list_devices",
+    "observedAt": "2026-09-30T23:38:16.465Z",
+    "states": [
+      "offline",
+      "offline"
+    ],
+    "qualification": "Datierter erneuter Gerätebefund; tatsächlicher Low-Kanal und Kameratest bleiben unbestätigt."
+  },
+  "mcp": {
+    "url": "https://cue-command-mesh.medezinander-4731.chatgpt.site/mcp",
+    "resource": "https://cue-command-mesh.medezinander-4731.chatgpt.site/mcp",
+    "tool": "mesh_get_collaboration_brief",
+    "access": "Existing owner authentication; client connection and consent required."
+  },
+  "roles": {
+    "codex": {
+      "name": "Codex",
+      "niche": "Dashboard, UX, Datenverträge, Tests und private App-Veröffentlichung",
+      "branchPrefix": "feat/codex-",
+      "ownedPaths": [
+        "app/coordination-panel.tsx",
+        "app/mesh-app.tsx",
+        "app/help-panel.tsx",
+        "app/globals.css",
+        "app/mcp/route.ts",
+        "lib/collaboration-registry.json",
+        "lib/collaboration-model.ts",
+        "lib/collaboration-scope.mjs",
+        "lib/collaboration-scope.d.mts",
+        "scripts/check-agent-scope.mjs",
+        "scripts/package-release.mjs",
+        "scripts/measure-bundle.mjs",
+        "tests/collaboration-domain.mts",
+        "tests/collaboration-api.py",
+        "tests/collaboration-browser.mjs",
+        "tests/run-api-audit.py",
+        "docs/COLLABORATION.md",
+        "docs/COLLABORATION_AUDIT_V1_4_1.json",
+        "docs/BUNDLE_REPORT.json",
+        "public/documents/low-handoff.md",
+        "public/documents/cue-mesh-coordination-preview.jpg",
+        "README.md",
+        "QA.md",
+        "CHECKPOINT.md",
+        "AGENTS.md",
+        "tests/local-api.py",
+        "app/mesh-space.tsx",
+        "app/space-renderer.tsx",
+        "app/spatial-levels.tsx",
+        "lib/ar-runtime.ts",
+        "lib/spatial-learning.ts",
+        "tests/ar-spatial-domain.mts",
+        "tests/ar-spatial-browser.mjs",
+        "tests/ar-spatial-api.py",
+        "docs/AR_SPATIAL_AUDIT_V1_4_2.json",
+        "docs/SCENE_CONTRACT.md",
+        "docs/AR_DEVICE_QA.md",
+        "docs/PROTOCOLS_2026.md",
+        "docs/SYSTEM.md",
+        "PROJECT.md",
+        "STATE.md",
+        "DECISIONS.md",
+        "TASKS.md",
+        "EVIDENCE.md",
+        "RUNS.md",
+        "public/documents/cue-mesh-ar-levels-preview.png"
+      ]
+    },
+    "low": {
+      "name": "Low",
+      "niche": "Integrationsbefunde, lokale Geräte-/Android-Prüfung und isolierte Adapterentwürfe",
+      "branchPrefix": "feat/low-",
+      "ownedPaths": [
+        "integrations/low/",
+        "tests/low/",
+        "docs/low/"
+      ]
+    }
+  },
+  "protectedPaths": [
+    "lib/work-contract.ts",
+    "lib/state-compat.ts",
+    "drizzle/",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    ".openai/",
+    "app/chatgpt-auth.ts",
+    "app/use-work-state.ts",
+    "app/api/state/route.ts",
+    "app/api/actions/route.ts"
+  ],
+  "rules": [
+    "Eigener Branch und eigenes Worktree je schreibendem Agenten.",
+    "Gemeinsame geschützte Dateien bleiben lesbar; Änderungen daran brauchen eine neue konkrete Übergabe.",
+    "Low bestätigt Mission, Umfang, aktuellen Basiscommit und Dateiliste vor seiner Arbeit.",
+    "Ein Arbeitsbrief, ein Ergebnis, ein unabhängiges Review; Zwischenmeldungen nur bei echten Blockern.",
+    "Der Referenzcommit bezeichnet den Ausgangsstand. Aktuellen Remote-HEAD vor Integration separat abgleichen.",
+    "Keine Tokens, Cookies oder Zugangsdaten zwischen Agenten kopieren.",
+    "Keine externen Schreibaktionen, Scheduler, Rechteänderungen oder gemeinsame produktive Veröffentlichung aus diesem Brief.",
+    "Kein eigener direkter Perplexity-/Cue-/Low-Aufruf in dieser Sitzung belegt. Andere Dienste nur auftragsbezogen verifizieren."
+  ]
+}

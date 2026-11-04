@@ -1,0 +1,13 @@
+✔ timeline exists only on demand and reaches the exact end without a further frame (1.466363ms)
+✔ rapid retarget, cancel, stale delivery and disposal cannot revive an old timeline (0.21267ms)
+✔ zero, invalid, capped and background-delayed duration are bounded and cancellation is reentrant (0.206251ms)
+✔ disabled, reduced-motion, power-saving and hidden states always beat requested transitions (0.218039ms)
+✔ 2D interpolation preserves IDs, truthful target membership and exact end coordinates (0.335536ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 380.274315

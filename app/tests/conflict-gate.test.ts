@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {ConflictGate} from '../src/conflict-gate.ts';
+test('draft revisions cannot silently rebase to a newer loaded state',()=>{const gate=new ConflictGate();assert.equal(gate.assertWritable(null,null),null);assert.match(gate.assertWritable(null,'2026-09-30T20:00:00.000Z')!,/veraltet/);assert.equal(gate.requiresReload,true);});
+test('after conflict only a new session clears the write gate',()=>{const gate=new ConflictGate();gate.trip();assert.equal(gate.requiresReload,true);assert.match(gate.assertWritable('same','same')!,/neu laden/);assert.equal(new ConflictGate().assertWritable('same','same'),null);});

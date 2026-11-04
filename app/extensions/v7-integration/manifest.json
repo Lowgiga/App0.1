@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "3e921804b13e0d7c70d1ff15474f0387e84d70b6",
+  "status": "integration-layer-review-required",
+  "files": {
+    "app/mesh-space.tsx": {
+      "upstreamSha256": "a03488228841cac9957eee1d197657a493267999375b1165fac2b1bf63ed2533",
+      "integratedSha256": "167dd09a22405396c451d17fe9deaa56a2a340f7da663e0d0f0f398e0753d73c"
+    },
+    "app/space-renderer.tsx": {
+      "upstreamSha256": "7bdb98bf1714dab8582be53947f2a7a44551ffd01b0b1798ee3986da5fd736ca",
+      "integratedSha256": "c3434064e9a021504b47f22d07741d58e08a8513f18a376f71a90ce3838f1373"
+    },
+    "app/help-panel.tsx": {
+      "upstreamSha256": "5e58f8215812c267ba8c785f97feefcd44bc9f540a7c83d02645d73628d97a53",
+      "integratedSha256": "5e58f8215812c267ba8c785f97feefcd44bc9f540a7c83d02645d73628d97a53"
+    }
+  }
+}

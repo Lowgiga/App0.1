@@ -1,0 +1,112 @@
+{
+  "base_tree_sha256": "b705bb8ca9572387aca50dca5262e69ab9af31944f61e78df62773fb25d5fb89",
+  "files": 984,
+  "bytes": 13296294,
+  "tree_sha256": "8be6face68bfa3307c92deb86d386850215c7d41e2fe781ac2206278a54dd7ea",
+  "changes": [
+    {
+      "path": "android/app/build.gradle",
+      "before_sha256": "b4eb09a982cdb4351506cf9f9165d0138116450150beb8975eaa89704ca64e93",
+      "after_sha256": "d7827d1ad1aa85c5fb2ff70a71401e48bf59dec0ec46ade7cf503df1caa292c1",
+      "bytes": 2022
+    },
+    {
+      "path": "docs/INTEGRATION-RESULTS.md",
+      "before_sha256": "3fe85a1831ed388140e1497da7362fc02e968bc14ebc03a2b7bcb8d77c35dabd",
+      "after_sha256": "3ce44889a05db8d32d6098686a164533dbe8f0a02ca09f95470fe9302da4e46b",
+      "bytes": 4550
+    },
+    {
+      "path": "docs/PARITY.md",
+      "before_sha256": "c7fc5adbec7123669e875243956072c4153db9b3a87860be371c9a18fbba407c",
+      "after_sha256": "d9f694b0856431e5ed117c4f6f002a7ed4edc6285ed4bd858aa3d5fa674fe27c",
+      "bytes": 6916
+    },
+    {
+      "path": "docs/SIGNING-AND-RECOVERY.md",
+      "before_sha256": "9b17e8a53bcaa4a3606d888ffb03e0c5819ac0d3ecc5cd511e29502a1688ed1b",
+      "after_sha256": "2895557554ae07d0e937d0da272d057a815c8b56bcf0b366e6da027cdf714ca5",
+      "bytes": 9314
+    },
+    {
+      "path": "package-lock.json",
+      "before_sha256": "6c71b75561a510da3422798e4076a1266a2d5f348005083d75b0b05719609ba3",
+      "after_sha256": "6e4c6840220eccfe977a8f26c6f77feacd1f98f7f87e6243e6fa8183eee84f1d",
+      "bytes": 201000
+    },
+    {
+      "path": "package.json",
+      "before_sha256": "a83bd68bfa5b73b5679f4136d112440cbcc62b03e7e54fa76a47a15da9644589",
+      "after_sha256": "b54177d2206075e2a901ba729f11eb998c928eb58d5a42c229c380d2e1ae254a",
+      "bytes": 4106
+    },
+    {
+      "path": "quality/README.md",
+      "before_sha256": null,
+      "after_sha256": "03c89940c5d1891b128e1a674d5f16ed0059b8489ba623b9251f73b2d05c362f",
+      "bytes": 9665
+    },
+    {
+      "path": "quality/baselines/accepted.json",
+      "before_sha256": null,
+      "after_sha256": "52762ca353ec57dc656d5798f3310490179acdfd7d6ebffddcd237a46eec70f2",
+      "bytes": 110893
+    },
+    {
+      "path": "quality/contract.json",
+      "before_sha256": null,
+      "after_sha256": "09e370e0db63c6b420adcac7ac5594b8d4721ced73d46a65759d5b0a22ca56a3",
+      "bytes": 4895
+    },
+    {
+      "path": "scripts/check-quality.mjs",
+      "before_sha256": null,
+      "after_sha256": "f62206e951ff2753721428d65cad35d2f3bb357b37f9dbc450ad7534f7ebfb95",
+      "bytes": 14717
+    },
+    {
+      "path": "scripts/verify-quality.mjs",
+      "before_sha256": null,
+      "after_sha256": "28ddb150afa638bfa4ab997800e563540416e49508a5961a4ca12c1a412c3e54",
+      "bytes": 5075
+    },
+    {
+      "path": "src/backup-adapter.ts",
+      "before_sha256": "cbc22635988322dc1fe24596a7d8623b548bdd2618416483c34a57f5e14a470c",
+      "after_sha256": "9813c614daf4b3920b16037bf7a0b3f01747ac2e69df1b8dd1936dc6a7a4c8bb",
+      "bytes": 5482
+    },
+    {
+      "path": "src/diagnostics.ts",
+      "before_sha256": "0085afdf890cd6a68ffad103abe3cf865ebb3f87e912272a43f8b9a32591ac9c",
+      "after_sha256": "4174982330882e20bc3773cb0bcd4513b2a14984879a355315324de2186c1482",
+      "bytes": 9059
+    },
+    {
+      "path": "tests/quality/quality-contract.test.mjs",
+      "before_sha256": null,
+      "after_sha256": "c70837b0943300aa70956b47f163d678c9bc4935ae432a0a9a99b65be36cf537",
+      "bytes": 16176
+    },
+    {
+      "path": "tests/system/prototype-version.test.ts",
+      "before_sha256": null,
+      "after_sha256": "e25e32d1b006ca166490b01e2421c9e3b6179e3ad468c4def70129572b83e74b",
+      "bytes": 1781
+    }
+  ],
+  "patch_sha256": "ae9f1bba88c6d8210d9855fbda9d2ec64394738b0afdde1a2bf063bcc7ec6faf",
+  "deleted": [],
+  "canonical_scope": "R977 inventory plus six gate files and one explicit version regression; named Gradle/quality outputs excluded",
+  "excluded_generated_directories": [
+    "android/.gradle/",
+    "android/build/",
+    "android/app/build/",
+    "android/cue-native-ar/build/",
+    "android/capacitor-cordova-android-plugins/build/",
+    "artifacts/"
+  ],
+  "dependencies_changed": false,
+  "original_npm_scripts_changed": false,
+  "contract_pin": "09e370e0db63c6b420adcac7ac5594b8d4721ced73d46a65759d5b0a22ca56a3"
+}
