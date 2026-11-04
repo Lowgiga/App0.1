@@ -1,0 +1,30 @@
+{
+  "version": "0.5.0-v7-integrated-preview",
+  "sourceCommit": "3e921804b13e0d7c70d1ff15474f0387e84d70b6",
+  "originalFiles": 226,
+  "nodeDomTests": 550,
+  "rendererLifecycleDoubles": 18,
+  "nativeJvm": {
+    "app": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0
+    },
+    "cue-native-ar": {
+      "tests": 27,
+      "failures": 0,
+      "errors": 0
+    }
+  },
+  "typecheck": "pass",
+  "webBuild": "pass",
+  "freshInstallRelocation": "byte-identical",
+  "webHash": "c53689e45bb05ec1601611c5db4ea4fcc7773540ef29892b8c3895474f3a9c61",
+  "buildTools": "35.0.0",
+  "nativeArRevision": 6,
+  "nativeArManifestSha256": "6cd46e58a998283b5a4044d31b856ac0d39f35d2640f6881e37f49013d29e915",
+  "domainFixKitSha256": "b2f5060c4e69db765f23f9a316ecc17650cc6a03f1abefd19a6b6869d7a5f82e",
+  "hardwareVerified": false,
+  "fullRestore": "disabled-preview-only",
+  "apkBuiltInThisIntegration": false
+}

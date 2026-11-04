@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {defaultSystemState,readSystemState,writeSystemState} from '../../src/system-state.ts';
+test('preferences persist exact graph motion and workflow configuration',()=>{let text:string|null=null;const storage={getItem:()=>text,setItem:(_:string,v:string)=>{text=v}};const value=defaultSystemState();value.graph.renderer='three';value.graph.visualStyle='hologram';value.workflow.pauseAfterStep=true;writeSystemState(storage,value);assert.deepEqual(readSystemState(storage),value)});
+test('invalid storage is not silently replaced; storage failure surfaces',()=>{assert.throws(()=>readSystemState({getItem:()=>'{broken'}));assert.throws(()=>writeSystemState({setItem:()=>{throw new Error('QUOTA')}},defaultSystemState()),/QUOTA/);assert.throws(()=>writeSystemState({setItem:()=>{}},{...defaultSystemState(),authority:'yes'}))});

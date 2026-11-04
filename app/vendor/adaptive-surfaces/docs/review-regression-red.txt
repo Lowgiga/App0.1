@@ -1,0 +1,126 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @cue/adaptive-surfaces@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ v1 admits frozen complete snapshot with host provenance (2.572111ms)
+✔ rejects boundary schema (0.555188ms)
+✔ rejects boundary catalogVersion (0.340985ms)
+✔ rejects boundary trusted (0.39728ms)
+✔ rejects boundary approved (0.567186ms)
+✔ rejects boundary data (0.349497ms)
+✔ rejects unregistered or unknown components and extra style/HTML fields (1.697401ms)
+✔ dangerous strings are data, never executable markup (0.574878ms)
+✔ rejects unknown actions and write-kind host configuration (0.846778ms)
+✔ denies prototype keys, path traversal, dotted and URL dataRefs (1.13355ms)
+✔ rejects duplicate JSON keys including escaped equivalents (0.295195ms)
+✔ rejects duplicate ids cycles dangling children multiple parents unreachable nodes (1.522557ms)
+✔ rejects graph depth, byte, text and component budgets (3.948007ms)
+✔ rejects non-JSON numbers and non-JSON raw input (0.242656ms)
+✔ rejection is atomic and session, surface and baseRevision are enforced (1.326521ms)
+✔ layout updates keep component ids and focus target must be immediate child (0.799346ms)
+✔ snapshot and registry mutation cannot change admitted action (0.900939ms)
+✔ intent requires admitted component, revision and one explicit activation per revision (0.538984ms)
+✔ rate limiting and subscriptions are deterministic and bounded (0.58314ms)
+✔ exported schema is closed and declares every built-in component (0.330198ms)
+✔ repeated rejected floods notify once per error rather than rerender for every packet (0.535388ms)
+✔ rejects lone Unicode surrogates, trailing garbage and malformed JSON (0.303708ms)
+✔ registry changes and invalid host limits cannot broaden admission (0.555137ms)
+✔ host intent cannot carry arbitrary URLs or methods even through trusted registry (0.313283ms)
+✔ suggestion intents are distinct from navigation and contain no approval or execution (0.319593ms)
+✔ untrusted labels and host provenance are visible, scripts stay escaped (29.865631ms)
+✔ unknown and stale host values differ from actual zero (16.679085ms)
+✔ actions are inert until native button activation, labels are host-owned and replay blocked (7.802082ms)
+✔ callback failures are caught, redacted and do not alter host data (5.50112ms)
+✔ layout updates preserve active button and invalid update retains last tree (9.152299ms)
+✔ removed focused component moves to surface host anchor (6.58785ms)
+✔ hostslots only receive bound host data; absent slots explicit; throwing slots contained (5.996027ms)
+✔ mismatched malformed or oversized host projection rejects visibly (3.885703ms)
+✔ task/source/event lists have stable records, explicit empty state and no raw links (4.017091ms)
+✔ CSS preserves relative font sizes, mobile wrapping and reduced motion (0.791614ms)
+✔ focus reparenting restores stable component action, with no automatic intent (5.674562ms)
+✔ external host focus is never stolen during updates (4.798921ms)
+✔ trusted slot render failure leaves provenance and other components usable (13.941044ms)
+✔ known lists reject duplicate identities and exceeding row limits visibly (6.869255ms)
+✔ root text enlargement preserves primary button scale in simulated CSS (24.34101ms)
+✔ pending intent cannot be reactivated when a newer layout revision arrives (6.500918ms)
+✖ review R1 pending delivery survives reparenting then remove and readd (5.60011ms)
+✖ review R2 pending status persists across revisions and clears after old delivery settles (5.783937ms)
+✖ review R3 corrected host data and fresh revision each reset a failed stable slot (6.936506ms)
+✖ review R1 remount of whole renderer retains session pending delivery and safely settles after unmount (6.341378ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 41
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 947.351266
+
+✖ failing tests:
+
+test at tests/ui.test.tsx:60:1
+✖ review R1 pending delivery survives reparenting then remove and readd (5.60011ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:60:622)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:61:1
+✖ review R2 pending status persists across revisions and clears after old delivery settles (5.783937ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'false' !== 'true'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:61:317)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'false',
+    expected: 'true',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:62:1
+✖ review R3 corrected host data and fresh revision each reset a failed stable slot (6.936506ms)
+  AssertionError [ERR_ASSERTION]: [data-recovered]
+      at find (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:20:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:69:18)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:78:1
+✖ review R1 remount of whole renderer retains session pending delivery and safely settles after unmount (6.341378ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:78:555)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

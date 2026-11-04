@@ -1,0 +1,18 @@
+{
+  "adoption-only-against-98f0459d.patch": {
+    "bytes": 18156,
+    "sha256": "4a86ae6ae2e87f6ed0468e227282b168a1c8b5b1ce7a95f99b1878fc13681b06"
+  },
+  "publisher-combined-against-f71205b.patch": {
+    "bytes": 152081,
+    "sha256": "354223249e7d036c51ba7ba0c4a224fa57f7032f415dde076eed16eaf6584ee9"
+  },
+  "publisher-root-docs-against-f71205b.patch": {
+    "bytes": 14188,
+    "sha256": "118a6a071a3b5ba2ebdf2c38ddc132d4a735b0a932bc7c5fa41a41d17832cf2c"
+  },
+  "publisher-source-against-f71205b.patch": {
+    "bytes": 137893,
+    "sha256": "33faf4b7fb0c4eafe80f5ab43a904b374aad47b7617e90d1145b5680551cfbc3"
+  }
+}

@@ -1,0 +1,916 @@
+{
+  "schema": "lowquantflow.quality-contract/v1",
+  "baseline": {
+    "path": "quality/baselines/accepted.json",
+    "sha256": "6de50af34cda906d20baa523041254e8b42078ea11e12b358b33b1db11df6768"
+  },
+  "protectedBehaviors": [
+    {
+      "id": "draft.cas-context",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-store.test.ts",
+          "name": "two tabs get one CAS winner and revisions remain monotonic through discard and new drafts"
+        },
+        {
+          "path": "tests/system/personal-continuation-store.test.ts",
+          "name": "autosave keeps stale base; only explicit rebase can authorize applying against a changed work snapshot"
+        },
+        {
+          "path": "tests/system/personal-continuation-store.test.ts",
+          "name": "archived and replaced incarnations retain detached drafts but cannot apply or rebase them"
+        }
+      ]
+    },
+    {
+      "id": "draft.apply-once",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-store.test.ts",
+          "name": "explicit apply atomically creates one proposal and durable receipt makes a lost-response retry idempotent"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "lost apply response reconciles one proposal and clears only the applied composer"
+        }
+      ]
+    },
+    {
+      "id": "navigation.latest-wins",
+      "cases": [
+        {
+          "path": "tests/system/continuation-context-integration.test.tsx",
+          "name": "new Assistant route wins over a late failed flush from invalid Back with context hints installed"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "newer Forward cancels a pending invalid-Back clear without discarding its editor"
+        }
+      ]
+    },
+    {
+      "id": "context.read-only",
+      "cases": [
+        {
+          "path": "tests/system/context-assistance.test.ts",
+          "name": "local generation has no writes, callbacks, or network capability and does not change data"
+        },
+        {
+          "path": "tests/system/continuation-context-integration.test.tsx",
+          "name": "retained draft and work revision survive graph hints while hint preferences preserve all other settings"
+        }
+      ]
+    },
+    {
+      "id": "context.dedupe",
+      "cases": [
+        {
+          "path": "tests/system/context-assistance.test.ts",
+          "name": "same source and observed version dedupe across distinct object IDs"
+        },
+        {
+          "path": "tests/system/context-assistance.test.ts",
+          "name": "changed work revision permits a new hint for an unchanged source after cooldown"
+        }
+      ]
+    },
+    {
+      "id": "config.receipt",
+      "cases": [
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "preview and review write nothing; explicit commit is verified by separate receipt read"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "invalid verified readback cannot produce a success state"
+        }
+      ]
+    },
+    {
+      "id": "mobile.targets",
+      "cases": [
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "bar exposes at most four named native buttons and reports current internal destination"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "bar arrow and Home/End keys move focus without executing navigation or trapping Tab"
+        },
+        {
+          "path": "tests/system/mobile-layout.test.ts",
+          "name": "mobile controls declare 48 CSS-pixel targets and text follows 200 percent root scaling"
+        }
+      ]
+    },
+    {
+      "id": "motion.stop",
+      "cases": [
+        {
+          "path": "tests/system/companion-controller.test.ts",
+          "name": "unmount aborts generation; late fulfilled scene is disposed and never rendered"
+        },
+        {
+          "path": "tests/system/companion-controller.test.ts",
+          "name": "hiding during load pauses late result without reload, resume uses same scene"
+        }
+      ]
+    },
+    {
+      "id": "backup.honesty",
+      "cases": [
+        {
+          "path": "tests/system/project-memory-backup.test.ts",
+          "name": "older archives remain readable and explicitly have no memory coverage"
+        },
+        {
+          "path": "tests/system/personal-draft-export.test.ts",
+          "name": "personal draft text export offers the actual txt extension and only the requested text"
+        },
+        {
+          "path": "tests/system/quality-ui-regressions.test.tsx",
+          "name": "R4: backup screen describes the bounded schema check without claiming semantic validation of historical extras"
+        }
+      ]
+    },
+    {
+      "id": "appearance.preview",
+      "cases": [
+        {
+          "path": "tests/system/appearance-ui.test.tsx",
+          "name": "panel preview/reset/cancel never write and explicit save preserves WorkState"
+        }
+      ]
+    },
+    {
+      "id": "appearance.cas",
+      "cases": [
+        {
+          "path": "tests/system/appearance-store.test.ts",
+          "name": "simultaneous revision-zero saves yield exactly one winner, increment once and persist after reload"
+        },
+        {
+          "path": "tests/system/appearance-store.test.ts",
+          "name": "transaction abort after successful put is failure, never a committed save"
+        }
+      ]
+    },
+    {
+      "id": "appearance.identity",
+      "cases": [
+        {
+          "path": "tests/system/appearance-projection.test.ts",
+          "name": "only real canonical nonarchived room and mission identities bind; replacements cannot inherit old overrides"
+        }
+      ]
+    },
+    {
+      "id": "appearance.corruption",
+      "cases": [
+        {
+          "path": "tests/system/appearance-store.test.ts",
+          "name": "explicit undefined styles are rejected on load and save while original corrupt records remain untouched"
+        }
+      ]
+    },
+    {
+      "id": "appearance.camera",
+      "cases": [
+        {
+          "path": "tests/system/appearance-web-room.test.ts",
+          "name": "room appearance updates retain camera, renderer and active XR session while updating actual layers"
+        },
+        {
+          "path": "tests/system/appearance-web-three.test.ts",
+          "name": "Studio updates layers in the existing scene and retains renderer, camera and canvas across appearance-only edits"
+        }
+      ]
+    },
+    {
+      "id": "appearance.motion",
+      "cases": [
+        {
+          "path": "tests/system/appearance-web-three.test.ts",
+          "name": "breathe changes only bounded decoration scale and all motion gates restore static size"
+        }
+      ]
+    },
+    {
+      "id": "appearance.pointer",
+      "cases": [
+        {
+          "path": "tests/system/appearance-web-room-interruption.test.ts",
+          "name": "room pinch completion cannot select or replace a live appearance preview"
+        },
+        {
+          "path": "tests/system/appearance-web-room-interruption.test.ts",
+          "name": "room drag history persists after returning over the node and the next tap is independent"
+        }
+      ]
+    },
+    {
+      "id": "appearance.focus",
+      "cases": [
+        {
+          "path": "tests/system/appearance-web-css.test.tsx",
+          "name": "real host/vendor CSS keeps the enlarged hit target invisible until keyboard focus"
+        },
+        {
+          "path": "tests/system/appearance-web-css.test.tsx",
+          "name": "selection remains theme-readable and independent of legacy hologram tint and custom layer colors"
+        }
+      ]
+    },
+    {
+      "id": "appearance.native",
+      "cases": [
+        {
+          "path": "tests/system/native-ar-appearance-v2.test.ts",
+          "name": "v1 remains a real strict legacy contract and v2 requires complete appearance"
+        },
+        {
+          "path": "tests/system/native-ar-appearance-ui.test.tsx",
+          "name": "appearance-only preview changes reject an in-flight native return without changing WorkState"
+        }
+      ]
+    },
+    {
+      "id": "appearance.backup",
+      "cases": [
+        {
+          "path": "tests/system/appearance-backup.test.tsx",
+          "name": "current backup excludes appearance and still cannot restore or modify domain state"
+        }
+      ]
+    },
+    {
+      "id": "webgl.quarantine",
+      "cases": [
+        {
+          "path": "tests/webgl-fault.test.mjs",
+          "name": "late inline render failure is contained, sets not-ready and reports terminal fallback once"
+        },
+        {
+          "path": "tests/webgl-fault.test.mjs",
+          "name": "stale frame, visibility, reduced motion and appearance refresh cannot rearm a failed renderer"
+        }
+      ]
+    },
+    {
+      "id": "webgl.xr-ownership",
+      "cases": [
+        {
+          "path": "tests/webgl-fault.test.mjs",
+          "name": "XR context loss retains ownership through rejected end, allows only explicit end retry"
+        },
+        {
+          "path": "tests/webgl-fault.test.mjs",
+          "name": "fulfilled end promise without native end does not report terminal fallback or release ownership"
+        },
+        {
+          "path": "tests/webgl-fault.test.mjs",
+          "name": "startup graphics fault cannot treat an unbound session and fulfilled end promise as confirmed end"
+        }
+      ]
+    },
+    {
+      "id": "labels.cache-focus",
+      "cases": [
+        {
+          "path": "tests/system/appearance-label-visibility.test.ts",
+          "name": "keyboard-focused name keeps its place ahead of a colliding selected label"
+        },
+        {
+          "path": "tests/system/appearance-label-visibility.test.ts",
+          "name": "normal-motion breathing reuses label measurements and keyboard focus instead of revealing and measuring every frame"
+        },
+        {
+          "path": "tests/system/appearance-label-visibility.test.ts",
+          "name": "320 labels are measured in one batch and reused across 120 continuous frames including hidden labels"
+        }
+      ]
+    },
+    {
+      "id": "assistant.preview-race",
+      "cases": [
+        {
+          "path": "tests/system/assistant-preview-race.test.ts",
+          "name": "rejected stale approval cannot invalidate a replacement preview while its hashes are pending"
+        }
+      ]
+    },
+    {
+      "id": "assistant.advisory-provenance",
+      "cases": [
+        {
+          "path": "tests/system/assistant-advice.test.tsx",
+          "name": "synthetic validated model advice shows only unconfirmed claims as escaped text with exact producer and references"
+        },
+        {
+          "path": "tests/system/assistant-advice.test.tsx",
+          "name": "additional review presentation derives provenance from the validated producer instead of a fixed simulation label"
+        },
+        {
+          "path": "tests/system/assistant-runtime.test.ts",
+          "name": "validated producer identity is projected into runtime events without adapter prose"
+        },
+        {
+          "path": "tests/system/assistant-logging.test.ts",
+          "name": "optional producer metadata is detached and rejects mismatched modes, URLs and accessor fields"
+        }
+      ]
+    },
+    {
+      "id": "assistant.advisory-policy",
+      "cases": [
+        {
+          "path": "tests/system/assistant-advice.test.tsx",
+          "name": "synthetic model remains policy-blocked even when capability flags claim verification"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "session factory receives only roles and validated advice stays unconfirmed without any write"
+        }
+      ]
+    },
+    {
+      "id": "assistant.advisory-lifecycle",
+      "cases": [
+        {
+          "path": "tests/system/assistant-runtime.test.ts",
+          "name": "discarded result and pending adapter settlement are distinct; abort never attests engine end"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "session exposes pending adapter after cancellation and discards its late value"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "a replaced project session cannot receive a late advisor value or late event"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "reactivated session retains knowledge of an unfinished cancelled adapter invocation"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "work revision changed while advice is in flight rejects that otherwise valid output"
+        }
+      ]
+    },
+    {
+      "id": "assistant.advisory-stale",
+      "cases": [
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "known memory staleness invalidates prior successful advice without a work revision change"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "known config staleness invalidates prior successful advice without a work revision change"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "known memory staleness removes rendered advisory claims and confirmed old context"
+        },
+        {
+          "path": "tests/system/assistant-session.test.ts",
+          "name": "failed replacement consultation clears previously accepted advisory text"
+        }
+      ]
+    },
+    {
+      "id": "mobile.activation-order",
+      "cases": [
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "editing blur cannot reveal navigation during a mouse activation"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "editing blur cannot reveal navigation during a touch activation"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "cancelled or released gestures do not leave navigation hidden or synthesize a click"
+        }
+      ]
+    },
+    {
+      "id": "mobile.pointer-lifecycle",
+      "cases": [
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "activation lifecycle: pointerup, multiple pointers and subsequent gesture"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "activation lifecycle: pointercancel, multiple pointers and subsequent gesture"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "activation lifecycle: lostpointercapture, multiple pointers and subsequent gesture"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "activation lifecycle: hidden, multiple pointers and subsequent gesture"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "activation lifecycle: unmount, multiple pointers and subsequent gesture"
+        },
+        {
+          "path": "tests/system/mobile-ui.test.tsx",
+          "name": "capture transfer while pressed retains the pointer until its real release"
+        }
+      ]
+    },
+    {
+      "id": "assistant.continuation-identity",
+      "cases": [
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "continuation binds only the saved draft of the exact project without exposing draft text or writing"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "continuation distinguishes no draft and a discarded draft without an active advisory reference"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "applied draft remains a proposed memory entry and never becomes a confirmed next step"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "foreign personal response cannot attach a different project draft to the selected incarnation"
+        }
+      ]
+    },
+    {
+      "id": "assistant.continuation-revisions",
+      "cases": [
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "draft-only save during advice discards the old result even with unchanged work and memory revisions"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "draft revision change between collection reads rejects a mixed snapshot"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "old draft basis is explicitly stale without automatic rebase or memory write"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "draft CAS winner invalidates old advice and the losing write never replaces its content"
+        }
+      ]
+    },
+    {
+      "id": "assistant.continuation-navigation",
+      "cases": [
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "explicit memory navigation checks the draft again and clears obsolete advice"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "deactivation during a memory navigation read prevents the late destination"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "unreadable personal store never becomes a no-draft snapshot or navigation permission"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "navigation conflict discards both checked config permission and advisory result without writing"
+        }
+      ]
+    },
+    {
+      "id": "assistant.continuation-presentation",
+      "cases": [
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "continuation card identifies saved draft metadata without showing its text and navigates to its exact project"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "continuation card distinguishes unavailable basis from no saved draft"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "assistant continuation leaves a conflicted hidden editor intact until the user decides to leave it"
+        },
+        {
+          "path": "tests/system/assistant-companion-integration.test.tsx",
+          "name": "checking a continuation destination clears the Companion previous result immediately"
+        },
+        {
+          "path": "tests/system/continuation-context-integration.test.tsx",
+          "name": "a saved personal draft is not misreported as absent by the separate Assistant context"
+        }
+      ]
+    },
+    {
+      "id": "draft.open-identity",
+      "cases": [
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "explicit draft navigation delivers only the checked context and saved revision"
+        },
+        {
+          "path": "tests/system/assistant-continuation.test.ts",
+          "name": "draft navigation refuses a revision that differs from the loaded active draft"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "second tab draft change rejects opening a previously displayed revision"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "discarded draft cannot be reopened from the old active snapshot"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "replaced project incarnation cannot supply a draft to the old editor"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "deleted project cannot open the detached saved draft from an old editor snapshot"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "foreign project response cannot replace the local composer during draft open"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "archived project cannot open a saved draft for editing"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "applied draft cannot be reopened from its formerly active revision"
+        }
+      ]
+    },
+    {
+      "id": "draft.open-replacement",
+      "cases": [
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "continuation opening preserves the existing decision for a conflicted dirty editor"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "opening a dirty or locked editor requires its explicit replacement decision"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "draft revision changed after replacement confirmation is never silently substituted"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "a locked clean editor still requires confirmation before opening the saved revision"
+        }
+      ]
+    },
+    {
+      "id": "draft.open-lifecycle",
+      "cases": [
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "Back and Forward discard a pending draft-open intent instead of replaying it from history"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "cancel from the editor discards a pending continuation open and preserves the unopened composer"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "second-tab change after Assistant navigation validation cannot substitute a newer draft in the editor"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "newer Studio navigation supersedes an editor draft read without overwriting the composer"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "explicit abandonment of another dirty project continues only the originally requested draft revision"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "changed target revision while leaving another dirty project requires a new explicit open"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "newer input during a draft open read survives the late response"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "cancelled draft open preserves the previous composer even when transport settles late"
+        }
+      ]
+    },
+    {
+      "id": "draft.open-read-only",
+      "cases": [
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "continuation draft action opens the exact saved draft in the existing editor without applying it"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "disabled continuation card exposes no draft-open action without its displayed draft basis"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "explicit draft open rereads its saved revision and changes only the existing editor"
+        },
+        {
+          "path": "tests/system/personal-draft-open.test.tsx",
+          "name": "an outdated draft opens for comparison without changing its base or memory"
+        }
+      ]
+    },
+    {
+      "id": "draft.open-history",
+      "cases": [
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "Back to the already selected project invalidates the blocked draft-open decision and Forward cannot revive it"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "a new same-URL route event invalidates the old draft-open decision without erasing local text"
+        },
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "silent URL replacement makes an old abandonment action inert before another route notification"
+        }
+      ]
+    },
+    {
+      "id": "draft.preview-plan",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "draft change preview shows the exact proposal without applying and cancel preserves the draft"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "a second-tab draft change after preview cannot be applied by the old approval"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "memory drift after draft preview blocks the old approval without rebasing it"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "correction preview shows old and new text and does not replace a confirmed decision on apply"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "lost apply response reconciles one proposal and clears only the applied composer"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "newer typing while apply receipt is in flight must not be cleared by the old result"
+        },
+        {
+          "path": "tests/system/project-memory-ui.test.tsx",
+          "name": "repeated save clicks create one proposal, and stale confirmation remains unconfirmed"
+        }
+      ]
+    },
+    {
+      "id": "draft.preview-lifecycle",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "editing after draft preview invalidates its approval and preserves the newer input"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "leaving and returning to memory discards the previous draft approval"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "navigation during preview reread cannot revive an approval on return"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "cancel in the same event turn prevents preparation from restoring approval"
+        }
+      ]
+    },
+    {
+      "id": "draft.preview-route",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent route replacement to other-project makes the old preview approval inert"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent route replacement to other-incarnation makes the old preview approval inert"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent route replacement to other-tab makes the old preview approval inert"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent route replacement during preview reread discards the pending approval"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "Back and Forward invalidate a preview approval even when the route returns to its original URL"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "stale prepare button cannot authorize a preview after silent project navigation"
+        }
+      ]
+    },
+    {
+      "id": "memory.result-identity",
+      "cases": [
+        {
+          "path": "tests/system/personal-apply-target.test.ts",
+          "name": "apply target uses the changed entry identity rather than matching duplicate text"
+        },
+        {
+          "path": "tests/system/personal-apply-target.test.ts",
+          "name": "apply target identifies an in-place correction without selecting a same-text neighbour"
+        },
+        {
+          "path": "tests/system/personal-apply-target.test.ts",
+          "name": "apply target selects the replacement proposal while the original remains confirmed"
+        },
+        {
+          "path": "tests/system/personal-apply-target.test.ts",
+          "name": "apply target refuses foreign, mismatched and ambiguous receipts"
+        },
+        {
+          "path": "tests/system/personal-apply-target.test.ts",
+          "name": "later memory changes invalidate a target instead of inferring a new receipt from text"
+        }
+      ]
+    },
+    {
+      "id": "memory.result-navigation",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "applied proposal can be revealed from active search and forgotten filters without confirmation"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "lost apply response reveals the original proposal only after explicit receipt reread"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "a changed target is reloaded without focusing or confirming its old proposal"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent project navigation makes an old applied-target button inert"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "navigation during applied-target reread cannot move focus to the old project"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "confirmation and correction of an applied proposal require the currently displayed project route"
+        }
+      ]
+    },
+    {
+      "id": "memory.confirmed-continuation",
+      "cases": [
+        {
+          "path": "tests/system/assistant-ui.test.tsx",
+          "name": "applied next-step proposal is revealed, explicitly confirmed and corrected before continuation changes"
+        }
+      ]
+    },
+    {
+      "id": "memory.entry-route",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent project URL change blocks confirm and fresh return permits it"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent project URL change blocks correction and fresh return permits it"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent project URL change blocks forget and fresh return permits it"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "silent project URL change blocks restore and fresh return permits it"
+        }
+      ]
+    },
+    {
+      "id": "memory.entry-generation",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "route event revokes captured confirm callback but permits fresh action"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "route event revokes captured correction callback but permits fresh action"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "route event revokes captured forget callback but permits fresh action"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "route event revokes captured restore callback but permits fresh action"
+        }
+      ]
+    },
+    {
+      "id": "memory.entry-history",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "Assistant and Back revoke captured confirm callback but permit fresh action"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "Assistant and Back revoke captured correction callback but permit fresh action"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "Assistant and Back revoke captured forget callback but permit fresh action"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "Assistant and Back revoke captured restore callback but permit fresh action"
+        }
+      ]
+    },
+    {
+      "id": "memory.routing-url",
+      "cases": [
+        {
+          "path": "tests/system/mobile-navigation.test.ts",
+          "name": "Memory to Assistant emits a clean URL and explicit Memory return restores the exact incarnation"
+        },
+        {
+          "path": "tests/system/mobile-navigation.test.ts",
+          "name": "Back and Forward keep clean Assistant and the original Memory incarnation"
+        },
+        {
+          "path": "tests/system/mobile-navigation.test.ts",
+          "name": "a malformed Memory identity is not retained as a hidden return target"
+        },
+        {
+          "path": "tests/system/mobile-navigation.test.ts",
+          "name": "Memory return rejects malformed History metadata and never overrides explicit foreign link identity"
+        },
+        {
+          "path": "tests/system/mobile-navigation.test.ts",
+          "name": "History return cannot authorize a context for an unknown or identity-free Memory destination"
+        }
+      ]
+    },
+    {
+      "id": "memory.routing-reload",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-navigation.test.tsx",
+          "name": "real Studio Memory to Assistant click reloads without warning and returns through retained exact History identity"
+        },
+        {
+          "path": "tests/system/personal-continuation-navigation.test.tsx",
+          "name": "History return never assigns the old Memory incarnation to a recreated room UUID after Assistant reload"
+        }
+      ]
+    },
+    {
+      "id": "memory.routing-draft",
+      "cases": [
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "clean Assistant tab roundtrip preserves failed dirty draft and the existing cancel decision"
+        },
+        {
+          "path": "tests/system/personal-continuation-ui.test.tsx",
+          "name": "clean Assistant roundtrip autosaves dirty draft without applying or confirming it"
+        }
+      ]
+    }
+  ],
+  "exceptions": []
+}

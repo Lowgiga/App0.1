@@ -1,0 +1,37 @@
+✔ surface AR explicitly requires hit-test and interactive DOM overlay (1.830461ms)
+✔ free AR is an explicit mode and does not request or imply a plane hit (0.351279ms)
+✔ permission failure preserves exact browser cause and session phase (1.094691ms)
+✔ unsupported table request never silently retries free AR (0.383088ms)
+✔ renderer binding failure ends its session and retains phase (0.322987ms)
+✔ missing hit source ends session with an actionable diagnosis (0.433964ms)
+✔ reference-space failure is correctly distinguished from renderer failure (0.505653ms)
+✔ navigation while browser request is pending safely ends late session (0.435296ms)
+✔ cancellation after source creation cancels source and ends session once (0.446213ms)
+✔ session ending during binding is not bound again or declared tracked (0.385711ms)
+✔ deferred ended start retains lock until its own finally and cannot clear a later operation (5.56369ms)
+✔ failed end preserves owned session and both causes without a blind retry (0.618883ms)
+✔ cancelled start whose end fails retains exit ownership rather than silently returning null (0.215595ms)
+✔ confirmed native end is accepted even if end promise later rejects (0.321365ms)
+✔ diagnoses bound technical errors and remove control characters (0.130086ms)
+✔ surface filter accepts horizontal poses and rejects wall ceiling invalid matrix (0.208845ms)
+✔ stale or lost-tracking hits cannot be placed (0.090867ms)
+✔ surface scale preserves the chosen base point rather than recentering on viewer (0.250708ms)
+✔ old quiz XP remains separate from new practice-level completion (3.376792ms)
+✔ orientation requires correct origin and a real 2D path (4.877926ms)
+✔ duplicate level never gives more XP or writes over previous evidence (2.966163ms)
+✔ relationship needs visited start target and actual meaning (4.664144ms)
+✔ 3D practice refuses ready-less or unfocused scenes and false camera claims (3.235449ms)
+✔ 2D alternative reaches same learning objective without asserting renderer or AR (1.25335ms)
+✔ transfer atomically creates an open task note and optional mission reference (2.091363ms)
+✔ capacity and ambiguous IDs cannot leave a partial transfer task (1.309154ms)
+✔ transfer rejects missing missions and an over-budget task description (2.02265ms)
+✔ malformed future and orphaned records do not count as a level (0.873657ms)
+✔ snapshot round trip preserves personal level notes without overwriting original quizzes (8.172324ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 223.662734

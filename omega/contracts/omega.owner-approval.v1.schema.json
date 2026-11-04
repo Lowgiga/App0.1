@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/contracts/omega.owner-approval.v1.schema.json",
+  "title": "omega.owner-approval/v1",
+  "description": "Signatur des Eigentuemers fuer genau eine E4-Aenderung (Trust Kernel, Policy). Inhalt per SHA-256-Digest gebunden, mit Ablaufzeit. E4 ist nie autonom.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "approvalId",
+    "change",
+    "digest",
+    "expiresAt",
+    "sig"
+  ],
+  "properties": {
+    "schema": {
+      "const": "omega.owner-approval/v1"
+    },
+    "approvalId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "change": {
+      "enum": [
+        "trust-kernel",
+        "policy"
+      ]
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "expiresAt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sig": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  }
+}

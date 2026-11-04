@@ -1,0 +1,29 @@
+✔ native snapshot retains every real node/edge, uses finite uniformly normalized positions and stable revision (9.287063ms)
+✔ native snapshot exposes text compaction without changing identities and detects even omitted text revision changes (7.591043ms)
+✔ native converter rejects limits, dangling edges, bad identity and unknown saved state without silent filtering (2.315334ms)
+✔ native snapshot converts the complete selected scope rather than the 32-node display cap (3.00916ms)
+✔ native service is lazy, validates availability and result, excludes parallel opens and resets after error (2.9699ms)
+✔ native service fails closed for browsers, malformed booleans, oversized input and unknown result keys (6.876565ms)
+✔ native return can only select a current member from a closed current revision, without writes (1.396067ms)
+✔ native byte boundary rejects worst-case Unicode details while ordinary maximum 256/4096 multigraph remains complete (91.019033ms)
+✔ native failed bridge call releases busy; no stale or invalid native payload is accepted (2.45221ms)
+✖ native service pins the validated request across awaits rather than trusting a later caller mutation (1.306471ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 9
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 664.107568
+
+✖ failing tests:
+
+test at tests/system/native-ar.test.ts:100:1
+✖ native service pins the validated request across awaits rather than trusting a later caller mutation (1.306471ms)
+  Error: Ungültige native AR-Antwort. Auswahl verworfen.
+      at file:///workspace/scratch/40c5c5523452/cue-system/src/platform/native-ar.ts:77:19
+      at async call (file:///workspace/scratch/40c5c5523452/cue-system/src/platform/native-ar.ts:69:16)
+      at async TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/cue-system/tests/system/native-ar.test.ts:100:638)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)

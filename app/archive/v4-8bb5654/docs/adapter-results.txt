@@ -1,0 +1,23 @@
+✔ draft revisions cannot silently rebase to a newer loaded state (0.822882ms)
+✔ after conflict only a new session clears the write gate (0.229396ms)
+✔ fresh local state is real production defaults and survives reopening (22.326261ms)
+✔ timestamps strictly increase under same and backward wall clocks (12.467048ms)
+✔ concurrent clients atomically enforce CAS without lost writes (3.444706ms)
+✔ failed validation rolls back and production task completion gates apply (2.663268ms)
+✔ forged events, unknown source references, and direct interaction edits are rejected (3.985582ms)
+✔ focus-follow invokes the production action and reconciliation with real events (7.336107ms)
+✔ risk planning really creates a task, keeps risk open and validates fingerprint (17.615004ms)
+✔ unknown remote routes and auth headers cannot trigger simulated success or network (0.670501ms)
+✔ malformed requests, wrong methods and oversized action input fail closed (0.61003ms)
+✔ pre-aborted request never mutates storage (1.932165ms)
+✔ corrupt state remains stored and blocks reads/writes without silent reset (2.904312ms)
+✔ future storage versions are not overwritten (1.728457ms)
+✔ unavailable IndexedDB is an explicit error rather than in-memory success (0.272031ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 230.164498

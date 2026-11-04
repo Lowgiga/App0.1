@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "supportedDomainSourceCommits": [
+    "23ae42c2d83d5b31dcc9f61adeefb22bb1e1f03a",
+    "3e921804b13e0d7c70d1ff15474f0387e84d70b6"
+  ],
+  "domainSources": {
+    "intelligence.ts": "15d097a215787adb7580e5ce7b9db21c426b9347e67332475261486cdda2661b",
+    "intelligence-actions.ts": "e5dca5cffa7121b04324ac2220908a7275414c7949b442c6e31e170a0d59c5de",
+    "work-updates.ts": "2122ce0a73487c4803f674e93979a8c626259de804bd31e979314570acac4ffe",
+    "work-contract.ts": "f650ae4b02bc9374ee7c8d6f5e8e5d1bc900a783d3e3a1ebd940bae3ed20e1b7",
+    "command-contract.ts": "7af5bc4759f274b38c617f915e20ac2528fc3567443d906d77bd7160de0c9c69",
+    "interaction-contract.ts": "9b98a222c0c3913bf4f5e201cfb61a6f2ae8df14ef13580638cf15a1f2f10357",
+    "state-compat.ts": "23b6ef345f039da1cb4c54fcb4f3f9fc41c75094b55df31a9e8df3cb76cb3f64",
+    "work-budget.ts": "1a711c5345aa7537f49227a1386250f7304b0dd1ab7e823a01836eccacc29969"
+  },
+  "originalSnapshotRule": "Final app integration must pass its own complete provenance check; this kit never writes upstream/."
+}

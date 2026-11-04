@@ -1,0 +1,83 @@
+✖ final timestamp is included in the committed UTF-8 budget (410.91875ms)
+✔ 409 conflict permanently blocks stale form saves until full hook remount (119.212115ms)
+✖ REGRESSION: ambiguous failure with external revision must block retained stale form (30.968678ms)
+✖ failed ambiguous recovery cannot later re-fetch and rebase an old settings draft (23.946539ms)
+✖ reconciled own write remains confirmed but uncertain-session drafts cannot write again (22.596053ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 1
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 597.109167
+
+✖ failing tests:
+
+test at tests/budget-boundary.test.mjs:3:1
+✖ final timestamp is included in the committed UTF-8 budget (410.91875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 400
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/budget-boundary.test.mjs:3:1243)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/hook-recovery.test.mjs:37:1
+✖ REGRESSION: ambiguous failure with external revision must block retained stale form (30.968678ms)
+  AssertionError [ERR_ASSERTION]: Retained old settings silently overwrite the newer fontScale after uncertain recovery; second save result=true
+  
+  100 !== 125
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/hook-recovery.test.mjs:37:940)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 100,
+    expected: 125,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/hook-recovery.test.mjs:38:1
+✖ failed ambiguous recovery cannot later re-fetch and rebase an old settings draft (23.946539ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/hook-recovery.test.mjs:38:834)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/hook-recovery.test.mjs:39:1
+✖ reconciled own write remains confirmed but uncertain-session drafts cannot write again (22.596053ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/hook-recovery.test.mjs:39:776)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

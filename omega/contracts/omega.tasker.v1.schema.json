@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/contracts/omega.tasker.v1.schema.json",
+  "title": "omega.tasker/v1",
+  "description": "Befehl an Tasker: nur Tasks der Allowlist (Praefix OMEGA_); HMAC-SHA256 ueber kanonisches JSON ohne mac (HTTP: Body ohne mac, Header X-Omega-Mac). Parameter: runtime/tasker-bridge.mjs (TASKER_ACTIONS).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "action",
+    "params",
+    "taskId",
+    "leaseId",
+    "fencingToken",
+    "leaseExpiresAt",
+    "hlc",
+    "mac"
+  ],
+  "properties": {
+    "schema": {
+      "const": "omega.tasker/v1"
+    },
+    "action": {
+      "enum": [
+        "OMEGA_KILL",
+        "OMEGA_ADB_OFF",
+        "OMEGA_STATUS",
+        "OMEGA_ADB_ON",
+        "OMEGA_WIFI_ON",
+        "OMEGA_NOTIFY",
+        "OMEGA_SCENE_APPROVAL"
+      ]
+    },
+    "params": {
+      "type": "object"
+    },
+    "taskId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "leaseId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "fencingToken": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "leaseExpiresAt": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Ablauf des Leases in ms seit Epoche; abgelaufene Befehle werden abgewiesen."
+    },
+    "hlc": {
+      "type": "string",
+      "pattern": "^\\d{15}\\.\\d{6}\\.[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "mac": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    }
+  }
+}

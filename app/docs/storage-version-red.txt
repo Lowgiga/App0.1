@@ -1,0 +1,60 @@
+✔ fresh local state is real production defaults and survives reopening (22.958864ms)
+✔ timestamps strictly increase under same and backward wall clocks (14.546103ms)
+✔ concurrent clients atomically enforce CAS without lost writes (3.481722ms)
+✔ failed validation rolls back and production task completion gates apply (2.914957ms)
+✔ forged events, unknown source references, and direct interaction edits are rejected (3.90426ms)
+✔ focus-follow invokes the production action and reconciliation with real events (6.636531ms)
+✔ risk planning really creates a task, keeps risk open and validates fingerprint (15.698802ms)
+✔ unknown remote routes and auth headers cannot trigger simulated success or network (0.638233ms)
+✔ malformed requests, wrong methods and oversized action input fail closed (0.562348ms)
+✔ pre-aborted request never mutates storage (1.914178ms)
+✔ corrupt state remains stored and blocks reads/writes without silent reset (2.576176ms)
+✔ future storage versions are not overwritten (1.738803ms)
+✔ unavailable IndexedDB is an explicit error rather than in-memory success (0.276086ms)
+✖ storage schema version has strict numeric type (2.282503ms)
+✖ aggregate UTF-8 write budget rejects before committing any changes (14.198049ms)
+✔ persisted v3 records migrate through the production contract without losing notes (3.878361ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 14
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 263.399106
+
+✖ failing tests:
+
+test at tests/local-adapter.test.ts:29:1
+✖ storage schema version has strict numeric type (2.282503ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 503
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:29:252)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 503,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/local-adapter.test.ts:30:1
+✖ aggregate UTF-8 write budget rejects before committing any changes (14.198049ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  413 !== 400
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:30:701)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 413,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

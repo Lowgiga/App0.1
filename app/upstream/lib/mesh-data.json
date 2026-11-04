@@ -1,0 +1,3030 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-29T20:21:29Z",
+  "title": "Cue Command Mesh",
+  "provenance": "Cue-Datei, neue Screenshots und direkte Make-Leseabfrage. Kein Livezugriff dieser Webapp auf Cue.",
+  "agents": [
+    {
+      "id": "zimt",
+      "name": "Zimt",
+      "initials": "Z",
+      "role": "Orchestrierung",
+      "color": "#dbe9ad",
+      "connectors": 0,
+      "skills": 0,
+      "email": true,
+      "owner": "Mission Control",
+      "description": "Definiert Missionen, verteilt Arbeit und führt überprüfbare Ergebnisse zusammen.",
+      "capabilities": [
+        "Mission planen",
+        "Hand-off koordinieren",
+        "Entscheidung vorbereiten"
+      ],
+      "source": "cue-init"
+    },
+    {
+      "id": "manus",
+      "name": "Manus",
+      "initials": "M",
+      "role": "Builder",
+      "color": "#c6dafa",
+      "connectors": 6,
+      "skills": 22,
+      "email": true,
+      "owner": "Umsetzung & Recherche",
+      "description": "Prüft Werkzeuge, erstellt Artefakte und bereitet Implementierungen vor.",
+      "capabilities": [
+        "Werkzeuge prüfen",
+        "Artefakte erstellen",
+        "Implementierung planen"
+      ],
+      "source": "cue-init"
+    },
+    {
+      "id": "junior",
+      "name": "Junior",
+      "initials": "J",
+      "role": "Review & QA",
+      "color": "#e7d5b9",
+      "connectors": 0,
+      "skills": 0,
+      "email": false,
+      "owner": "Unabhängige Prüfung",
+      "description": "Prüft Annahmen, Evidenz, Berechtigungen und Testpläne.",
+      "capabilities": [
+        "Quellen bewerten",
+        "Risiken prüfen",
+        "Testplan reviewen"
+      ],
+      "source": "shot-03"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "make",
+      "name": "Make",
+      "category": "Automation",
+      "agent": "Codex · Leseabruf",
+      "tool": true,
+      "auth": true,
+      "profile": false,
+      "read": true,
+      "evidence": "Direkter Make-Leseabruf",
+      "state": "verified",
+      "note": "Direkt über Codex gelesen. Cue meldet eigenen Sitzungszugriff; keine Profilbindung bestätigt.",
+      "next": "Modulparameter und Außenwirkungen gezielt prüfen.",
+      "source": "make-direct"
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "category": "Entwicklung",
+      "agent": "Cue · GitHub offen",
+      "tool": false,
+      "auth": null,
+      "profile": false,
+      "read": false,
+      "evidence": "Codex-Snapshot",
+      "state": "partial",
+      "note": "PAZ wurde über Codex gelesen. Cue-Zugriff bleibt unbestätigt.",
+      "next": "Baseline #19 abgleichen; vorhandenen Snapshot nutzen.",
+      "source": "codex-snapshot"
+    },
+    {
+      "id": "slack",
+      "name": "Slack",
+      "category": "Kommunikation",
+      "agent": "Cue · Sitzung",
+      "tool": true,
+      "auth": true,
+      "profile": false,
+      "read": null,
+      "evidence": "Cue-Bestandsaufnahme",
+      "state": "reported",
+      "note": "Werkzeug und Anmeldung gemeldet; keine Operation bestätigt.",
+      "next": "Nur bei konkret benanntem Kanal prüfen.",
+      "source": "cue-init"
+    },
+    {
+      "id": "zapier",
+      "name": "Zapier",
+      "category": "Automation",
+      "agent": "Cue · Sitzung",
+      "tool": true,
+      "auth": true,
+      "profile": false,
+      "read": null,
+      "evidence": "Cue-Bestandsaufnahme",
+      "state": "reported",
+      "note": "Sitzungszugriff gemeldet; als Alternative zu Make vorgesehen.",
+      "next": "Nur bei konkreter Make-Lücke verwenden.",
+      "source": "cue-init"
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "category": "Projektkontext",
+      "agent": "Manus · Profil",
+      "tool": true,
+      "auth": true,
+      "profile": true,
+      "read": null,
+      "evidence": "Cue-Bestandsaufnahme",
+      "state": "reported",
+      "note": "Profilbindung und Anmeldung gemeldet. Kein Projektbereich gelesen.",
+      "next": "Ausgewählten Projektbereich festlegen.",
+      "source": "cue-init"
+    },
+    {
+      "id": "hermes",
+      "name": "Hermes",
+      "category": "Geräte",
+      "agent": "Nicht verbunden",
+      "tool": false,
+      "auth": null,
+      "profile": false,
+      "read": false,
+      "evidence": "Kein Gerätezugriff",
+      "state": "unknown",
+      "note": "Keine lokale Version und kein erreichbarer Endpoint bestätigt.",
+      "next": "Versions- und Runtime-Preflight auf ausgewähltem Gerät.",
+      "source": "cue-init"
+    }
+  ],
+  "make": {
+    "id": 7098897,
+    "name": "Integration Make AI Agent",
+    "status": "inactive",
+    "intervalSeconds": 900,
+    "readVerified": true,
+    "startedByThisApp": false,
+    "requestedInCue": true,
+    "executionVerified": false,
+    "url": "https://eu1.make.com/2189688/scenarios/7098897",
+    "modules": [
+      {
+        "id": 1,
+        "module": "ai-local-agent:RunLocalAIAgent",
+        "version": 0,
+        "root": "main"
+      },
+      {
+        "id": 2,
+        "module": "knowledge:KnowledgeStandAlone",
+        "version": 1,
+        "parent": {
+          "moduleId": 1,
+          "kind": "tool",
+          "index": 0,
+          "label": "Agent knowledge"
+        }
+      },
+      {
+        "id": 6,
+        "module": "mcp-client:McpToolsForAgent",
+        "version": 1,
+        "parent": {
+          "moduleId": 1,
+          "kind": "tool",
+          "index": 1,
+          "label": "MCP Tools"
+        }
+      },
+      {
+        "id": 3,
+        "module": "builtin:BasicRouter",
+        "version": 1,
+        "follows": 1
+      }
+    ],
+    "connections": [
+      {
+        "id": 9194281,
+        "label": "Make's AI Provider (default)",
+        "status": "ok",
+        "app": "ai-provider",
+        "usedByModules": [
+          1
+        ]
+      },
+      {
+        "id": 10194421,
+        "label": "HI123",
+        "status": "ok",
+        "app": "mcp",
+        "usedByModules": [
+          6
+        ]
+      }
+    ],
+    "lastEdit": "2026-08-25T23:57:26.485Z",
+    "trigger": "scheduled",
+    "evidenceSource": "make-direct"
+  },
+  "pilot": {
+    "issue": 23,
+    "title": "Config hardening loop",
+    "repo": "Klarmedizin-V4/prometheus-archon-zeta",
+    "url": "https://github.com/Klarmedizin-V4/prometheus-archon-zeta/issues/23",
+    "mainSha": "7a2c918462bb5eeba6d4e5727d85be01a89e1cf5",
+    "baselineSha": "adebae2e1cefe1c680a06d6c3686e27a7ece1403",
+    "phase": "Planung",
+    "testsRun": false,
+    "stages": [
+      "Kontext",
+      "Baseline",
+      "Plan",
+      "Review",
+      "Abnahme"
+    ],
+    "criteria": [
+      {
+        "id": "baseline",
+        "title": "Baseline #19 mit main abgleichen",
+        "detail": "PR-Status, Elternbeziehung und Diff für Schema, Loader, YAML und Tests prüfen.",
+        "status": "open"
+      },
+      {
+        "id": "schema",
+        "title": "Sieben Rootbereiche vollständig typisieren",
+        "detail": "system, trading, risk, agents, logging, defi und security. Bisher sind im gelesenen PazConfig vier Rootfelder belegt.",
+        "status": "open"
+      },
+      {
+        "id": "unknown",
+        "title": "Unbekannte Felder rekursiv ablehnen",
+        "detail": "Root- und Child-Modelle auf fail-closed prüfen; extra='forbid' nur am Root reicht nicht.",
+        "status": "open"
+      },
+      {
+        "id": "env",
+        "title": "Environment-Overrides eindeutig regeln",
+        "detail": "Allowlist, Präzedenz, Typkonvertierung und Kompatibilität definieren. PAZ_BOT_ACTOR darf die Runtime-Konfiguration nicht ändern.",
+        "status": "open"
+      },
+      {
+        "id": "paper",
+        "title": "Paper-Mode an Start und Ausführung absichern",
+        "detail": "paper_mode=false ohne Live-Adapter ablehnen; keine Live-Ausführung. Tests und CI-Belege fehlen.",
+        "status": "open"
+      },
+      {
+        "id": "tests",
+        "title": "EMA-/Risk-Grenzen und Testmatrix dokumentieren",
+        "detail": "Positive und negative Fälle; Grenzwerte aus der Projektdokumentation ableiten. Keine bestandenen Tests behaupten.",
+        "status": "open"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "cue-init",
+      "type": "Datei",
+      "title": "Cue-Team Initialisierung · neueste Fassung",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Agentenprofile, Connectoren, Sandbox und abweichende Katalogzustände.",
+      "file": "/documents/cue-team-initialisierung.md"
+    },
+    {
+      "id": "make-direct",
+      "type": "Direktabruf",
+      "title": "Make · Struktur lesend geprüft",
+      "date": "29.09.2026",
+      "status": "verified",
+      "description": "Szenario #7098897: inaktiv, 900 Sekunden, vier Module und zwei gültig gemeldete Verbindungen. Kein Lauf ausgeführt.",
+      "file": "/documents/make-pruefung.json"
+    },
+    {
+      "id": "codex-snapshot",
+      "type": "GitHub-Snapshot",
+      "title": "PAZ · main 7a2c918",
+      "date": "29.09.2026",
+      "status": "verified",
+      "description": "356 Baumeinträge, ausgewählte Dateien und Issue #23. Keine Projekt- oder CI-Tests.",
+      "file": "/documents/cue-handoff.md"
+    },
+    {
+      "id": "shot-01",
+      "type": "Screenshot",
+      "title": "Cue · Produktbeschreibung",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Vom Nutzer übergebener Cue-Chat. Aussagen sind Quellenbelege, keine eigenen Laufzeittests.",
+      "file": "/evidence/1.jpg"
+    },
+    {
+      "id": "shot-02",
+      "type": "Screenshot",
+      "title": "Make · Startwunsch im Cue-Chat",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Start wurde in Cue angefordert; eine erfolgreiche Aktivierung ist im Bild nicht belegt.",
+      "file": "/evidence/2.jpg"
+    },
+    {
+      "id": "shot-03",
+      "type": "Screenshot",
+      "title": "Junior · Review beginnt",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Vom Nutzer übergebener Cue-Chat. Aussagen sind Quellenbelege, keine eigenen Laufzeittests.",
+      "file": "/evidence/3.jpg"
+    },
+    {
+      "id": "shot-04",
+      "type": "Screenshot",
+      "title": "Junior · Schema und Env",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Vom Nutzer übergebener Cue-Chat. Aussagen sind Quellenbelege, keine eigenen Laufzeittests.",
+      "file": "/evidence/4.jpg"
+    },
+    {
+      "id": "shot-05",
+      "type": "Screenshot",
+      "title": "Junior · Paper-Mode und Baseline",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Vom Nutzer übergebener Cue-Chat. Aussagen sind Quellenbelege, keine eigenen Laufzeittests.",
+      "file": "/evidence/5.jpg"
+    },
+    {
+      "id": "shot-06",
+      "type": "Screenshot",
+      "title": "Junior · Testentwurf",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Vom Nutzer übergebener Cue-Chat. Aussagen sind Quellenbelege, keine eigenen Laufzeittests.",
+      "file": "/evidence/6.jpg"
+    },
+    {
+      "id": "shot-07",
+      "type": "Screenshot",
+      "title": "Zimt · Pilot-Scope",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Vom Nutzer übergebener Cue-Chat. Aussagen sind Quellenbelege, keine eigenen Laufzeittests.",
+      "file": "/evidence/7.jpg"
+    },
+    {
+      "id": "shot-08",
+      "type": "Screenshot",
+      "title": "Zimt · Make-Metadaten",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Vom Nutzer übergebener Cue-Chat. Aussagen sind Quellenbelege, keine eigenen Laufzeittests.",
+      "file": "/evidence/8.jpg"
+    },
+    {
+      "id": "shot-09",
+      "type": "Screenshot",
+      "title": "Make · Prüfung vor Start",
+      "date": "29.09.2026",
+      "status": "reported",
+      "description": "Start wurde in Cue angefordert; eine erfolgreiche Aktivierung ist im Bild nicht belegt.",
+      "file": "/evidence/9.jpg"
+    }
+  ],
+  "timeline": [
+    {
+      "title": "Team und Zugriffe inventarisiert",
+      "actor": "Cue",
+      "detail": "Drei Agenten; Profilbindung und Sitzungszugriff getrennt.",
+      "source": "cue-init"
+    },
+    {
+      "title": "PAZ-Kontext übergeben",
+      "actor": "Codex",
+      "detail": "Issue #23 und Commitreferenzen lesend dokumentiert.",
+      "source": "codex-snapshot"
+    },
+    {
+      "title": "Review-Risiken benannt",
+      "actor": "Junior",
+      "detail": "Baseline, rekursive Validierung, Env-Overrides und Laufzeitschutz offen.",
+      "source": "shot-05"
+    },
+    {
+      "title": "Make-Struktur nachgeprüft",
+      "actor": "Codex",
+      "detail": "Szenario ist inaktiv. Intervall: 15 Minuten.",
+      "source": "make-direct"
+    }
+  ],
+  "addonCounts": {
+    "tools": 1078,
+    "skills": 274,
+    "groups": 60
+  },
+  "addons": [
+    {
+      "name": "Adobe Express",
+      "tools": [
+        "mcp__codex_apps__adobe_express_animate_design",
+        "mcp__codex_apps__adobe_express_change_background_color",
+        "mcp__codex_apps__adobe_express_download_design",
+        "mcp__codex_apps__adobe_express_fill_text",
+        "mcp__codex_apps__adobe_express_next_design_actions",
+        "mcp__codex_apps__adobe_express_replace_image",
+        "mcp__codex_apps__adobe_express_search_design"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Adobe Marketing Agent",
+      "tools": [
+        "mcp__codex_apps__adobe_marketing_agent_adobe_marketing_agent_mcp_widget",
+        "mcp__codex_apps__adobe_marketing_agent_core_context_management_widget",
+        "mcp__codex_apps__adobe_marketing_agent_core_feedback_widget",
+        "mcp__codex_apps__adobe_marketing_agent_core_provide_feedback",
+        "mcp__codex_apps__adobe_marketing_agent_core_set_dataview",
+        "mcp__codex_apps__adobe_marketing_agent_core_set_sandbox",
+        "mcp__codex_apps__adobe_marketing_agent_core_switch_org",
+        "mcp__codex_apps__adobe_marketing_agent_core_switch_sandbox_dataview",
+        "mcp__codex_apps__adobe_marketing_agent_core_user_preferences"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Ads Manager",
+      "tools": [],
+      "skills": [
+        {
+          "name": "ads-manager:ads-manager-account-admin",
+          "description": "Check what remains to finish an existing Ads Manager account's setup, launch billing setup, add or replace its logo, and manage users, pending invitations, roles, and removals. Use for existing-account setup/readiness questions, help setting up billing or a logo, and requested account-access changes. Setup checks are read-only; membership and logo writes require confirmation and verification. Do not use for new-account creation, ad creation, campaign/ad-group/ad changes, reporting, or delivery diagnosis."
+        },
+        {
+          "name": "ads-manager:ads-manager-ad-creation",
+          "description": "Create one or more new Ads Manager ads end-to-end when the user asks to create, make, or build an ad or copy variants, or supplies a product or landing-page URL. Own website extraction and image discovery, manual intake, coordinated multi-ad copy variation, campaign-aware image selection or generation, draft preview, creative upload, and save or publish. Use for new ads even when no account exists yet; do not use for account onboarding, existing-ad updates, reporting, or delivery troubleshooting."
+        },
+        {
+          "name": "ads-manager:ads-manager-delivery-recovery",
+          "description": "Diagnose why an existing Ads Manager account, campaign, ad group, or ad is not delivering or scaling, then produce a prioritized read-only recovery plan grounded in live connector evidence and official Help Center guidance. Use when the user reports low or zero impressions, spend, clicks, or conversions; delivery drops; limited delivery; serving issues; or uncertainty about what is blocking expansion."
+        },
+        {
+          "name": "ads-manager:ads-manager-entity-management",
+          "description": "Create or update existing Ads Manager campaigns and ad groups, and update existing ads, through a minimal-diff, confirmed, read-back-verified workflow. Use when the user explicitly asks for campaign-only or ad-group-only creation and does not want ads created yet, or asks to edit, pause, activate, archive, or otherwise change an existing campaign, ad group, or ad. Do not interpret a vague “create a campaign” request as campaign-only work. Do not use for new-ad creation, account onboarding, account administration, reporting, or delivery diagnosis."
+        },
+        {
+          "name": "ads-manager:ads-manager-help",
+          "description": "Help users understand and troubleshoot Ads Manager through read-only connector evidence, official Help Center guidance, and shared playbooks. Use for standalone campaign planning, reviews of supplied context hints, product-feed suitability, how-to and targeting-support questions, delivery issues, spend or performance questions, and conversion-reporting problems without changing Ads Manager state. Direct existing-account setup/readiness, billing setup, and logo requests belong to Account Admin."
+        },
+        {
+          "name": "ads-manager:ads-manager-insights",
+          "description": "Report Ads Manager performance, rankings, comparisons, trends, conversion totals, Event Quality Score (EQS), current conversion-source or event-setting inventory, or recent raw conversion-event diagnostics for an existing account, campaign, ad group, or ad. Use when the user asks what happened or how metrics compare. Do not use for delivery diagnosis, recommendations, recurring review setup, or mutations."
+        },
+        {
+          "name": "ads-manager:ads-manager-onboarding",
+          "description": "Create one new self-serve Ads Manager business account end-to-end, including business intake, ownership resolution, an optional attached, linked, or generated logo, terms acceptance, and account creation. Use when the user asks to create a new ad account, has no account and confirms setup, or requests unsupported individual or agency onboarding. Use before list_onboarding_tenants, account-logo uploads for account creation, create_self_serve_ad_account, or onboarding status for account creation. Do not use for finishing an existing account's setup, existing-account troubleshooting, campaign creation, or ad creation."
+        },
+        {
+          "name": "ads-manager:ads-manager-review",
+          "description": "Analyze an existing Ads Manager account, campaign set, campaign, ad group, or ad and return concise, evidence-backed CMO recommendations in plain language. Use when the user asks for manual or scheduled health checks and reviews of delivery, measurement, performance efficiency, spend, targeting, or ad creative, including broad one-time requests to improve or optimize an account or portfolio. Do not use for account setup, ad creation, live changes, or approvals."
+        },
+        {
+          "name": "ads-manager:ads-manager-setup",
+          "description": "Welcome users after installing Ads Manager or when they ask to get started without a specific task. Help new users choose an ad draft or account setup; introduce existing users to available capabilities and route their goal to the appropriate skill. Continue a specific earlier request without repeating the welcome."
+        },
+        {
+          "name": "ads-manager:ads-manager-start-agent",
+          "description": "Set up recommendation-only recurring Ads Manager reviews. Use when a user asks for recurring, periodic, daily, weekly, ongoing, or scheduled recommendations for an account, campaign, ad group, or ad. Do not use for one-time recommendations or health reviews, including broad requests to improve or optimize Ads Manager; route those directly to $ads-manager-review. Do not use for direct ad changes, account setup, ad creation, or pure delivery troubleshooting that belongs to ads-manager-delivery-recovery."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Agent Teams",
+      "tools": [],
+      "skills": [
+        {
+          "name": "agent-teams:multi-reviewer-patterns",
+          "description": "Coordinate parallel code reviews across multiple quality dimensions with finding deduplication, severity calibration, and consolidated reporting. Use this skill when organizing multi-reviewer code reviews, calibrating finding severity, or consolidating review results."
+        },
+        {
+          "name": "agent-teams:parallel-debugging",
+          "description": "Debug complex issues using competing hypotheses with parallel investigation, evidence collection, and root cause arbitration. Use this skill when debugging bugs with multiple potential causes, performing root cause analysis, or organizing parallel investigation workflows."
+        },
+        {
+          "name": "agent-teams:parallel-feature-development",
+          "description": "Coordinate parallel feature development with file ownership strategies, conflict avoidance rules, and integration patterns for multi-agent implementation. Use this skill when decomposing a large feature into independent work streams, when two or more agents need to implement different layers of the same system simultaneously, when establishing file ownership to prevent merge conflicts in a shared codebase, when designing interface contracts so parallel implementers can build against each other's APIs before they are ready, or when deciding whether to use vertical slices versus horizontal layers for a full-stack feature."
+        },
+        {
+          "name": "agent-teams:task-coordination-strategies",
+          "description": "Decompose complex tasks, design dependency graphs, and coordinate multi-agent work with proper task descriptions and workload balancing. Use this skill when breaking down work for agent teams, managing task dependencies, or monitoring team progress."
+        },
+        {
+          "name": "agent-teams:team-communication-protocols",
+          "description": "Structured messaging protocols for agent team communication including message type selection, plan approval, shutdown procedures, and anti-patterns to avoid. Use this skill when establishing communication norms for a newly spawned team, when deciding whether to send a direct message or a broadcast, when a team-lead needs to review and approve an implementer's plan before work begins, when orchestrating a graceful team shutdown after all tasks are complete, or when debugging why teammates are not coordinating correctly at integration points."
+        },
+        {
+          "name": "agent-teams:team-composition-patterns",
+          "description": "Design optimal agent team compositions with sizing heuristics, preset configurations, and agent type selection. Use this skill when deciding how many agents to spawn for a task, when choosing between a review team versus a feature team versus a debug team, when selecting the correct subagent_type for each role to ensure agents have the tools they need, when configuring display modes (tmux, iTerm2, in-process) for a CI or local environment, or when building a custom team composition for a non-standard workflow such as a migration or security audit."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Agentic Search by Liner",
+      "tools": [
+        "mcp__codex_apps__agentic_search_by_liner_deep_research_agent",
+        "mcp__codex_apps__agentic_search_by_liner_quick_answer_agent",
+        "mcp__codex_apps__agentic_search_by_liner_search_agent",
+        "mcp__codex_apps__agentic_search_by_liner_search_scholar",
+        "mcp__codex_apps__agentic_search_by_liner_search_web"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Build Web Apps",
+      "tools": [],
+      "skills": [
+        {
+          "name": "build-web-apps:frontend-app-builder",
+          "description": "Use for new frontend applications, dashboards, games, creative websites, hero sections, and visually driven UI from scratch, or when the user explicitly asks for a redesign/restyle/modernization. Builds from clean, airy, high-taste, readable image-generated concept design with section-specific references, faithful implementation, and browser testing."
+        },
+        {
+          "name": "build-web-apps:frontend-testing-debugging",
+          "description": "Use when testing, debugging, or making targeted improvements to rendered frontend apps through the Build Web Apps or web dev plugin: local dev servers, UI regressions, interaction bugs, console errors, responsive layout, and visual QA. Check whether the Browser plugin is available and use it first when it is; otherwise use regular Playwright with the recorded reason."
+        },
+        {
+          "name": "build-web-apps:react-best-practices",
+          "description": "React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements."
+        },
+        {
+          "name": "build-web-apps:shadcn",
+          "description": "Manages shadcn components and projects — adding, searching, fixing, debugging, styling, and composing UI. Provides project context, component docs, and usage examples. Applies when working with shadcn/ui, component registries, presets, --preset codes, or any project with a components.json file. Also triggers for \"shadcn init\", \"create an app with --preset\", or \"switch to --preset\"."
+        },
+        {
+          "name": "build-web-apps:stripe-best-practices",
+          "description": "Guides Stripe integration decisions — API selection (Checkout Sessions vs PaymentIntents), Connect platform setup (Accounts v2, controller properties), billing/subscriptions, Treasury financial accounts, integration surfaces (Checkout, Payment Element), and migrating from deprecated Stripe APIs. Use when building, modifying, or reviewing any Stripe integration — including accepting payments, building marketplaces, integrating Stripe, processing payments, setting up subscriptions, or creating connected accounts."
+        },
+        {
+          "name": "build-web-apps:supabase-postgres-best-practices",
+          "description": "Postgres performance optimization and best practices from Supabase. Use this skill when writing, reviewing, or optimizing Postgres queries, schema designs, or database configurations."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Build Web Data Visualization",
+      "tools": [],
+      "skills": [
+        {
+          "name": "build-web-data-visualization:data-visualization",
+          "description": "Route web data visualization work. Use when the user needs chart choice, visual critique, dashboards, maps or geospatial views, Gantt timelines, UML/software diagrams, scrollytelling, reports or exports, testing, accessibility, browser implementation, or concept-first visual design."
+        }
+      ],
+      "usage": "build"
+    },
+    {
+      "name": "Canva",
+      "tools": [
+        "mcp__codex_apps__canva_autofill_design",
+        "mcp__codex_apps__canva_cancel_editing_transaction",
+        "mcp__codex_apps__canva_commit_editing_transaction",
+        "mcp__codex_apps__canva_copy_design",
+        "mcp__codex_apps__canva_create_design",
+        "mcp__codex_apps__canva_create_design_from_brand_template",
+        "mcp__codex_apps__canva_create_design_from_candidate",
+        "mcp__codex_apps__canva_create_folder",
+        "mcp__codex_apps__canva_create_upload_url",
+        "mcp__codex_apps__canva_fetch",
+        "mcp__codex_apps__canva_generate_design",
+        "mcp__codex_apps__canva_generate_image",
+        "mcp__codex_apps__canva_get_assets",
+        "mcp__codex_apps__canva_get_brand_template_dataset",
+        "mcp__codex_apps__canva_get_create_design_async_job",
+        "mcp__codex_apps__canva_get_design",
+        "mcp__codex_apps__canva_get_design_content",
+        "mcp__codex_apps__canva_get_design_dataset",
+        "mcp__codex_apps__canva_get_design_pages",
+        "mcp__codex_apps__canva_get_design_thumbnail",
+        "mcp__codex_apps__canva_get_generate_image_job",
+        "mcp__codex_apps__canva_get_presenter_notes",
+        "mcp__codex_apps__canva_image_to_design",
+        "mcp__codex_apps__canva_import_design_from_url",
+        "mcp__codex_apps__canva_list_brand_kits",
+        "mcp__codex_apps__canva_list_comments",
+        "mcp__codex_apps__canva_list_folder_items",
+        "mcp__codex_apps__canva_merge_designs",
+        "mcp__codex_apps__canva_move_item_to_folder",
+        "mcp__codex_apps__canva_perform_editing_operations",
+        "mcp__codex_apps__canva_prepare_design_generation",
+        "mcp__codex_apps__canva_remove_background",
+        "mcp__codex_apps__canva_resize_design",
+        "mcp__codex_apps__canva_resolve_shortlink",
+        "mcp__codex_apps__canva_search",
+        "mcp__codex_apps__canva_search_brand_templates",
+        "mcp__codex_apps__canva_search_designs",
+        "mcp__codex_apps__canva_search_folders",
+        "mcp__codex_apps__canva_start_editing_transaction",
+        "mcp__codex_apps__canva_upload_asset_from_url"
+      ],
+      "skills": [
+        {
+          "name": "canva:canva-brand-check",
+          "description": "Check a Canva design against a brand kit and report where it diverges — off-palette colors, non-brand fonts, logo misuse, and off-tone copy. Read-only; makes no changes. Use when the user asks \"is this on brand\", \"check this against our brand kit\", \"do a brand review\", \"does this match our brand guidelines\", or \"brand-check my design\"."
+        },
+        {
+          "name": "canva:canva-branded-presentation",
+          "description": "Create on-brand Canva presentations from an outline or brief. Use when the user asks to create a branded presentation, make an on-brand deck, turn an outline into slides, or generate a presentation from a brief. Input can be text directly in the message, a Canva design ID, a reference to a Canva doc by name, or a Canva design link (e.g., https://www.canva.com/design/...)."
+        },
+        {
+          "name": "canva:canva-bulk-create",
+          "description": "Bulk-create Canva designs from tabular data using a brand template with autofill fields, producing one design per row. Use when users say \"bulk create designs from this CSV\", \"generate one design per row\", \"create a design for each product\", \"batch generate from a template\", or \"autofill a template from a spreadsheet\". Accepts any tabular data source — uploaded files, pasted tables, JSON, or URLs."
+        },
+        {
+          "name": "canva:canva-design-feedback",
+          "description": "Read a Canva design and return structured, actionable design feedback — visual hierarchy, copy/messaging, layout & spacing, consistency, readability, and accessibility. Read-only; makes no changes to the design. Use when the user asks to \"review my design\", \"give me feedback on this\", \"critique my deck/poster/flyer\", \"how can I improve this design\", or \"what's wrong with this slide\"."
+        },
+        {
+          "name": "canva:canva-edit-design",
+          "description": "Make edits to an existing Canva design — change or fix text, replace/insert/delete images and videos, reformat text (size, weight, style, color, alignment, lists, line height), reposition or resize elements, and update the title. Use when the user wants to change, edit, update, fix, translate, replace, or reformat content in a specific Canva design. This is the safe edit engine that other Canva skills (e.g. implement-feedback) build on."
+        },
+        {
+          "name": "canva:canva-implement-feedback",
+          "description": "Implement reviewer feedback on a Canva design. Reads all comment threads, synthesises what reviewers want, makes the clear-cut changes directly, and flags anything that needs a human decision. Use when the user asks to \"implement feedback on my deck\", \"address comments on a design\", \"apply review feedback\", \"fix the comments on my presentation\", or \"implement the feedback\"."
+        },
+        {
+          "name": "canva:canva-resize-for-social-media",
+          "description": "Resize a Canva design into multiple social media formats (Facebook post, Facebook story, Instagram post, Instagram story, LinkedIn post). Use this skill when users want to resize Canva designs specifically for multiple social media platforms in one operation, rather than resizing to a single format manually."
+        },
+        {
+          "name": "canva:canva-translate-design",
+          "description": "Translate all text in a Canva design to another language, creating a translated copy. Faster than manually copying and editing each text box in Canva's editor. Use when users say \"translate my design to [language]\", \"make a Spanish/French/etc version\", or \"localize my Canva design\"."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "ChatGPT Ads Manager",
+      "tools": [
+        "mcp__codex_apps__chatgpt_ads_manager_add_or_update_ad_account_user",
+        "mcp__codex_apps__chatgpt_ads_manager_create_ad",
+        "mcp__codex_apps__chatgpt_ads_manager_create_ad_group",
+        "mcp__codex_apps__chatgpt_ads_manager_create_campaign",
+        "mcp__codex_apps__chatgpt_ads_manager_create_self_serve_ad_account",
+        "mcp__codex_apps__chatgpt_ads_manager_get_ad",
+        "mcp__codex_apps__chatgpt_ads_manager_get_ad_account_info",
+        "mcp__codex_apps__chatgpt_ads_manager_get_ad_account_insights",
+        "mcp__codex_apps__chatgpt_ads_manager_get_ad_account_promotion_status",
+        "mcp__codex_apps__chatgpt_ads_manager_get_ad_group",
+        "mcp__codex_apps__chatgpt_ads_manager_get_ad_group_insights",
+        "mcp__codex_apps__chatgpt_ads_manager_get_ad_insights",
+        "mcp__codex_apps__chatgpt_ads_manager_get_ads_manager_route_link",
+        "mcp__codex_apps__chatgpt_ads_manager_get_campaign",
+        "mcp__codex_apps__chatgpt_ads_manager_get_campaign_insights",
+        "mcp__codex_apps__chatgpt_ads_manager_get_conversion_event_quality",
+        "mcp__codex_apps__chatgpt_ads_manager_get_conversion_insights",
+        "mcp__codex_apps__chatgpt_ads_manager_get_identity_verification_status",
+        "mcp__codex_apps__chatgpt_ads_manager_get_onboarding_status",
+        "mcp__codex_apps__chatgpt_ads_manager_get_overview_action_items",
+        "mcp__codex_apps__chatgpt_ads_manager_list_ad_account_users",
+        "mcp__codex_apps__chatgpt_ads_manager_list_ad_accounts",
+        "mcp__codex_apps__chatgpt_ads_manager_list_ad_groups",
+        "mcp__codex_apps__chatgpt_ads_manager_list_ads",
+        "mcp__codex_apps__chatgpt_ads_manager_list_audit_logs",
+        "mcp__codex_apps__chatgpt_ads_manager_list_campaigns",
+        "mcp__codex_apps__chatgpt_ads_manager_list_conversion_event_settings",
+        "mcp__codex_apps__chatgpt_ads_manager_list_conversion_events",
+        "mcp__codex_apps__chatgpt_ads_manager_list_conversion_sources",
+        "mcp__codex_apps__chatgpt_ads_manager_list_onboarding_tenants",
+        "mcp__codex_apps__chatgpt_ads_manager_list_product_feeds",
+        "mcp__codex_apps__chatgpt_ads_manager_preview_account_setup",
+        "mcp__codex_apps__chatgpt_ads_manager_preview_ad",
+        "mcp__codex_apps__chatgpt_ads_manager_preview_ad_collection",
+        "mcp__codex_apps__chatgpt_ads_manager_preview_existing_ad",
+        "mcp__codex_apps__chatgpt_ads_manager_preview_existing_ad_collection",
+        "mcp__codex_apps__chatgpt_ads_manager_remove_ad_account_user",
+        "mcp__codex_apps__chatgpt_ads_manager_search_geo_locations",
+        "mcp__codex_apps__chatgpt_ads_manager_set_account_logo",
+        "mcp__codex_apps__chatgpt_ads_manager_show_account_setup_widget",
+        "mcp__codex_apps__chatgpt_ads_manager_show_campaign_delivery",
+        "mcp__codex_apps__chatgpt_ads_manager_update_ad",
+        "mcp__codex_apps__chatgpt_ads_manager_update_ad_account_info",
+        "mcp__codex_apps__chatgpt_ads_manager_update_ad_group",
+        "mcp__codex_apps__chatgpt_ads_manager_update_campaign",
+        "mcp__codex_apps__chatgpt_ads_manager_upload_account_logo_file",
+        "mcp__codex_apps__chatgpt_ads_manager_upload_account_logo_from_url",
+        "mcp__codex_apps__chatgpt_ads_manager_upload_image",
+        "mcp__codex_apps__chatgpt_ads_manager_upload_image_file"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "CI/CD Automation",
+      "tools": [],
+      "skills": [
+        {
+          "name": "cicd-automation:deployment-pipeline-design",
+          "description": "Design multi-stage CI/CD pipelines with approval gates, security checks, and deployment orchestration. Use this skill when designing zero-downtime deployment pipelines, implementing canary rollout strategies, setting up multi-environment promotion workflows, or debugging failed deployment gates in CI/CD."
+        },
+        {
+          "name": "cicd-automation:github-actions-templates",
+          "description": "Create production-ready GitHub Actions workflows for automated testing, building, and deploying applications. Use when setting up CI/CD with GitHub Actions, automating development workflows, or creating reusable workflow templates."
+        },
+        {
+          "name": "cicd-automation:gitlab-ci-patterns",
+          "description": "Build GitLab CI/CD pipelines with multi-stage workflows, caching, and distributed runners for scalable automation. Use when implementing GitLab CI/CD, optimizing pipeline performance, or setting up automated testing and deployment."
+        },
+        {
+          "name": "cicd-automation:secrets-management",
+          "description": "Implement secure secrets management for CI/CD pipelines using Vault, AWS Secrets Manager, or native platform solutions. Use when handling sensitive credentials, rotating secrets, or securing CI/CD environments."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Codex Skills",
+      "tools": [],
+      "skills": [
+        {
+          "name": "Presentations",
+          "description": "Read, create or edit PowerPoint or Google Slides decks. Use for presentation, slide deck, PowerPoint, PPT, PPTX, or Google Slides requests."
+        },
+        {
+          "name": "Spreadsheets",
+          "description": "Use skill when user requests to create, modify, analyze, visualize, or work with spreadsheet files (`.xlsx`, `.xls`, `.csv`, `.tsv`) or Google Sheets with formulas, formatting, charts, tables, and recalculation."
+        },
+        {
+          "name": "answers-charts",
+          "description": "Use when a chart would communicate a categorical comparison, trend, composition, or numeric relationship more clearly than prose."
+        },
+        {
+          "name": "answers-images",
+          "description": "Use when retrieved images would visually ground or meaningfully improve an answer."
+        },
+        {
+          "name": "answers-learning",
+          "description": "Use when the user explicitly requests an objective multiple-choice knowledge quiz or pronunciation help. Always use this skill for a short request of the form how do you say <source> in <target language>; render the pronunciation widget even when a prose answer would otherwise suffice."
+        },
+        {
+          "name": "crypto-arb-bot",
+          "description": "Runbook, Config- und Risiko-Assistent für einen BTC/ETH-Arbitrage-Bot mit Sandbox-first-Ansatz."
+        },
+        {
+          "name": "documents",
+          "description": "Create, edit, redline, and comment on `.docx`, Word, and Google Docs-targeted document artifacts inside the container, with a strict render-and-verify workflow. Use `render_docx.py` to generate page PNGs (and optional PDF) for visual QA, then iterate until layout is flawless before delivering the final document."
+        },
+        {
+          "name": "imagegen",
+          "description": "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
+        },
+        {
+          "name": "lowgiga-dev-loop",
+          "description": "Develop, debug, test, and resume applications in an explicitly selected local project using native Codex file and shell tools plus an available browser for rendered UI verification. Use for feature requests, reproducible bugs, build failures, application prototypes, or continuation from registry, checkpoints, and docs. Distinguish Windows PowerShell, Termux, and Ubuntu proot environments. Produce a small reviewable change, actual test evidence, and a continuation checkpoint. Never use Computer Use to automate a terminal or bypass approvals."
+        },
+        {
+          "name": "lowgiga-fincore",
+          "description": "Operatives Runbook und Control-Tower für das Lowgiga/ARCHON-Finanzsystem mit Governance-, KPI- und Incident-Fokus."
+        },
+        {
+          "name": "lowgiga-termux-autonomy",
+          "description": "Hermes-Arbeitsablaeufe fuer Termux auf Android: Systemdiagnose, Installationsrettung, Projektfortsetzung, Fehleranalyse, kleine Patches, quellenbasiertes Gedaechtnis, Recherche, Repository-Reviews, Sicherungen, Monitoring, Content-Entwuerfe sowie kontrollierte Tasker- und PC-Uebergaben. Verwenden, wenn ein Nutzer diese Aufgaben fuer seinen lokalen Hermes-/Termux-Agenten ausarbeiten oder innerhalb expliziter Projekt- und Freigabegrenzen ausfuehren will. Native Termux-, proot- und Remote- Laufzeiten strikt unterscheiden. Keine pauschale Erlaubnis zur Selbstverwaltung."
+        },
+        {
+          "name": "openai-docs",
+          "description": "Use for Codex models/pricing, scheduled tasks, skills, settings, setup, troubleshooting, customization, automations, and self-knowledge—including 'you,' 'your,' 'this app,' or 'this coding agent' when they refer to Codex—and for OpenAI APIs/products and ChatGPT Work. Also use for model choice/migration, prompting, SDKs, Responses, Realtime, agents, evals, and Chat/Work/Codex comparisons. Do not use for generic app/software tasks that merely mention Codex."
+        },
+        {
+          "name": "payout-policy-guard",
+          "description": "Simulierter Policy-Guard für Auszahlungen und Geldflüsse auf Basis der Lowgiga-Kontrollen."
+        },
+        {
+          "name": "pdf",
+          "description": "Read, create, inspect, render, and verify PDF files where visual layout matters, including fillable AcroForms. Use Poppler rendering plus Python tools such as reportlab, pdfplumber, and pypdf for generation and extraction."
+        },
+        {
+          "name": "personal-context",
+          "description": "Use this skill when either of the following situations are true. Continuity related: the user explicitly or implicitly refers to prior conversation state, shared work, an earlier artifact, decision, preference, constraint, attempt, or progress item, including elliptical phrases like continue, next, again, still, update it, compare it, same as before, my axes, or our plan. Decision related: a specific unseen prior preference, constraint, history item, or attempt would materially change a concrete choice, and not be a marginal improvement. Reading and tool discovery are only a check; after loading, discover and load Personal Context's full instructions, and call personal_context.search only if they apply. Use it before another tool when the prior state changes retrieval or judgment. Skip first-turn generic facts, generic personal-domain advice, visible-context-complete work, and current-source-only tasks."
+        },
+        {
+          "name": "resolve-recipients",
+          "description": "Resolve and verify the correct people before sending Slack messages, emails, invitations, meeting requests, calendar events, or other person-directed actions. Use whenever a request names, implies, or describes one or more recipients, especially with first names, duplicate names, nicknames, project groups, phrases such as “everyone,” or ambiguous references such as “the one I work with.” Search relevant communication and calendar history, compare candidate identities, and ask for clarification instead of silently guessing."
+        },
+        {
+          "name": "revenue-stream-evaluator",
+          "description": "Bewertet und priorisiert dokumentierte Revenue-Streams inklusive Experiment-Backlog und KPI-Verknüpfung."
+        },
+        {
+          "name": "skill-creator",
+          "description": "Guide for creating, installing, updating, uninstalling, and deleting effective skills. This skill should be used when users want to create a new skill (or install, add, update, uninstall, or permanently delete an existing one) that extends Codex's capabilities with specialized knowledge, workflows, or tool integrations. Always use this skill for any general questions about skills in ChatGPT (e.g., what skills are or how they work)."
+        },
+        {
+          "name": "visualize",
+          "description": "Create visualizations and interactive tools directly in conversation. Proactively use to show how something works; explore 'what happens when', 'what changes', or 'help me understand'; compare or inspect; create simulations, maps, charts, graphs, and mockups. Use standard tools for static scientific figures."
+        },
+        {
+          "name": "writing-blocks",
+          "description": "Present complete drafts of requested text in a writing block, including emails, messages, social posts, bios, blurbs, statements, and individual paragraphs. Prefer creating or editing a file for standalone documents or long-form content instead of a writing block."
+        }
+      ],
+      "usage": "build"
+    },
+    {
+      "name": "Consensus",
+      "tools": [
+        "mcp__codex_apps__consensus_fetch",
+        "mcp__codex_apps__consensus_search"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Coupler.io",
+      "tools": [
+        "mcp__codex_apps__coupler_io_create_dataflow",
+        "mcp__codex_apps__coupler_io_create_dataflow_destination",
+        "mcp__codex_apps__coupler_io_create_dataflow_from_template",
+        "mcp__codex_apps__coupler_io_create_dataflow_source",
+        "mcp__codex_apps__coupler_io_create_dataset",
+        "mcp__codex_apps__coupler_io_get_data",
+        "mcp__codex_apps__coupler_io_get_dataflow",
+        "mcp__codex_apps__coupler_io_get_integration",
+        "mcp__codex_apps__coupler_io_get_schema",
+        "mcp__codex_apps__coupler_io_get_skill",
+        "mcp__codex_apps__coupler_io_list_credentials",
+        "mcp__codex_apps__coupler_io_list_dataflows",
+        "mcp__codex_apps__coupler_io_list_datasets",
+        "mcp__codex_apps__coupler_io_list_integrations",
+        "mcp__codex_apps__coupler_io_list_skills",
+        "mcp__codex_apps__coupler_io_list_templates",
+        "mcp__codex_apps__coupler_io_search_datasets",
+        "mcp__codex_apps__coupler_io_update_dataset",
+        "mcp__codex_apps__coupler_io_update_dataset_query"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Data Analytics",
+      "tools": [],
+      "skills": [
+        {
+          "name": "data-analytics:analyze-data-quality",
+          "description": "Investigate whether structured datasets and query results are trustworthy enough to use. Use for underlying data-quality risks such as freshness, grain, missingness, duplicates, broken joins, schema drift, and conflicting source results."
+        },
+        {
+          "name": "data-analytics:build-dashboard",
+          "description": "Build or update a source-backed interactive dashboard for monitoring, exploration, and operational decisions from connected data, uploaded spreadsheets, CSVs, or other structured sources."
+        },
+        {
+          "name": "data-analytics:build-report",
+          "description": "Build polished analytical reports for executive, product, business, or technical audiences. Use when the task needs a durable narrative answer supported by inspectable evidence."
+        },
+        {
+          "name": "data-analytics:create-data-context",
+          "description": "Create, update, or share reusable context for analysis, reports, and dashboards, including tool preferences, look and feel, analysis practices, and data definitions. Use when asked to remember a working instruction for future tasks, save conventions, or maintain existing context."
+        },
+        {
+          "name": "data-analytics:design-kpis",
+          "description": "Design KPI frameworks, metric definitions, targets, guardrails, and measurement plans for product or business decisions. Use when success metrics, drivers, guardrails, targets, or the measurement approach need to be defined or improved."
+        },
+        {
+          "name": "data-analytics:gather-business-context",
+          "description": "Gather business context from connected or provided sources so downstream analysis starts with the right framing. Use when an analytical question depends on missing context, such as what a metric means, what changed recently, or which sources should be checked. If the same prompt asks for diagnosis, recommendation, or a deliverable, gather context first and continue to the focused skill."
+        },
+        {
+          "name": "data-analytics:index",
+          "description": "Answer product and business questions with data and route data-related work to the right focused workflow. Use for requests involving data, metrics, trends, comparisons, drivers, KPIs, analysis, dashboards, reports, charts, tables, SQL, notebooks, spreadsheets, market sizing, data quality, reusable data context, data definitions, or working preferences, whether or not Data is at-mentioned. Dashboards can use uploaded spreadsheets, CSVs, or TSVs as source data without making the deliverable a spreadsheet. Do not use Data for general writing, editing, coding, or explanations that require none of these workflows."
+        },
+        {
+          "name": "data-analytics:jupyter-notebooks",
+          "description": "Create, edit, or validate reproducible SQL or Python notebooks. Use for notebooks, SQL/Python scratchpads, reproducible exploration, audit trails, or runnable companions where the analysis should be reviewable or rerunnable."
+        },
+        {
+          "name": "data-analytics:kpi-reporting",
+          "description": "Prepare KPI readouts, scorecards, WBR/MBR/QBR updates, and executive summaries from quantitative business or product metrics; use when the task is to report status, compare against targets, explain validated drivers, and state operating implications."
+        },
+        {
+          "name": "data-analytics:market-sizing",
+          "description": "Estimate market, segment, or opportunity size with transparent assumptions and uncertainty. Use for TAM/SAM/SOM, sizing scenarios, or comparing the scale of possible opportunities."
+        },
+        {
+          "name": "data-analytics:metric-diagnostics",
+          "description": "Diagnose why a metric changed or differs from expectation. Use when the task is to identify likely drivers of a metric movement, anomaly, gap, or discrepancy."
+        },
+        {
+          "name": "data-analytics:product-business-analysis",
+          "description": "Analyze product or business data to support a decision or recommendation. Use when a decision depends on metric-backed evidence, such as choosing a direction, prioritizing an opportunity, evaluating a change, segmenting users, sizing tradeoffs, or deciding what to do next."
+        },
+        {
+          "name": "data-analytics:publish-artifact-to-sites",
+          "description": "Publish an existing Data report or dashboard to Sites, automatically for web/cloud tasks or when the user requests publication."
+        },
+        {
+          "name": "data-analytics:validate-data",
+          "description": "Validate analysis methodology, sources, calculations, visuals, and conclusions, including report and dashboard completeness, usability, and supported repairs."
+        },
+        {
+          "name": "data-analytics:visualize-data",
+          "description": "Design, build, revise, and verify quantitative charts and figures while authoring reports, dashboards, notebooks, and other durable artifacts. Do not use for inline chat charts."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Data Engineering",
+      "tools": [],
+      "skills": [
+        {
+          "name": "data-engineering:airflow-dag-patterns",
+          "description": "Build production Apache Airflow DAGs with best practices for operators, sensors, testing, and deployment. Use when creating data pipelines, orchestrating workflows, or scheduling batch jobs."
+        },
+        {
+          "name": "data-engineering:data-quality-frameworks",
+          "description": "Implement data quality validation with Great Expectations, dbt tests, and data contracts. Use when building data quality pipelines, implementing validation rules, or establishing data contracts."
+        },
+        {
+          "name": "data-engineering:dbt-transformation-patterns",
+          "description": "Master dbt (data build tool) for analytics engineering with model organization, testing, documentation, and incremental strategies. Use when building data transformations, creating data models, or implementing analytics engineering best practices."
+        },
+        {
+          "name": "data-engineering:spark-optimization",
+          "description": "Optimize Apache Spark jobs with partitioning, caching, shuffle optimization, and memory tuning. Use when improving Spark performance, debugging slow jobs, or scaling data processing pipelines."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Demos",
+      "tools": [],
+      "skills": [
+        {
+          "name": "demos:answers-ask-user-input",
+          "description": "Use when a small amount of missing context would materially improve the answer and tappable options plus a free-text answer can gather it efficiently."
+        },
+        {
+          "name": "demos:onboarding-setup-pet",
+          "description": "Run a short, visual onboarding flow to choose a built-in ChatGPT Work pet or create a personalized custom pet. Use when helping someone set up a pet. Start with the labeled built-in lineup in a raw-HTML @visualize surface, defer pet management to the canonical `$pets` skill in `openai/oai-maintained-plugins/plugins/pets`, and finish with a one-at-a-time GIF carousel instead of a sprite sheet. Adapt the conversation to what the user has already shared."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Documentation Generation",
+      "tools": [],
+      "skills": [
+        {
+          "name": "documentation-generation:architecture-decision-records",
+          "description": "Write and maintain Architecture Decision Records (ADRs) following best practices for technical decision documentation. Use when documenting significant technical decisions, reviewing past architectural choices, or establishing decision processes."
+        },
+        {
+          "name": "documentation-generation:changelog-automation",
+          "description": "Automate changelog generation from commits, PRs, and releases following Keep a Changelog format. Use when setting up release workflows, generating release notes, or standardizing commit conventions."
+        },
+        {
+          "name": "documentation-generation:openapi-spec-generation",
+          "description": "Generate and maintain OpenAPI 3.1 specifications from code, design-first specs, and validation patterns. Use when creating API documentation, generating SDKs, or ensuring API contract compliance."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "ElevenLabs",
+      "tools": [
+        "mcp__codex_apps__elevenlabs_agents_add_triage_ticket_comment",
+        "mcp__codex_apps__elevenlabs_agents_add_triage_ticket_turn_comment",
+        "mcp__codex_apps__elevenlabs_agents_bulk_delete_knowledge_base",
+        "mcp__codex_apps__elevenlabs_agents_bulk_move_knowledge_base",
+        "mcp__codex_apps__elevenlabs_agents_calculate_llm_usage",
+        "mcp__codex_apps__elevenlabs_agents_compile_procedures",
+        "mcp__codex_apps__elevenlabs_agents_create",
+        "mcp__codex_apps__elevenlabs_agents_create_branch",
+        "mcp__codex_apps__elevenlabs_agents_create_code_tool",
+        "mcp__codex_apps__elevenlabs_agents_create_deployment",
+        "mcp__codex_apps__elevenlabs_agents_create_draft",
+        "mcp__codex_apps__elevenlabs_agents_create_kb_folder",
+        "mcp__codex_apps__elevenlabs_agents_create_kb_text",
+        "mcp__codex_apps__elevenlabs_agents_create_kb_url",
+        "mcp__codex_apps__elevenlabs_agents_create_manual_triage_ticket",
+        "mcp__codex_apps__elevenlabs_agents_create_mcp_server",
+        "mcp__codex_apps__elevenlabs_agents_create_procedure",
+        "mcp__codex_apps__elevenlabs_agents_create_test",
+        "mcp__codex_apps__elevenlabs_agents_create_tool",
+        "mcp__codex_apps__elevenlabs_agents_create_triage_ticket",
+        "mcp__codex_apps__elevenlabs_agents_delete",
+        "mcp__codex_apps__elevenlabs_agents_delete_draft",
+        "mcp__codex_apps__elevenlabs_agents_delete_kb_document",
+        "mcp__codex_apps__elevenlabs_agents_delete_mcp_server",
+        "mcp__codex_apps__elevenlabs_agents_delete_phone_number",
+        "mcp__codex_apps__elevenlabs_agents_delete_procedure",
+        "mcp__codex_apps__elevenlabs_agents_delete_procedure_draft",
+        "mcp__codex_apps__elevenlabs_agents_delete_test",
+        "mcp__codex_apps__elevenlabs_agents_delete_tool",
+        "mcp__codex_apps__elevenlabs_agents_delete_triage_ticket",
+        "mcp__codex_apps__elevenlabs_agents_duplicate",
+        "mcp__codex_apps__elevenlabs_agents_get",
+        "mcp__codex_apps__elevenlabs_agents_get_branch",
+        "mcp__codex_apps__elevenlabs_agents_get_conversation",
+        "mcp__codex_apps__elevenlabs_agents_get_kb_dependents",
+        "mcp__codex_apps__elevenlabs_agents_get_kb_document",
+        "mcp__codex_apps__elevenlabs_agents_get_knowledge_size",
+        "mcp__codex_apps__elevenlabs_agents_get_link",
+        "mcp__codex_apps__elevenlabs_agents_get_mcp_server",
+        "mcp__codex_apps__elevenlabs_agents_get_phone_number",
+        "mcp__codex_apps__elevenlabs_agents_get_procedure",
+        "mcp__codex_apps__elevenlabs_agents_get_procedure_draft",
+        "mcp__codex_apps__elevenlabs_agents_get_summaries",
+        "mcp__codex_apps__elevenlabs_agents_get_test",
+        "mcp__codex_apps__elevenlabs_agents_get_test_run",
+        "mcp__codex_apps__elevenlabs_agents_get_tool",
+        "mcp__codex_apps__elevenlabs_agents_get_tool_dependents",
+        "mcp__codex_apps__elevenlabs_agents_get_tool_executions",
+        "mcp__codex_apps__elevenlabs_agents_get_topics",
+        "mcp__codex_apps__elevenlabs_agents_get_triage_ticket",
+        "mcp__codex_apps__elevenlabs_agents_get_triage_ticket_assignable_users",
+        "mcp__codex_apps__elevenlabs_agents_get_version",
+        "mcp__codex_apps__elevenlabs_agents_get_widget",
+        "mcp__codex_apps__elevenlabs_agents_list",
+        "mcp__codex_apps__elevenlabs_agents_list_branches",
+        "mcp__codex_apps__elevenlabs_agents_list_conversations",
+        "mcp__codex_apps__elevenlabs_agents_list_knowledge_base",
+        "mcp__codex_apps__elevenlabs_agents_list_mcp_server_tools",
+        "mcp__codex_apps__elevenlabs_agents_list_mcp_servers",
+        "mcp__codex_apps__elevenlabs_agents_list_phone_numbers",
+        "mcp__codex_apps__elevenlabs_agents_list_procedures",
+        "mcp__codex_apps__elevenlabs_agents_list_test_runs",
+        "mcp__codex_apps__elevenlabs_agents_list_tests",
+        "mcp__codex_apps__elevenlabs_agents_list_tools",
+        "mcp__codex_apps__elevenlabs_agents_list_triage_tickets",
+        "mcp__codex_apps__elevenlabs_agents_merge_branch",
+        "mcp__codex_apps__elevenlabs_agents_merge_branch_preview",
+        "mcp__codex_apps__elevenlabs_agents_query_knowledge_base_rag",
+        "mcp__codex_apps__elevenlabs_agents_resolve_conversation",
+        "mcp__codex_apps__elevenlabs_agents_run_tests",
+        "mcp__codex_apps__elevenlabs_agents_search_conversation_messages",
+        "mcp__codex_apps__elevenlabs_agents_search_knowledge_base",
+        "mcp__codex_apps__elevenlabs_agents_update",
+        "mcp__codex_apps__elevenlabs_agents_update_branch",
+        "mcp__codex_apps__elevenlabs_agents_update_code_tool",
+        "mcp__codex_apps__elevenlabs_agents_update_kb_document",
+        "mcp__codex_apps__elevenlabs_agents_update_mcp_server",
+        "mcp__codex_apps__elevenlabs_agents_update_phone_number",
+        "mcp__codex_apps__elevenlabs_agents_update_procedure_draft",
+        "mcp__codex_apps__elevenlabs_agents_update_tool",
+        "mcp__codex_apps__elevenlabs_agents_update_triage_ticket",
+        "mcp__codex_apps__elevenlabs_creative_add_flow_asset_node",
+        "mcp__codex_apps__elevenlabs_creative_add_flow_node",
+        "mcp__codex_apps__elevenlabs_creative_attach_reference_file",
+        "mcp__codex_apps__elevenlabs_creative_connect_flow_nodes",
+        "mcp__codex_apps__elevenlabs_creative_create_asset_upload",
+        "mcp__codex_apps__elevenlabs_creative_create_flow",
+        "mcp__codex_apps__elevenlabs_creative_design_voice",
+        "mcp__codex_apps__elevenlabs_creative_edit_image",
+        "mcp__codex_apps__elevenlabs_creative_finalize_asset_upload",
+        "mcp__codex_apps__elevenlabs_creative_generate_image",
+        "mcp__codex_apps__elevenlabs_creative_generate_in_flow",
+        "mcp__codex_apps__elevenlabs_creative_generate_speech",
+        "mcp__codex_apps__elevenlabs_creative_generate_video",
+        "mcp__codex_apps__elevenlabs_creative_get_available_assets",
+        "mcp__codex_apps__elevenlabs_creative_get_flow",
+        "mcp__codex_apps__elevenlabs_creative_get_flow_node_types",
+        "mcp__codex_apps__elevenlabs_creative_get_flow_run_status",
+        "mcp__codex_apps__elevenlabs_creative_get_model_guide",
+        "mcp__codex_apps__elevenlabs_creative_get_model_schema",
+        "mcp__codex_apps__elevenlabs_creative_list_voices",
+        "mcp__codex_apps__elevenlabs_creative_run_flow_nodes",
+        "mcp__codex_apps__elevenlabs_creative_save_designed_voice",
+        "mcp__codex_apps__elevenlabs_creative_show_flow_results",
+        "mcp__codex_apps__elevenlabs_creative_transcribe_audio",
+        "mcp__codex_apps__elevenlabs_creative_update_node",
+        "mcp__codex_apps__elevenlabs_creative_upload_flow_reference",
+        "mcp__codex_apps__elevenlabs_get_more_tools"
+      ],
+      "skills": [
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:agent-simplification",
+          "description": "Simplify a complex ElevenLabs voice agent (typically a large workflow agent) into a leaner architecture — fewer workflow nodes, deduplicated prompts, procedures where they help — while PROVING with a ground-truth test suite that every behaviour of the original is preserved or improved. Use when the user says things like 'simplify this agent', 'flatten this workflow', 'this agent is too complex', 'consolidate these nodes', 'rebuild this agent with fewer nodes', 'can we replace this workflow with procedures', or asks whether a big workflow agent can be made easier to maintain without losing behaviour."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:agents",
+          "description": "Build voice AI agents with ElevenLabs. Use when creating voice assistants, customer service bots, interactive voice characters, or any real-time voice conversation experience, and when configuring an agent's tools, workflows, or procedures, including creating, editing, compiling, and publishing procedure drafts on an agent branch over the SDKs or REST API."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:agents-platform",
+          "description": "Manage ElevenLabs voice agents through the connected ElevenLabs MCP server. Use when the user asks to create, configure, test, deploy, or inspect agents, knowledge bases, agent tools, tests, or conversations directly on their ElevenLabs account — rather than writing application code. Requires the ElevenLabs MCP server bundled with this plugin."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-agent-memory",
+          "description": "Use when the user wants the agent to remember, learn, save, or memorize a fact, or reports a one-off \"the agent said X but should say Y\" correction. There is no memory endpoint over REST; this covers the durable alternatives (system prompt or knowledge base) and when to use them."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-branches-versions-merge",
+          "description": "Use when working with agent branches, versions, drafts, traffic splits, or merges. Fires on \"make a copy to test on\", \"create a branch\", \"switch to my test branch\", \"send 10% of traffic to the new version\", \"roll it out gradually\", \"merge my branch back to main\", or when a branch operation errored."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-create-client-tool",
+          "description": "Use when the user wants the agent to trigger something in their own browser, app, or SDK during a call (navigate a page, open or close a dialog, read on-screen context, run client-side code), or asks \"how do I add a client tool\", \"make the agent do something in my app\", or reports a client tool that won't save or where the agent never gets a response back. For a server API tool see the create-webhook-tool skill; for editing an existing tool see the edit-existing-tool skill."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-create-llm-test",
+          "description": "Use when the user wants a single-turn test that checks WHAT the agent says for a given turn. Fires on \"add a test that the agent greets the caller\", \"test that it always reads the disclosure\", \"make sure it refuses off-topic questions\", \"write an eval for this reply\", or \"add a pass/fail check on the agent's answer\". Not a multi-turn simulation and not a tool-call check."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-create-simulation-test",
+          "description": "Use when the user wants a full multi-turn conversation test where a simulated user talks to the agent across many turns. Fires on \"test the whole flow\", \"simulate a caller\", \"write a scenario test\", \"test that the agent handles an upset customer / a full booking / a multi-step call\", or when a simulation-test creation attempt failed. For single-response checks use the LLM-test skill; for one tool call use the tool-test skill."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-create-tool-test",
+          "description": "Use when the user wants a test asserting the agent CALLS a specific tool (with specific parameters, or does NOT call it). Fires on \"test that it calls my booking tool\", \"verify it passes the right customer_id\", \"make sure it never calls transfer here\", \"add a tool test\", \"check it uses save_result at the end\", or when a tool-test creation attempt errored."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-create-webhook-tool",
+          "description": "Use when the user wants to give an agent a NEW webhook / server / HTTP tool so it can call an external API (look up a customer, create a ticket, check inventory, hit their backend). Fires on \"add a webhook tool\", \"connect my agent to my API\", \"make a tool that calls my endpoint\", or when a webhook-tool create fails with schema_mismatch / validation. For editing an existing tool see the edit-existing-tool skill; for a tool that saves but misbehaves at runtime see the troubleshoot-tool-errors skill."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-edit-existing-tool",
+          "description": "Use when the user wants to change an existing tool on their agent (rename it, fix its description, change a webhook URL/headers/auth, add or edit a request-body parameter or response assignment, adjust the timeout, or flip a client tool's expects_response / execution mode), or when a tool edit won't save or throws schema_mismatch / validation / not_found."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-edit-string-fields",
+          "description": "Use when changing wording inside a long text field on an agent (system prompt, first message / greeting, tool description, workflow node prompt, or procedure content) - \"add this to the prompt\", \"change this line\", \"append a rule\", \"reword the greeting\", \"fix the tool description\" - or when a previous edit clobbered or failed to save the field."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-edit-workflows",
+          "description": "Use when the user wants to build or change an agent's workflow or a specific node (\"add a node\", \"connect these nodes\", \"route to a phone transfer\", \"add a condition/edge\", \"delete this node\", \"why does deploy say duplicate edge\"), or a workflow change is failing validation."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-explain-test-runs",
+          "description": "Use when the user asks why a test or test run passed or failed, why one run in a repeat set differs, which procedures or tools were used during a run, or wants a summary of test suite history. Fires on \"why did 1 of the 3 runs fail\", \"why is this test failing\", \"which procedures were used in that run\", \"explain this simulation test result\", or \"summarize my test suite history\"."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-explore-agent",
+          "description": "Use when starting a task that needs an agent's current setup, or when another skill tells you to explore the agent first, before making recommendations or changes to a ConvAI agent."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-generate-agent",
+          "description": "Use when the user asks to generate, build, or create a new agent from a description (\"create an agent for X\", \"build a chatbot that does Y\"). There is no one-shot generate endpoint over REST; ask clarifying questions, then build via create and refine via patch."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-get-agent-ci-green",
+          "description": "Use when an agent's test suite is red and needs to be driven to green. Fires on \"get CI green\", \"the test suite is failing\", \"run the tests and fix them\", \"triage these test failures\", \"why is my agent suite red\", or after attaching tests when many runs fail at once. Covers running a suite, polling it, classifying failures by cause, and fixing the ones that are test bugs rather than agent bugs."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-llm-selection",
+          "description": "Use when choosing or recommending an LLM for an ElevenLabs agent, or answering \"which model should this agent use\", questions about region-restricted models, HIPAA/PCI/ZRM model eligibility, or latency/intelligence/cost tradeoffs between models."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-manage-procedures",
+          "description": "Use when you want to add, edit, rename, inspect, or list an agent's procedures, or when a procedure create/edit call fails with schema_mismatch, validation, not_found, a 405, or a 422 missing `type`. Also use when a newly created procedure comes back empty or 404s on read. Covers the list/get/create/edit-draft/publish flow over the ConvAI REST API."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-migrate-from-competitor",
+          "description": "Use when the user wants to move a voice agent onto ElevenLabs Conversational AI from another platform — Retell AI, Vapi, or Bland — or hands over an export from one of them to work from. Fires on \"migrate my Retell agent\", \"convert this Vapi assistant\", \"move from Bland to ElevenLabs\", \"port my agent to ElevenLabs\", \"here is my agent JSON\", or when the user pastes a JSON blob containing response_engine, squadId, transportConfigurations, or pathway. Not for unrelated database, codebase, or framework moves."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-migrate-to-procedures",
+          "description": "Use when the user wants to migrate a system-prompt-driven agent to a procedure-driven setup, pull step-by-step logic out of a heavy system prompt, or \"convert my prompt into procedures\"."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-mock-all-tools",
+          "description": "Use when a simulation test needs every tool call mocked so runs are deterministic and never hit live systems. Fires on \"mock all tools\", \"mock the tools in this test\", \"the test says no mock matched\", \"tool returned an error in my test run\", \"stop my test calling the real API\", or when a run fails because a tool errored rather than because the agent misbehaved. Also use before running a suite for a DOM/Architect-style agent."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-post-call-data",
+          "description": "Use when the user wants to extract structured fields from finished calls (data collection) or define success/failure evaluation criteria for post-call analysis. Covers field types, enums, the independent-extraction rule, writing criteria as questions, UNKNOWN for early termination, and the 2000-character limit."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-review-live-calls",
+          "description": "Review an agent's recent finished conversations to find what is actually going wrong in production, then route each finding to a fix. Use when the user says 'we just launched this agent, how is it doing', 'review the last 3 days of calls', 'check how the agent is performing', 'monitor agent {id}', 'what are callers running into', 'why are calls failing', or asks for a post-launch health check or a weekly call review."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-schedule-launch",
+          "description": "Use when preparing an agent change now but applying it later at a specific moment (product launch, marketing go-live, embargo, scheduled announcement). Fires on \"queue up these changes and publish at launch\", \"prepare this now but don't make it live until tomorrow\", \"stage a knowledge-base update for the launch\", \"schedule a change\", or \"have this ready to merge when we go live\"."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-secure-for-production",
+          "description": "Use when a customer asks how to make their agent safe, secure, or production-ready, or how to roll it out without risk. Walks through the layered safety model across authentication, guardrails, testing, gradual rollout, real-time monitoring, and privacy."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-structured-procedures",
+          "description": "Use when you want to create, rewrite, inspect, or fix a structured / deterministic / flow-style procedure, convert a procedure between free-form and structured, or when a deterministic procedure fails validation or the compile step rejects the JSON. The authoritative JSON schema is inline here."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-troubleshoot-tool-errors",
+          "description": "Use when an agent tool (webhook/server, client, system, or MCP) errors, fails validation, won't save, isn't being invoked, returns no result, or behaves wrong, including \"tool not used\", \"property cannot be empty\", async/timeout, or test/simulation failures."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-turn-taking-latency",
+          "description": "Use when the user asks about turn taking, speculative turns, agent response latency, preparing responses while the user speaks, turn eagerness or timeout, or how fast the agent replies."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:architect-update-config-safely",
+          "description": "Use when changing an agent setting (LLM, voice, TTS model, language, first message, ASR, guardrails, timeouts, turn-taking, data collection, evaluation criteria) and wanting it to actually apply, or on symptoms like \"it won't save\", \"the change didn't take\", \"schema mismatch\", \"invalid config\", \"config validation failed\", \"set X to Y\", or a language/voice change that broke the audio."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:code-tools",
+          "description": "Generate JavaScript/TypeScript modules for ElevenLabs code tools — sandbox tools that export a default async (ctx) => function, call APIs via fetch with ctx.secrets / ctx.config / ctx.auth_connections, and return a minimized result to the agent. Use when the user says 'write a code tool', 'code tools', 'ElevenLabs code tool', 'create a code tool', 'egress with auth connection', 'code tool allowed domains', 'X-With-Auth-Connection', or pastes a brief for custom JS/TS tool logic that should run on ElevenLabs infrastructure."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:creative-studio",
+          "description": "Generate and edit media through the connected ElevenLabs MCP server — speech, images, video, music, and transcription. Use when the user asks to generate a voiceover, image, video, or soundtrack, edit an image, or transcribe audio directly, rather than writing application code. Requires the ElevenLabs MCP server bundled with this plugin."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:dubbing",
+          "description": "Dub audio and video into other languages using the ElevenLabs Dubbing API (dubbing_v2), preserving the original speakers' voices. Use when translating videos, podcasts, or recordings into other languages, localizing media content, reviewing or correcting dubbing transcripts and translations, or regenerating a dub after edits."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:fix-agent-qa-ticket",
+          "description": "Fix an Architect QA triage ticket (agtqa_*) end-to-end via the raw agents API: fetch the ticket + conversation, find the root-cause procedure or prompt text, fix it on a branch, add + run a simulation test proving the fix, then post a summary comment on the ticket. Use when asked to \"fix agtqa_...\", \"address this QA ticket\", \"triage and fix this Architect ticket\", or given an agtqa_* id/URL."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:music",
+          "description": "Generate music using ElevenLabs Music API. Use when creating instrumental tracks, songs with lyrics, background music, jingles, or any AI-generated music composition. Supports prompt-based generation, composition plans for granular control, and detailed output with metadata."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:setup-api-key",
+          "description": "Guides users through setting up an ElevenLabs API key for ElevenLabs MCP tools. Use when the user needs to configure an ElevenLabs API key, when ElevenLabs tools fail due to missing API key, or when the user mentions needing access to ElevenLabs. First checks whether ELEVENLABS_API_KEY is already configured and valid, and only runs full setup when needed."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:sound-effects",
+          "description": "Generate sound effects from text descriptions using ElevenLabs. Use when creating sound effects, generating audio textures, producing ambient sounds, cinematic impacts, UI sounds, or any audio that isn't speech. Supports looping, duration control, and prompt influence tuning."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:speech-engine",
+          "description": "Add real-time voice conversations to a custom agent runtime with ElevenLabs Speech Engine. Use when building Speech Engine servers, WebSocket handlers, WebRTC browser clients, conversation token endpoints, interruption-aware streaming responses, or voice-enabled chat agents that connect developer-owned server logic to ElevenLabs speech-to-text and text-to-speech."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:speech-to-text",
+          "description": "Transcribe audio to text using ElevenLabs Scribe v2. Use when converting audio/video to text, generating subtitles, transcribing meetings, or processing spoken content."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:text-to-speech",
+          "description": "Convert text to speech using ElevenLabs voice AI. Use when generating audio from text, creating voiceovers, building voice apps, or synthesizing speech in 70+ languages."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:voice-changer",
+          "description": "Transform the voice in an audio recording into a different target voice while preserving emotion, timing, and delivery using the ElevenLabs Voice Changer (speech-to-speech) API. Use when converting one voice to another, changing the speaker/narrator of an existing recording, dubbing a voice-over in a different voice, creating character voices from a scratch performance, anonymizing a speaker, or any \"voice conversion / voice transfer / speech-to-speech\" task. Make sure to use this skill whenever the user mentions voice changing, voice conversion, speech-to-speech, swapping a voice in audio, re-voicing a clip, or applying a different voice to an existing recording — even if they don't explicitly say \"voice changer\". Do not use this skill to create or clone a new voice from a voice sample — that is voice cloning (IVC/PVC), a separate feature; this skill only converts an existing recording into an existing voice_id."
+        },
+        {
+          "name": "app-6a8d784b60cc81919aeafbfaeda5fbcf:voice-isolator",
+          "description": "Remove background noise and isolate vocals/speech from audio using ElevenLabs Voice Isolator (audio isolation) API. Use when cleaning up noisy recordings, removing music or background ambience from dialogue, isolating speech from field recordings, preparing audio for transcription, extracting vocals, or any \"denoise / clean up / isolate voice\" task."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "elmah.io MCP",
+      "tools": [
+        "mcp__codex_apps__elmah_io_mcp_deployments_list",
+        "mcp__codex_apps__elmah_io_mcp_heartbeats_get_details",
+        "mcp__codex_apps__elmah_io_mcp_heartbeats_list",
+        "mcp__codex_apps__elmah_io_mcp_logs_get_details",
+        "mcp__codex_apps__elmah_io_mcp_logs_list",
+        "mcp__codex_apps__elmah_io_mcp_messages_count",
+        "mcp__codex_apps__elmah_io_mcp_messages_get",
+        "mcp__codex_apps__elmah_io_mcp_messages_list_frequent",
+        "mcp__codex_apps__elmah_io_mcp_messages_list_recent",
+        "mcp__codex_apps__elmah_io_mcp_organizations_get_details",
+        "mcp__codex_apps__elmah_io_mcp_organizations_list",
+        "mcp__codex_apps__elmah_io_mcp_system_get_context",
+        "mcp__codex_apps__elmah_io_mcp_uptime_get_details",
+        "mcp__codex_apps__elmah_io_mcp_uptime_list",
+        "mcp__codex_apps__elmah_io_mcp_users_get_current"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Figma",
+      "tools": [
+        "mcp__codex_apps__figma_add_code_connect_map",
+        "mcp__codex_apps__figma_create_generative_plugin",
+        "mcp__codex_apps__figma_create_new_file",
+        "mcp__codex_apps__figma_create_shader",
+        "mcp__codex_apps__figma_download_assets",
+        "mcp__codex_apps__figma_export_video",
+        "mcp__codex_apps__figma_generate_deck",
+        "mcp__codex_apps__figma_generate_diagram",
+        "mcp__codex_apps__figma_generate_figma_design",
+        "mcp__codex_apps__figma_get_code_connect_map",
+        "mcp__codex_apps__figma_get_code_connect_suggestions",
+        "mcp__codex_apps__figma_get_context_for_code_connect",
+        "mcp__codex_apps__figma_get_design_context",
+        "mcp__codex_apps__figma_get_figjam",
+        "mcp__codex_apps__figma_get_generative_plugin",
+        "mcp__codex_apps__figma_get_libraries",
+        "mcp__codex_apps__figma_get_metadata",
+        "mcp__codex_apps__figma_get_motion_context",
+        "mcp__codex_apps__figma_get_screenshot",
+        "mcp__codex_apps__figma_get_shader",
+        "mcp__codex_apps__figma_get_variable_defs",
+        "mcp__codex_apps__figma_list_file_components_for_code_connect",
+        "mcp__codex_apps__figma_list_file_shaders",
+        "mcp__codex_apps__figma_list_generative_plugins",
+        "mcp__codex_apps__figma_list_shaders",
+        "mcp__codex_apps__figma_open_figma_mcp_app_in_thread",
+        "mcp__codex_apps__figma_search_design_system",
+        "mcp__codex_apps__figma_send_code_connect_mappings",
+        "mcp__codex_apps__figma_update_generative_plugin",
+        "mcp__codex_apps__figma_update_shader",
+        "mcp__codex_apps__figma_upload_assets",
+        "mcp__codex_apps__figma_use_figma",
+        "mcp__codex_apps__figma_weave_cancel_tool_run",
+        "mcp__codex_apps__figma_weave_find_model",
+        "mcp__codex_apps__figma_weave_get_model_run_output",
+        "mcp__codex_apps__figma_weave_get_tool_inputs",
+        "mcp__codex_apps__figma_weave_get_tool_run_output",
+        "mcp__codex_apps__figma_weave_list_tools",
+        "mcp__codex_apps__figma_weave_run_model",
+        "mcp__codex_apps__figma_weave_run_tool",
+        "mcp__codex_apps__figma_weave_upload_asset",
+        "mcp__codex_apps__figma_whoami"
+      ],
+      "skills": [
+        {
+          "name": "figma:figma-code-connect",
+          "description": "Creates and maintains Figma Code Connect template files that map Figma components to code snippets. Use when the user mentions Code Connect, Figma component mapping, design-to-code translation, or asks to create/update .figma.ts or .figma.js files."
+        },
+        {
+          "name": "figma:figma-create-new-file",
+          "description": "Always use this skill when the user wants to create a new Figma Design, FigJam, or Slides file. You MUST invoke this skill BEFORE every `create_new_file` tool call."
+        },
+        {
+          "name": "figma:figma-design-to-code",
+          "description": "**MANDATORY prerequisite** — you MUST invoke this skill BEFORE calling the `get_design_context` Figma MCP tool. You MUST trigger this skill whenever the user wants to implement, build, port, or code up a Figma design as code. Example prompts (not exhaustive) are 'implement this Figma design', 'build this screen from Figma', 'turn this Figma into code', 'design to code'. This skill provides critical instructions and steps to the agent on how to correctly implement Figma designs in code and must NOT be skipped."
+        },
+        {
+          "name": "figma:figma-generate-design",
+          "description": "Use this skill alongside figma-use when the task involves translating an application page, view, or multi-section layout into Figma. Triggers: 'write to Figma', 'create in Figma from code', 'push page to Figma', 'take this app/page and build it in Figma', 'create a screen', 'build a landing page in Figma', 'update the Figma screen to match code', 'convert this modal/dialog/drawer/panel to Figma'. This is the preferred workflow skill whenever the user wants to build or update a full page, modal, dialog, drawer, sidebar, panel, or any composed multi-section view in Figma from code or a description. Discovers design system components, variables, and styles from Code Connect files, existing screens, and library search, then imports them and assembles views incrementally section-by-section using design system tokens instead of hardcoded values."
+        },
+        {
+          "name": "figma:figma-generate-diagram",
+          "description": "MANDATORY prerequisite — load this skill BEFORE every `generate_diagram` tool call. NEVER call `generate_diagram` directly without loading this skill first. Trigger whenever the user asks to create, generate, draw, render, sketch, or build a diagram — flowchart, architecture diagram, sequence diagram, ERD or entity-relationship diagram, state diagram or state machine, gantt chart, or timeline. Also trigger when the user mentions Mermaid syntax or wants a system architecture, decision tree, dependency graph, API call flow, auth handshake, schema, or pipeline visualized in FigJam. Routes to type-specific guidance, sets universal Mermaid constraints, and tells you when to use a different diagram type or skip the tool entirely (mindmaps, pie charts, class diagrams, etc.)."
+        },
+        {
+          "name": "figma:figma-generate-library",
+          "description": "Build or update a professional-grade design system in Figma from a codebase. Use when the user wants to create variables/tokens, build component libraries, create individual components with proper variant sets and variable bindings, set up theming (light/dark modes), document foundations, or reconcile gaps between code and Figma. Also use when the user asks to create or generate any component in Figma — even a single one — since components require proper variable foundations, variant states, and design token bindings to be production-quality. This skill teaches WHAT to build and in WHAT ORDER — it complements the `figma-use` skill which teaches HOW to call the Plugin API. Both skills should be loaded together."
+        },
+        {
+          "name": "figma:figma-generative-plugins",
+          "description": "**MANDATORY prerequisite** — load this skill before calling `create_generative_plugin` or `update_generative_plugin`. Use when the user asks to create, author, change, fix, or extend a reusable generative Figma plugin."
+        },
+        {
+          "name": "figma:figma-implement-motion",
+          "description": "Translates Figma motion and animations into production-ready application code. Use when implementing animation/motion from a Figma design — user mentions \"implement this motion\", \"add animation from Figma\", \"animate this component\", provides a Figma URL whose node is animated, or when `get_design_context` returns motion data or instructs you to call `get_motion_context`."
+        },
+        {
+          "name": "figma:figma-shaders",
+          "description": "**MANDATORY prerequisite** — load this skill before calling `create_shader` or `update_shader`. Use when the user asks to create, author, change, fix, or iterate on a shader effect, shader fill, custom effect, custom fill, or procedural shader in Figma."
+        },
+        {
+          "name": "figma:figma-swiftui",
+          "description": "SwiftUI ↔ Figma translation. Use whenever the user mentions Swift, SwiftUI, iOS, iPhone, or iPad — in EITHER direction — translating a Figma design into SwiftUI (design → code), or pushing SwiftUI views / screens / tokens back into a Figma file (code → design). Triggers on phrases like 'implement this Figma design in SwiftUI', 'build this screen in Swift', 'push this SwiftUI view to Figma', 'mirror my Swift code in a Figma file', or whenever a Figma URL appears alongside `.swift` files / an `.xcodeproj`. Routes to a direction-specific reference doc; loads alongside `figma-use` for the code → design path."
+        },
+        {
+          "name": "figma:figma-use",
+          "description": "**MANDATORY prerequisite** — you MUST invoke this skill BEFORE every `use_figma` tool call. NEVER call `use_figma` directly without loading this skill first. Skipping it causes common, hard-to-debug failures. Trigger whenever the user wants to perform a write action or a unique read action that requires JavaScript execution in the Figma file context — e.g. create/edit/delete nodes, set up variables or tokens, build components and variants, modify auto-layout or fills, bind variables to properties, or inspect file structure programmatically."
+        },
+        {
+          "name": "figma:figma-use-figjam",
+          "description": "This skill helps agents use Figma's use_figma MCP tool in the FigJam context. Can be used alongside figma-use which has foundational context for using the use_figma tool."
+        },
+        {
+          "name": "figma:figma-use-motion",
+          "description": "Motion / animation context for the `use_figma` MCP tool — animating Figma nodes via manual keyframes, animation styles, easing, and timeline duration. Load alongside figma-use whenever a task involves adding, editing, or inspecting animation on a node."
+        },
+        {
+          "name": "figma:figma-use-slides",
+          "description": "This skill helps agents use Figma's use_figma MCP tool in the Slides context. Can be used alongside figma-use which has foundational context for using the use_figma tool."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Frontend Mobile Development",
+      "tools": [],
+      "skills": [
+        {
+          "name": "frontend-mobile-development:nextjs-app-router-patterns",
+          "description": "Master Next.js 14+ App Router with Server Components, streaming, parallel routes, and advanced data fetching. Use when building Next.js applications, implementing SSR/SSG, or optimizing React Server Components."
+        },
+        {
+          "name": "frontend-mobile-development:react-native-architecture",
+          "description": "Build production React Native apps with Expo, navigation, native modules, offline sync, and cross-platform patterns. Use when developing mobile apps, implementing native integrations, or architecting React Native projects."
+        },
+        {
+          "name": "frontend-mobile-development:react-state-management",
+          "description": "Master modern React state management with Redux Toolkit, Zustand, Jotai, and React Query. Use when setting up global state, managing server state, or choosing between state management solutions."
+        },
+        {
+          "name": "frontend-mobile-development:tailwind-design-system",
+          "description": "Build scalable design systems with Tailwind CSS v4, design tokens, component libraries, and responsive patterns. Use when creating component libraries, implementing design systems, or standardizing UI patterns."
+        }
+      ],
+      "usage": "build"
+    },
+    {
+      "name": "GitHub",
+      "tools": [
+        "mcp__codex_apps__github_add_comment_to_issue",
+        "mcp__codex_apps__github_add_issue_assignees",
+        "mcp__codex_apps__github_add_issue_labels",
+        "mcp__codex_apps__github_add_reaction_to_issue_comment",
+        "mcp__codex_apps__github_add_reaction_to_pr",
+        "mcp__codex_apps__github_add_reaction_to_pr_review_comment",
+        "mcp__codex_apps__github_add_review_to_pr",
+        "mcp__codex_apps__github_compare_commits",
+        "mcp__codex_apps__github_convert_pull_request_to_draft",
+        "mcp__codex_apps__github_create_blob",
+        "mcp__codex_apps__github_create_branch",
+        "mcp__codex_apps__github_create_commit",
+        "mcp__codex_apps__github_create_file",
+        "mcp__codex_apps__github_create_issue",
+        "mcp__codex_apps__github_create_pull_request",
+        "mcp__codex_apps__github_create_tree",
+        "mcp__codex_apps__github_delete_file",
+        "mcp__codex_apps__github_dismiss_pull_request_review",
+        "mcp__codex_apps__github_download_user_content",
+        "mcp__codex_apps__github_download_workflow_artifact",
+        "mcp__codex_apps__github_enable_auto_merge",
+        "mcp__codex_apps__github_fetch",
+        "mcp__codex_apps__github_fetch_blob",
+        "mcp__codex_apps__github_fetch_commit",
+        "mcp__codex_apps__github_fetch_commit_workflow_runs",
+        "mcp__codex_apps__github_fetch_file",
+        "mcp__codex_apps__github_fetch_issue",
+        "mcp__codex_apps__github_fetch_issue_comments",
+        "mcp__codex_apps__github_fetch_pr",
+        "mcp__codex_apps__github_fetch_pr_comments",
+        "mcp__codex_apps__github_fetch_pr_file_patch",
+        "mcp__codex_apps__github_fetch_pr_patch",
+        "mcp__codex_apps__github_fetch_workflow_job_logs",
+        "mcp__codex_apps__github_fetch_workflow_job_steps",
+        "mcp__codex_apps__github_fetch_workflow_run_artifacts",
+        "mcp__codex_apps__github_fetch_workflow_run_jobs",
+        "mcp__codex_apps__github_get_commit_combined_status",
+        "mcp__codex_apps__github_get_issue_comment_reactions",
+        "mcp__codex_apps__github_get_pr_diff",
+        "mcp__codex_apps__github_get_pr_info",
+        "mcp__codex_apps__github_get_pr_reactions",
+        "mcp__codex_apps__github_get_pr_review_comment_reactions",
+        "mcp__codex_apps__github_get_profile",
+        "mcp__codex_apps__github_get_repo",
+        "mcp__codex_apps__github_get_repo_collaborator_permission",
+        "mcp__codex_apps__github_get_user_login",
+        "mcp__codex_apps__github_get_users_recent_prs_in_repo",
+        "mcp__codex_apps__github_label_pr",
+        "mcp__codex_apps__github_list_installations",
+        "mcp__codex_apps__github_list_installed_accounts",
+        "mcp__codex_apps__github_list_pr_changed_filenames",
+        "mcp__codex_apps__github_list_pull_request_review_threads",
+        "mcp__codex_apps__github_list_pull_request_reviews",
+        "mcp__codex_apps__github_list_recent_issues",
+        "mcp__codex_apps__github_list_repositories",
+        "mcp__codex_apps__github_list_repositories_by_affiliation",
+        "mcp__codex_apps__github_list_repositories_by_installation",
+        "mcp__codex_apps__github_list_user_org_memberships",
+        "mcp__codex_apps__github_list_user_orgs",
+        "mcp__codex_apps__github_lock_issue_conversation",
+        "mcp__codex_apps__github_mark_pull_request_ready_for_review",
+        "mcp__codex_apps__github_merge_pull_request",
+        "mcp__codex_apps__github_remove_issue_assignees",
+        "mcp__codex_apps__github_remove_issue_label",
+        "mcp__codex_apps__github_remove_pull_request_reviewers",
+        "mcp__codex_apps__github_remove_reaction_from_issue_comment",
+        "mcp__codex_apps__github_remove_reaction_from_pr",
+        "mcp__codex_apps__github_remove_reaction_from_pr_review_comment",
+        "mcp__codex_apps__github_reply_to_review_comment",
+        "mcp__codex_apps__github_request_pull_request_reviewers",
+        "mcp__codex_apps__github_rerun_failed_workflow_run_jobs",
+        "mcp__codex_apps__github_rerun_workflow_job",
+        "mcp__codex_apps__github_resolve_review_thread",
+        "mcp__codex_apps__github_search",
+        "mcp__codex_apps__github_search_branches",
+        "mcp__codex_apps__github_search_commits",
+        "mcp__codex_apps__github_search_installed_repositories_streaming",
+        "mcp__codex_apps__github_search_installed_repositories_v2",
+        "mcp__codex_apps__github_search_issues",
+        "mcp__codex_apps__github_search_prs",
+        "mcp__codex_apps__github_search_repositories",
+        "mcp__codex_apps__github_unlock_issue_conversation",
+        "mcp__codex_apps__github_unresolve_review_thread",
+        "mcp__codex_apps__github_update_file",
+        "mcp__codex_apps__github_update_issue",
+        "mcp__codex_apps__github_update_issue_comment",
+        "mcp__codex_apps__github_update_pull_request",
+        "mcp__codex_apps__github_update_ref",
+        "mcp__codex_apps__github_update_review_comment"
+      ],
+      "skills": [],
+      "usage": "source"
+    },
+    {
+      "name": "GitLab (Beta)",
+      "tools": [
+        "mcp__codex_apps__gitlab_apply_suggestion",
+        "mcp__codex_apps__gitlab_approve_merge_request",
+        "mcp__codex_apps__gitlab_attach_scan_profile",
+        "mcp__codex_apps__gitlab_batch_apply_suggestions",
+        "mcp__codex_apps__gitlab_cancel_merge_when_pipeline_succeeds",
+        "mcp__codex_apps__gitlab_cancel_pipeline",
+        "mcp__codex_apps__gitlab_cherry_pick_commit",
+        "mcp__codex_apps__gitlab_compare_refs",
+        "mcp__codex_apps__gitlab_create_branch",
+        "mcp__codex_apps__gitlab_create_commit",
+        "mcp__codex_apps__gitlab_create_issue",
+        "mcp__codex_apps__gitlab_create_issue_note",
+        "mcp__codex_apps__gitlab_create_merge_request",
+        "mcp__codex_apps__gitlab_create_merge_request_discussion",
+        "mcp__codex_apps__gitlab_create_merge_request_discussion_note",
+        "mcp__codex_apps__gitlab_create_merge_request_draft_note",
+        "mcp__codex_apps__gitlab_create_merge_request_note",
+        "mcp__codex_apps__gitlab_create_merge_request_pipeline",
+        "mcp__codex_apps__gitlab_create_pipeline",
+        "mcp__codex_apps__gitlab_create_repository_file",
+        "mcp__codex_apps__gitlab_create_work_item",
+        "mcp__codex_apps__gitlab_create_work_item_note",
+        "mcp__codex_apps__gitlab_delete_merge_request_note",
+        "mcp__codex_apps__gitlab_delete_pipeline",
+        "mcp__codex_apps__gitlab_delete_repository_file",
+        "mcp__codex_apps__gitlab_download_project_upload",
+        "mcp__codex_apps__gitlab_get_branch",
+        "mcp__codex_apps__gitlab_get_commit",
+        "mcp__codex_apps__gitlab_get_current_user",
+        "mcp__codex_apps__gitlab_get_graph_schema",
+        "mcp__codex_apps__gitlab_get_graph_status",
+        "mcp__codex_apps__gitlab_get_group",
+        "mcp__codex_apps__gitlab_get_issue",
+        "mcp__codex_apps__gitlab_get_job",
+        "mcp__codex_apps__gitlab_get_job_trace",
+        "mcp__codex_apps__gitlab_get_latest_pipeline",
+        "mcp__codex_apps__gitlab_get_merge_request",
+        "mcp__codex_apps__gitlab_get_merge_request_approval_rule",
+        "mcp__codex_apps__gitlab_get_merge_request_approval_state",
+        "mcp__codex_apps__gitlab_get_merge_request_approvals",
+        "mcp__codex_apps__gitlab_get_merge_request_changes",
+        "mcp__codex_apps__gitlab_get_merge_request_head_pipeline",
+        "mcp__codex_apps__gitlab_get_merge_request_mention_suggestions",
+        "mcp__codex_apps__gitlab_get_merge_request_merge_ref",
+        "mcp__codex_apps__gitlab_get_merge_request_raw_diffs",
+        "mcp__codex_apps__gitlab_get_orbit_status",
+        "mcp__codex_apps__gitlab_get_pipeline",
+        "mcp__codex_apps__gitlab_get_pipeline_test_report_summary",
+        "mcp__codex_apps__gitlab_get_profile",
+        "mcp__codex_apps__gitlab_get_project",
+        "mcp__codex_apps__gitlab_get_query_dsl_schema",
+        "mcp__codex_apps__gitlab_get_release",
+        "mcp__codex_apps__gitlab_get_repository_blob",
+        "mcp__codex_apps__gitlab_get_repository_file",
+        "mcp__codex_apps__gitlab_get_repository_file_blame",
+        "mcp__codex_apps__gitlab_get_repository_file_raw",
+        "mcp__codex_apps__gitlab_get_saved_view_work_items",
+        "mcp__codex_apps__gitlab_get_tag",
+        "mcp__codex_apps__gitlab_get_work_item",
+        "mcp__codex_apps__gitlab_link_work_items",
+        "mcp__codex_apps__gitlab_list_branches",
+        "mcp__codex_apps__gitlab_list_commit_diff",
+        "mcp__codex_apps__gitlab_list_commit_statuses",
+        "mcp__codex_apps__gitlab_list_commits",
+        "mcp__codex_apps__gitlab_list_group_issues",
+        "mcp__codex_apps__gitlab_list_group_projects",
+        "mcp__codex_apps__gitlab_list_group_wikis",
+        "mcp__codex_apps__gitlab_list_group_work_items",
+        "mcp__codex_apps__gitlab_list_groups",
+        "mcp__codex_apps__gitlab_list_issue_discussions",
+        "mcp__codex_apps__gitlab_list_issue_links",
+        "mcp__codex_apps__gitlab_list_issue_notes",
+        "mcp__codex_apps__gitlab_list_issues",
+        "mcp__codex_apps__gitlab_list_jobs",
+        "mcp__codex_apps__gitlab_list_merge_request_approval_rules",
+        "mcp__codex_apps__gitlab_list_merge_request_closing_issues",
+        "mcp__codex_apps__gitlab_list_merge_request_commits",
+        "mcp__codex_apps__gitlab_list_merge_request_diffs",
+        "mcp__codex_apps__gitlab_list_merge_request_discussions",
+        "mcp__codex_apps__gitlab_list_merge_request_note_permissions",
+        "mcp__codex_apps__gitlab_list_merge_request_notes",
+        "mcp__codex_apps__gitlab_list_merge_request_pipelines",
+        "mcp__codex_apps__gitlab_list_merge_request_reviewers",
+        "mcp__codex_apps__gitlab_list_merge_requests",
+        "mcp__codex_apps__gitlab_list_pipeline_bridges",
+        "mcp__codex_apps__gitlab_list_pipeline_jobs",
+        "mcp__codex_apps__gitlab_list_pipelines",
+        "mcp__codex_apps__gitlab_list_project_inherited_members",
+        "mcp__codex_apps__gitlab_list_project_issues",
+        "mcp__codex_apps__gitlab_list_project_labels",
+        "mcp__codex_apps__gitlab_list_project_members",
+        "mcp__codex_apps__gitlab_list_project_merge_requests",
+        "mcp__codex_apps__gitlab_list_project_milestones",
+        "mcp__codex_apps__gitlab_list_project_wikis",
+        "mcp__codex_apps__gitlab_list_projects",
+        "mcp__codex_apps__gitlab_list_releases",
+        "mcp__codex_apps__gitlab_list_repository_tree",
+        "mcp__codex_apps__gitlab_list_tags",
+        "mcp__codex_apps__gitlab_list_todos",
+        "mcp__codex_apps__gitlab_list_users",
+        "mcp__codex_apps__gitlab_list_work_item_children",
+        "mcp__codex_apps__gitlab_list_work_item_links",
+        "mcp__codex_apps__gitlab_list_work_item_notes",
+        "mcp__codex_apps__gitlab_list_work_item_types",
+        "mcp__codex_apps__gitlab_merge_merge_request",
+        "mcp__codex_apps__gitlab_play_job",
+        "mcp__codex_apps__gitlab_publish_all_merge_request_draft_notes",
+        "mcp__codex_apps__gitlab_publish_merge_request_draft_note",
+        "mcp__codex_apps__gitlab_query_graph",
+        "mcp__codex_apps__gitlab_rebase_merge_request",
+        "mcp__codex_apps__gitlab_request_merge_request_changes",
+        "mcp__codex_apps__gitlab_resolve_merge_request_discussion",
+        "mcp__codex_apps__gitlab_retry_job",
+        "mcp__codex_apps__gitlab_retry_pipeline",
+        "mcp__codex_apps__gitlab_revert_commit",
+        "mcp__codex_apps__gitlab_search",
+        "mcp__codex_apps__gitlab_search_project",
+        "mcp__codex_apps__gitlab_set_merge_request_draft",
+        "mcp__codex_apps__gitlab_unapprove_merge_request",
+        "mcp__codex_apps__gitlab_update_issue",
+        "mcp__codex_apps__gitlab_update_issue_note",
+        "mcp__codex_apps__gitlab_update_merge_request",
+        "mcp__codex_apps__gitlab_update_merge_request_discussion_note",
+        "mcp__codex_apps__gitlab_update_merge_request_draft_note",
+        "mcp__codex_apps__gitlab_update_merge_request_note",
+        "mcp__codex_apps__gitlab_update_pipeline_metadata",
+        "mcp__codex_apps__gitlab_update_repository_file",
+        "mcp__codex_apps__gitlab_update_work_item"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Gitwork",
+      "tools": [],
+      "skills": [
+        {
+          "name": "gitwork:conflict",
+          "description": "解决 PR/MR 合并冲突 —— checkout source branch，merge target，本地解决冲突，推送更新（GitHub / GitLab 通用）"
+        },
+        {
+          "name": "gitwork:deliver",
+          "description": "实现需求并交付 PR/MR —— 新建或继续 branch，实现变更，推送并创建/更新 PR/MR（GitHub / GitLab 通用）"
+        },
+        {
+          "name": "gitwork:gitwork",
+          "description": "Git 平台开发工作流入口 —— 根据任务类型引导选择对应 skill，支持 GitHub / GitLab 等多平台"
+        },
+        {
+          "name": "gitwork:resolve",
+          "description": "解决 PR/MR 上的评论和讨论 —— 定位 unresolved notes，修复或回复，推送更新（GitHub / GitLab 通用）"
+        },
+        {
+          "name": "gitwork:review",
+          "description": "Review PR/MR 并交付评论 —— 定位 PR/MR，本地 review，回写评论到平台（GitHub / GitLab 通用）"
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Gmail",
+      "tools": [
+        "mcp__codex_apps__gmail_apply_labels_to_emails",
+        "mcp__codex_apps__gmail_archive_emails",
+        "mcp__codex_apps__gmail_batch_modify_email",
+        "mcp__codex_apps__gmail_batch_read_email",
+        "mcp__codex_apps__gmail_batch_read_email_threads",
+        "mcp__codex_apps__gmail_bulk_label_matching_emails",
+        "mcp__codex_apps__gmail_create_draft",
+        "mcp__codex_apps__gmail_create_label",
+        "mcp__codex_apps__gmail_delete_emails",
+        "mcp__codex_apps__gmail_forward_emails",
+        "mcp__codex_apps__gmail_get_profile",
+        "mcp__codex_apps__gmail_list_drafts",
+        "mcp__codex_apps__gmail_list_labels",
+        "mcp__codex_apps__gmail_read_attachment",
+        "mcp__codex_apps__gmail_read_email",
+        "mcp__codex_apps__gmail_read_email_thread",
+        "mcp__codex_apps__gmail_search_email_ids",
+        "mcp__codex_apps__gmail_search_emails",
+        "mcp__codex_apps__gmail_send_draft",
+        "mcp__codex_apps__gmail_send_email",
+        "mcp__codex_apps__gmail_update_draft"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Google Calendar",
+      "tools": [
+        "mcp__codex_apps__google_calendar_batch_read_event",
+        "mcp__codex_apps__google_calendar_create_event",
+        "mcp__codex_apps__google_calendar_delete_event",
+        "mcp__codex_apps__google_calendar_fetch",
+        "mcp__codex_apps__google_calendar_get_availability",
+        "mcp__codex_apps__google_calendar_get_colors",
+        "mcp__codex_apps__google_calendar_get_profile",
+        "mcp__codex_apps__google_calendar_list_calendars",
+        "mcp__codex_apps__google_calendar_list_event_labels",
+        "mcp__codex_apps__google_calendar_read_event",
+        "mcp__codex_apps__google_calendar_respond_event",
+        "mcp__codex_apps__google_calendar_search",
+        "mcp__codex_apps__google_calendar_search_events",
+        "mcp__codex_apps__google_calendar_set_event_label_silently",
+        "mcp__codex_apps__google_calendar_update_event"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Google Drive",
+      "tools": [
+        "mcp__codex_apps__google_drive_batch_update_document",
+        "mcp__codex_apps__google_drive_batch_update_presentation",
+        "mcp__codex_apps__google_drive_batch_update_spreadsheet",
+        "mcp__codex_apps__google_drive_bulk_update_file_comments",
+        "mcp__codex_apps__google_drive_copy_file",
+        "mcp__codex_apps__google_drive_create_file",
+        "mcp__codex_apps__google_drive_create_folder",
+        "mcp__codex_apps__google_drive_create_presentation_from_template",
+        "mcp__codex_apps__google_drive_delete_file",
+        "mcp__codex_apps__google_drive_duplicate_sheet_in_new_spreadsheet",
+        "mcp__codex_apps__google_drive_export_file",
+        "mcp__codex_apps__google_drive_fetch",
+        "mcp__codex_apps__google_drive_fetch_file_revision",
+        "mcp__codex_apps__google_drive_find_document_text_range",
+        "mcp__codex_apps__google_drive_get_document",
+        "mcp__codex_apps__google_drive_get_document_comments",
+        "mcp__codex_apps__google_drive_get_document_paragraph_range",
+        "mcp__codex_apps__google_drive_get_document_tables",
+        "mcp__codex_apps__google_drive_get_document_text",
+        "mcp__codex_apps__google_drive_get_file_comments",
+        "mcp__codex_apps__google_drive_get_file_metadata",
+        "mcp__codex_apps__google_drive_get_presentation",
+        "mcp__codex_apps__google_drive_get_presentation_comments",
+        "mcp__codex_apps__google_drive_get_presentation_outline",
+        "mcp__codex_apps__google_drive_get_presentation_tables",
+        "mcp__codex_apps__google_drive_get_presentation_text",
+        "mcp__codex_apps__google_drive_get_profile",
+        "mcp__codex_apps__google_drive_get_slide",
+        "mcp__codex_apps__google_drive_get_slide_thumbnail",
+        "mcp__codex_apps__google_drive_get_spreadsheet_cells",
+        "mcp__codex_apps__google_drive_get_spreadsheet_comments",
+        "mcp__codex_apps__google_drive_get_spreadsheet_metadata",
+        "mcp__codex_apps__google_drive_get_spreadsheet_range",
+        "mcp__codex_apps__google_drive_import_document",
+        "mcp__codex_apps__google_drive_import_presentation",
+        "mcp__codex_apps__google_drive_import_spreadsheet",
+        "mcp__codex_apps__google_drive_list_drives",
+        "mcp__codex_apps__google_drive_list_file_revisions",
+        "mcp__codex_apps__google_drive_list_folder",
+        "mcp__codex_apps__google_drive_recent_documents",
+        "mcp__codex_apps__google_drive_search",
+        "mcp__codex_apps__google_drive_search_spreadsheet_rows",
+        "mcp__codex_apps__google_drive_share_file",
+        "mcp__codex_apps__google_drive_update_file",
+        "mcp__codex_apps__google_drive_upload_file"
+      ],
+      "skills": [
+        {
+          "name": "google-drive:google-docs",
+          "description": "Prompt- and template-complete Google Docs creation and editing with explicit-instruction-authoritative structural preservation, including semantic roles, relationships, comparison dimensions, and instructed extensions; full-topology native-copy routing; source-grounded per-tab adaptation for past/example references; style-preserving hyperlink and table edits; canonical smart-chip-first authoring for dates and relevant supported people or Google resources; a file-backed advisory trusted read before existing-document writes; automatic protected-control awareness; direct connector APIs by default; DOCX-first import only when no supplied Google Doc template/reference constrains the output; and checked-in code mode only for exact native dropdown mutation. Use when Codex must create, edit, fill, adapt, redesign, or verify Google Docs without overriding explicit user/template instructions, adding unrequested document scope, or carrying stale reference facts into a new deliverable."
+        },
+        {
+          "name": "google-drive:google-drive",
+          "description": "Use connected Google Drive as the single entrypoint for Drive, Docs, Sheets, and Slides work. Use when the user wants to find, fetch, organize, share, export, copy, or delete Drive files, or summarize and edit Google Docs, Google Sheets, and Google Slides through one unified Google Drive plugin."
+        },
+        {
+          "name": "google-drive:google-drive-comments",
+          "description": "Write, reply to, and resolve Google Drive comments on Docs, Sheets, Slides, and Drive files with evidence-backed location context. Use when the user asks to leave comments, review a file with comments, respond to comment threads, or resolve Drive comments."
+        },
+        {
+          "name": "google-drive:google-sheets",
+          "description": "Analyze and edit connected Google Sheets with range precision. Use when the user wants to create Google Sheets, find a spreadsheet, inspect tabs or ranges, search rows, plan formulas, create or repair charts, clean or restructure tables, write concise summaries, or make explicit cell-range updates."
+        },
+        {
+          "name": "google-drive:google-slides",
+          "description": "Route Google Slides authoring requests and derive a design system from a native template or reference deck. Use this skill when the user provides an existing native Google Slides deck as a template, reference, or prior-period source, or asks to edit, update, repair, restyle, or clean up an existing native Google Slides deck. Use the Presentations skill instead for net-new presentation creation when no existing native Google Slides deck must be followed."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Gpt 36470de4314e4b02613128edcaa42f8c",
+      "tools": [],
+      "skills": [
+        {
+          "name": "gpt-36470de4314e4b02613128edcaa42f8c:instructions",
+          "description": "Default instructions for the Hermes PAZ Agent plugin. Use this skill whenever this plugin is invoked."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Hermes Tweet",
+      "tools": [],
+      "skills": [
+        {
+          "name": "hermes-tweet:hermes-tweet",
+          "description": "Install and operate Hermes Tweet, a Hermes Agent plugin for X/Twitter research, timeline reading, tweet analysis, and approval-gated private or state-changing operations. Use this skill when installing Hermes Tweet, researching X/Twitter accounts, monitoring launch signals, investigating mentions, auditing giveaways, or preparing gated X operations. Use proactively when a Hermes Agent workflow needs current X/Twitter context. Requires XQUIK_API_KEY for read and action tools."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Linear",
+      "tools": [
+        "mcp__codex_apps__linear_create_attachment",
+        "mcp__codex_apps__linear_create_attachment_from_upload",
+        "mcp__codex_apps__linear_create_initiative_label",
+        "mcp__codex_apps__linear_create_issue_label",
+        "mcp__codex_apps__linear_delete_attachment",
+        "mcp__codex_apps__linear_delete_comment",
+        "mcp__codex_apps__linear_delete_customer",
+        "mcp__codex_apps__linear_delete_customer_need",
+        "mcp__codex_apps__linear_delete_diff_comment",
+        "mcp__codex_apps__linear_delete_status_update",
+        "mcp__codex_apps__linear_extract_images",
+        "mcp__codex_apps__linear_fetch",
+        "mcp__codex_apps__linear_get_agent_skill",
+        "mcp__codex_apps__linear_get_attachment",
+        "mcp__codex_apps__linear_get_diff",
+        "mcp__codex_apps__linear_get_diff_threads",
+        "mcp__codex_apps__linear_get_document",
+        "mcp__codex_apps__linear_get_initiative",
+        "mcp__codex_apps__linear_get_issue",
+        "mcp__codex_apps__linear_get_issue_status",
+        "mcp__codex_apps__linear_get_milestone",
+        "mcp__codex_apps__linear_get_notifications",
+        "mcp__codex_apps__linear_get_project",
+        "mcp__codex_apps__linear_get_release",
+        "mcp__codex_apps__linear_get_release_note",
+        "mcp__codex_apps__linear_get_status_updates",
+        "mcp__codex_apps__linear_get_team",
+        "mcp__codex_apps__linear_get_template",
+        "mcp__codex_apps__linear_get_user",
+        "mcp__codex_apps__linear_get_workspace",
+        "mcp__codex_apps__linear_list_agent_skills",
+        "mcp__codex_apps__linear_list_comments",
+        "mcp__codex_apps__linear_list_customers",
+        "mcp__codex_apps__linear_list_cycles",
+        "mcp__codex_apps__linear_list_diffs",
+        "mcp__codex_apps__linear_list_documents",
+        "mcp__codex_apps__linear_list_initiative_labels",
+        "mcp__codex_apps__linear_list_initiatives",
+        "mcp__codex_apps__linear_list_issue_labels",
+        "mcp__codex_apps__linear_list_issue_statuses",
+        "mcp__codex_apps__linear_list_issues",
+        "mcp__codex_apps__linear_list_milestones",
+        "mcp__codex_apps__linear_list_project_labels",
+        "mcp__codex_apps__linear_list_projects",
+        "mcp__codex_apps__linear_list_release_notes",
+        "mcp__codex_apps__linear_list_release_pipelines",
+        "mcp__codex_apps__linear_list_releases",
+        "mcp__codex_apps__linear_list_teams",
+        "mcp__codex_apps__linear_list_templates",
+        "mcp__codex_apps__linear_list_users",
+        "mcp__codex_apps__linear_mark_notification",
+        "mcp__codex_apps__linear_merge_diff",
+        "mcp__codex_apps__linear_prepare_attachment_upload",
+        "mcp__codex_apps__linear_resolve_diff_thread",
+        "mcp__codex_apps__linear_save_comment",
+        "mcp__codex_apps__linear_save_customer",
+        "mcp__codex_apps__linear_save_customer_need",
+        "mcp__codex_apps__linear_save_diff_comment",
+        "mcp__codex_apps__linear_save_document",
+        "mcp__codex_apps__linear_save_initiative",
+        "mcp__codex_apps__linear_save_initiative_label",
+        "mcp__codex_apps__linear_save_issue",
+        "mcp__codex_apps__linear_save_issue_label",
+        "mcp__codex_apps__linear_save_milestone",
+        "mcp__codex_apps__linear_save_project",
+        "mcp__codex_apps__linear_save_project_label",
+        "mcp__codex_apps__linear_save_release",
+        "mcp__codex_apps__linear_save_release_note",
+        "mcp__codex_apps__linear_save_status_update",
+        "mcp__codex_apps__linear_search",
+        "mcp__codex_apps__linear_search_documentation",
+        "mcp__codex_apps__linear_share_issue",
+        "mcp__codex_apps__linear_submit_diff_review",
+        "mcp__codex_apps__linear_unshare_issue"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Llm Finetuning",
+      "tools": [],
+      "skills": [
+        {
+          "name": "llm-finetuning:checkpoint-promotion",
+          "description": "Gate fine-tuned checkpoints with drift budgets, paired comparison, and forgetting checks before promotion. Use after a training run produces a checkpoint, when deciding whether a tuned model ships, or when a promoted model needs re-gating against updated goldens."
+        },
+        {
+          "name": "llm-finetuning:dataset-curation",
+          "description": "Prepare, format, and validate datasets for supervised fine-tuning and preference training. Use when converting raw data into training format, applying chat templates, configuring sequence packing, generating synthetic training data, or writing a dataset card before a run."
+        },
+        {
+          "name": "llm-finetuning:eval-harness-first",
+          "description": "Build the evaluation harness that gates every fine-tuning run — golden sets, per-failure-mode graders, judge calibration, and base-model baselines. Use when starting a fine-tuning effort, when converting traces into an eval set, or when calibrating a judge against human labels."
+        },
+        {
+          "name": "llm-finetuning:finetuning-method-selection",
+          "description": "Decide whether to fine-tune at all, and route to the right method (SFT, DPO/ORPO/KTO, GRPO/RLVR, continued pretraining) and base model. Use when starting any fine-tuning effort, when unsure whether RAG or prompting would suffice, or when choosing between preference-optimization and reinforcement methods."
+        },
+        {
+          "name": "llm-finetuning:grpo-rlvr-training",
+          "description": "Train reasoning and verifiable-task behavior with GRPO and reinforcement learning from verifiable rewards (RLVR). Use when task success is algorithmically checkable (math, code, tool calls, structured output), when designing GRPO reward functions, or when a GRPO run diverges or reward-hacks."
+        },
+        {
+          "name": "llm-finetuning:lora-qlora-recipes",
+          "description": "Configure LoRA and QLoRA supervised fine-tuning with current best-practice hyperparameters. Use when writing or reviewing a LoRA/QLoRA training configuration, choosing rank/alpha/target modules, or deciding between LoRA, QLoRA, and full fine-tuning."
+        },
+        {
+          "name": "llm-finetuning:preference-optimization",
+          "description": "Align a fine-tuned model with preference data using DPO, ORPO, KTO, or SimPO. Use when preference pairs or thumbs-up/down feedback exist, when choosing between preference-optimization methods, or when a DPO run needs hyperparameters or debugging."
+        },
+        {
+          "name": "llm-finetuning:quantized-export",
+          "description": "Export a promoted fine-tuned model in the right deployment format — merged safetensors, LoRA-only, GGUF with imatrix, or FP8. Use after a checkpoint passes promotion, when choosing a quantization format for a target device, or when an exported model fails its smoke test."
+        },
+        {
+          "name": "llm-finetuning:trace-to-training-data",
+          "description": "Convert evaluation traces and production logs into SFT examples and preference pairs. Use when graded traces or failure examples exist and need to become training data, when applying rejection sampling to model outputs, or when building DPO pairs from passing and failing runs."
+        },
+        {
+          "name": "llm-finetuning:vision-sft",
+          "description": "Fine-tune vision-language models (VLMs) with supervised learning on image+text data. Use when adapting a VLM to a visual domain or task, configuring frozen-vision-tower LoRA, or debugging a VLM fine-tune that trains without learning."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Make",
+      "tools": [
+        "mcp__codex_apps__m_ke_app_endpoint_list",
+        "mcp__codex_apps__m_ke_app_find",
+        "mcp__codex_apps__m_ke_connection_create",
+        "mcp__codex_apps__m_ke_connection_get",
+        "mcp__codex_apps__m_ke_data_store_create",
+        "mcp__codex_apps__m_ke_data_store_delete",
+        "mcp__codex_apps__m_ke_data_store_list",
+        "mcp__codex_apps__m_ke_data_store_update",
+        "mcp__codex_apps__m_ke_data_structure_create",
+        "mcp__codex_apps__m_ke_data_structure_delete",
+        "mcp__codex_apps__m_ke_data_structure_get",
+        "mcp__codex_apps__m_ke_data_structure_list",
+        "mcp__codex_apps__m_ke_environment_get",
+        "mcp__codex_apps__m_ke_module_field_resolve",
+        "mcp__codex_apps__m_ke_module_spec",
+        "mcp__codex_apps__m_ke_scenario_activate",
+        "mcp__codex_apps__m_ke_scenario_create",
+        "mcp__codex_apps__m_ke_scenario_deactivate",
+        "mcp__codex_apps__m_ke_scenario_delete",
+        "mcp__codex_apps__m_ke_scenario_execution_get",
+        "mcp__codex_apps__m_ke_scenario_execution_get_show",
+        "mcp__codex_apps__m_ke_scenario_execution_inspect",
+        "mcp__codex_apps__m_ke_scenario_execution_list",
+        "mcp__codex_apps__m_ke_scenario_execution_list_show",
+        "mcp__codex_apps__m_ke_scenario_execution_module_get",
+        "mcp__codex_apps__m_ke_scenario_execution_module_get_show",
+        "mcp__codex_apps__m_ke_scenario_folder_create",
+        "mcp__codex_apps__m_ke_scenario_folder_delete",
+        "mcp__codex_apps__m_ke_scenario_folder_list",
+        "mcp__codex_apps__m_ke_scenario_folder_update",
+        "mcp__codex_apps__m_ke_scenario_get",
+        "mcp__codex_apps__m_ke_scenario_label_assign",
+        "mcp__codex_apps__m_ke_scenario_label_create",
+        "mcp__codex_apps__m_ke_scenario_label_delete",
+        "mcp__codex_apps__m_ke_scenario_label_list",
+        "mcp__codex_apps__m_ke_scenario_label_unassign",
+        "mcp__codex_apps__m_ke_scenario_label_update",
+        "mcp__codex_apps__m_ke_scenario_list",
+        "mcp__codex_apps__m_ke_scenario_list_show",
+        "mcp__codex_apps__m_ke_scenario_module_get",
+        "mcp__codex_apps__m_ke_scenario_note_create",
+        "mcp__codex_apps__m_ke_scenario_note_delete",
+        "mcp__codex_apps__m_ke_scenario_note_get",
+        "mcp__codex_apps__m_ke_scenario_note_list",
+        "mcp__codex_apps__m_ke_scenario_patch",
+        "mcp__codex_apps__m_ke_scenario_run",
+        "mcp__codex_apps__m_ke_scenario_trigger_inspect",
+        "mcp__codex_apps__m_ke_scenario_trigger_learn",
+        "mcp__codex_apps__m_ke_template_get",
+        "mcp__codex_apps__m_ke_template_list"
+      ],
+      "skills": [
+        {
+          "name": "app-6a57aad5bca88191832de71371ae411c:make-api-shell",
+          "description": "Use when the user wants data out of (or an action in) a SaaS account through Make without a purpose-built automation — \"get my unread emails\", \"list my Jira tickets\" — via a small on-demand scenario wrapping the provider's Make an API Call module or a generic HTTP request."
+        },
+        {
+          "name": "app-6a57aad5bca88191832de71371ae411c:make-scenario-building",
+          "description": "Use when creating a new Make scenario or editing an existing one — finding modules, connections and account-dependent values, wiring the flow, saving through scenario_create or scenario_patch. Not for explaining, running or debugging a scenario, or for API-call shells."
+        },
+        {
+          "name": "app-6a57aad5bca88191832de71371ae411c:make-scenario-explore",
+          "description": "Use when orienting in a Make account — listing organizations, teams and scenarios, explaining what an existing scenario does, checking connection health, auditing several scenarios. Not for creating, editing, running or debugging."
+        },
+        {
+          "name": "app-6a57aad5bca88191832de71371ae411c:make-scenario-operations",
+          "description": "Use when running a scenario, switching it on or off, reviewing or debugging executions, or investigating a webhook that receives nothing. Not for creating, editing or explaining a scenario."
+        },
+        {
+          "name": "app-6a57aad5bca88191832de71371ae411c:make-scenario-reference",
+          "description": "Load when a Make scenario tool answers 403, refuses a write for a reason you cannot explain, or no tool seems to cover the request — the shared conventions of environment_get, scenario_*, app_find, module_spec, module_field_resolve and connection_*."
+        }
+      ],
+      "usage": "build"
+    },
+    {
+      "name": "Manus",
+      "tools": [
+        "mcp__codex_apps__manus_initiate_mobile_app",
+        "mcp__codex_apps__manus_initiate_research",
+        "mcp__codex_apps__manus_initiate_slides",
+        "mcp__codex_apps__manus_initiate_video",
+        "mcp__codex_apps__manus_initiate_website"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Mimo",
+      "tools": [],
+      "skills": [
+        {
+          "name": "mimo:mimo",
+          "description": "MiMo 编程助手 — 使用 MiMo 进行代码审查、委托任务和 stop-gate 审查"
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Notion",
+      "tools": [
+        "mcp__codex_apps__notion_fetch",
+        "mcp__codex_apps__notion_notion_convert_page_to_skill",
+        "mcp__codex_apps__notion_notion_create_attachment",
+        "mcp__codex_apps__notion_notion_create_comment",
+        "mcp__codex_apps__notion_notion_create_database",
+        "mcp__codex_apps__notion_notion_create_file_upload",
+        "mcp__codex_apps__notion_notion_create_folder",
+        "mcp__codex_apps__notion_notion_create_pages",
+        "mcp__codex_apps__notion_notion_create_view",
+        "mcp__codex_apps__notion_notion_download_attachment",
+        "mcp__codex_apps__notion_notion_duplicate_page",
+        "mcp__codex_apps__notion_notion_get_async_task",
+        "mcp__codex_apps__notion_notion_get_comments",
+        "mcp__codex_apps__notion_notion_get_session_status",
+        "mcp__codex_apps__notion_notion_get_teams",
+        "mcp__codex_apps__notion_notion_get_users",
+        "mcp__codex_apps__notion_notion_list_favorite_pages",
+        "mcp__codex_apps__notion_notion_list_private_pages",
+        "mcp__codex_apps__notion_notion_list_recent_pages",
+        "mcp__codex_apps__notion_notion_list_session_events",
+        "mcp__codex_apps__notion_notion_list_shared_pages",
+        "mcp__codex_apps__notion_notion_move_pages",
+        "mcp__codex_apps__notion_notion_query_sessions",
+        "mcp__codex_apps__notion_notion_read_session_event",
+        "mcp__codex_apps__notion_notion_search_agents",
+        "mcp__codex_apps__notion_notion_search_sessions",
+        "mcp__codex_apps__notion_notion_send_message_to_session",
+        "mcp__codex_apps__notion_notion_spawn_session",
+        "mcp__codex_apps__notion_notion_stop_session",
+        "mcp__codex_apps__notion_notion_update_data_source",
+        "mcp__codex_apps__notion_notion_update_folder",
+        "mcp__codex_apps__notion_notion_update_page",
+        "mcp__codex_apps__notion_notion_update_view",
+        "mcp__codex_apps__notion_notion_wait_session",
+        "mcp__codex_apps__notion_query_data_sources",
+        "mcp__codex_apps__notion_search"
+      ],
+      "skills": [
+        {
+          "name": "notion:notion-knowledge-capture",
+          "description": "Capture conversations and decisions into structured Notion pages; use when turning chats/notes into wiki entries, how-tos, decisions, or FAQs with proper linking."
+        },
+        {
+          "name": "notion:notion-meeting-intelligence",
+          "description": "Prepare meeting materials with Notion context and supplemental research; use when gathering context, drafting agendas/pre-reads, and tailoring materials to attendees."
+        },
+        {
+          "name": "notion:notion-research-documentation",
+          "description": "Research across Notion and synthesize into structured documentation; use when gathering info from multiple Notion sources to produce briefs, comparisons, or reports with citations."
+        },
+        {
+          "name": "notion:notion-spec-to-implementation",
+          "description": "Turn Notion specs into implementation plans, tasks, and progress tracking; use when implementing PRDs/feature specs and creating Notion plans + tasks from them."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "OpenAI Library",
+      "tools": [
+        "mcp__codex_apps__library_create_library_file",
+        "mcp__codex_apps__library_finalize_uploads",
+        "mcp__codex_apps__library_find",
+        "mcp__codex_apps__library_list",
+        "mcp__codex_apps__library_manage_library",
+        "mcp__codex_apps__library_prepare_materialize",
+        "mcp__codex_apps__library_prepare_uploads",
+        "mcp__codex_apps__library_read",
+        "mcp__codex_apps__library_replace_library_file",
+        "mcp__codex_apps__library_search",
+        "mcp__codex_apps__library_share"
+      ],
+      "skills": [
+        {
+          "name": "openai-library:library",
+          "description": "Use ChatGPT Library when the user mentions their Library, asks to find or work with a Library-backed file, Site, or named file that may be in the Library, or wants to organize Library folders, restore a previous version, or share a native Library file or folder. Also use it when the user wants a user-facing file or reusable artifact created or updated, even if they do not mention the Library. It can search and read Library content, bring files into local workflows, save new deliverables, and update existing Library files while preserving their identity and version history."
+        }
+      ],
+      "usage": "build"
+    },
+    {
+      "name": "Opera Browser Connector",
+      "tools": [
+        "mcp__codex_apps__opera_browser_connector_close_tab",
+        "mcp__codex_apps__opera_browser_connector_go_to_page",
+        "mcp__codex_apps__opera_browser_connector_greeting",
+        "mcp__codex_apps__opera_browser_connector_history",
+        "mcp__codex_apps__opera_browser_connector_list_tabs",
+        "mcp__codex_apps__opera_browser_connector_screenshot",
+        "mcp__codex_apps__opera_browser_connector_tab_content",
+        "mcp__codex_apps__opera_browser_connector_tab_content_jq_search_query"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Parallel Search",
+      "tools": [
+        "mcp__codex_apps__parallel_search_web_fetch",
+        "mcp__codex_apps__parallel_search_web_search"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Personal Analytics",
+      "tools": [
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_code_attribution",
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_code_review_metrics",
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_codex_credits",
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_plugin_usage",
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_skill_usage",
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_task_classifications",
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_usage",
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_usage_limits",
+        "mcp__codex_apps__personal_analytics_personal_analytics_get_workspace_summary"
+      ],
+      "skills": [
+        {
+          "name": "personal-analytics:analyze-personal-codex-usage",
+          "description": "Analyze the signed-in user's own Codex and Work usage, task classifications across both products, and a limited aggregate summary of the active workspace. Use for questions about personal Codex or Work usage, limits, trends, attribution, recent tool usage, Codex and Work task mix, or workspace-wide top models, plugins, and task classifications."
+        },
+        {
+          "name": "personal-analytics:present-personal-codex-usage",
+          "description": "Present personal Codex and Work usage, effective monthly limits, and task classifications across both products as compact visual dashboards. Use when the user asks for a general usage summary, usage or spend trends, monthly limit progress, task classifications, or a breakdown by model, client or surface, skill, or plugin. Prefer charts over textual breakdowns and include skill and plugin usage in general summaries."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Pets",
+      "tools": [
+        "mcp__codex_apps__pets_adopt",
+        "mcp__codex_apps__pets_create_pet",
+        "mcp__codex_apps__pets_delete_pet",
+        "mcp__codex_apps__pets_get_pet_download_link",
+        "mcp__codex_apps__pets_list_pets",
+        "mcp__codex_apps__pets_prepare_pet_upload",
+        "mcp__codex_apps__pets_select_pet",
+        "mcp__codex_apps__pets_share_pet",
+        "mcp__codex_apps__pets_unshare_pet",
+        "mcp__codex_apps__pets_update_pet",
+        "mcp__codex_apps__pets_validate_pet_spritesheet"
+      ],
+      "skills": [
+        {
+          "name": "work-pets:create-pet",
+          "description": "Create, repair, validate, preview, upload, or activate an animated v2 pet in ChatGPT Work mode from a character idea, brand cue, or reference image. Use for new ChatGPT Pets, custom mascots, non-pixel styles, and unattached sprite sheets requiring nine animation states plus sixteen look directions. Preserve Library artifacts and Pets MCP lifecycle behavior. Exclude real pets, standalone images, and other-app pets; clarify before invoking."
+        },
+        {
+          "name": "work-pets:pets",
+          "description": "List, inspect, select, download, or delete animated pets in ChatGPT Work mode. Use for an explicit pet in ChatGPT or established ChatGPT Pets context. Exclude real-world and other-app pets; clarify before invoking."
+        },
+        {
+          "name": "work-pets:update-pet",
+          "description": "Inspect, validate, preview, repair, or update a custom pet in ChatGPT Work mode, including its name, description, or sprite sheet. Use for a pet in ChatGPT or established ChatGPT Pets context. Exclude real-world and other-app pets; clarify before invoking."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Picsart",
+      "tools": [
+        "mcp__codex_apps__picsart_picsart_asset_review",
+        "mcp__codex_apps__picsart_picsart_change_bg",
+        "mcp__codex_apps__picsart_picsart_credits",
+        "mcp__codex_apps__picsart_picsart_delete_asset",
+        "mcp__codex_apps__picsart_picsart_drive",
+        "mcp__codex_apps__picsart_picsart_enhance",
+        "mcp__codex_apps__picsart_picsart_film_compile_asset_prompt",
+        "mcp__codex_apps__picsart_picsart_film_compile_prompt",
+        "mcp__codex_apps__picsart_picsart_film_setup",
+        "mcp__codex_apps__picsart_picsart_generate",
+        "mcp__codex_apps__picsart_picsart_job_status",
+        "mcp__codex_apps__picsart_picsart_list_assets",
+        "mcp__codex_apps__picsart_picsart_list_models",
+        "mcp__codex_apps__picsart_picsart_media_analyze_audio",
+        "mcp__codex_apps__picsart_picsart_media_apply_effect",
+        "mcp__codex_apps__picsart_picsart_media_apply_look",
+        "mcp__codex_apps__picsart_picsart_media_apply_motion_preset",
+        "mcp__codex_apps__picsart_picsart_media_apply_scene_template",
+        "mcp__codex_apps__picsart_picsart_media_apply_text_animation",
+        "mcp__codex_apps__picsart_picsart_media_contact_sheet",
+        "mcp__codex_apps__picsart_picsart_media_describe_scene_template",
+        "mcp__codex_apps__picsart_picsart_media_describe_video",
+        "mcp__codex_apps__picsart_picsart_media_expand_scene_ref",
+        "mcp__codex_apps__picsart_picsart_media_export",
+        "mcp__codex_apps__picsart_picsart_media_get_capabilities",
+        "mcp__codex_apps__picsart_picsart_media_get_scene_schema",
+        "mcp__codex_apps__picsart_picsart_media_list_fonts",
+        "mcp__codex_apps__picsart_picsart_media_list_scene_templates",
+        "mcp__codex_apps__picsart_picsart_media_overview",
+        "mcp__codex_apps__picsart_picsart_media_patch_scene",
+        "mcp__codex_apps__picsart_picsart_media_probe_media",
+        "mcp__codex_apps__picsart_picsart_media_query_layout",
+        "mcp__codex_apps__picsart_picsart_media_quickstart",
+        "mcp__codex_apps__picsart_picsart_media_reframe_video",
+        "mcp__codex_apps__picsart_picsart_media_resolve_looks",
+        "mcp__codex_apps__picsart_picsart_media_transcribe",
+        "mcp__codex_apps__picsart_picsart_media_translate_scene",
+        "mcp__codex_apps__picsart_picsart_media_upload",
+        "mcp__codex_apps__picsart_picsart_media_validate_scene",
+        "mcp__codex_apps__picsart_picsart_model_catalog",
+        "mcp__codex_apps__picsart_picsart_model_choice",
+        "mcp__codex_apps__picsart_picsart_model_params",
+        "mcp__codex_apps__picsart_picsart_preflight",
+        "mcp__codex_apps__picsart_picsart_prompt_verify",
+        "mcp__codex_apps__picsart_picsart_remove_bg",
+        "mcp__codex_apps__picsart_picsart_render_monitor",
+        "mcp__codex_apps__picsart_picsart_save_asset",
+        "mcp__codex_apps__picsart_picsart_shotlist_board",
+        "mcp__codex_apps__picsart_picsart_vectorize",
+        "mcp__codex_apps__picsart_picsart_video_review"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Plugin Creator",
+      "tools": [
+        "mcp__codex_apps__plugin_creator_create_plugin",
+        "mcp__codex_apps__plugin_creator_get_owned_plugin_archive",
+        "mcp__codex_apps__plugin_creator_get_plugin_files",
+        "mcp__codex_apps__plugin_creator_get_plugin_metadata",
+        "mcp__codex_apps__plugin_creator_list_plugin_releases",
+        "mcp__codex_apps__plugin_creator_update_plugin"
+      ],
+      "skills": [
+        {
+          "name": "plugin-creator:create-plugin",
+          "description": "Create local or cloud plugins. Use when the user asks to build an app, tool, integration, or reusable workflow within ChatGPT or Codex. Covers custom MCP apps, skills, tools that connect agents to websites and services, and extensions for custom app views, file handling, and referencing app data in chat."
+        },
+        {
+          "name": "plugin-creator:prepare-plugin-submission",
+          "description": "Guide a user through preparing an existing plugin for public submission, including review and publication metadata, listing, examples, demo, and reviewer access. Use when the user wants to get ready to submit, create a submission-ready ZIP, submit, or publicly release a plugin."
+        },
+        {
+          "name": "plugin-creator:starter-workflow",
+          "description": "A starter skill to replace with the plugin owner's specific workflow before publishing."
+        },
+        {
+          "name": "plugin-creator:update-plugin",
+          "description": "Inspect, edit, or extend custom plugins the user owns or has permission to edit. Use when the user asks to change a plugin's instructions, skills, tools, app UI, Extensions, metadata, assets, or configuration, or asks about a previous version."
+        }
+      ],
+      "usage": "build"
+    },
+    {
+      "name": "Plugin Management",
+      "tools": [
+        "mcp__codex_apps__plugin_management_get_app_permissions",
+        "mcp__codex_apps__plugin_management_get_plugin_dependencies",
+        "mcp__codex_apps__plugin_management_search_plugins",
+        "mcp__codex_apps__plugin_management_suggest_plugins",
+        "mcp__codex_apps__plugin_management_uninstall_app"
+      ],
+      "skills": [
+        {
+          "name": "plugin-management:plugin-management",
+          "description": "Discover and suggest relevant plugins, inspect app permissions and dependencies, and manage plugin connections or removal. Use when the user asks about plugins or when a task would materially benefit from an external app, account, service, or data source that available tools cannot access."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "PR Readiness Check",
+      "tools": [
+        "mcp__codex_apps__pr_readiness_check_check_requirement_alignment",
+        "mcp__codex_apps__pr_readiness_check_extract_pr_changes",
+        "mcp__codex_apps__pr_readiness_check_generate_pr_readiness_verdict"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Railway",
+      "tools": [
+        "mcp__codex_apps__railway_accept_deploy",
+        "mcp__codex_apps__railway_create_deployment",
+        "mcp__codex_apps__railway_create_project",
+        "mcp__codex_apps__railway_create_service",
+        "mcp__codex_apps__railway_delete_feature_flag",
+        "mcp__codex_apps__railway_fetch_docs",
+        "mcp__codex_apps__railway_generate_domain",
+        "mcp__codex_apps__railway_get_feature_flag",
+        "mcp__codex_apps__railway_get_logs",
+        "mcp__codex_apps__railway_get_service_config",
+        "mcp__codex_apps__railway_get_service_metrics",
+        "mcp__codex_apps__railway_get_status",
+        "mcp__codex_apps__railway_list_deployments",
+        "mcp__codex_apps__railway_list_domains",
+        "mcp__codex_apps__railway_list_feature_flags",
+        "mcp__codex_apps__railway_list_projects",
+        "mcp__codex_apps__railway_list_services",
+        "mcp__codex_apps__railway_list_variables",
+        "mcp__codex_apps__railway_list_workspaces",
+        "mcp__codex_apps__railway_railway_agent",
+        "mcp__codex_apps__railway_redeploy",
+        "mcp__codex_apps__railway_search_docs",
+        "mcp__codex_apps__railway_set_feature_flag",
+        "mcp__codex_apps__railway_set_variables",
+        "mcp__codex_apps__railway_update_service",
+        "mcp__codex_apps__railway_whoami"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Remote Desktop Commander",
+      "tools": [
+        "mcp__codex_apps__remote_desktop_commander_create_directory",
+        "mcp__codex_apps__remote_desktop_commander_edit_block",
+        "mcp__codex_apps__remote_desktop_commander_force_terminate",
+        "mcp__codex_apps__remote_desktop_commander_get_config",
+        "mcp__codex_apps__remote_desktop_commander_get_file_info",
+        "mcp__codex_apps__remote_desktop_commander_get_more_search_results",
+        "mcp__codex_apps__remote_desktop_commander_get_prompts",
+        "mcp__codex_apps__remote_desktop_commander_get_recent_tool_calls",
+        "mcp__codex_apps__remote_desktop_commander_get_usage_stats",
+        "mcp__codex_apps__remote_desktop_commander_give_feedback_to_desktop_commander",
+        "mcp__codex_apps__remote_desktop_commander_interact_with_process",
+        "mcp__codex_apps__remote_desktop_commander_kill_process",
+        "mcp__codex_apps__remote_desktop_commander_list_devices",
+        "mcp__codex_apps__remote_desktop_commander_list_directory",
+        "mcp__codex_apps__remote_desktop_commander_list_processes",
+        "mcp__codex_apps__remote_desktop_commander_list_searches",
+        "mcp__codex_apps__remote_desktop_commander_list_sessions",
+        "mcp__codex_apps__remote_desktop_commander_move_file",
+        "mcp__codex_apps__remote_desktop_commander_ping",
+        "mcp__codex_apps__remote_desktop_commander_read_file",
+        "mcp__codex_apps__remote_desktop_commander_read_multiple_files",
+        "mcp__codex_apps__remote_desktop_commander_read_process_output",
+        "mcp__codex_apps__remote_desktop_commander_set_config_value",
+        "mcp__codex_apps__remote_desktop_commander_shutdown",
+        "mcp__codex_apps__remote_desktop_commander_start_process",
+        "mcp__codex_apps__remote_desktop_commander_start_search",
+        "mcp__codex_apps__remote_desktop_commander_stop_search",
+        "mcp__codex_apps__remote_desktop_commander_who_am_i",
+        "mcp__codex_apps__remote_desktop_commander_write_file",
+        "mcp__codex_apps__remote_desktop_commander_write_pdf"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Sdk",
+      "tools": [],
+      "skills": [
+        {
+          "name": "sdk:zapier-sdk",
+          "description": "Zapier SDK for TypeScript. Programmatic access to 9,000+ apps on a user's behalf via Zapier's OAuth and audit layer. Use when writing code that needs to run actions in third-party apps (send an email, upsert a CRM record, look up a spreadsheet row, post to a chat) without managing per-app OAuth or vendor SDKs. Triggers: \"zapier sdk\", \"zapier-sdk\", \"@zapier/zapier-sdk\", \"runAction\", \"run zapier action\", \"connect to app via zapier\", \"zapier connection\", \"zapier tables\", \"list actions for zapier app\", \"getActionInputFieldsSchema\", \"createZapierSdk\"."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Sites",
+      "tools": [
+        "mcp__codex_apps__sites_add_custom_domain",
+        "mcp__codex_apps__sites_change_site_slug",
+        "mcp__codex_apps__sites_create_site",
+        "mcp__codex_apps__sites_create_source_repository_write_credential",
+        "mcp__codex_apps__sites_deploy_private_site_version",
+        "mcp__codex_apps__sites_deploy_site_version",
+        "mcp__codex_apps__sites_generate_siwc_bypass_token",
+        "mcp__codex_apps__sites_get_deployment_status",
+        "mcp__codex_apps__sites_get_environment_variables",
+        "mcp__codex_apps__sites_get_site",
+        "mcp__codex_apps__sites_get_site_version",
+        "mcp__codex_apps__sites_get_site_worker_logs",
+        "mcp__codex_apps__sites_list_available_access_groups",
+        "mcp__codex_apps__sites_list_custom_domains",
+        "mcp__codex_apps__sites_list_site_versions",
+        "mcp__codex_apps__sites_list_sites",
+        "mcp__codex_apps__sites_read_database_overview",
+        "mcp__codex_apps__sites_read_database_table_rows",
+        "mcp__codex_apps__sites_refresh_custom_domain_status",
+        "mcp__codex_apps__sites_remove_custom_domain",
+        "mcp__codex_apps__sites_save_site_version",
+        "mcp__codex_apps__sites_save_version_and_deploy_private",
+        "mcp__codex_apps__sites_search_sites",
+        "mcp__codex_apps__sites_update_environment_variables",
+        "mcp__codex_apps__sites_update_site_access",
+        "mcp__codex_apps__sites_update_site_metadata"
+      ],
+      "skills": [
+        {
+          "name": "sites:sites-building",
+          "description": "Use Sites when the user wants a complete website built for them, such as a landing page, portfolio, dashboard, portal, tracker, hub, or internal tool, or wants to modify a website built with Sites. Do not use for development work in other web projects unless the user explicitly requests Sites."
+        },
+        {
+          "name": "sites:sites-hosting",
+          "description": "Host websites with Sites. Use after `sites-building` to publish new sites and edits, for requested website publishing or deployment, or for hosting management. A project containing `.openai/hosting.json` uses Sites hosting only when the current request concerns that Site. Publishing an npm package or standalone asset is not website publishing. Honor an explicit request to use another hosting provider."
+        },
+        {
+          "name": "sites:sites-mcp",
+          "description": "Build or update a Site-hosted MCP server and help users access its tools through the Site's plugin in ChatGPT or Codex."
+        },
+        {
+          "name": "sites:sites-preview-troubleshooting",
+          "description": "Diagnose and recover failed supervised sites-preview sessions after sites-building. Applies only to the managed-linux execution profile, not portable previews."
+        }
+      ],
+      "usage": "build"
+    },
+    {
+      "name": "Slack",
+      "tools": [
+        "mcp__codex_apps__slack_slack_add_list_record",
+        "mcp__codex_apps__slack_slack_add_reaction",
+        "mcp__codex_apps__slack_slack_complete_file_upload",
+        "mcp__codex_apps__slack_slack_create_canvas",
+        "mcp__codex_apps__slack_slack_create_conversation",
+        "mcp__codex_apps__slack_slack_create_list",
+        "mcp__codex_apps__slack_slack_create_reminder",
+        "mcp__codex_apps__slack_slack_delete_message",
+        "mcp__codex_apps__slack_slack_edit_message",
+        "mcp__codex_apps__slack_slack_get_file_upload_url",
+        "mcp__codex_apps__slack_slack_get_reactions",
+        "mcp__codex_apps__slack_slack_invite_to_conversation",
+        "mcp__codex_apps__slack_slack_join_conversation",
+        "mcp__codex_apps__slack_slack_leave_conversation",
+        "mcp__codex_apps__slack_slack_list_channel_members",
+        "mcp__codex_apps__slack_slack_list_starred_items",
+        "mcp__codex_apps__slack_slack_list_user_channels",
+        "mcp__codex_apps__slack_slack_list_user_conversations",
+        "mcp__codex_apps__slack_slack_list_user_groups",
+        "mcp__codex_apps__slack_slack_list_workspaces",
+        "mcp__codex_apps__slack_slack_read_canvas",
+        "mcp__codex_apps__slack_slack_read_channel",
+        "mcp__codex_apps__slack_slack_read_file",
+        "mcp__codex_apps__slack_slack_read_list",
+        "mcp__codex_apps__slack_slack_read_thread",
+        "mcp__codex_apps__slack_slack_read_user_profile",
+        "mcp__codex_apps__slack_slack_schedule_message",
+        "mcp__codex_apps__slack_slack_search_channels",
+        "mcp__codex_apps__slack_slack_search_emojis",
+        "mcp__codex_apps__slack_slack_search_public",
+        "mcp__codex_apps__slack_slack_search_public_and_private",
+        "mcp__codex_apps__slack_slack_search_users",
+        "mcp__codex_apps__slack_slack_send_message",
+        "mcp__codex_apps__slack_slack_send_message_draft",
+        "mcp__codex_apps__slack_slack_update_canvas",
+        "mcp__codex_apps__slack_slack_update_list",
+        "mcp__codex_apps__slack_slack_update_list_record",
+        "mcp__codex_apps__slack_slack_update_user_profile"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Startup Business Analyst",
+      "tools": [],
+      "skills": [
+        {
+          "name": "startup-business-analyst:competitive-landscape",
+          "description": "Analyze competition, identify differentiation opportunities, and develop winning market positioning strategies using Porter's Five Forces, Blue Ocean Strategy, and positioning maps. Use this skill when evaluating competitors, assessing market positioning, identifying sustainable competitive advantages, or preparing competitive strategy analysis for a startup or investor pitch."
+        },
+        {
+          "name": "startup-business-analyst:market-sizing-analysis",
+          "description": "Calculate TAM/SAM/SOM for market opportunities using top-down, bottom-up, and value theory methodologies. Use this skill when sizing markets, estimating addressable revenue, validating market opportunity for a new venture, or building investor-ready market analysis for a startup pitch or business plan."
+        },
+        {
+          "name": "startup-business-analyst:startup-financial-modeling",
+          "description": "Build comprehensive 3-5 year financial models with revenue projections, cost structures, cash flow analysis, and scenario planning for early-stage startups. Use this skill when creating financial projections, calculating burn rate or runway, modeling fundraising scenarios, or preparing investor-ready financials for a seed or Series A raise."
+        },
+        {
+          "name": "startup-business-analyst:startup-metrics-framework",
+          "description": "Track, calculate, and optimize key performance metrics for SaaS, marketplace, consumer, and B2B startups from seed through Series A, including unit economics, growth efficiency, and cash management. Use this skill when defining a metrics framework, calculating CAC/LTV/burn multiple, benchmarking business health, or preparing metrics dashboards for investors or board reporting."
+        },
+        {
+          "name": "startup-business-analyst:team-composition-analysis",
+          "description": "Design optimal team structures, hiring plans, compensation strategies, and equity allocation for early-stage startups from pre-seed through Series A. Use this skill when planning headcount, determining which roles to hire next, setting compensation or equity ranges, designing org structure, or building a hiring budget aligned to funding milestones."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Superpowers",
+      "tools": [],
+      "skills": [
+        {
+          "name": "superpowers:brainstorming",
+          "description": "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+        },
+        {
+          "name": "superpowers:dispatching-parallel-agents",
+          "description": "Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies"
+        },
+        {
+          "name": "superpowers:executing-plans",
+          "description": "Use when you have a written implementation plan to execute in a separate session with review checkpoints"
+        },
+        {
+          "name": "superpowers:finishing-a-development-branch",
+          "description": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work"
+        },
+        {
+          "name": "superpowers:receiving-code-review",
+          "description": "Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable - requires technical rigor and verification, not performative agreement or blind implementation"
+        },
+        {
+          "name": "superpowers:requesting-code-review",
+          "description": "Use when completing tasks, implementing major features, or before merging to verify work meets requirements"
+        },
+        {
+          "name": "superpowers:subagent-driven-development",
+          "description": "Use when executing implementation plans with independent tasks in the current session"
+        },
+        {
+          "name": "superpowers:systematic-debugging",
+          "description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes"
+        },
+        {
+          "name": "superpowers:test-driven-development",
+          "description": "Use when implementing any feature or bugfix, before writing implementation code"
+        },
+        {
+          "name": "superpowers:using-git-worktrees",
+          "description": "Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback"
+        },
+        {
+          "name": "superpowers:using-superpowers",
+          "description": "Use when starting any conversation - establishes how to find and use skills, requiring skill invocation before ANY response including clarifying questions"
+        },
+        {
+          "name": "superpowers:verification-before-completion",
+          "description": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always"
+        },
+        {
+          "name": "superpowers:writing-plans",
+          "description": "Use when you have a spec or requirements for a multi-step task, before touching code"
+        },
+        {
+          "name": "superpowers:writing-skills",
+          "description": "Use when creating new skills, editing existing skills, or verifying skills work before deployment"
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Systems Programming",
+      "tools": [],
+      "skills": [
+        {
+          "name": "systems-programming:go-concurrency-patterns",
+          "description": "Master Go concurrency with goroutines, channels, sync primitives, and context. Use when building concurrent Go applications, implementing worker pools, or debugging race conditions."
+        },
+        {
+          "name": "systems-programming:memory-safety-patterns",
+          "description": "Implement memory-safe programming with RAII, ownership, smart pointers, and resource management across Rust, C++, and C. Use when writing safe systems code, managing resources, or preventing memory bugs."
+        },
+        {
+          "name": "systems-programming:rust-async-patterns",
+          "description": "Master Rust async programming with Tokio, async traits, error handling, and concurrent patterns. Use when building async Rust applications, implementing concurrent systems, or debugging async code."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Systemwerkzeuge",
+      "tools": [
+        "apply_patch",
+        "download_file",
+        "exec_command",
+        "image_gen__imagegen",
+        "list_mcp_resource_templates",
+        "list_mcp_resources",
+        "mcp__codex_apps__automations_create",
+        "mcp__codex_apps__automations_discover_webhook_schema",
+        "mcp__codex_apps__automations_list",
+        "mcp__codex_apps__automations_list_event_sources",
+        "mcp__codex_apps__automations_peek",
+        "mcp__codex_apps__automations_run_now",
+        "mcp__codex_apps__automations_update",
+        "mcp__codex_apps__check24_chatgpt_tools_search_moto_tires",
+        "mcp__codex_apps__check24_chatgpt_tools_search_rims",
+        "mcp__codex_apps__check24_chatgpt_tools_search_tires",
+        "mcp__codex_apps__check24_energie_show_tariff_proposals",
+        "mcp__codex_apps__check24_flight_mcpd_showflightoffers",
+        "mcp__codex_apps__check24_hotel_search_hotels",
+        "mcp__codex_apps__check24_hundehaftpflichtversicherung_search_dog_liability_tariffs",
+        "mcp__codex_apps__check24_pauschalreise_travel_search_packages",
+        "mcp__codex_apps__check24_pferdehaftpflichtversicherung_search_horse_liability_tariffs",
+        "mcp__codex_apps__check24_production_get_insurance_advice",
+        "mcp__codex_apps__check24_rentalcar_gpt_search_rentalcar",
+        "mcp__codex_apps__check24_sim_only_search_mobile_tariffs",
+        "mcp__codex_apps__hotline_get_local_hotline",
+        "mcp__codex_apps__openai_platform_create_encrypted_openai_api_key",
+        "mcp__codex_apps__openai_platform_list_openai_api_key_targets",
+        "mcp__codex_apps__openai_platform_start_api_key_setup",
+        "mcp__codex_apps__personal_context_search",
+        "mcp__codex_apps__search_service_web_run",
+        "read_mcp_resource",
+        "skills__list",
+        "skills__read",
+        "update_plan",
+        "view_image",
+        "write_stdin"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Template Creator",
+      "tools": [],
+      "skills": [
+        {
+          "name": "template-creator:template-creator",
+          "description": "Create or update an installable personal ChatGPT artifact-template skill from a reference document, presentation, spreadsheet, Google Docs, Slides, or Sheets link, ImageGen or Product Design image, email, Slack message, or Site project. Use when the user selects Template Creator, asks to create a reusable template, or explicitly asks to update one exact personal template. Do not use for one-off creation from an existing template."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "to3D",
+      "tools": [
+        "mcp__codex_apps__to3d_create_3d_job_from_url",
+        "mcp__codex_apps__to3d_get_3d_job_status",
+        "mcp__codex_apps__to3d_get_3d_result",
+        "mcp__codex_apps__to3d_get_3d_status",
+        "mcp__codex_apps__to3d_image_to_3d",
+        "mcp__codex_apps__to3d_process_image_url_to_3d",
+        "mcp__codex_apps__to3d_report_widget_diagnostic"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "UI Design",
+      "tools": [],
+      "skills": [
+        {
+          "name": "ui-design:accessibility-compliance",
+          "description": "Implement WCAG 2.2 compliant interfaces with mobile accessibility, inclusive design patterns, and assistive technology support. Use when auditing accessibility, implementing ARIA patterns, building for screen readers, or ensuring inclusive user experiences."
+        },
+        {
+          "name": "ui-design:design-system-patterns",
+          "description": "Build scalable design systems with design tokens, theming infrastructure, and component architecture patterns. Use when creating design tokens, implementing theme switching, building component libraries, or establishing design system foundations."
+        },
+        {
+          "name": "ui-design:interaction-design",
+          "description": "Design and implement microinteractions, motion design, transitions, and user feedback patterns. Use when adding polish to UI interactions, implementing loading states, or creating delightful user experiences."
+        },
+        {
+          "name": "ui-design:mobile-android-design",
+          "description": "Master Material Design 3 and Jetpack Compose patterns for building native Android apps. Use when designing Android interfaces, implementing Compose UI, or following Google's Material Design guidelines."
+        },
+        {
+          "name": "ui-design:mobile-ios-design",
+          "description": "Master iOS Human Interface Guidelines and SwiftUI patterns for building native iOS apps. Use when designing iOS interfaces, implementing SwiftUI views, or ensuring apps follow Apple's design principles."
+        },
+        {
+          "name": "ui-design:react-native-design",
+          "description": "Master React Native styling, navigation, and Reanimated animations for cross-platform mobile development. Use when building React Native apps, implementing navigation patterns, or creating performant animations."
+        },
+        {
+          "name": "ui-design:responsive-design",
+          "description": "Implement modern responsive layouts using container queries, fluid typography, CSS Grid, and mobile-first breakpoint strategies. Use when building adaptive interfaces, implementing fluid layouts, or creating component-level responsive behavior."
+        },
+        {
+          "name": "ui-design:visual-design-foundations",
+          "description": "Apply typography, color theory, spacing systems, and iconography principles to create cohesive visual designs. Use when establishing design tokens, building style guides, or improving visual hierarchy and consistency."
+        },
+        {
+          "name": "ui-design:web-component-design",
+          "description": "Master React, Vue, and Svelte component patterns including CSS-in-JS, composition strategies, and reusable component architecture. Use when building UI component libraries, designing component APIs, or implementing frontend design systems."
+        }
+      ],
+      "usage": "build"
+    },
+    {
+      "name": "Vercel",
+      "tools": [
+        "mcp__codex_apps__vercel_add_toolbar_reaction",
+        "mcp__codex_apps__vercel_change_toolbar_thread_resolve_status",
+        "mcp__codex_apps__vercel_check_domain_availability_and_price",
+        "mcp__codex_apps__vercel_deploy_to_vercel",
+        "mcp__codex_apps__vercel_edit_toolbar_message",
+        "mcp__codex_apps__vercel_get_access_to_vercel_url",
+        "mcp__codex_apps__vercel_get_agent_run",
+        "mcp__codex_apps__vercel_get_agent_run_trace",
+        "mcp__codex_apps__vercel_get_bulk_price",
+        "mcp__codex_apps__vercel_get_deployment",
+        "mcp__codex_apps__vercel_get_deployment_build_logs",
+        "mcp__codex_apps__vercel_get_domain_price",
+        "mcp__codex_apps__vercel_get_project",
+        "mcp__codex_apps__vercel_get_runtime_errors",
+        "mcp__codex_apps__vercel_get_runtime_logs",
+        "mcp__codex_apps__vercel_get_tld",
+        "mcp__codex_apps__vercel_get_tld_price",
+        "mcp__codex_apps__vercel_get_toolbar_thread",
+        "mcp__codex_apps__vercel_import_claude_design_from_url",
+        "mcp__codex_apps__vercel_list_agent_run_projects",
+        "mcp__codex_apps__vercel_list_agent_runs",
+        "mcp__codex_apps__vercel_list_deployments",
+        "mcp__codex_apps__vercel_list_projects",
+        "mcp__codex_apps__vercel_list_supported_tlds",
+        "mcp__codex_apps__vercel_list_teams",
+        "mcp__codex_apps__vercel_list_toolbar_threads",
+        "mcp__codex_apps__vercel_reply_to_toolbar_thread",
+        "mcp__codex_apps__vercel_search_domains",
+        "mcp__codex_apps__vercel_search_vercel_documentation",
+        "mcp__codex_apps__vercel_web_fetch_vercel_url"
+      ],
+      "skills": [
+        {
+          "name": "vercel:agent-browser",
+          "description": "Browser automation CLI for AI agents. Use when the user needs to interact with websites, verify dev server output, test web apps, navigate pages, fill forms, click buttons, take screenshots, extract data, or automate any browser task. Also triggers when a dev server starts so you can verify it visually."
+        },
+        {
+          "name": "vercel:agent-browser-verify",
+          "description": "Automated browser verification for dev servers. Triggers when a dev server starts to run a visual gut-check with agent-browser — verifies the page loads, checks for console errors, validates key UI elements, and reports pass/fail before continuing."
+        },
+        {
+          "name": "vercel:ai-elements",
+          "description": "AI Elements component library guidance — pre-built React components for AI interfaces built on shadcn/ui. Use when building chat UIs, message displays, tool call rendering, streaming responses, reasoning panels, or any AI-native interface with the AI SDK."
+        },
+        {
+          "name": "vercel:ai-gateway",
+          "description": "Vercel AI Gateway expert guidance. Use when configuring model routing, provider failover, cost tracking, or managing multiple AI providers through a unified API."
+        },
+        {
+          "name": "vercel:ai-generation-persistence",
+          "description": "AI generation persistence patterns — unique IDs, addressable URLs, database storage, and cost tracking for every LLM generation"
+        },
+        {
+          "name": "vercel:ai-sdk",
+          "description": "Vercel AI SDK expert guidance. Use when building AI-powered features — chat interfaces, text generation, structured output, tool calling, agents, MCP integration, streaming, embeddings, reranking, image generation, or working with any LLM provider."
+        },
+        {
+          "name": "vercel:auth",
+          "description": "Authentication integration guidance — Clerk (native Vercel Marketplace), Descope, and Auth0 setup for Next.js applications. Covers middleware auth patterns, sign-in/sign-up flows, and Marketplace provisioning. Use when implementing user authentication."
+        },
+        {
+          "name": "vercel:bootstrap",
+          "description": "Project bootstrapping orchestrator for repos that depend on Vercel-linked resources (databases, auth, and managed integrations). Use when setting up or repairing a repository so linking, environment provisioning, env pulls, and first-run db/dev commands happen in the correct safe order."
+        },
+        {
+          "name": "vercel:cdn-caching",
+          "description": "Debug Vercel CDN caching — cache hit rate, stale content, revalidation behavior, ISR + PPR, per-request cache reasons (cacheReason), and costs."
+        },
+        {
+          "name": "vercel:chat-sdk",
+          "description": "Vercel Chat SDK expert guidance. Use when building multi-platform chat bots — Slack, Telegram, Microsoft Teams, Discord, Google Chat, GitHub, Linear — with a single codebase. Covers the Chat class, adapters, threads, messages, cards, modals, streaming, state management, and webhook setup."
+        },
+        {
+          "name": "vercel:cms",
+          "description": "Headless CMS integration guidance — Sanity (native Vercel Marketplace), Contentful, DatoCMS, Storyblok, and Builder.io. Covers studio setup, content modeling, preview mode, revalidation webhooks, and Visual Editing. Use when building content-driven sites with a headless CMS on Vercel."
+        },
+        {
+          "name": "vercel:cron-jobs",
+          "description": "Vercel Cron Jobs configuration and best practices. Use when adding, editing, or debugging scheduled tasks in vercel.json."
+        },
+        {
+          "name": "vercel:deployments-cicd",
+          "description": "Vercel deployment and CI/CD expert guidance. Use when deploying, promoting, rolling back, inspecting deployments, building with --prebuilt, or configuring CI workflow files for Vercel."
+        },
+        {
+          "name": "vercel:email",
+          "description": "Email sending integration guidance — Resend (native Vercel Marketplace) with React Email templates. Covers API setup, transactional emails, domain verification, and template patterns. Use when sending emails from a Vercel-deployed application."
+        },
+        {
+          "name": "vercel:env-vars",
+          "description": "Vercel environment variable expert guidance. Use when working with .env files, vercel env commands, OIDC tokens, or managing environment-specific configuration."
+        },
+        {
+          "name": "vercel:eve",
+          "description": "Build durable AI agents and agent-powered applications with the eve framework. Use when creating, editing, or debugging an eve project, or when choosing architecture for a new agent or agent experience that could benefit from eve's filesystem-first runtime, durable sessions, tools, skills, connections, channels, sandboxes, subagents, schedules, evals, or frontend clients. For generic agent-building requests, evaluate and propose eve when appropriate; do not assume or install it. Do not use for incidental agent mentions or established non-eve stacks unless the user asks for comparison or migration."
+        },
+        {
+          "name": "vercel:geist",
+          "description": "Expert guidance for Geist, Vercel's default typography system and font family for precise Next.js interfaces. Use when configuring Geist Sans, Geist Mono, or Geist Pixel, setting up font imports, or applying Vercel typography and aesthetic guidance."
+        },
+        {
+          "name": "vercel:geistdocs",
+          "description": "Expert guidance for Geistdocs, Vercel's documentation template built with Next.js and Fumadocs — MDX authoring, configuration, AI chat, i18n, feedback, deployment. Use when creating documentation sites, configuring geistdocs, writing MDX content, or setting up docs infrastructure."
+        },
+        {
+          "name": "vercel:investigation-mode",
+          "description": "Orchestrated debugging coordinator. Triggers on frustration signals (stuck, hung, broken, waiting) and systematically triages: runtime logs → workflow status → browser verify → deploy/env. Reports findings at every step."
+        },
+        {
+          "name": "vercel:json-render",
+          "description": "AI chat response rendering guidance — handling UIMessage parts, tool call displays, streaming states, and structured data presentation. Use when building custom chat UIs, rendering tool results, or troubleshooting AI response display issues."
+        },
+        {
+          "name": "vercel:knowledge-update",
+          "description": "Corrects outdated LLM knowledge about the Vercel platform and introduces new products. Injected at session start."
+        },
+        {
+          "name": "vercel:marketplace",
+          "description": "Vercel Marketplace expert guidance — discovering, installing, and managing third-party integrations via the `vercel integration` CLI. Use when building any app that needs an external capability without a dedicated skill — commerce (stores, storefronts, selling products), payments (checkout, subscriptions, billing), observability/monitoring, messaging/email, search, or CMS — or when discovering, installing, or managing integrations."
+        },
+        {
+          "name": "vercel:micro",
+          "description": "Expert guidance for micro — asynchronous HTTP microservices framework by Vercel. Use when building lightweight HTTP servers, API endpoints, or microservices using the micro library."
+        },
+        {
+          "name": "vercel:microfrontends",
+          "description": "Guide for building, configuring, and deploying microfrontends on Vercel. Use this skill when the user mentions microfrontends, multi-zones, splitting an app across teams, independent deployments, cross-app routing, incremental migration, composing multiple frontends under one domain, microfrontends.json, @vercel/microfrontends, the microfrontends local proxy, or path-based routing between Vercel projects. Also use when the user asks about shared layouts across projects, navigation between microfrontends, fallback environments, asset prefixes, or feature flag controlled routing."
+        },
+        {
+          "name": "vercel:ncc",
+          "description": "Expert guidance for @vercel/ncc — a simple CLI for compiling Node.js modules into a single file with all dependencies included. Use when bundling serverless functions, CLI tools, or any Node.js project into a self-contained file."
+        },
+        {
+          "name": "vercel:next-cache-components",
+          "description": "Next.js 16 Cache Components guidance — PPR, use cache directive, cacheLife, cacheTag, updateTag, and migration from unstable_cache. Use when implementing partial prerendering, caching strategies, or migrating from older Next.js cache patterns."
+        },
+        {
+          "name": "vercel:next-forge",
+          "description": "next-forge expert guidance — production-grade Turborepo monorepo SaaS starter by Vercel. Use when working in a next-forge project, scaffolding with `npx next-forge init`, or editing @repo/* workspace packages."
+        },
+        {
+          "name": "vercel:next-upgrade",
+          "description": "Upgrade Next.js to the latest version following official migration guides and codemods. Use when upgrading Next.js versions, running codemods, or migrating between major releases."
+        },
+        {
+          "name": "vercel:nextjs",
+          "description": "Next.js App Router expert guidance. Use when building, debugging, or architecting Next.js applications — routing, Server Components, Server Actions, Cache Components, layouts, middleware/proxy, data fetching, rendering strategies, and deployment on Vercel."
+        },
+        {
+          "name": "vercel:observability",
+          "description": "Vercel Observability expert guidance — Drains (logs, traces, speed insights, web analytics), Web Analytics, Speed Insights, runtime logs, custom events, OpenTelemetry integration, and monitoring dashboards. Use when instrumenting, debugging, or optimizing application performance and user experience on Vercel."
+        },
+        {
+          "name": "vercel:payments",
+          "description": "Stripe payments integration guidance — native Vercel Marketplace setup, checkout sessions, webhook handling, subscription billing, and the Stripe SDK. Use when implementing payments, subscriptions, or processing transactions."
+        },
+        {
+          "name": "vercel:react-best-practices",
+          "description": "React best-practices reviewer for TSX files. Triggers after editing multiple TSX components to run a condensed quality checklist covering component structure, hooks usage, accessibility, performance, and TypeScript patterns."
+        },
+        {
+          "name": "vercel:routing-middleware",
+          "description": "Vercel Routing Middleware guidance — request interception before cache, rewrites, redirects, personalization. Works with any framework. Supports Edge, Node.js, and Bun runtimes. Use when intercepting requests at the platform level."
+        },
+        {
+          "name": "vercel:runtime-cache",
+          "description": "Vercel Runtime Cache API guidance — ephemeral per-region key-value cache with tag-based invalidation. Shared across Functions, Routing Middleware, and Builds. Use when implementing caching strategies beyond framework-level caching."
+        },
+        {
+          "name": "vercel:satori",
+          "description": "Expert guidance for Satori — Vercel's library that converts HTML and CSS to SVG, commonly used to generate dynamic OG images for Next.js and other frameworks."
+        },
+        {
+          "name": "vercel:shadcn",
+          "description": "shadcn/ui expert guidance — CLI, component installation, composition patterns, custom registries, theming, Tailwind CSS integration, and high-quality interface design. Use when initializing shadcn, adding components, composing product UI, building custom registries, configuring themes, or troubleshooting component issues."
+        },
+        {
+          "name": "vercel:sign-in-with-vercel",
+          "description": "Sign in with Vercel guidance — OAuth 2.0/OIDC identity provider for user authentication via Vercel accounts. Use when implementing user login with Vercel as the identity provider."
+        },
+        {
+          "name": "vercel:swr",
+          "description": "SWR data-fetching expert guidance. Use when building React apps with client-side data fetching, caching, revalidation, mutations, optimistic UI, pagination, or infinite loading using the SWR library."
+        },
+        {
+          "name": "vercel:turbopack",
+          "description": "Turbopack expert guidance. Use when configuring the Next.js bundler, optimizing HMR, debugging build issues, or understanding the Turbopack vs Webpack differences."
+        },
+        {
+          "name": "vercel:turborepo",
+          "description": "Turborepo expert guidance. Use when setting up or optimizing monorepo builds, configuring task caching, remote caching, parallel execution, or the --affected flag for incremental CI."
+        },
+        {
+          "name": "vercel:v0-dev",
+          "description": "v0 by Vercel expert guidance. Use when discussing AI code generation, generating UI components from prompts, v0 CLI usage, v0 SDK/API integration, or integrating v0 into development workflows with GitHub and Vercel deployment."
+        },
+        {
+          "name": "vercel:vercel-agent",
+          "description": "Vercel Agent guidance — AI-powered code review, incident investigation, and SDK installation. Automates PR analysis and anomaly debugging. Use when configuring or understanding Vercel's AI development tools."
+        },
+        {
+          "name": "vercel:vercel-api",
+          "description": "Vercel app and REST API expert guidance. Use when the agent needs live access to Vercel projects, deployments, environment variables, domains, logs, or documentation through the connected Vercel app or REST API."
+        },
+        {
+          "name": "vercel:vercel-cli",
+          "description": "Vercel CLI expert guidance. Use when deploying, managing environment variables, linking projects, viewing logs, querying metrics, managing domains, or interacting with the Vercel platform from the command line."
+        },
+        {
+          "name": "vercel:vercel-connect",
+          "description": "Vercel Connect expert guidance — securely obtain scoped OAuth tokens for third-party services (Slack, GitHub, MCP servers, OAuth, Snowflake) on behalf of apps or users via Vercel OIDC. Use when wiring up third-party API access, connecting to MCP servers, sending Slack messages, accessing GitHub APIs, receiving webhook events from Slack/Linear/GitHub and forwarding them to your agents and apps, or building Eve agent connections."
+        },
+        {
+          "name": "vercel:vercel-firewall",
+          "description": "Vercel Firewall expert guidance — automatic DDoS mitigation, the Vercel WAF (custom rules, IP blocking, managed rulesets, rate limiting), Attack Mode, system bypass, bot management, and the `vercel firewall` CLI. Use when configuring platform-level security, responding to attacks, or staging firewall rules."
+        },
+        {
+          "name": "vercel:vercel-flags",
+          "description": "Vercel Flags guidance — feature flags platform with unified dashboard, Flags Explorer, gradual rollouts, A/B testing, and provider adapters. Use when implementing feature flags, experimentation, or staged rollouts."
+        },
+        {
+          "name": "vercel:vercel-functions",
+          "description": "Vercel Functions expert guidance — Serverless Functions, Edge Functions, Fluid Compute, streaming, Cron Jobs, and runtime configuration. Use when configuring, debugging, or optimizing server-side code running on Vercel."
+        },
+        {
+          "name": "vercel:vercel-queues",
+          "description": "Vercel Queues guidance (public beta) — durable event streaming with topics, consumer groups, retries, and delayed delivery. $0.60/1M ops. Powers Workflow DevKit. Use when building async processing, fan-out patterns, or event-driven architectures."
+        },
+        {
+          "name": "vercel:vercel-sandbox",
+          "description": "Vercel Sandbox guidance — ephemeral Firecracker microVMs for running untrusted code safely. Supports AI agents, code generation, and experimentation. Use when executing user-generated or AI-generated code in isolation."
+        },
+        {
+          "name": "vercel:vercel-services",
+          "description": "Vercel Services — deploy multiple services within a single Vercel project. Use for monorepo layouts or when combining a backend (Python, Go) with a frontend (Next.js, Vite) in one deployment."
+        },
+        {
+          "name": "vercel:vercel-storage",
+          "description": "Vercel storage expert guidance — Blob, Edge Config, and Marketplace storage (Neon Postgres, Upstash Redis). Use when choosing, configuring, or using data storage with Vercel applications."
+        },
+        {
+          "name": "vercel:verification",
+          "description": "Full-story verification — infers what the user is building, then verifies the complete flow end-to-end: browser → API → data → response. Triggers on dev server start and 'why isn't this working' signals."
+        },
+        {
+          "name": "vercel:workflow",
+          "description": "Vercel Workflow DevKit (WDK) expert guidance. Use when building durable workflows, long-running tasks, API routes or agents that need pause/resume, retries, step-based execution, or crash-safe orchestration with Vercel Workflow."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "WeRoad",
+      "tools": [
+        "mcp__codex_apps__weroad_search_travels"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    },
+    {
+      "name": "Write Like Me",
+      "tools": [
+        "mcp__codex_apps__writing_style_retrieve",
+        "mcp__codex_apps__writing_style_search"
+      ],
+      "skills": [
+        {
+          "name": "write-like-me:write-like-me",
+          "description": "Use when creating documents, emails, reports, proposals, presentations, or messages on the user's behalf to ensure they match the user's writing style. Skip minor edits and requests that explicitly do not want style matching."
+        }
+      ],
+      "usage": "catalog"
+    },
+    {
+      "name": "Zapier MCP",
+      "tools": [
+        "mcp__codex_apps__zapier_mcp_auto_provision_mcp",
+        "mcp__codex_apps__zapier_mcp_create_zapier_skill",
+        "mcp__codex_apps__zapier_mcp_delete_zapier_skill",
+        "mcp__codex_apps__zapier_mcp_disable_zapier_action",
+        "mcp__codex_apps__zapier_mcp_discover_zapier_actions",
+        "mcp__codex_apps__zapier_mcp_enable_zapier_action",
+        "mcp__codex_apps__zapier_mcp_execute_zapier_read_action",
+        "mcp__codex_apps__zapier_mcp_execute_zapier_write_action",
+        "mcp__codex_apps__zapier_mcp_get_configuration_url",
+        "mcp__codex_apps__zapier_mcp_get_zapier_skill",
+        "mcp__codex_apps__zapier_mcp_inspect_zapier_actions",
+        "mcp__codex_apps__zapier_mcp_list_zapier_connections",
+        "mcp__codex_apps__zapier_mcp_list_zapier_skills",
+        "mcp__codex_apps__zapier_mcp_manage_zapier_connections",
+        "mcp__codex_apps__zapier_mcp_send_feedback",
+        "mcp__codex_apps__zapier_mcp_update_zapier_skill",
+        "mcp__codex_apps__zapier_mcp_write_code_action"
+      ],
+      "skills": [],
+      "usage": "catalog"
+    }
+  ]
+}

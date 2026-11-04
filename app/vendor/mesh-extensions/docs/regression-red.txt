@@ -1,0 +1,62 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-mesh-graph-explorer-extension@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✔ adapter reuses real graph IDs and relationships without mutating V4 input (9.247732ms)
+✔ unknown state and source date stay explicitly unknown (2.133418ms)
+✔ events are retained records, bounded and never used to reconstruct current state (1.746625ms)
+✔ omitted archived and unresolved references are disclosed instead of fabricated nodes (1.385089ms)
+✔ invalid state, duplicate source IDs and invalid source dates are rejected (2.276544ms)
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (11.105415ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (21.723834ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (4.970629ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (5.272404ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (7.20461ms)
+✔ unknown state is explicit and never shown as live or loaded-empty (53.142029ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (79.729785ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (56.308672ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (42.224283ms)
+✔ retained activity tells the truth about incomplete history and current graph (23.688864ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (20.360567ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (37.963154ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (29.731675ms)
+✔ view config roundtrips and layout changes preserve selection and filters (3.707803ms)
+✔ config rejects unknown versions, inherited extras, NaN and oversized queries (1.741498ms)
+✔ filtering never clears selection and classifies hidden versus missing (7.654529ms)
+✔ scene caps nodes/edges, prioritizes selected node and reports exact omissions (3.941286ms)
+✔ each layout is finite and deterministic independent of input order (3.186952ms)
+✔ evidence layout places task prerequisites before dependent tasks and tolerates cycles (1.50501ms)
+✔ empty graph has safe nonzero bounds in every layout (0.153341ms)
+✖ focus mode shows the selected node and immediate recorded relations without clearing filters (6.235397ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 25
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1230.566935
+
+✖ failing tests:
+
+test at tests/view.test.ts:25:1
+✖ focus mode shows the selected node and immediate recorded relations without clearing filters (6.235397ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(v.nodes.every(n => related.has(n.id)))
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/view.test.ts:25:419)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
