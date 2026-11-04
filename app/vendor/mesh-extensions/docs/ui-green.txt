@@ -1,0 +1,14 @@
+✔ unknown state is explicit and never shown as live or loaded-empty (40.414321ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (63.688286ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (39.627845ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (40.474662ms)
+✔ retained activity tells the truth about incomplete history and current graph (13.794728ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (17.568694ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 986.132895

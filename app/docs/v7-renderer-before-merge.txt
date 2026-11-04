@@ -1,0 +1,25 @@
+node:internal/process/promises:394
+    triggerUncaughtException(err, true /* fromPromise */);
+    ^
+
+[AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
+  Comparison {
++   name: 'TypeError'
+-   name: 'AbortError'
+  }
+] {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: TypeError: latest.current.onARState is not a function
+      at reportAR (evalmachine.<anonymous>:138:40)
+      at Object.ar (evalmachine.<anonymous>:417:41)
+      at async waitForActual (node:assert:646:5)
+      at async strict.rejects (node:assert:769:25),
+  expected: { name: 'AbortError' },
+  operator: 'rejects',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

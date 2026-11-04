@@ -1,0 +1,358 @@
+✖ accepted unreferenced task removal emits one canonical event with the removed ID (6.813564ms)
+✖ multiple task removals have separate canonical IDs, monotonic sequence and 200-event retention (17.50882ms)
+✔ mission reference and task dependency still reject removal atomically (4.405703ms)
+✔ archive emits the unchanged task update without removal or duplicate event (1.923971ms)
+✔ event and interaction histories cannot be client-forged or replaced while removing a task (1.341653ms)
+✔ deletion remains CAS-protected and a rejected stale write changes nothing (0.501276ms)
+✖ deletion events participate in the existing total write budget before acceptance (1222.820415ms)
+✖ V3 projection and V4 canonical removal events keep the unchanged contracts (0.991656ms)
+✔ first focus call applies and exact request retry is still deduplicated (3.303481ms)
+✖ state-changing Created focus returns after a legal phase cycle (2.063271ms)
+✖ state-changing Planned focus returns after a legal phase cycle (3.516762ms)
+✖ state-changing Assigned focus returns after a legal phase cycle (3.181868ms)
+✖ task-start returns after legal reopening and still checks its dependencies (2.768184ms)
+✖ Working to Review can recur; Review opening remains once per semantic key despite unrelated revision or return (3.817737ms)
+✔ stale revision and stale suggestion cannot mutate a restored phase (1.347011ms)
+✖ untreated risks still suppress and reject repeated focus; acceptance remains exact scope (15.281682ms)
+✔ invalid phase jumps, acceptance prerequisites and closed missions are unchanged (2.937949ms)
+✔ 120-record interaction budget and history preservation still bound repeats (0.838224ms)
+✔ legacy merge keeps colliding rooms completely, including skipping incoming-only contributions (1.190866ms)
+✖ active legacy import UI explains unchanged rooms, skipped contributions and both exact budgets (1.210986ms)
+✖ actual NeuroPanel reoffers and executes restored focus through the local Actiondomain (631.516911ms)
+✖ actual IndexedDB transaction persists removal plus canonical event together and rejects stale retry (67.921716ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 9
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2387.626033
+
+✖ failing tests:
+
+test at tests/domain-fixes.test.mjs:21:1
+✖ accepted unreferenced task removal emits one canonical event with the removed ID (6.813564ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:24:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:28:1
+✖ multiple task removals have separate canonical IDs, monotonic sequence and 200-event retention (17.50882ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 3
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:31:55)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 3,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:49:1
+✖ deletion events participate in the existing total write budget before acceptance (1222.820415ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:60:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /1\.750\.000/,
+    operator: 'throws',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:62:1
+✖ V3 projection and V4 canonical removal events keep the unchanged contracts (0.991656ms)
+  AssertionError [ERR_ASSERTION]: V3 removal also needs a canonical event
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:64:44)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:70:129
+✖ state-changing Created focus returns after a legal phase cycle (2.063271ms)
+  AssertionError [ERR_ASSERTION]: valid state-changing suggestion must return
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:73:42)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:70:129
+✖ state-changing Planned focus returns after a legal phase cycle (3.516762ms)
+  AssertionError [ERR_ASSERTION]: valid state-changing suggestion must return
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:73:42)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:70:129
+✖ state-changing Assigned focus returns after a legal phase cycle (3.181868ms)
+  AssertionError [ERR_ASSERTION]: valid state-changing suggestion must return
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:73:42)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:76:1
+✖ task-start returns after legal reopening and still checks its dependencies (2.768184ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'c1e1a060-eb3e-42ec-8411-b1aac683c166:tune-controls:start'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:78:205)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'c1e1a060-eb3e-42ec-8411-b1aac683c166:tune-controls:start',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:81:1
+✖ Working to Review can recur; Review opening remains once per semantic key despite unrelated revision or return (3.817737ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - '0ec1e486-94e1-4c4c-bda9-804dc957d0ac:Review'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:83:44)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: '0ec1e486-94e1-4c4c-bda9-804dc957d0ac:Review',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:89:1
+✖ untreated risks still suppress and reject repeated focus; acceptance remains exact scope (15.281682ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(focus(accepted))
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:91:267)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:104:1
+✖ active legacy import UI explains unchanged rooms, skipped contributions and both exact budgets (1.210986ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Vorhandene Raum-IDs bleiben vollständig unverändert/. Input:
+  
+  "'use client';\n" +
+    "import {LocalSourceDocument} from '../src/LocalSourceDocument';\n" +
+    "import {saveTextFile,copyWithFeedback,copyPlatformText} from '../src/platform/runtime';\n" +
+    '\n' +
+    "import {createId} from '@/lib/ids';\n" +
+    '\n' +
+    "import {lazy,useEffect,useMemo,useRef,useState} from 'react';\n" +
+    "import {Command,LayoutDashboard,Users,Plug,GitPullRequest,Workflow,Layers,FileText,ArrowUpRight,Check,ShieldCheck,Search,Copy,Download,Upload,FlaskConical,CheckCircle2,Minus,HelpCircle,PauseCircle,Save,BookOpen,ExternalLink,RefreshCw,Settings2,MessageSquare,ClipboardList,Orbit,Sparkles,Link2,Target,FileCheck2,Activity} from 'lucide-react';\n" +
+    "import {Button} from '@/components/ui/button';\n" +
+    "import {Input} from '@/components/ui/input';\n" +
+    "import {Textarea} from '@/components/ui/textarea';\n" +
+    "import {Checkbox} from '@/components/ui/checkbox';\n" +
+    "import {NativeSelect,NativeSelectOption} from '@/components/ui/native-select';\n" +
+    "import {Sheet,SheetContent,SheetDescription,SheetHeader,SheetTitle} from '@/components/ui/sheet';\n" +
+    "import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from '@/components/ui/table';\n" +
+    "import {Toaster} from '@/components/ui/sonner';\n" +
+    "import {toast} from 'sonner';\n" +
+    "import type {WorkState} from '@/lib/work-contract';\n" +
+    "import {useWorkState} from '../src/shared-work-state';\n" +
+    "import {validNavigation} from '../src/system-navigation';\n" +
+    "import {decodeSnapshot,encodeSnapshot,mergeSnapshot} from '@/lib/work-snapshots';\n" +
+    "import type {RoomSeed} from './workspace-panels';\n" +
+    "import QueuePanel from '../upstream/app/queue-panel';\n" +
+    "import PanelBoundary from '../upstream/app/panel-boundary';\n" +
+    "const SettingPanels=lazy(()=>import('./workspace-panels').then(m=>({default:m.SettingPanels})));\n" +
+    "const RoomsPanel=lazy(()=>import('./workspace-panels').then(m=>({default:m.RoomsPanel})));\n" +
+    "const MatrixPanel=lazy(()=>import('./workspace-panels').then(m=>({default:m.MatrixPanel})));\n" +
+    "const MeshSpace=lazy(()=>import('./mesh-space'));\n" +
+    "const CommandCenter=lazy(()=>import('./command-center'));\n" +
+    "const NeuroPanel=lazy(()=>import('../upstream/app/neuro-panel'));\n" +
+    "const HelpPanel=lazy(()=>import('./help-panel'));\n" +
+    "const CommandPalette=lazy(()=>import('../upstream/app/command-palette'));\n" +
+    "const CoordinationPanel=lazy(()=>import('./coordination-panel'));\n" +
+    "import {Popover,PopoverTrigger,PopoverContent} from '@/components/ui/popover';\n" +
+    "import {SidebarProvider,Sidebar,SidebarContent,SidebarHeader,SidebarMenu,SidebarMenuItem,SidebarMenuButton,SidebarFooter,SidebarInset,SidebarTrigger,useSidebar} from '../overlay/sidebar';\n" +
+    '\n' +
+    "const nav=[['overview','Übersicht',LayoutDashboard],['agents','Agenten',Users],['missions','Missionszentrale',Target],['approvals','Freigaben',FileCheck2],['activity','Aktivität',Activity],['intelligence','Fokus & Intelligence',Sparkles],['help','Hilfe',HelpCircle],['connections','Verbindungen',Plug],['pilot','PAZ-Pilot',GitPullRequest],['make','Automationen',Workflow],['lab','Funktionslabor',FlaskConical],['addons','Add-on-Katalog',Layers],['evidence','Evidenz',FileText],['chats','Missionräume',MessageSquare],['matrix','Aufgabenmatrix',ClipboardList],['space','3D & Lernen',Orbit],['settings','Einstellungen',Settings2]] as const;\n" +
+    'type View=typeof nav[number][0];\n' +
+    "const descriptions:Record<View,string>={intelligence:'Eine interaktive Matrix für Fokus, Fortschritt, Stabilität und konkrete Entscheidungen.',help:'Durchsuchbare Hilfe zu Bedienung, Daten, Aktionen und überprüfbaren Grenzen.',overview:'Ein gemeinsamer Zustand. Klare Zuständigkeiten. Nachvollziehbare nächste Schritte.',agents:'Vier Arbeitsbereiche mit individuellen Vorgaben, Missionen und Reviews.',missions:'Ziele, Verantwortung, Aufgaben und Fortsetzungspunkte in einem überprüfbaren Auftrag.',approvals:'Konkrete Anfragen prüfen und Entscheidungen mit festem Inhalt dokumentieren.',activity:'Akzeptierte Änderungen deines privaten App-Arbeitsstands nachvollziehen.',connections:'Werkzeug, Anmeldung, Profilbindung und Leseabruf sind getrennte Nachweise.',pilot:'Issue #23: einen belastbaren Plan vorbereiten, bevor Code geändert wird.',make:'Den bestehenden Ablauf verstehen und den Startwunsch nachvollziehbar vorbereiten.',addons:'Der vollständige sichtbare Werkzeug- und Skill-Bestand aus ChatGPT/Codex.',lab:'Neue Abläufe durchspielen, Aufwand vergleichen und konkrete Übergaben erstellen.',evidence:'Dateien, Screenshots und direkte Leseabrufe mit klarer Herkunft.',settings:'Dein Dashboard, Arbeitsprofile und Chatstandards gezielt konfigurieren.',chats:'Missionen, ausgewählte Quellen und Rückmeldungen an einem Ort.',matrix:'Verbesserungen priorisieren, Abhängigkeiten klären und Ergebnisse belegen.',space:'Verantwortung und Beziehungen erkunden, Fälle prüfen und eigene Lernaufgaben anlegen.'};\n" +
+    '\n' +
+    "export default function MeshApp({data,initialView='overview',initialQuery='',explicitView=false,active=true}:{data:any;initialView?:View;initialQuery?:string;explicitView?:boolean;active?:boolean}){\n" +
+    ' const [view,setView]=useState<View>(initialView);\n' +
+    " useEffect(()=>{const receive=(event:Event)=>{const target=(event as CustomEvent).detail;if(validNavigation(target)){go(target.view);if(target.query)setQuery(target.query)}};window.addEventListener('cue:navigate',receive);return()=>window.removeEventListener('cue:navigate',receive)},[]);\n" +
+    ' const [query,setQuery]=useState(initialQuery);\n' +
+    ' const [commandOpen,setCommandOpen]=useState(false);\n' +
+    ' const [linksOpen,setLinksOpen]=useState(false);\n' +
+    " const [settingsSection,setSettingsSection]=useState('dashboard');\n" +
+    " const [settingsAgent,setSettingsAgent]=useState('zimt');\n" +
+    ' const [roomSeed,setRoomSeed]=useState<RoomSeed|null>(null);\n' +
+    ' const navigated=useRef(explicitView);\n' +
+    " const [filter,setFilter]=useState('all');\n" +
+    ' const [detail,setDetail]=useState<{kind:string;item?:any}|null>(null);\n' +
+    ' const {work,storage,storageError,loadingWork,initialized,hasLoaded,busy,loadWork,changeWork,performAction}=useWorkState();\n' +
+    " const [handoffScope,setHandoffScope]=useState('paz');\n" +
+    " const [note,setNote]=useState('');\n" +
+    " const [mission,setMission]=useState('Erstelle einen begrenzten Implementierungsplan für PAZ Issue #23.');\n" +
+    " const [owner,setOwner]=useState('Manus');\n" +
+    " const [output,setOutput]=useState('Plan, Akzeptanzkriterien, Testmatrix und Checkpoint');\n" +
+    " const [route,setRoute]=useState('coding');\n" +
+    ' const [minutes,setMinutes]=useState(15);\n' +
+    ' const [calls,setCalls]=useState(1);\n' +
+    " const [rate,setRate]=useState('');\n" +
+    ' const importRef=useRef<HTMLInputElement>(null);\n' +
+    '\n' +
+    " useEffect(()=>{const onPop=()=>{navigated.current=true;const u=new URL(location.href);const v=u.searchParams.get('view');setView(nav.some(n=>n[0]===v)?v as View:'overview');setQuery(u.searchParams.get('q')||'')};addEventListener('popstate',onPop);return()=>removeEventListener('popstate',onPop)},[]);\n" +
+    " useEffect(()=>{const u=new URL(location.href);view==='overview'?u.searchParams.delete('view'):u.searchParams.set('view',view);query?u.searchParams.set('q',query):u.searchParams.delete('q');history.replaceState({},'',u)},[view,query]);\n" +
+    " useEffect(()=>{if(!active)return;const key=(e:KeyboardEvent)=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setCommandOpen(v=>!v)}};addEventListener('keydown',key);return()=>removeEventListener('keydown',key)},[active]);\n" +
+    " useEffect(()=>{const media=matchMedia('(prefers-color-scheme: dark)');const apply=()=>{document.documentElement.classList.toggle('dark',work.settings.theme==='dark'||(work.settings.theme==='system'&&media.matches));document.documentElement.dataset.density=work.settings.density;document.documentElement.dataset.motion=work.settings.motion;document.documentElement.style.fontSize=16*work.settings.fontScale/100+'px'};apply();media.addEventListener('change',apply);return()=>media.removeEventListener('change',apply)},[work.settings]);\n" +
+    " function go(v:View){navigated.current=true;const u=new URL(location.href);v==='overview'?u.searchParams.delete('view'):u.searchParams.set('view',v);u.searchParams.delete('q');u.searchParams.delete('studio');history.pushState({},'',u);setView(v);setQuery('');setFilter('all');setCommandOpen(false);setLinksOpen(false);window.scrollTo({top:0,behavior:'instant'})}\n" +
+    " function settings(tab='dashboard',agent='zimt'){setSettingsSection(tab);setSettingsAgent(agent);go('settings')}\n" +
+    " function prepareMission(context=view,agent:RoomSeed['agent']='zimt'){const seed:RoomSeed=context==='pilot'?{title:'PAZ · Baseline vor Dateiplan',goal:'Vergleiche PR #19 und main lesend für PAZ Issue #23. Dokumentiere die Beziehung und die relevanten Unterschiede bei Schema, Loader, YAML und Tests.',project:'paz',agent:agent==='zimt'?'manus':agent}:context==='make'?{title:'Make · Parameterprüfung',goal:'Prüfe Make-Szenario #7098897 lesend: konkrete Modulparameter, Datenzugriffe, Außenwirkungen, Kosten und Stoppen. Erstelle einen begrenzten nächsten Schritt vor einer Startentscheidung.',project:'make',agent:agent==='zimt'?'manus':agent}:{title:'Mesh · Nächster sinnvoller Schritt',goal:'Erstelle einen konkreten nächsten Schritt aus dem vorhandenen Quellen- und Aufgabenstand. Kläre Input, Zuständigkeit, Akzeptanzkriterien und Belege.',project:'cue',agent};setRoomSeed(seed);go('chats')}\n" +
+    ' useEffect(()=>{if(initialized&&!storageError&&!navigated.current){setView(work.settings.startView);navigated.current=true}},[initialized,storageError,work.settings.startView]);\n' +
+    " async function addNote(){if(!note.trim())return;if(work.notes.length>=100){toast.error('Maximal 100 Notizen. Sichere deinen Arbeitsstand mit Export.');return}const next={...work,notes:[{id:createId(),text:note.trim(),createdAt:new Date().toISOString()},...work.notes]};if(await changeWork(next)){setNote('');toast.success('Notiz gespeichert.')}}\n" +
+    " function exportJSON(){if(loadingWork||!hasLoaded||busy){toast.error('Export braucht einen erfolgreich geladenen, ruhenden Arbeitsstand.');return}download('cue-mesh-snapshot.json',JSON.stringify(encodeSnapshot(work,data),null,2),'application/json');if(storageError)toast.info('Exportgrundlage ist der zuletzt geladene Stand; der aktuelle Speicherstand ist unbekannt.');}\n" +
+    ' async function importJSON(file?:File){\n' +
+    '  if(!file)retu'... 44534 more characters
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:105:97)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: "'use client';\nimport {LocalSourceDocument} from '../src/LocalSourceDocument';\nimport {saveTextFile,copyWithFeedback,copyPlatformText} from '../src/platform/runtime';\n\nimport {createId} from '@/lib/ids';\n\nimport {lazy,useEffect,useMemo,useRef,useState} from 'react';\nimport {Command,LayoutDashboard,Users,Plug,GitPullRequest,Workflow,Layers,FileText,ArrowUpRight,Check,ShieldCheck,Search,Copy,Download,Upload,FlaskConical,CheckCircle2,Minus,HelpCircle,PauseCircle,Save,BookOpen,ExternalLink,RefreshCw,Settings2,MessageSquare,ClipboardList,Orbit,Sparkles,Link2,Target,FileCheck2,Activity} from 'lucide-react';\nimport {Button} from '@/components/ui/button';\nimport {Input} from '@/components/ui/input';\nimport {Textarea} from '@/components/ui/textarea';\nimport {Checkbox} from '@/components/ui/checkbox';\nimport {NativeSelect,NativeSelectOption} from '@/components/ui/native-select';\nimport {Sheet,SheetContent,SheetDescription,SheetHeader,SheetTitle} from '@/components/ui/sheet';\nimport {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from '@/components/ui/table';\nimport {Toaster} from '@/components/ui/sonner';\nimport {toast} from 'sonner';\nimport type {WorkState} from '@/lib/work-contract';\nimport {useWorkState} from '../src/shared-work-state';\nimport {validNavigation} from '../src/system-navigation';\nimport {decodeSnapshot,encodeSnapshot,mergeSnapshot} from '@/lib/work-snapshots';\nimport type {RoomSeed} from './workspace-panels';\nimport QueuePanel from '../upstream/app/queue-panel';\nimport PanelBoundary from '../upstream/app/panel-boundary';\nconst SettingPanels=lazy(()=>import('./workspace-panels').then(m=>({default:m.SettingPanels})));\nconst RoomsPanel=lazy(()=>import('./workspace-panels').then(m=>({default:m.RoomsPanel})));\nconst MatrixPanel=lazy(()=>import('./workspace-panels').then(m=>({default:m.MatrixPanel})));\nconst MeshSpace=lazy(()=>import('./mesh-space'));\nconst CommandCenter=lazy(()=>import('./command-center'));\nconst NeuroPanel=lazy(()=>import('../upstream/app/neuro-panel'));\nconst HelpPanel=lazy(()=>import('./help-panel'));\nconst CommandPalette=lazy(()=>import('../upstream/app/command-palette'));\nconst CoordinationPanel=lazy(()=>import('./coordination-panel'));\nimport {Popover,PopoverTrigger,PopoverContent} from '@/components/ui/popover';\nimport {SidebarProvider,Sidebar,SidebarContent,SidebarHeader,SidebarMenu,SidebarMenuItem,SidebarMenuButton,SidebarFooter,SidebarInset,SidebarTrigger,useSidebar} from '../overlay/sidebar';\n\nconst nav=[['overview','Übersicht',LayoutDashboard],['agents','Agenten',Users],['missions','Missionszentrale',Target],['approvals','Freigaben',FileCheck2],['activity','Aktivität',Activity],['intelligence','Fokus & Intelligence',Sparkles],['help','Hilfe',HelpCircle],['connections','Verbindungen',Plug],['pilot','PAZ-Pilot',GitPullRequest],['make','Automationen',Workflow],['lab','Funktionslabor',FlaskConical],['addons','Add-on-Katalog',Layers],['evidence','Evidenz',FileText],['chats','Missionräume',MessageSquare],['matrix','Aufgabenmatrix',ClipboardList],['space','3D & Lernen',Orbit],['settings','Einstellungen',Settings2]] as const;\ntype View=typeof nav[number][0];\nconst descriptions:Record<View,string>={intelligence:'Eine interaktive Matrix für Fokus, Fortschritt, Stabilität und konkrete Entscheidungen.',help:'Durchsuchbare Hilfe zu Bedienung, Daten, Aktionen und überprüfbaren Grenzen.',overview:'Ein gemeinsamer Zustand. Klare Zuständigkeiten. Nachvollziehbare nächste Schritte.',agents:'Vier Arbeitsbereiche mit individuellen Vorgaben, Missionen und Reviews.',missions:'Ziele, Verantwortung, Aufgaben und Fortsetzungspunkte in einem überprüfbaren Auftrag.',approvals:'Konkrete Anfragen prüfen und Entscheidungen mit festem Inhalt dokumentieren.',activity:'Akzeptierte Änderungen deines privaten App-Arbeitsstands nachvollziehen.',connections:'Werkzeug, Anmeldung, Profilbindung und Leseabruf sind getrennte Nachweise.',pilot:'Issue #23: einen belastbaren Plan vorbereiten, bevor Code geändert wird.',make:'Den bestehenden Ablauf verstehen und den Startwunsch nachvollziehbar vorbereiten.',addons:'Der vollständige sichtbare Werkzeug- und Skill-Bestand aus ChatGPT/Codex.',lab:'Neue Abläufe durchspielen, Aufwand vergleichen und konkrete Übergaben erstellen.',evidence:'Dateien, Screenshots und direkte Leseabrufe mit klarer Herkunft.',settings:'Dein Dashboard, Arbeitsprofile und Chatstandards gezielt konfigurieren.',chats:'Missionen, ausgewählte Quellen und Rückmeldungen an einem Ort.',matrix:'Verbesserungen priorisieren, Abhängigkeiten klären und Ergebnisse belegen.',space:'Verantwortung und Beziehungen erkunden, Fälle prüfen und eigene Lernaufgaben anlegen.'};\n\nexport default function MeshApp({data,initialView='overview',initialQuery='',explicitView=false,active=true}:{data:any;initialView?:View;initialQuery?:string;explicitView?:boolean;active?:boolean}){\n const [view,setView]=useState<View>(initialView);\n useEffect(()=>{const receive=(event:Event)=>{const target=(event as CustomEvent).detail;if(validNavigation(target)){go(target.view);if(target.query)setQuery(target.query)}};window.addEventListener('cue:navigate',receive);return()=>window.removeEventListener('cue:navigate',receive)},[]);\n const [query,setQuery]=useState(initialQuery);\n const [commandOpen,setCommandOpen]=useState(false);\n const [linksOpen,setLinksOpen]=useState(false);\n const [settingsSection,setSettingsSection]=useState('dashboard');\n const [settingsAgent,setSettingsAgent]=useState('zimt');\n const [roomSeed,setRoomSeed]=useState<RoomSeed|null>(null);\n const navigated=useRef(explicitView);\n const [filter,setFilter]=useState('all');\n const [detail,setDetail]=useState<{kind:string;item?:any}|null>(null);\n const {work,storage,storageError,loadingWork,initialized,hasLoaded,busy,loadWork,changeWork,performAction}=useWorkState();\n const [handoffScope,setHandoffScope]=useState('paz');\n const [note,setNote]=useState('');\n const [mission,setMission]=useState('Erstelle einen begrenzten Implementierungsplan für PAZ Issue #23.');\n const [owner,setOwner]=useState('Manus');\n const [output,setOutput]=useState('Plan, Akzeptanzkriterien, Testmatrix und Checkpoint');\n const [route,setRoute]=useState('coding');\n const [minutes,setMinutes]=useState(15);\n const [calls,setCalls]=useState(1);\n const [rate,setRate]=useState('');\n const importRef=useRef<HTMLInputElement>(null);\n\n useEffect(()=>{const onPop=()=>{navigated.current=true;const u=new URL(location.href);const v=u.searchParams.get('view');setView(nav.some(n=>n[0]===v)?v as View:'overview');setQuery(u.searchParams.get('q')||'')};addEventListener('popstate',onPop);return()=>removeEventListener('popstate',onPop)},[]);\n useEffect(()=>{const u=new URL(location.href);view==='overview'?u.searchParams.delete('view'):u.searchParams.set('view',view);query?u.searchParams.set('q',query):u.searchParams.delete('q');history.replaceState({},'',u)},[view,query]);\n useEffect(()=>{if(!active)return;const key=(e:KeyboardEvent)=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setCommandOpen(v=>!v)}};addEventListener('keydown',key);return()=>removeEventListener('keydown',key)},[active]);\n useEffect(()=>{const media=matchMedia('(prefers-color-scheme: dark)');const apply=()=>{document.documentElement.classList.toggle('dark',work.settings.theme==='dark'||(work.settings.theme==='system'&&media.matches));document.documentElement.dataset.density=work.settings.density;document.documentElement.dataset.motion=work.settings.motion;document.documentElement.style.fontSize=16*work.settings.fontScale/100+'px'};apply();media.addEventListener('change',apply);return()=>media.removeEventListener('change',apply)},[work.settings]);\n function go(v:View){navigated.current=true;const u=new URL(location.href);v==='overview'?u.searchParams.delete('view'):u.searchParams.set('view',v);u.searchParams.delete('q');u.searchParams.delete('studio');history.pushState({},'',u);setView(v);setQuery('');setFilter('all');setCommandOpen(false);setLinksOpen(false);window.scrollTo({top:0,behavior:'instant'})}\n function settings(tab='dashboard',agent='zimt'){setSettingsSection(tab);setSettingsAgent(agent);go('settings')}\n function prepareMission(context=view,agent:RoomSeed['agent']='zimt'){const seed:RoomSeed=context==='pilot'?{title:'PAZ · Baseline vor Dateiplan',goal:'Vergleiche PR #19 und main lesend für PAZ Issue #23. Dokumentiere die Beziehung und die relevanten Unterschiede bei Schema, Loader, YAML und Tests.',project:'paz',agent:agent==='zimt'?'manus':agent}:context==='make'?{title:'Make · Parameterprüfung',goal:'Prüfe Make-Szenario #7098897 lesend: konkrete Modulparameter, Datenzugriffe, Außenwirkungen, Kosten und Stoppen. Erstelle einen begrenzten nächsten Schritt vor einer Startentscheidung.',project:'make',agent:agent==='zimt'?'manus':agent}:{title:'Mesh · Nächster sinnvoller Schritt',goal:'Erstelle einen konkreten nächsten Schritt aus dem vorhandenen Quellen- und Aufgabenstand. Kläre Input, Zuständigkeit, Akzeptanzkriterien und Belege.',project:'cue',agent};setRoomSeed(seed);go('chats')}\n useEffect(()=>{if(initialized&&!storageError&&!navigated.current){setView(work.settings.startView);navigated.current=true}},[initialized,storageError,work.settings.startView]);\n async function addNote(){if(!note.trim())return;if(work.notes.length>=100){toast.error('Maximal 100 Notizen. Sichere deinen Arbeitsstand mit Export.');return}const next={...work,notes:[{id:createId(),text:note.trim(),createdAt:new Date().toISOString()},...work.notes]};if(await changeWork(next)){setNote('');toast.success('Notiz gespeichert.')}}\n function exportJSON(){if(loadingWork||!hasLoaded||busy){toast.error('Export braucht einen erfolgreich geladenen, ruhenden Arbeitsstand.');return}download('cue-mesh-snapshot.json',JSON.stringify(encodeSnapshot(work,data),null,2),'application/json');if(storageError)toast.info('Exportgrundlage ist der zuletzt geladene Stand; der aktuelle Speicherstand ist unbekannt.');}\n async function importJSON(file?:File){\n  if(!file)retu"... 44534 more characters,
+    expected: /Vorhandene Raum-IDs bleiben vollständig unverändert/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:107:1
+✖ actual NeuroPanel reoffers and executes restored focus through the local Actiondomain (631.516911ms)
+  AssertionError [ERR_ASSERTION]: actual UI must expose restored suggestion
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:113:75)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/domain-fixes.test.mjs:115:1
+✖ actual IndexedDB transaction persists removal plus canonical event together and rejects stale retry (67.921716ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'hermes-preflight'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/domain-fix-kit/.validation/red-baseline/tests/domain-fixes.test.mjs:117:505)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'hermes-preflight',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

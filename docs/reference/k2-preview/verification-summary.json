@@ -1,0 +1,50 @@
+{
+  "sourceScope": "quality-source-v1",
+  "sourceSha256": "c123f8ab5f155c61382a9b58208bb73e04b91a3188f8159241d588bd17285869",
+  "sourceFiles": 1022,
+  "appFilesIncludingHistoricalManifestExceptions": 1024,
+  "appGitTree": "606e57c1b0546d1559f1c4a20ced9aab63bbc176",
+  "adoption": {
+    "status": "pass",
+    "before": "98f0459dd2c6fd0159f395a140fc5354e121cc4a14ae1825dd06b1f683547608",
+    "after": "c123f8ab5f155c61382a9b58208bb73e04b91a3188f8159241d588bd17285869",
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [
+        "quality/baselines/accepted.json",
+        "quality/contract.json"
+      ]
+    },
+    "baselineBytes": 115398,
+    "baselineSha256": "055392e0bec8295c8bbcd3637197fb1cb048f2b5cfa96eee8ef29f68ba1c7e26",
+    "contractBytes": 27973,
+    "contractSha256": "2dcc49f273fd7378166463c2778cfd6cc4b8c46cd1c2d6313c206f6b86ec4489",
+    "previous33GroupsUnchanged": true,
+    "groups": 41,
+    "exceptions": []
+  },
+  "verification": {
+    "source": "c123f8ab5f155c61382a9b58208bb73e04b91a3188f8159241d588bd17285869",
+    "command": "npm run verify:quality -- --contract-sha256 2dcc49f273fd7378166463c2778cfd6cc4b8c46cd1c2d6313c206f6b86ec4489",
+    "status": "pass",
+    "exitCode": 0,
+    "runs": 1,
+    "report": "quality-report.json",
+    "appTests": 1459,
+    "qualityTests": 50,
+    "publisherReproduction": "pass",
+    "rootDocReproduction": "pass",
+    "browserRerun": "notrun; identical production assets verified",
+    "nativeDevice": "notrun"
+  },
+  "assetEquality": {
+    "status": "pass",
+    "count": 61,
+    "actualBytesChecked": true,
+    "contentSha256": "4116ca265a7f4630f60499f851aeffa6f1c4db148e29dd1e524d66d695c01240",
+    "previousSource": "98f0459dd2c6fd0159f395a140fc5354e121cc4a14ae1825dd06b1f683547608",
+    "source": "c123f8ab5f155c61382a9b58208bb73e04b91a3188f8159241d588bd17285869"
+  },
+  "note": "Publisher summary of independently approved evidence; no new browser/native/device run or delivery is claimed."
+}

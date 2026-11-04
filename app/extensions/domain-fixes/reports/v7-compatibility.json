@@ -1,0 +1,9 @@
+{
+  "domainFilesByteIdentical": 8,
+  "uiAnchorsExactlyOnce": [
+    "Die Datei darf h\u00f6chstens 3 MB gro\u00df sein.",
+    "Belegte Quellen werden nicht \u00fcberschrieben.",
+    "Quellen und Screenshots werden nicht ersetzt."
+  ],
+  "fullV7IntegrationTestedHere": false
+}

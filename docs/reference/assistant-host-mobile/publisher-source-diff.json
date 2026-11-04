@@ -1,0 +1,31 @@
+{
+  "baseCommit": "76e222d09b301f2acf5ec6c1db010f8e0bf13be8",
+  "baseSourceSha256": "eb2cd9999c02906d86054ae3b2127d26b45c8812022e68ed69800a2c526f11d4",
+  "sourceSha256": "f57200cd8e13f840f2bffb12ffc43d2ace1dcab3dc4a8abaab67b17721588429",
+  "files": {
+    "added": [
+      "docs/assistant-advisory-host.md",
+      "src/assistant/adapter-factory.ts",
+      "src/assistant/provenance.ts",
+      "src/studio/AssistantAdvice.tsx",
+      "tests/system/assistant-advice.test.tsx"
+    ],
+    "removed": [],
+    "changed": [
+      "quality/baselines/accepted.json",
+      "quality/contract.json",
+      "src/assistant/logging.ts",
+      "src/assistant/runtime.ts",
+      "src/assistant/use-assistant-session.ts",
+      "src/mobile/MobileActionBar.tsx",
+      "src/studio/AssistantConfigPreview.tsx",
+      "src/studio/AssistantPanel.tsx",
+      "src/studio/assistant.css",
+      "tests/system/assistant-logging.test.ts",
+      "tests/system/assistant-runtime.test.ts",
+      "tests/system/assistant-session.test.ts",
+      "tests/system/assistant-ui.test.tsx",
+      "tests/system/mobile-ui.test.tsx"
+    ]
+  }
+}

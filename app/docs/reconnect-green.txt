@@ -1,0 +1,10 @@
+✔ unexpected IndexedDB connection close allows a fresh read without clearing stored data (18.06196ms)
+✔ canonical event IDs reuse upstream getRandomValues fallback without randomUUID (4.885707ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 185.071811

@@ -1,0 +1,35 @@
+node:internal/modules/esm/resolve:271
+    throw new ERR_MODULE_NOT_FOUND(
+          ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/workspace/scratch/40c5c5523452/cue-system/src/platform/native-ar.ts' imported from /workspace/scratch/40c5c5523452/cue-system/tests/system/native-ar.test.ts
+    at finalizeResolution (node:internal/modules/esm/resolve:271:11)
+    at moduleResolve (node:internal/modules/esm/resolve:865:10)
+    at defaultResolve (node:internal/modules/esm/resolve:992:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+    at resolve (file:///workspace/scratch/40c5c5523452/cue-system/scripts/register.mjs:14:11)
+    at nextStep (node:internal/modules/customization_hooks:189:26)
+    at resolveWithHooks (node:internal/modules/customization_hooks:417:10)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:747:16) {
+  code: 'ERR_MODULE_NOT_FOUND',
+  url: 'file:///workspace/scratch/40c5c5523452/cue-system/src/platform/native-ar.ts'
+}
+
+Node.js v24.19.0
+✖ tests/system/native-ar.test.ts (330.513963ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 337.42967
+
+✖ failing tests:
+
+test at tests/system/native-ar.test.ts:1:1
+✖ tests/system/native-ar.test.ts (330.513963ms)
+  'test failed'

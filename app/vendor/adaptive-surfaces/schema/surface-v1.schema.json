@@ -1,0 +1,489 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cue:command-mesh:surface:v1",
+  "title": "Cue internal read-only surface v1",
+  "description": "Internal interface, not external protocol compatibility. Additional semantic graph/session/UTF-8 byte limits apply.",
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "cue.command-mesh.surface/v1"
+    },
+    "catalogVersion": {
+      "const": "cue.readonly/v1"
+    },
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+    },
+    "surfaceId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+    },
+    "baseRevision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740990
+    },
+    "rootId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/component"
+      },
+      "minItems": 1,
+      "maxItems": 200
+    }
+  },
+  "required": [
+    "schema",
+    "catalogVersion",
+    "sessionId",
+    "surfaceId",
+    "baseRevision",
+    "rootId",
+    "components"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "component": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "Group"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "layout": {
+                  "enum": [
+                    "stack",
+                    "split",
+                    "focus"
+                  ]
+                },
+                "focusId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+                }
+              },
+              "required": [
+                "layout"
+              ],
+              "additionalProperties": false
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64,
+                "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+              },
+              "maxItems": 200
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props",
+            "children"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "Text"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "maxLength": 8192
+                }
+              },
+              "required": [
+                "text"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "Status"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "maxLength": 8192,
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "dataRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props",
+            "dataRef"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "Metric"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "maxLength": 8192,
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "dataRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props",
+            "dataRef"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "TaskList"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "maxLength": 8192,
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "dataRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props",
+            "dataRef"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "SourceList"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "maxLength": 8192,
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "dataRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props",
+            "dataRef"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "GraphSlot"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "maxLength": 8192,
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "dataRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props",
+            "dataRef"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "SkillSuggestionSlot"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "maxLength": 8192,
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "dataRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props",
+            "dataRef"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_-]{0,63}$"
+            },
+            "type": {
+              "const": "EventList"
+            },
+            "actionRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "maxLength": 8192,
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "label"
+              ],
+              "additionalProperties": false
+            },
+            "dataRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^(?!constructor$|prototype$|__proto__$)[a-z][a-z0-9_-]{0,63}$"
+            }
+          },
+          "required": [
+            "id",
+            "type",
+            "props",
+            "dataRef"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

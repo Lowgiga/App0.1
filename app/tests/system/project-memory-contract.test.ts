@@ -1,0 +1,19 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {projectMemoryContract,projectMemoryBackupContract,applyProjectMemory,MEMORY_BYTES,type ProjectMemoryBackup} from '../../src/project-memory.ts';
+import {emptyWork} from '../../upstream/lib/work-contract.ts';
+const at='2026-10-04T12:00:00.000Z',id=crypto.randomUUID(),contextId=crypto.randomUUID();
+const entry={id,kind:'decision' as const,status:'proposed' as const,text:'Synthetic decision',origin:{kind:'manual' as const,sourceId:null,workRevision:null},replaces:null,revision:1,history:[{revision:1,at,action:'created' as const,status:'proposed' as const,text:'Synthetic decision'}]};
+const record={schema:'lowquantflow.project-memory/v1' as const,contextId,contextCreatedAt:at,revision:1,updatedAt:at,entries:[entry]};
+test('current revision rejects a future-dated or higher-revision event',()=>{assert.equal(projectMemoryContract.safeParse({...record,updatedAt:'2025-01-01T00:00:00.000Z'}).success,false);assert.equal(projectMemoryContract.safeParse({...record,revision:0,updatedAt:null}).success,false)});
+test('confirmed status needs an explicit confirmation event rather than crafted creation',()=>{assert.equal(projectMemoryContract.safeParse({...record,entries:[{...entry,status:'confirmed',history:[{...entry.history[0],status:'confirmed'}]}]}).success,false)});
+test('replacement references are acyclic and retain the same entry kind',()=>{const other=crypto.randomUUID();assert.equal(projectMemoryContract.safeParse({...record,entries:[{...entry,replaces:other},{...entry,id:other,replaces:id}]}).success,false);assert.equal(projectMemoryContract.safeParse({...record,entries:[entry,{...entry,id:other,kind:'goal',replaces:id}]}).success,false)});
+test('one replacement lineage cannot contain two confirmed decisions',()=>{const other=crypto.randomUUID(),confirmed={...entry,status:'confirmed' as const,revision:2,history:[...entry.history,{revision:2,at,action:'confirmed' as const,status:'confirmed' as const,text:entry.text}]};assert.equal(projectMemoryContract.safeParse({...record,revision:3,entries:[confirmed,{...confirmed,id:other,replaces:id}]}).success,false)});
+test('backup schema is closed and does not accept metadata credentials or duplicate contexts',()=>{assert.equal(projectMemoryBackupContract.safeParse({schema:'lowquantflow.project-memory-backup/v1',records:[record,record]}).success,false);assert.equal(projectMemoryBackupContract.safeParse({schema:'lowquantflow.project-memory-backup/v1',records:[record],password:'SYNTHETIC_ONLY'}).success,false)});
+test('capacity reserves space for forgetting every entry without deleting history',()=>{
+ const work=emptyWork();work.rooms=[{id:contextId,title:'Synthetic',agent:'codex',project:'custom',mode:'DEEP',goal:'Local',output:'Local',sources:[],status:'Aktiv',messages:[],createdAt:at}];
+ const text='x'.repeat(2000),make=(n:number):ProjectMemoryBackup=>({schema:'lowquantflow.project-memory-backup/v1',records:[{...record,revision:n,entries:[{...entry,text,revision:n,history:Array.from({length:n},(_,i)=>({revision:i+1,at,action:i?'corrected':'created',status:'proposed',text}))}]}]});
+ const bytes=(v:unknown)=>new TextEncoder().encode(JSON.stringify(v)).length;let low=1,high=1000;while(low+1<high){const n=Math.floor((low+high)/2);if(bytes(make(n))+2400<MEMORY_BYTES)low=n;else high=n}
+ const memory=make(low);assert.ok(projectMemoryBackupContract.safeParse(memory).success);const input={contextId,expectedRevision:low,expectedWorkUpdatedAt:null,entryId:id};
+ assert.throws(()=>applyProjectMemory(memory,work,{...input,operation:'correct',text},new Date(at)),/voll/);
+ const forgotten=applyProjectMemory(memory,work,{...input,operation:'forget'},new Date(at));assert.equal(forgotten.records[0].entries[0].status,'forgotten');assert.equal(forgotten.records[0].entries[0].history.length,low+1);assert.ok(bytes(forgotten)<=MEMORY_BYTES);
+});

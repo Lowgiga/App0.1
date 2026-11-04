@@ -1,0 +1,48 @@
+✔ real Three scene uses bounded selectable nodes and releases shared GPU resource objects exactly once (11.484499ms)
+✔ on-demand controller handles updates, context loss and complete disposal without animation loops (21.001833ms)
+✔ renderer construction failure is reported honestly and leaves no DOM resources (3.313166ms)
+✔ failed scene update keeps current scene resources and can still dispose renderer (4.181967ms)
+✔ holographic style preserves graph IDs, makes bounded translucent geometry and stays off in clear mode (2.249201ms)
+✔ late ResizeObserver size and pixel-ratio failures report unavailable once without uncaught errors (5.975271ms)
+✔ late window resize failure also takes the controlled fallback path (3.314698ms)
+✔ 3D demand camera focus finishes once, preserves IDs and does not invoke selection callbacks (4.957396ms)
+✔ 3D rapid toggles finish at the last immediate camera target and policy changes settle immediately (12.88379ms)
+✔ 3D Escape and camera gestures cancel without fighting the user or scheduling a delayed fit (7.42661ms)
+✔ 3D context loss and disposal clear all transition frames including stale callbacks (8.233587ms)
+✔ 3D selection focus is bounded and a missing or cleared selection cancels the old destination (5.465583ms)
+✔ 3D hidden document and a renderer error during an animated frame stop scheduling immediately (15.329629ms)
+✔ 3D two-pointer gesture retains priority after one pointer is canceled (4.239864ms)
+✔ 3D selection-only framing retains zoom and caps its full translation at twenty percent (3.26916ms)
+✔ large-to-small and small-to-large camera fits retain frame zero and safe clipping until exact completion (14.372405ms)
+✖ only a genuine single-pointer primary tap selects; pinch, cancellation and drag-return do not (7.591614ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 16
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 962.23663
+
+✖ failing tests:
+
+test at tests/three.test.ts:295:1
+✖ only a genuine single-pointer primary tap selects; pinch, cancellation and drag-return do not (7.591614ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/three.test.ts:312:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

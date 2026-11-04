@@ -1,0 +1,64 @@
+{
+  "baseCommit": "76e222d09b301f2acf5ec6c1db010f8e0bf13be8",
+  "sourceSha256": "f57200cd8e13f840f2bffb12ffc43d2ace1dcab3dc4a8abaab67b17721588429",
+  "sourceFiles": 1018,
+  "adoption": {
+    "sourceBefore": "c5c2e909dda707c33e3858cc8518d82d88a73ef1d60981417f250ed32569c981",
+    "sourceAfter": "f57200cd8e13f840f2bffb12ffc43d2ace1dcab3dc4a8abaab67b17721588429",
+    "diff": {
+      "added": [],
+      "removed": [],
+      "changed": [
+        "quality/baselines/accepted.json",
+        "quality/contract.json"
+      ]
+    },
+    "baseline": {
+      "bytes": 114948,
+      "sha256": "c97a698668fa5f34c6232f6102d0f28f950d7504c8052a0a76ffa6998a9b15a7"
+    },
+    "contract": {
+      "bytes": 15370,
+      "sha256": "7d4b3aa380bafa20ad846eab77e2e5b1684a5a0096ecf2efcac26975d9f2fe36"
+    },
+    "old23GroupsUnchanged": true,
+    "protectedGroups": 29,
+    "exceptions": [],
+    "externalPin": "7d4b3aa380bafa20ad846eab77e2e5b1684a5a0096ecf2efcac26975d9f2fe36"
+  },
+  "publisherPatches": {
+    "quality-adoption-only.patch": {
+      "bytes": 15029,
+      "sha256": "9764bce81b048a923cec90ff75e13c9b197ec0276e6d19dd7a60af6c94d2877a"
+    },
+    "publisher-against-pr9-76e222d.patch": {
+      "bytes": 98444,
+      "sha256": "28d23deb7ec34430c340754a80c7ed491a3974581ab5143d4b2901dd99b81fc1"
+    }
+  },
+  "qualityStatus": "pass",
+  "qualityExitCode": 0,
+  "stages": {
+    "preflight": "pass",
+    "qualityTests": "pass",
+    "verifySerial": "pass",
+    "postflight": "pass",
+    "sourceStability": "pass"
+  },
+  "releaseClaim": "web-built",
+  "tests": 1401,
+  "qualityTests": 50,
+  "manualEvidence": {
+    "browserVisual": "not-run",
+    "touchAccessibility": "not-run",
+    "gpuPerformanceBattery": "not-run",
+    "nativeUnitTests": "not-run",
+    "nativeLint": "not-run",
+    "nativePermissionFlows": "not-run",
+    "deviceVerification": "not-run"
+  },
+  "buildContentSha256": "cb66e214f4a406b450701006cdcc40d4b3f632152bb95defa306b7c8fbde7fd6",
+  "buildFiles": 61,
+  "browserAssetIdentity": "Identical to combined v1/v2 browser-tested build; no new native/device claim",
+  "note": "Condensed from the independently reviewed final inventory; test source inventory is not an execution count."
+}

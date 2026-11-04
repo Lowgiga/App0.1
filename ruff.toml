@@ -1,0 +1,15 @@
+# Gemeinsamer Python-Standard fuer Werkzeuge in tools/ (lokal und in der CI identisch).
+# app/ ist ausgenommen: dort liegen nur gepinnte Fremdquellen (upstream, vendor, archive).
+line-length = 120
+target-version = "py312"
+extend-exclude = ["app"]
+
+[lint]
+select = ["E", "F", "W", "B", "UP", "SIM", "S", "PL", "RUF"]
+
+[lint.per-file-ignores]
+# Tests duerfen assert-artige Muster, Hilfswerte und Bind-all-Adressen als Testdaten nutzen.
+"**/test_*.py" = ["S101", "S104", "PLR2004"]
+
+[format]
+quote-style = "single"
