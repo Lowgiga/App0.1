@@ -1,0 +1,24 @@
+[
+  {
+    "mode": "desktop",
+    "errors": [],
+    "external": [],
+    "adviceReadOnly": true,
+    "staleNavigationBlocked": true,
+    "exactContextNavigation": true,
+    "existingEditorPreserved": true,
+    "explicitConfirmationOnly": true,
+    "status": "pass"
+  },
+  {
+    "mode": "mobile",
+    "errors": [],
+    "external": [],
+    "adviceReadOnly": true,
+    "staleNavigationBlocked": true,
+    "exactContextNavigation": true,
+    "existingEditorPreserved": true,
+    "explicitConfirmationOnly": true,
+    "status": "pass"
+  }
+]

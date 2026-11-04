@@ -1,0 +1,442 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> @cue/adaptive-surfaces@0.1.0-candidate test
+> node --import ./scripts/register.mjs --test tests/*.test.ts tests/*.test.tsx
+
+✖ v1 admits frozen complete snapshot with host provenance (4.069707ms)
+✖ rejects boundary schema (0.188785ms)
+✖ rejects boundary catalogVersion (0.078358ms)
+✖ rejects boundary trusted (0.071097ms)
+✖ rejects boundary approved (0.070997ms)
+✖ rejects boundary data (0.075774ms)
+✖ rejects unregistered or unknown components and extra style/HTML fields (0.16618ms)
+✖ dangerous strings are data, never executable markup (0.097397ms)
+✖ rejects unknown actions and write-kind host configuration (2.027898ms)
+✖ denies prototype keys, path traversal, dotted and URL dataRefs (0.977895ms)
+✖ rejects duplicate JSON keys including escaped equivalents (0.211429ms)
+✖ rejects duplicate ids cycles dangling children multiple parents unreachable nodes (0.172611ms)
+✖ rejects graph depth, byte, text and component budgets (0.242055ms)
+✖ rejects non-JSON numbers and non-JSON raw input (0.097477ms)
+✖ rejection is atomic and session, surface and baseRevision are enforced (0.113611ms)
+✖ layout updates keep component ids and focus target must be immediate child (0.088073ms)
+✖ snapshot and registry mutation cannot change admitted action (0.108283ms)
+✖ intent requires admitted component, revision and one explicit activation per revision (0.092439ms)
+✖ rate limiting and subscriptions are deterministic and bounded (0.102495ms)
+✖ exported schema is closed and declares every built-in component (0.913498ms)
+✖ untrusted labels and host provenance are visible, scripts stay escaped (1.746954ms)
+✖ unknown and stale host values differ from actual zero (0.382527ms)
+✖ actions are inert until native button activation, labels are host-owned and replay blocked (0.327083ms)
+✖ callback failures are caught, redacted and do not alter host data (0.289787ms)
+✖ layout updates preserve active button and invalid update retains last tree (0.420164ms)
+✖ removed focused component moves to surface host anchor (0.332832ms)
+✖ hostslots only receive bound host data; absent slots explicit; throwing slots contained (0.359733ms)
+✖ mismatched malformed or oversized host projection rejects visibly (0.258399ms)
+✖ task/source/event lists have stable records, explicit empty state and no raw links (0.451901ms)
+✖ CSS preserves relative font sizes, mobile wrapping and reduced motion (1.155021ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 0
+ℹ fail 30
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 630.683292
+
+✖ failing tests:
+
+test at tests/contract.test.ts:8:1
+✖ v1 admits frozen complete snapshot with host provenance (4.069707ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:8:83)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/contract.test.ts:10:5
+✖ rejects boundary schema (0.188785ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:10:45)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/contract.test.ts:10:5
+✖ rejects boundary catalogVersion (0.078358ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:10:45)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:10:5
+✖ rejects boundary trusted (0.071097ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:10:45)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:10:5
+✖ rejects boundary approved (0.070997ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:10:45)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:10:5
+✖ rejects boundary data (0.075774ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:10:45)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:11:1
+✖ rejects unregistered or unknown components and extra style/HTML fields (0.16618ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:14:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:20:1
+✖ dangerous strings are data, never executable markup (0.097397ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:20:210)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:21:1
+✖ rejects unknown actions and write-kind host configuration (2.027898ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:21:135)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:22:1
+✖ denies prototype keys, path traversal, dotted and URL dataRefs (0.977895ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:25:5)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:27:1
+✖ rejects duplicate JSON keys including escaped equivalents (0.211429ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:27:75)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:28:1
+✖ rejects duplicate ids cycles dangling children multiple parents unreachable nodes (0.172611ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:28:152)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:29:1
+✖ rejects graph depth, byte, text and component budgets (0.242055ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:29:329)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:30:1
+✖ rejects non-JSON numbers and non-JSON raw input (0.097477ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at rejects (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:6:39)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:30:65)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:31:1
+✖ rejection is atomic and session, surface and baseRevision are enforced (0.113611ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:31:98)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:33:1
+✖ layout updates keep component ids and focus target must be immediate child (0.088073ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:33:102)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:34:1
+✖ snapshot and registry mutation cannot change admitted action (0.108283ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:34:102)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:35:1
+✖ intent requires admitted component, revision and one explicit activation per revision (0.092439ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:35:113)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:36:1
+✖ rate limiting and subscriptions are deterministic and bounded (0.102495ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:36:102)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/contract.test.ts:37:1
+✖ exported schema is closed and declares every built-in component (0.913498ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - false
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/contract.test.ts:37:199)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:24:1
+✖ untrusted labels and host provenance are visible, scripts stay escaped (1.746954ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:24:229)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)
+
+test at tests/ui.test.tsx:25:1
+✖ unknown and stale host values differ from actual zero (0.382527ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:25:83)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/ui.test.tsx:26:1
+✖ actions are inert until native button activation, labels are host-owned and replay blocked (0.327083ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:26:140)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/ui.test.tsx:27:1
+✖ callback failures are caught, redacted and do not alter host data (0.289787ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:27:95)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/ui.test.tsx:28:1
+✖ layout updates preserve active button and invalid update retains last tree (0.420164ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:28:104)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/ui.test.tsx:29:1
+✖ removed focused component moves to surface host anchor (0.332832ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:29:84)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/ui.test.tsx:30:1
+✖ hostslots only receive bound host data; absent slots explicit; throwing slots contained (0.359733ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:30:117)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/ui.test.tsx:31:1
+✖ mismatched malformed or oversized host projection rejects visibly (0.258399ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:31:95)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/ui.test.tsx:32:1
+✖ task/source/event lists have stable records, explicit empty state and no raw links (0.451901ms)
+  Error: Not implemented
+      at createSurfaceSession (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/src/index.ts:2:55)
+      at render (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:19:63)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:32:397)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/ui.test.tsx:33:1
+✖ CSS preserves relative font sizes, mobile wrapping and reduced motion (1.155021ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /prefers-reduced-motion/. Input:
+  
+  ''
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/adaptive-surfaces/tests/ui.test.tsx:33:229)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /prefers-reduced-motion/,
+    operator: 'match',
+    diff: 'simple'
+  }

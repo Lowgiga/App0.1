@@ -1,0 +1,95 @@
+{
+  "status": "compile-and-logic-tests-pass",
+  "hardwareVerified": false,
+  "moduleRevision": "review-ready-revision5",
+  "moduleManifestSha256": "76a6e5761a486d2e35cc1d0c815baf8f11c61e685f8c31c413a508a3f5a0edfd",
+  "mergedManifestSha256": "23605808a973937aaf201aff89bd120beb4fb9a03cdd254cd47edd7efc591804",
+  "manifestChecks": [
+    "AR optional",
+    "camera features optional",
+    "AR Activity private",
+    "backup disabled",
+    "cleartext disabled",
+    "no broad storage permission"
+  ],
+  "permissions": [
+    "android.permission.INTERNET",
+    "android.permission.CAMERA",
+    "de.lowgiga.cuecommandmesh.preview.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+  ],
+  "results": [
+    {
+      "module": "android/app",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "lint": [
+        {
+          "id": "ObsoleteSdkInt",
+          "severity": "Warning"
+        },
+        {
+          "id": "UnusedResources",
+          "severity": "Warning"
+        },
+        {
+          "id": "UnusedResources",
+          "severity": "Warning"
+        },
+        {
+          "id": "UnusedResources",
+          "severity": "Warning"
+        },
+        {
+          "id": "UnusedResources",
+          "severity": "Warning"
+        },
+        {
+          "id": "UnusedResources",
+          "severity": "Warning"
+        },
+        {
+          "id": "UnusedResources",
+          "severity": "Warning"
+        },
+        {
+          "id": "UnusedResources",
+          "severity": "Warning"
+        },
+        {
+          "id": "MonochromeLauncherIcon",
+          "severity": "Warning"
+        },
+        {
+          "id": "MonochromeLauncherIcon",
+          "severity": "Warning"
+        },
+        {
+          "id": "IconDipSize",
+          "severity": "Warning"
+        },
+        {
+          "id": "IconDuplicatesConfig",
+          "severity": "Warning"
+        },
+        {
+          "id": "IconLocation",
+          "severity": "Warning"
+        }
+      ]
+    },
+    {
+      "module": "android/cue-native-ar",
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "lint": []
+    }
+  ],
+  "mainActivitySha256": "f919a0bb33cd9b25f5950bd003c53f4a9e3624b95c05680ae543989f8326c9f6",
+  "limitations": [
+    "No physical device, permission UI, GPU, camera, plane tracking, runtime lifecycle or selection test",
+    "No APK produced in this integration build",
+    "Final packaged web assets and native signature still require the independent APK build"
+  ]
+}

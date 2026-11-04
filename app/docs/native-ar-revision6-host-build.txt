@@ -1,0 +1,221 @@
+Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/40c5c5523452/android-toolchain/cache/tmp -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=41077 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=41077 -Dhttp.nonProxyHosts=localhost|127.*|[::1]
+Starting a Gradle Daemon, 1 incompatible and 1 stopped Daemons could not be reused, use --status for details
+
+> Configure project :app
+Unable to initialize metrics, ensure /home/agent/.android is writable, details: /home/agent/.android/analytics.settings (No such file or directory)
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+
+> Configure project :capacitor-cordova-android-plugins
+WARNING: Using flatDir should be avoided because it doesn't support any meta-data formats.
+Warning: SDK processing. This version only understands SDK XML versions up to 3 but an SDK XML file of version 4 was encountered. This can happen if you use versions of Android Studio and the command-line tools that were released at different times.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-android:preBuild UP-TO-DATE
+> Task :capacitor-android:preDebugBuild UP-TO-DATE
+> Task :capacitor-android:writeDebugAarMetadata UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preDebugBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:writeDebugAarMetadata UP-TO-DATE
+> Task :cue-native-ar:preBuild UP-TO-DATE
+> Task :cue-native-ar:preDebugBuild UP-TO-DATE
+> Task :cue-native-ar:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :capacitor-android:processDebugNavigationResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:processDebugNavigationResources UP-TO-DATE
+> Task :cue-native-ar:processDebugNavigationResources UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugResources UP-TO-DATE
+> Task :capacitor-android:packageDebugResources
+> Task :capacitor-cordova-android-plugins:generateDebugResValues UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:packageDebugResources UP-TO-DATE
+> Task :cue-native-ar:generateDebugResValues UP-TO-DATE
+> Task :cue-native-ar:generateDebugResources UP-TO-DATE
+> Task :cue-native-ar:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-android:processDebugManifest UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:extractDeepLinksDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:processDebugManifest UP-TO-DATE
+> Task :cue-native-ar:extractDeepLinksDebug UP-TO-DATE
+> Task :cue-native-ar:processDebugManifest UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :capacitor-android:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-android:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-android:generateDebugRFile UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugLibraryResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:parseDebugLocalResources UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugRFile UP-TO-DATE
+> Task :cue-native-ar:compileDebugLibraryResources UP-TO-DATE
+> Task :cue-native-ar:parseDebugLocalResources UP-TO-DATE
+> Task :cue-native-ar:generateDebugRFile UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :capacitor-android:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-android:compileDebugJavaWithJavac UP-TO-DATE
+> Task :capacitor-android:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:javaPreCompileDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugJavaWithJavac NO-SOURCE
+> Task :capacitor-cordova-android-plugins:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :cue-native-ar:javaPreCompileDebug UP-TO-DATE
+> Task :cue-native-ar:compileDebugJavaWithJavac
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :app:processDebugJavaRes NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes NO-SOURCE
+> Task :capacitor-android:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :capacitor-android:processDebugJavaRes NO-SOURCE
+> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:processDebugJavaRes NO-SOURCE
+> Task :cue-native-ar:bundleLibCompileToJarDebug
+> Task :app:compileDebugJavaWithJavac UP-TO-DATE
+> Task :app:bundleDebugClassesToRuntimeJar UP-TO-DATE
+> Task :app:bundleDebugClassesToCompileJar UP-TO-DATE
+> Task :app:compileDebugUnitTestJavaWithJavac UP-TO-DATE
+> Task :cue-native-ar:processDebugJavaRes NO-SOURCE
+> Task :cue-native-ar:bundleLibRuntimeToJarDebug
+> Task :capacitor-android:checkDebugAarMetadata UP-TO-DATE
+
+> Task :app:testDebugUnitTest
+Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/40c5c5523452/android-toolchain/cache/tmp -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=41077 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=41077 -Dhttp.nonProxyHosts=localhost|127.*|[::1]
+
+> Task :capacitor-android:mergeDebugJniLibFolders UP-TO-DATE
+> Task :capacitor-android:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-android:stripDebugDebugSymbols NO-SOURCE
+> Task :capacitor-android:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :capacitor-android:extractDebugAnnotations UP-TO-DATE
+> Task :capacitor-android:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :capacitor-android:mergeDebugShaders UP-TO-DATE
+> Task :capacitor-android:compileDebugShaders NO-SOURCE
+> Task :capacitor-android:generateDebugAssets UP-TO-DATE
+> Task :capacitor-android:mergeDebugAssets UP-TO-DATE
+> Task :capacitor-android:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :capacitor-android:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :capacitor-android:prepareDebugArtProfile UP-TO-DATE
+> Task :capacitor-android:prepareLintJarForPublish UP-TO-DATE
+> Task :capacitor-android:mergeDebugJavaResource UP-TO-DATE
+> Task :capacitor-android:syncDebugLibJars UP-TO-DATE
+> Task :capacitor-android:bundleDebugLocalLintAar UP-TO-DATE
+> Task :cue-native-ar:checkDebugAarMetadata UP-TO-DATE
+> Task :cue-native-ar:mergeDebugJniLibFolders UP-TO-DATE
+> Task :cue-native-ar:mergeDebugNativeLibs NO-SOURCE
+> Task :cue-native-ar:stripDebugDebugSymbols NO-SOURCE
+> Task :cue-native-ar:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :cue-native-ar:extractDebugAnnotations
+> Task :cue-native-ar:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :cue-native-ar:mergeDebugShaders UP-TO-DATE
+> Task :cue-native-ar:compileDebugShaders NO-SOURCE
+> Task :cue-native-ar:generateDebugAssets UP-TO-DATE
+> Task :cue-native-ar:mergeDebugAssets UP-TO-DATE
+> Task :cue-native-ar:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :cue-native-ar:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :cue-native-ar:prepareDebugArtProfile UP-TO-DATE
+> Task :cue-native-ar:prepareLintJarForPublish UP-TO-DATE
+> Task :cue-native-ar:mergeDebugJavaResource UP-TO-DATE
+> Task :cue-native-ar:syncDebugLibJars
+> Task :cue-native-ar:bundleDebugLocalLintAar
+> Task :capacitor-cordova-android-plugins:checkDebugAarMetadata UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugJniLibFolders UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugNativeLibs NO-SOURCE
+> Task :capacitor-cordova-android-plugins:stripDebugDebugSymbols NO-SOURCE
+> Task :capacitor-cordova-android-plugins:copyDebugJniLibsProjectAndLocalJars UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:extractDebugAnnotations UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:extractDeepLinksForAarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugShaders UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:compileDebugShaders NO-SOURCE
+> Task :capacitor-cordova-android-plugins:generateDebugAssets UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugAssets UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugGeneratedProguardFiles UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugConsumerProguardFiles UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:prepareDebugArtProfile UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:prepareLintJarForPublish UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:mergeDebugJavaResource UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:syncDebugLibJars UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:bundleDebugLocalLintAar UP-TO-DATE
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :app:generateDebugAndroidTestResValues UP-TO-DATE
+> Task :capacitor-android:createFullJarDebug UP-TO-DATE
+> Task :capacitor-android:writeDebugLintModelMetadata UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:createFullJarDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:writeDebugLintModelMetadata UP-TO-DATE
+> Task :cue-native-ar:createFullJarDebug
+> Task :cue-native-ar:writeDebugLintModelMetadata UP-TO-DATE
+> Task :app:generateDebugAndroidTestLintModel
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :capacitor-android:extractProguardFiles UP-TO-DATE
+> Task :capacitor-android:generateDebugLintModel UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:extractProguardFiles UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugLintModel UP-TO-DATE
+> Task :cue-native-ar:extractProguardFiles UP-TO-DATE
+> Task :cue-native-ar:generateDebugLintModel
+> Task :app:generateDebugLintReportModel
+> Task :app:generateDebugUnitTestLintModel
+> Task :capacitor-android:lintAnalyzeDebug UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:lintAnalyzeDebug UP-TO-DATE
+> Task :capacitor-android:preDebugAndroidTestBuild UP-TO-DATE
+> Task :capacitor-android:generateDebugAndroidTestResValues UP-TO-DATE
+> Task :capacitor-android:generateDebugAndroidTestLintModel UP-TO-DATE
+> Task :capacitor-android:preDebugUnitTestBuild UP-TO-DATE
+> Task :capacitor-android:generateDebugUnitTestLintModel UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preDebugAndroidTestBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugAndroidTestResValues UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugAndroidTestLintModel UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:preDebugUnitTestBuild UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:generateDebugUnitTestLintModel UP-TO-DATE
+> Task :cue-native-ar:preDebugAndroidTestBuild UP-TO-DATE
+> Task :cue-native-ar:generateDebugAndroidTestResValues UP-TO-DATE
+> Task :cue-native-ar:generateDebugAndroidTestLintModel
+> Task :cue-native-ar:preDebugUnitTestBuild UP-TO-DATE
+> Task :cue-native-ar:generateDebugUnitTestLintModel
+> Task :cue-native-ar:generateDebugUnitTestStubRFile UP-TO-DATE
+> Task :cue-native-ar:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :cue-native-ar:compileDebugUnitTestJavaWithJavac
+> Task :cue-native-ar:processDebugUnitTestJavaRes NO-SOURCE
+
+> Task :cue-native-ar:testDebugUnitTest
+Picked up JAVA_TOOL_OPTIONS: -Djava.io.tmpdir=/workspace/scratch/40c5c5523452/android-toolchain/cache/tmp -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=41077 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=41077 -Dhttp.nonProxyHosts=localhost|127.*|[::1]
+
+> Task :cue-native-ar:generateDebugLintReportModel
+
+> Task :app:lintAnalyzeDebugAndroidTest
+Warning: Unable to initialize metrics, ensure /home/agent/.android is writable, details: /home/agent/.android/analytics.settings (No such file or directory)
+
+> Task :app:lintAnalyzeDebugUnitTest
+> Task :capacitor-android:lintAnalyzeDebugAndroidTest UP-TO-DATE
+> Task :capacitor-android:lintAnalyzeDebugUnitTest UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:lintAnalyzeDebugAndroidTest UP-TO-DATE
+> Task :capacitor-cordova-android-plugins:lintAnalyzeDebugUnitTest UP-TO-DATE
+> Task :cue-native-ar:lintAnalyzeDebugAndroidTest
+> Task :cue-native-ar:lintAnalyzeDebugUnitTest
+> Task :cue-native-ar:lintAnalyzeDebug
+> Task :cue-native-ar:lintReportDebug
+> Task :cue-native-ar:lintDebug
+> Task :app:lintAnalyzeDebug
+
+> Task :app:lintReportDebug
+Wrote HTML report to file:///workspace/scratch/40c5c5523452/cue-system/android/app/build/reports/lint-results-debug.html
+
+> Task :app:lintDebug
+
+[Incubating] Problems report is available at: file:///workspace/scratch/40c5c5523452/cue-system/android/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 21s
+152 actionable tasks: 28 executed, 124 up-to-date

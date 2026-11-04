@@ -1,0 +1,59 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-android-port@0.1.0-v4-preview build
+> npm run check:drift && npm run overlay && tsc --noEmit && vite build && node scripts/build-manifest.mjs
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-android-port@0.1.0-v4-preview check:drift
+> node scripts/provenance.mjs check
+
+No drift: 8bb56544677a7433a2566da3885ada6cd31b1b0d; 130 byte-identical source files.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-command-mesh-android-port@0.1.0-v4-preview overlay
+> node scripts/build-overlay.mjs
+
+Generated explicit transport overlay; upstream UI remains byte-identical.
+vite v8.0.13 building client environment for production...
+[2Ktransforming...✓ 1970 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.98 kB │ gzip:   0.50 kB
+dist/assets/index-C5xjkVl-.css            386.97 kB │ gzip:  61.64 kB
+dist/assets/circle-tGaJhsD7.js              0.12 kB │ gzip:   0.12 kB
+dist/assets/plus-DqcFhRxf.js                0.34 kB │ gzip:   0.24 kB
+dist/assets/rolldown-runtime-S-ySWqyJ.js    0.69 kB │ gzip:   0.42 kB
+dist/assets/dialog-Bh9B38qk.js              2.17 kB │ gzip:   0.86 kB
+dist/assets/help-panel-D9vVSDLG.js          7.41 kB │ gzip:   3.39 kB
+dist/assets/mesh-space-BGY4gVuJ.js         14.67 kB │ gzip:   5.97 kB
+dist/assets/command-palette-CoZacHnr.js    15.05 kB │ gzip:   5.70 kB
+dist/assets/neuro-panel-DywEYmIZ.js        27.67 kB │ gzip:   8.96 kB
+dist/assets/command-center-C2oMydZe.js     28.47 kB │ gzip:   8.61 kB
+dist/assets/button-Sih5I7rL.js             33.87 kB │ gzip:  11.33 kB
+dist/assets/workspace-panels-BGdSWU5b.js   66.07 kB │ gzip:  21.03 kB
+dist/assets/react-CM3CzyHR.js             211.46 kB │ gzip:  67.71 kB
+dist/assets/index-DSX7Hd3I.js             438.90 kB │ gzip: 125.46 kB
+dist/assets/three-DfKq6awr.js             756.66 kB │ gzip: 190.84 kB
+
+[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugin `explicit-local-work-state-overlay`. See https://rolldown.rs/options/checks#plugintimings for more details.
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 8.76s
+{
+  "generatedAt": "2026-09-30T22:00:06.905Z",
+  "sourceCommit": "8bb56544677a7433a2566da3885ada6cd31b1b0d",
+  "status": "V4 preview; NOT final source or runtime-approved",
+  "distContentSha256": "4a7ce5bda2eb368c365f6638ab947dc83da6bbe1b4e4078131f46631fa032029",
+  "packageLockSha256": "22aaf756722bd12acc00eb60b089fe55539227769ec12ae1e6b644ebc1f6b30c",
+  "files": 35
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

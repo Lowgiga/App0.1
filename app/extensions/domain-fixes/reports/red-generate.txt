@@ -1,0 +1,6 @@
+Bundled four allowlisted original text documents without runtime URL loading
+Applied reviewed Level/AR revision 3 as separate source layer, preserving V6 cooperation help
+Generated explicit transport overlay; upstream UI remains byte-identical.
+Generated eight explicit UI overlays; original sources remain byte-identical.
+Generated graph overlay with render-time host policy; vendor source remains pinned.
+Generated active-aware SidebarProvider; original UI component preserved.

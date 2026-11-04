@@ -1,0 +1,5 @@
+# Python-Bytecode nie einchecken
+__pycache__/
+*.py[cod]
+.coverage
+.coverage.*

@@ -1,0 +1,18 @@
+// Gradle init script: resolve Maven Central through Google's official mirror first.
+//
+// Why: in proxied cloud sandboxes repo.maven.apache.org answered HTTP 429 (Too Many
+// Requests) on 2026-11-03 and broke dependency resolution. The mirror serves the same
+// artifacts; Gradle still verifies them against the declared coordinates. No project file
+// is changed, so pinned sources and the quality gate stay untouched.
+// Not needed on GitHub-hosted runners.
+//
+// Usage (from app/android):
+//   ./gradlew --init-script ../../tools/gradle/maven-central-mirror.init.gradle <tasks>
+def mirror = 'https://maven-central.storage-download.googleapis.com/maven2/'
+settingsEvaluated { settings ->
+    settings.pluginManagement.repositories { maven { url mirror } }
+}
+allprojects {
+    buildscript { repositories { maven { url mirror } } }
+    repositories { maven { url mirror } }
+}

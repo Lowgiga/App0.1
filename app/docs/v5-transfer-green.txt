@@ -1,0 +1,15 @@
+✔ V5 module set and private spatial/academy assets are present (2.648353ms)
+✔ every explicit learning owner persists together with its mission prerequisite atomically (42.077648ms)
+✔ invalid learning owner leaves neither a task nor a dangling mission reference (6.334442ms)
+✔ stale learning transfer cannot partially append its task or mission link (6.443647ms)
+✔ old V4 learning booleans survive V5 transfers and reopening unchanged (5.533644ms)
+✔ persisted active transfer prevents duplicate learning task creation (3.181397ms)
+✔ new spatial graph uses locally persisted mission-task relationship (5.35182ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 230.020013

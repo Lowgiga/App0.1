@@ -1,0 +1,22 @@
+[
+  {
+    "mode": "desktop",
+    "errors": [],
+    "external": [],
+    "adviceReadOnly": true,
+    "staleNavigationBlocked": true,
+    "status": "fail",
+    "failure": "",
+    "trace": "Traceback (most recent call last):\n  File \"/workspace/lowquantflow-evidence/k1/browser-check.py\", line 26, in <module>\n    click(p.get_by_role('button',name='Projektbasis neu laden',exact=True));expect(p.locator('[data-assistant-continuation]')).to_contain_text('Revision 2');click(p.get_by_role('button',name='Projektged\u00e4chtnis \u00f6ffnen',exact=True));expect(p.get_by_label('Projektkontext',exact=True)).to_have_value(q.get_by_label('Projektkontext',exact=True).input_value());assert 'studioTab=memory' in p.url;r['exactContextNavigation']=True\n                                                                                                                                                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+  },
+  {
+    "mode": "mobile",
+    "errors": [],
+    "external": [],
+    "adviceReadOnly": true,
+    "staleNavigationBlocked": true,
+    "status": "fail",
+    "failure": "",
+    "trace": "Traceback (most recent call last):\n  File \"/workspace/lowquantflow-evidence/k1/browser-check.py\", line 26, in <module>\n    click(p.get_by_role('button',name='Projektbasis neu laden',exact=True));expect(p.locator('[data-assistant-continuation]')).to_contain_text('Revision 2');click(p.get_by_role('button',name='Projektged\u00e4chtnis \u00f6ffnen',exact=True));expect(p.get_by_label('Projektkontext',exact=True)).to_have_value(q.get_by_label('Projektkontext',exact=True).input_value());assert 'studioTab=memory' in p.url;r['exactContextNavigation']=True\n                                                                                                                                                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+  }
+]

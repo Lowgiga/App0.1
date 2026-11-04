@@ -1,0 +1,13 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {createBackupAdapter} from '../../src/backup-adapter.ts';
+import {emptyWork} from '../../upstream/lib/work-contract.ts';
+import {defaultSystemState} from '../../src/system-state.ts';
+const at='2026-10-04T12:00:00.000Z';
+const state=emptyWork(),system=defaultSystemState(),adapter=createBackupAdapter({sources:[]});
+const id=crypto.randomUUID(),contextId=crypto.randomUUID();
+const entry={id,kind:'decision',status:'forgotten',text:'Synthetic forgotten local choice',origin:{kind:'manual',sourceId:null,workRevision:null},replaces:null,revision:2,history:[{revision:1,at,action:'created',status:'proposed',text:'Synthetic forgotten local choice'},{revision:2,at,action:'forgotten',status:'forgotten',text:'Synthetic forgotten local choice'}]};
+const memory={schema:'lowquantflow.project-memory-backup/v1',records:[{schema:'lowquantflow.project-memory/v1',contextId,contextCreatedAt:at,revision:2,updatedAt:at,entries:[entry]}]};
+test('system archive includes full versioned memory including reversible forgotten history',async()=>{const text=await (adapter.export as any)(state,system,at,memory),result=await (adapter.preview as any)(text,state,system,memory);assert.deepEqual(result.inspection.snapshot.data.projectMemory,memory);assert.equal(result.includesProjectMemory,true);assert.equal(result.restoreAvailable,false);assert.equal(result.plan.differenceCount,0)});
+test('older archives remain readable and explicitly have no memory coverage',async()=>{const text=await adapter.export(state,system,at),result=await (adapter.preview as any)(text,state,system,memory);assert.equal(result.includesProjectMemory,false);assert.equal(result.restoreAvailable,false);assert.ok(result.plan.differenceCount>0)});
+test('memory export rejects credential-bearing extra fields and malformed revision history',async()=>{await assert.rejects(()=>(adapter.export as any)(state,system,at,{...memory,accessToken:'SYNTHETIC_ONLY'}));await assert.rejects(()=>(adapter.export as any)(state,system,at,{...memory,records:[{...memory.records[0],entries:[{...entry,revision:99}]}]}))});
+test('hash-valid archive still rejects structurally invalid memory instead of dropping it',async()=>{const {exportBackup}=await import('../../vendor/portable-kit/backup.mjs');const text=await exportBackup({work:state,data:{system,sourceCatalog:{sources:[]},projectMemory:{schema:'future-memory/v9',records:[]}}},{exportedAt:at,producer:{name:'synthetic-test',version:'1'},source:{revision:'synthetic',workUpdatedAt:null}},{validateWork:()=>({success:true,data:state}),maxBytes:8*1024*1024});await assert.rejects(()=>adapter.preview(text,state,system));});

@@ -1,0 +1,980 @@
+--- a/src/GraphExplorer.tsx
++++ b/src/GraphExplorer.tsx
+@@ -1,7 +1,7 @@
+ import React, { Component, Suspense, lazy, useEffect, useMemo, useRef, useState } from 'react';
+ import type { ExplorerGraph, NavigateTarget, PrepareIntent } from './model.ts';
+ import { kinds, kindNames } from './model.ts';
+-import { defaultConfig, parseConfig, selectScene, serializeConfig, updateConfig, type ViewConfig } from './view.ts';
++import { defaultConfig, parseConfig, selectScene, serializeConfig, updateConfig, type ViewConfig, type ViewConfigInput } from './view.ts';
+ import { layoutGraph } from './layouts.ts';
+ import { SvgView } from './SvgView.tsx';
+ import { Inspector } from './Inspector.tsx';
+@@ -20,7 +20,7 @@
+ }
+ export type GraphExplorerProps = {
+     graph: ExplorerGraph;
+-    initialConfig?: ViewConfig;
++    initialConfig?: ViewConfigInput;
+     onConfigChange?: (config: ViewConfig) => void;
+     onSaveView?: (config: ViewConfig) => void | Promise<void>;
+     onNavigate?: (target: NavigateTarget) => void | Promise<void>;
+@@ -30,6 +30,7 @@
+ export function GraphExplorer({ graph, initialConfig, onConfigChange, onSaveView, onNavigate, onPrepare, render3D }: GraphExplorerProps) {
+     const [config, setConfig] = useState(() => parseConfig(initialConfig ?? defaultConfig()));
+     const [exportOpen, setExportOpen] = useState(false);
++    const [legacyExport, setLegacyExport] = useState(false);
+     const [message, setMessage] = useState('');
+     const [pending, setPending] = useState(false);
+     const pendingRef = useRef(false);
+@@ -60,15 +61,15 @@
+         if (mounted.current)
+             setPending(false);
+     } };
+-    return <section className={`mesh-explorer mesh-mode-${config.mode} mesh-style-${config.visualStyle} mesh-quality-${config.quality}`} data-reduced-motion={config.reducedMotion || systemReduced} aria-label="Gemeinsamer Graph Explorer">
++    return <section className={`mesh-explorer mesh-mode-${config.mode} mesh-style-${config.visualStyle} mesh-quality-${config.quality}`} data-reduced-motion={config.reducedMotion || systemReduced || config.quality === 'low' || config.transitions === 'off'} aria-label="Gemeinsamer Graph Explorer">
+  <header className="mesh-heading"><div><h1>Gemeinsame Arbeitsansicht</h1><p>{graph.availability === 'unknown' ? 'Datenstand unbekannt' : `App-Stand: ${graph.updatedAt ?? 'unbekannt'}`} · Quellenstand wird pro Quelle ausgewiesen</p></div><span className="mesh-muted">Extension-Kandidat</span></header>
+  <div className="mesh-toolbar"><label>Perspektive<select aria-label="Layout" value={config.layout} onChange={e => change({ layout: e.target.value as ViewConfig['layout'] })}><option value="network">Netzwerk</option><option value="workflow">Arbeitsablauf</option><option value="evidence">Belege & Abhängigkeiten</option></select></label><label>Darstellung<select aria-label="Darstellung" value={config.renderer} onChange={e => change({ renderer: e.target.value as ViewConfig['renderer'] })}><option value="svg">2D · SVG</option><option value="three">3D · bei Bedarf laden</option></select></label><label className="mesh-search">Suchen<input aria-label="Knoten suchen" type="search" maxLength={200} value={config.filters.query} onChange={e => change({ filters: { ...config.filters, query: e.target.value } })} placeholder="Titel, Status oder ID"/></label><label>Arbeitsmodus<select aria-label="Arbeitsmodus" value={config.mode} onChange={e => change({ mode: e.target.value as ViewConfig['mode'] })}><option value="work">Arbeit</option><option value="focus">Fokus</option><option value="presentation">Präsentation</option></select></label></div>
+- <details className="mesh-options"><summary>Filter und Ansichtsoptionen</summary><div className="mesh-option-grid"><fieldset><legend>Knotenarten</legend>{kinds.map(kind => <label key={kind}><input type="checkbox" aria-label={kindNames[kind] + ' anzeigen'} checked={config.filters.kinds.includes(kind)} onChange={() => change({ filters: { ...config.filters, kinds: config.filters.kinds.includes(kind) ? config.filters.kinds.filter(k => k !== kind) : [...config.filters.kinds, kind] } })}/>{kindNames[kind]}</label>)}</fieldset><fieldset><legend>Herkunft</legend>{(['own', 'external'] as const).map(origin => <label key={origin}><input type="checkbox" checked={config.filters.origins.includes(origin)} onChange={() => change({ filters: { ...config.filters, origins: config.filters.origins.includes(origin) ? config.filters.origins.filter(o => o !== origin) : [...config.filters.origins, origin] } })}/>{origin === 'own' ? 'Eigene App-Daten' : 'Externe Quellen'}</label>)}</fieldset><fieldset><legend>Darstellungsoptionen</legend><label>Visueller Stil<select aria-label="Visueller Stil" value={config.visualStyle} onChange={e => change({ visualStyle: e.target.value as ViewConfig['visualStyle'] })}><option value="solid">Klar</option><option value="hologram">Holografisch · visueller Stil</option></select></label><label>Beschriftung<select aria-label="Beschriftungsdichte" value={config.labels} onChange={e => change({ labels: e.target.value as ViewConfig['labels'] })}><option value="none">Keine</option><option value="selected">Auswahl</option><option value="all">Alle sichtbaren</option></select></label><label>Qualität<select aria-label="Qualität" value={config.quality} onChange={e => change({ quality: e.target.value as ViewConfig['quality'] })}><option value="low">Sparsam</option><option value="balanced">Ausgewogen</option><option value="high">Detailreich</option></select></label><label><input type="checkbox" checked={config.reducedMotion} onChange={e => change({ reducedMotion: e.target.checked })}/>Bewegung reduzieren</label><label><input type="checkbox" checked={config.highlightRelations} onChange={e => change({ highlightRelations: e.target.checked })}/>Beziehungen hervorheben</label><label>3D-Blick<select aria-label="3D-Blick" value={config.perspective} onChange={e => change({ perspective: e.target.value as ViewConfig['perspective'] })}><option value="isometric">Räumlich</option><option value="front">Frontal</option><option value="top">Von oben</option></select></label></fieldset></div></details>
++ <details className="mesh-options"><summary>Filter und Ansichtsoptionen</summary><div className="mesh-option-grid"><fieldset><legend>Knotenarten</legend>{kinds.map(kind => <label key={kind}><input type="checkbox" aria-label={kindNames[kind] + ' anzeigen'} checked={config.filters.kinds.includes(kind)} onChange={() => change({ filters: { ...config.filters, kinds: config.filters.kinds.includes(kind) ? config.filters.kinds.filter(k => k !== kind) : [...config.filters.kinds, kind] } })}/>{kindNames[kind]}</label>)}</fieldset><fieldset><legend>Herkunft</legend>{(['own', 'external'] as const).map(origin => <label key={origin}><input type="checkbox" checked={config.filters.origins.includes(origin)} onChange={() => change({ filters: { ...config.filters, origins: config.filters.origins.includes(origin) ? config.filters.origins.filter(o => o !== origin) : [...config.filters.origins, origin] } })}/>{origin === 'own' ? 'Eigene App-Daten' : 'Externe Quellen'}</label>)}</fieldset><fieldset><legend>Darstellungsoptionen</legend><label>Visueller Stil<select aria-label="Visueller Stil" value={config.visualStyle} onChange={e => change({ visualStyle: e.target.value as ViewConfig['visualStyle'] })}><option value="solid">Klar</option><option value="hologram">Holografisch · visueller Stil</option></select></label><label>Beschriftung<select aria-label="Beschriftungsdichte" value={config.labels} onChange={e => change({ labels: e.target.value as ViewConfig['labels'] })}><option value="none">Keine</option><option value="selected">Auswahl</option><option value="all">Alle sichtbaren</option></select></label><label>Qualität<select aria-label="Qualität" value={config.quality} onChange={e => change({ quality: e.target.value as ViewConfig['quality'] })}><option value="low">Sparsam · ohne Übergänge</option><option value="balanced">Ausgewogen</option><option value="high">Detailreich</option></select></label><label>Übergänge<select aria-label="Übergänge" value={config.transitions} onChange={e => change({ transitions: e.target.value as ViewConfig['transitions'] })}><option value="off">Sofort</option><option value="brief">Kurz · bis 160 ms</option><option value="smooth">Sanft · bis 320 ms</option></select></label><p className="mesh-muted">Nur bei Layout, Fokus oder Auswahl. Bewegungsreduktion und Sparsam haben Vorrang. Escape beendet den Übergang.</p><label><input type="checkbox" checked={config.reducedMotion} onChange={e => change({ reducedMotion: e.target.checked })}/>Bewegung reduzieren</label><label><input type="checkbox" checked={config.highlightRelations} onChange={e => change({ highlightRelations: e.target.checked })}/>Beziehungen hervorheben</label><label>3D-Blick<select aria-label="3D-Blick" value={config.perspective} onChange={e => change({ perspective: e.target.value as ViewConfig['perspective'] })}><option value="isometric">Räumlich</option><option value="front">Frontal</option><option value="top">Von oben</option></select></label></fieldset></div></details>
+  <div className="mesh-summary" role="status">{scene.filtered.length} passende Knoten · {scene.nodes.length} in der Szene · {scene.edges.length} Beziehungen{scene.focusedOutNodes > 0 && <span> · Fokus: {scene.focusedOutNodes} Knoten außerhalb der direkten Nachbarschaft nicht gezeichnet</span>}{scene.omittedNodes + scene.omittedEdges > 0 && <span> · Szenengrenze: {scene.omittedNodes} Knoten und {scene.omittedEdges} Beziehungen nicht gezeichnet; Liste und Inspector bleiben verfügbar</span>}{graph.sourcesAvailability === 'unknown' && <span> · Quellenliste unbekannt</span>}{graph.omittedArchived > 0 && <span> · {graph.omittedArchived} archivierte Einträge nicht im Graphen</span>}{graph.unresolved.length > 0 && <span> · {graph.unresolved.length} nicht auflösbare Beziehungen</span>}</div>
+  <div className="mesh-workspace"><main className="mesh-visual-region">{threeError && <p role="alert">{threeError} Die 2D-Ansicht bleibt verfügbar. <button onClick={() => change({ renderer: 'svg' })}>Zu 2D wechseln</button></p>}
+  {graph.availability === 'unknown' ? <div className="mesh-empty">Datenstand unbekannt. Einen gespeicherten App-Datenstand übergeben.</div> : scene.nodes.length === 0 ? <div className="mesh-empty">Keine Knoten passen zu den Filtern.</div> : config.renderer === 'three' && !threeError ? <SpatialBoundary onError={setThreeError}><Suspense fallback={<p role="status">3D-Modul wird geladen …</p>}>{render3D ? render3D(spatial) : <ThreeView {...spatial}/>}</Suspense></SpatialBoundary> : <SvgView {...spatial}/>}
+  <details open className="mesh-node-list"><summary>Alle passenden Knoten ({scene.filtered.length})</summary><ul>{scene.filtered.map(n => <li key={n.id}><button aria-pressed={config.selectedId === n.id} onClick={() => select(n.id)}><span>{n.title}</span><small>{kindNames[n.kind]} · {n.status ?? 'Status unbekannt'}</small></button></li>)}</ul></details></main><Inspector graph={graph} scene={scene} selectedId={config.selectedId} onSelect={select} onNavigate={onNavigate} onPrepare={onPrepare} run={action => { void run(action); }} pending={pending}/></div>
+- <footer className="mesh-footer"><button data-action="save" disabled={!onSaveView || pending} onClick={() => onSaveView && void run(() => onSaveView(parseConfig(config)), 'Speichern')}>{pending ? 'Wird übergeben …' : 'Ansicht speichern'}</button><button data-action="export" onClick={() => setExportOpen(v => !v)}>Konfiguration exportieren</button><button onClick={() => change({ filters: defaultConfig().filters })}>Filter zurücksetzen</button><button onClick={() => change({ selectedId: null })}>Auswahl aufheben</button>{message && <p role="status">{message}</p>}{!onSaveView && <span className="mesh-muted">Speicherung ist noch nicht an die App angebunden.</span>}{exportOpen && <label className="mesh-export">Serialisierbare Ansichtskonfiguration<textarea aria-label="Ansichtskonfiguration JSON" readOnly value={serializeConfig(config)}/></label>}</footer>
++ <footer className="mesh-footer"><button data-action="save" disabled={!onSaveView || pending} onClick={() => onSaveView && void run(() => onSaveView(parseConfig(config)), 'Speichern')}>{pending ? 'Wird übergeben …' : 'Ansicht speichern'}</button><button data-action="export" onClick={() => setExportOpen(v => !v)}>Konfiguration exportieren</button><button onClick={() => change({ filters: defaultConfig().filters })}>Filter zurücksetzen</button><button onClick={() => change({ selectedId: null })}>Auswahl aufheben</button>{message && <p role="status">{message}</p>}{!onSaveView && <span className="mesh-muted">Speicherung ist noch nicht an die App angebunden.</span>}{exportOpen && <div className="mesh-export"><label><input type="checkbox" aria-label="Export für ursprüngliche V1-Ansicht" checked={legacyExport} onChange={e => setLegacyExport(e.target.checked)}/>Export für ursprüngliche V1-Ansicht (ohne Übergangseinstellung)</label><label>Serialisierbare Ansichtskonfiguration<textarea aria-label="Ansichtskonfiguration JSON" readOnly value={serializeConfig(config, { legacyV1: legacyExport })}/></label></div>}</footer>
+  <details className="mesh-activity"><summary>Erhaltene App-Ereignisse ({graph.activity.events.length}, höchstens 200)</summary><p>Unvollständiger Ereignisausschnitt. Keine Zustandsrekonstruktion. Die Karte zeigt immer den übergebenen aktuellen Datenstand.</p>{graph.activity.events.length === 0 ? <p>Keine Ereignisse im übergebenen Ausschnitt. Frühere Aktivität ist unbekannt.</p> : <ol>{graph.activity.events.map(e => <li key={e.id}><time dateTime={e.at}>{e.at}</time> · #{e.sequence} · {e.title} {e.nodeId && <button onClick={() => select(e.nodeId!)}>Aktuellen Knoten auswählen</button>}</li>)}</ol>}</details>
+  </section>;
+ }
+--- a/src/SvgView.tsx
++++ b/src/SvgView.tsx
+@@ -1,33 +1,40 @@
+-import React, { useId, useState } from 'react';
++import React, { useId, useRef, useState } from 'react';
+ import type { SpatialViewProps } from './render-types.ts';
+ import { nodeColors } from './render-types.ts';
++import { useSvgMotion } from './use-svg-motion.ts';
+ import { relationNames } from './model.ts';
+ export function SvgView({ scene, layout, config, onSelect }: Omit<SpatialViewProps, 'onUnavailable'>) {
+     const marker = useId().replaceAll(':', '');
+     const [zoom, setZoom] = useState(1);
+     const [pan, setPan] = useState({ x: 0, y: 0 });
+-    const b = layout.bounds;
++    const host = useRef<HTMLDivElement>(null);
++    const { frame, stop } = useSvgMotion(layout, scene, config, host);
++    const visual = frame.layout;
++    const b = visual.bounds;
+     const width = b.width / zoom, height = b.height / zoom;
+     const x = b.x + (b.width - width) / 2 + pan.x, y = b.y + (b.height - height) / 2 + pan.y;
+-    const related = new Set([config.selectedId, ...scene.edges.flatMap(e => e.from === config.selectedId ? [e.to] : e.to === config.selectedId ? [e.from] : [])]);
+-    const changeZoom = (v: number) => setZoom(z => Math.max(.4, Math.min(6, z * v)));
+-    return <div className="mesh-map"><div className="mesh-map-controls" aria-label="Kartensteuerung"><button aria-label="Vergrößern" onClick={() => changeZoom(1.3)}>+</button><button aria-label="Verkleinern" onClick={() => changeZoom(1 / 1.3)}>−</button><button aria-label="Karte links" onClick={() => setPan(p => ({ ...p, x: p.x - width * .15 }))}>Links</button><button aria-label="Karte rechts" onClick={() => setPan(p => ({ ...p, x: p.x + width * .15 }))}>Rechts</button><button aria-label="Karte oben" onClick={() => setPan(p => ({ ...p, y: p.y - height * .15 }))}>Oben</button><button aria-label="Karte unten" onClick={() => setPan(p => ({ ...p, y: p.y + height * .15 }))}>Unten</button><button onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}>Einpassen</button></div>
++    const changeZoom = (v: number) => { stop(); setZoom(z => Math.max(.4, Math.min(6, z * v))); };
++    const move = (dx: number, dy: number) => {
++        const target = stop().layout.bounds;
++        setPan(p => ({ x: p.x + target.width / zoom * dx, y: p.y + target.height / zoom * dy }));
++    };
++    return <div ref={host} className="mesh-map"><div className="mesh-map-controls" aria-label="Kartensteuerung"><button aria-label="Vergrößern" onClick={() => changeZoom(1.3)}>+</button><button aria-label="Verkleinern" onClick={() => changeZoom(1 / 1.3)}>−</button><button aria-label="Karte links" onClick={() => move(-.15, 0)}>Links</button><button aria-label="Karte rechts" onClick={() => move(.15, 0)}>Rechts</button><button aria-label="Karte oben" onClick={() => move(0, -.15)}>Oben</button><button aria-label="Karte unten" onClick={() => move(0, .15)}>Unten</button><button onClick={() => { stop(); setZoom(1); setPan({ x: 0, y: 0 }); }}>Einpassen</button></div>
+  <svg role="group" aria-label="2D-Beziehungsgraph" viewBox={`${x} ${y} ${width} ${height}`} className="mesh-svg">
+  <defs><marker id={marker} viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"/></marker></defs>
+- {layout.lanes.map((lane, i) => <text key={i} x={lane.x} y={lane.y} className="mesh-lane" textAnchor="middle">{lane.label}</text>)}
+- {scene.edges.map(edge => { const a = layout.positions[edge.from], b = layout.positions[edge.to]; if (!a || !b)
++ {visual.lanes.map((lane, i) => <text key={i} x={lane.x} y={lane.y} className="mesh-lane" textAnchor="middle">{lane.label}</text>)}
++ {scene.edges.map(edge => { const a = visual.positions[edge.from], b = visual.positions[edge.to]; if (!a || !b)
+         return null; const active = edge.from === config.selectedId || edge.to === config.selectedId; return <line key={edge.id} x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={active && config.highlightRelations ? '#94dfef' : '#657184'} strokeWidth={active ? 2.4 : 1.3} opacity={config.highlightRelations && config.selectedId && !active ? .3 : .75} markerEnd={`url(#${marker})`}><title>{edge.from} {relationNames[edge.relation]} {edge.to}</title></line>; })}
+  {scene.nodes.map(node => {
+-            const p = layout.positions[node.id];
++            const p = visual.positions[node.id];
+             if (!p)
+                 return null;
+             const selected = config.selectedId === node.id;
+             const label = config.labels === 'all' || config.labels === 'selected' && selected;
+-            return <g key={node.id} data-node-id={node.id} role="button" aria-label={node.title} aria-pressed={selected} tabIndex={0} transform={`translate(${p.x} ${p.y})`} opacity={config.highlightRelations && config.selectedId && !related.has(node.id) ? .4 : 1} onClick={() => onSelect(node.id)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') {
++            return <g key={node.id} data-node-id={node.id} role="button" aria-label={node.title} aria-pressed={selected} tabIndex={0} transform={`translate(${p.x} ${p.y})`} opacity={frame.emphasis[node.id]?.opacity ?? 1} onClick={() => onSelect(node.id)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') {
+                 e.preventDefault();
+                 onSelect(node.id);
+             } }}>
+- <title>{node.title} · {node.status ?? 'Status unbekannt'} · {node.detail}</title><circle r={selected ? 19 : 14} fill={nodeColors[node.kind]} stroke={selected ? '#fff' : '#243647'} strokeWidth={selected ? 3 : 1.5}/>{label && <text y={35} textAnchor="middle" className="mesh-node-label">{node.title.length > 32 ? node.title.slice(0, 31) + '…' : node.title}</text>}</g>;
++ <title>{node.title} · {node.status ?? 'Status unbekannt'} · {node.detail}</title><circle r={frame.emphasis[node.id]?.radius ?? (selected ? 19 : 14)} fill={nodeColors[node.kind]} stroke={selected ? '#fff' : '#243647'} strokeWidth={selected ? 3 : 1.5}/>{label && <text y={35} textAnchor="middle" className="mesh-node-label">{node.title.length > 32 ? node.title.slice(0, 31) + '…' : node.title}</text>}</g>;
+         })}
+  </svg></div>;
+ }
+--- a/src/ThreeView.tsx
++++ b/src/ThreeView.tsx
+@@ -19,5 +19,5 @@
+     catch {
+         props.onUnavailable('Die 3D-Szene konnte nicht aufgebaut werden.');
+     } }, [props.scene, props.layout, props.config]);
+-    return <div className="mesh-three"><div className="mesh-map-controls"><button onClick={() => controller.current?.fit()}>3D einpassen</button><span>Ziehen: drehen · Scrollen: zoomen · Knoten anklicken</span></div><div ref={host} className="mesh-three-stage"/><p className="mesh-muted">Die Knotenliste bietet dieselbe Auswahl per Tastatur. Keine automatische Daueranimation.</p></div>;
++    return <div className="mesh-three"><div className="mesh-map-controls"><button onClick={() => controller.current?.fit()}>3D einpassen</button><span>Ziehen: drehen · Scrollen: zoomen · Knoten anklicken</span></div><div ref={host} className="mesh-three-stage"/><p className="mesh-muted">Die Knotenliste bietet dieselbe Auswahl per Tastatur. Kurze Kamerafahrten nur bei Bedarf. Escape stoppt; Ziehen hat Vorrang. Keine Daueranimation.</p></div>;
+ }
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -3,7 +3,7 @@
+ export { adaptWorkState, navigationFor, preparationFor, kinds, kindNames, relationNames } from './model.ts';
+ export type { ExplorerGraph, ExplorerNode, ExplorerEvent, NodeKind, SourceRecord, NavigateTarget, PrepareIntent } from './model.ts';
+ export { defaultConfig, parseConfig, serializeConfig, selectScene, limitsFor, updateConfig } from './view.ts';
+-export type { ViewConfig, LayoutName, SceneSelection } from './view.ts';
++export type { ViewConfig, ViewConfigInput, LayoutName, SceneSelection } from './view.ts';
+ export { layoutGraph } from './layouts.ts';
+ export type { LayoutResult, Point3 } from './layouts.ts';
+ export type { SpatialViewProps } from './render-types.ts';
+--- a/src/motion.ts
++++ b/src/motion.ts
+@@ -0,0 +1,55 @@
++import type { ViewConfig } from './view.ts';
++import type { LayoutResult } from './layouts.ts';
++
++export type FrameClock = {
++    now: () => number;
++    request: (callback: (time: number) => void) => number;
++    cancel: (id: number) => void;
++};
++export function browserFrameClock(win: Window): FrameClock {
++    return { now: () => win.performance.now(), request: callback => win.requestAnimationFrame(callback), cancel: id => win.cancelAnimationFrame(id) };
++}
++
++/** One bounded visual transition. No completion action, recurring timer or idle RAF. */
++export function createDemandTimeline(clock: FrameClock) {
++    let pending: number | null = null;
++    let generation = 0;
++    let disposed = false;
++    const cancel = () => { generation++; if (pending !== null) clock.cancel(pending); pending = null; };
++    const run = (requestedDuration: number, frame: (progress: number) => void) => {
++        cancel();
++        if (disposed) return;
++        const duration = Number.isFinite(requestedDuration) ? Math.max(0, Math.min(320, requestedDuration)) : 0;
++        const token = generation;
++        const start = clock.now();
++        if (!duration) { frame(1); return; }
++        frame(0);
++        const step = (time: number) => {
++            if (disposed || token !== generation) return;
++            pending = null;
++            const linear = Math.max(0, Math.min(1, (time - start) / duration));
++            // Symmetric ease-in/out; deterministic endpoints and no overshoot.
++            frame(linear * linear * (3 - 2 * linear));
++            if (linear < 1 && !disposed && token === generation) pending = clock.request(step);
++        };
++        if (!disposed && token === generation) pending = clock.request(step);
++    };
++    return { run, cancel, dispose: () => { cancel(); disposed = true; } };
++}
++
++export function transitionDuration(config: ViewConfig, environment: { hidden?: boolean; systemReduced?: boolean } = {}): number {
++    if (config.reducedMotion || environment.systemReduced || environment.hidden || config.quality === 'low' || config.transitions === 'off') return 0;
++    return config.transitions === 'brief' ? 160 : config.quality === 'high' ? 320 : 240;
++}
++const lerp = (from: number, to: number, progress: number) => from + (to - from) * progress;
++export function interpolateLayout(from: LayoutResult, to: LayoutResult, progress: number): LayoutResult {
++    if (progress >= 1) return to;
++    const positions = Object.fromEntries(Object.entries(to.positions).map(([id, point]) => {
++        const start = from.positions[id] ?? point;
++        return [id, { x: lerp(start.x, point.x, progress), y: lerp(start.y, point.y, progress), z: lerp(start.z, point.z, progress) }];
++    }));
++    return { positions, lanes: to.lanes, bounds: {
++        x: lerp(from.bounds.x, to.bounds.x, progress), y: lerp(from.bounds.y, to.bounds.y, progress),
++        width: lerp(from.bounds.width, to.bounds.width, progress), height: lerp(from.bounds.height, to.bounds.height, progress),
++    } };
++}
+--- a/src/three-controller.ts
++++ b/src/three-controller.ts
+@@ -3,6 +3,7 @@
+ import { createGraphScene, type GraphScene } from './three-scene.ts';
+ import type { SpatialViewProps } from './render-types.ts';
+ import { limitsFor } from './view.ts';
++import { browserFrameClock, createDemandTimeline, transitionDuration, type FrameClock } from './motion.ts';
+ export type RendererAdapter = {
+     domElement: HTMLCanvasElement;
+     setPixelRatio: (ratio: number) => void;
+@@ -11,133 +12,186 @@
+     dispose: () => void;
+     forceContextLoss: () => void;
+ };
+-export type SpatialRuntime = {
+-    createRenderer?: () => RendererAdapter;
+-};
+-/** On-demand renderer. No RAF loop, ambient animation, network or camera permission. */
++export type SpatialRuntime = { createRenderer?: () => RendererAdapter; frameClock?: FrameClock };
++type CameraFraming = { near: number; far: number; minDistance: number; maxDistance: number };
++type CameraTarget = { position: THREE.Vector3; center: THREE.Vector3; up: THREE.Vector3; framing?: CameraFraming };
++/** On-demand rendering, with optional bounded camera transitions. No ambient loop. */
+ export function createSpatialController(host: HTMLElement, initial: SpatialViewProps, runtime: SpatialRuntime = {}) {
+-    const owner = host.ownerDocument;
+-    const win = owner.defaultView;
+-    if (!win)
+-        throw Error('Kein Browser-Dokument verfügbar.');
++    const owner = host.ownerDocument, win = owner.defaultView;
++    if (!win) throw Error('Kein Browser-Dokument verfügbar.');
+     const renderer = runtime.createRenderer?.() ?? new THREE.WebGLRenderer({ antialias: initial.config.quality !== 'low', alpha: false, powerPreference: 'low-power' });
+-    let props = initial;
+-    let built: GraphScene | null = null;
+-    let controls: OrbitControls | null = null;
++    const timeline = createDemandTimeline(runtime.frameClock ?? browserFrameClock(win));
++    let props = initial, built: GraphScene | null = null, controls: OrbitControls | null = null;
+     let observer: ResizeObserver | null = null;
+-    let disposed = false;
+-    let lost = false;
+-    const canvas = renderer.domElement;
+-    const labels = owner.createElement('div');
++    let disposed = false, lost = false, interacting = false;
++    let destination: CameraTarget | null = null;
++    const canvas = renderer.domElement, labels = owner.createElement('div');
+     labels.className = 'mesh-three-labels';
+     canvas.setAttribute('aria-label', 'Interaktiver 3D-Beziehungsgraph');
+-    canvas.setAttribute('role', 'img');
+-    canvas.tabIndex = 0;
++    canvas.setAttribute('role', 'img'); canvas.tabIndex = 0;
+     const camera = new THREE.PerspectiveCamera(45, 1, .01, 10000);
+     const labelNodes = new Map<string, HTMLButtonElement>();
+     const cleanup: (() => void)[] = [];
+-    const dispose = () => { if (disposed)
+-        return; disposed = true; for (const fn of cleanup.splice(0))
+-        fn(); observer?.disconnect(); controls?.dispose(); built?.dispose(); renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); labels.remove(); labelNodes.clear(); };
+-    const draw = () => { if (disposed || lost || !built)
+-        return; try {
+-        renderer.render(built.scene, camera);
+-        for (const [id, button] of labelNodes) {
+-            const p = built.positions.get(id)?.clone().project(camera);
+-            const visible = !!p && p.z >= -1 && p.z <= 1 && Math.abs(p.x) <= 1.05 && Math.abs(p.y) <= 1.05;
+-            button.hidden = !visible;
+-            if (p && visible) {
+-                button.style.left = ((p.x + 1) / 2 * 100) + '%';
+-                button.style.top = ((-p.y + 1) / 2 * 100) + '%';
++    const cancelMotion = () => { timeline.cancel(); destination = null; };
++    const dispose = () => {
++        if (disposed) return;
++        disposed = true; timeline.dispose(); destination = null;
++        for (const fn of cleanup.splice(0)) fn();
++        observer?.disconnect(); controls?.dispose(); built?.dispose();
++        renderer.dispose(); renderer.forceContextLoss(); canvas.remove(); labels.remove(); labelNodes.clear();
++    };
++    const unavailable = (message: string) => {
++        if (lost || disposed) return;
++        lost = true; cancelMotion(); props.onUnavailable(message);
++    };
++    const draw = () => {
++        if (disposed || lost || !built) return;
++        try {
++            renderer.render(built.scene, camera);
++            for (const [id, button] of labelNodes) {
++                const p = built.positions.get(id)?.clone().project(camera);
++                const visible = !!p && p.z >= -1 && p.z <= 1 && Math.abs(p.x) <= 1.05 && Math.abs(p.y) <= 1.05;
++                button.hidden = !visible;
++                if (p && visible) { button.style.left = ((p.x + 1) / 2 * 100) + '%'; button.style.top = ((-p.y + 1) / 2 * 100) + '%'; }
+             }
+-        }
+-    }
+-    catch {
+-        lost = true;
+-        props.onUnavailable('3D-Rendering ist auf diesem Gerät nicht verfügbar.');
+-    } };
++        } catch { unavailable('3D-Rendering ist auf diesem Gerät nicht verfügbar.'); }
++    };
+     const resize = () => {
+         if (disposed || lost) return;
+         try {
+-            const width = Math.max(1, host.clientWidth || 640);
+-            const height = Math.max(1, host.clientHeight || 440);
+-            camera.aspect = width / height;
+-            camera.updateProjectionMatrix();
++            const width = Math.max(1, host.clientWidth || 640), height = Math.max(1, host.clientHeight || 440);
++            camera.aspect = width / height; camera.updateProjectionMatrix();
+             renderer.setPixelRatio(Math.min(win.devicePixelRatio || 1, limitsFor(props.config.quality).pixelRatio));
+-            renderer.setSize(width, height);
+-            draw();
+-        } catch {
+-            // ResizeObserver and window listeners run outside React's error boundary.
+-            lost = true;
+-            props.onUnavailable('Die 3D-Größe konnte nicht an das Fenster angepasst werden.');
++            renderer.setSize(width, height); draw();
++        } catch { unavailable('Die 3D-Größe konnte nicht an das Fenster angepasst werden.'); }
++    };
++    const applyTarget = (target: CameraTarget) => {
++        if (!controls || disposed || lost) return;
++        try {
++            if (target.framing) {
++                camera.near = target.framing.near; camera.far = target.framing.far; camera.updateProjectionMatrix();
++                controls.minDistance = target.framing.minDistance; controls.maxDistance = target.framing.maxDistance;
++            }
++            camera.position.copy(target.position); camera.up.copy(target.up); controls.target.copy(target.center); controls.update(); draw();
+         }
++        catch { unavailable('Der 3D-Kamerablick konnte nicht angepasst werden.'); }
+     };
+-    const fit = () => { if (!built || !controls)
+-        return; const points = [...built.positions.values()]; const bounds = points.length ? new THREE.Box3().setFromPoints(points) : new THREE.Box3(new THREE.Vector3(-1, -1, -1), new THREE.Vector3(1, 1, 1)); const center = bounds.getCenter(new THREE.Vector3()); const radius = Math.max(2, bounds.getSize(new THREE.Vector3()).length() / 2 + .4); const dist = radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.2 / Math.min(1, camera.aspect); controls.target.copy(center); camera.up.set(0, 1, 0); if (props.config.perspective === 'front')
+-        camera.position.copy(center).add(new THREE.Vector3(0, 0, dist));
+-    else if (props.config.perspective === 'top') {
+-        camera.up.set(0, 0, -1);
+-        camera.position.copy(center).add(new THREE.Vector3(0, dist, 0));
+-    }
+-    else
+-        camera.position.copy(center).add(new THREE.Vector3(.7, .55, 1).normalize().multiplyScalar(dist)); camera.near = Math.max(.01, dist / 1000); camera.far = Math.max(100, dist * 10); camera.updateProjectionMatrix(); controls.minDistance = radius * .15; controls.maxDistance = dist * 5; controls.update(); draw(); };
+-    const update = (next: SpatialViewProps) => { if (disposed || lost)
+-        return; const shouldFit = !built || props.layout !== next.layout || props.config.perspective !== next.config.perspective; props = next; const replacement = createGraphScene(props); built?.dispose(); built = replacement; labels.replaceChildren(); labelNodes.clear(); for (const node of props.scene.nodes) {
+-        if (props.config.labels === 'none' || props.config.labels === 'selected' && node.id !== props.config.selectedId)
+-            continue;
+-        const button = owner.createElement('button');
+-        button.className = 'mesh-three-label';
+-        button.textContent = node.title.length > 36 ? node.title.slice(0, 35) + '…' : node.title;
+-        button.title = node.title;
+-        button.setAttribute('aria-label', node.title);
+-        button.setAttribute('aria-pressed', String(node.id === props.config.selectedId));
+-        button.onclick = () => props.onSelect(node.id);
+-        labels.append(button);
+-        labelNodes.set(node.id, button);
+-    } resize(); if (shouldFit)
+-        fit();
+-    else
+-        draw(); };
++    const settleMotion = () => { const target = destination; cancelMotion(); if (target) applyTarget(target); };
++    const moveCamera = (target: CameraTarget, duration: number) => {
++        if (!controls || disposed || lost || interacting) return;
++        const from = { position: camera.position.clone(), center: controls.target.clone(), up: camera.up.clone() };
++        const sceneReach = Math.max(0, ...[...(built?.positions.values() ?? [])].map(point => Math.max(from.position.distanceTo(point), target.position.distanceTo(point)) + .5));
++        // A smaller target must not clamp or clip the still-distant starting camera.
++        // Retain an envelope of both views until completion; cancellation keeps that safe envelope.
++        const envelope = target.framing ? {
++            near: Math.min(camera.near, target.framing.near), far: Math.max(camera.far, target.framing.far, sceneReach),
++            minDistance: Math.min(controls.minDistance, target.framing.minDistance, from.position.distanceTo(from.center)),
++            maxDistance: Math.max(controls.maxDistance, target.framing.maxDistance, from.position.distanceTo(from.center)),
++        } : undefined;
++        destination = target;
++        timeline.run(duration, progress => {
++            if (disposed || lost || interacting) return;
++            applyTarget({ position: from.position.clone().lerp(target.position, progress), center: from.center.clone().lerp(target.center, progress), up: from.up.clone().lerp(target.up, progress).normalize(), framing: progress === 1 ? target.framing : envelope });
++            if (progress === 1) destination = null;
++        });
++    };
++    const duration = () => transitionDuration(props.config, { hidden: owner.hidden });
++    const fit = (animate = true) => {
++        if (!built || !controls || disposed || lost || interacting) return;
++        const points = [...built.positions.values()];
++        const bounds = points.length ? new THREE.Box3().setFromPoints(points) : new THREE.Box3(new THREE.Vector3(-1, -1, -1), new THREE.Vector3(1, 1, 1));
++        const center = bounds.getCenter(new THREE.Vector3());
++        const radius = Math.max(2, bounds.getSize(new THREE.Vector3()).length() / 2 + .4);
++        const dist = radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 1.2 / Math.min(1, camera.aspect);
++        const up = new THREE.Vector3(0, 1, 0);
++        const offset = props.config.perspective === 'front' ? new THREE.Vector3(0, 0, dist) : props.config.perspective === 'top' ? new THREE.Vector3(0, dist, 0) : new THREE.Vector3(.7, .55, 1).normalize().multiplyScalar(dist);
++        if (props.config.perspective === 'top') up.set(0, 0, -1);
++        const framing = { near: Math.max(.01, dist / 1000), far: Math.max(100, dist * 10), minDistance: radius * .15, maxDistance: dist * 5 };
++        moveCamera({ position: center.clone().add(offset), center, up, framing }, animate ? duration() : 0);
++    };
++    const focusSelection = () => {
++        cancelMotion();
++        if (!controls || !built || !props.config.selectedId || interacting) return;
++        const selected = built.positions.get(props.config.selectedId);
++        if (!selected) return;
++        // Gentle framing only: retain zoom/orientation and cap the translation to 20% of viewing distance.
++        const delta = selected.clone().sub(controls.target).clampLength(0, camera.position.distanceTo(controls.target) * .2);
++        moveCamera({ position: camera.position.clone().add(delta), center: controls.target.clone().add(delta), up: camera.up.clone() }, duration());
++    };
++    const update = (next: SpatialViewProps) => {
++        if (disposed || lost) return;
++        const first = !built;
++        const shouldFit = first || props.layout !== next.layout || props.config.perspective !== next.config.perspective || props.config.mode !== next.config.mode;
++        const selectedChanged = props.config.selectedId !== next.config.selectedId;
++        const replacement = createGraphScene(next);
++        props = next; built?.dispose(); built = replacement;
++        labels.replaceChildren(); labelNodes.clear();
++        for (const node of props.scene.nodes) {
++            if (props.config.labels === 'none' || props.config.labels === 'selected' && node.id !== props.config.selectedId) continue;
++            const button = owner.createElement('button'); button.className = 'mesh-three-label';
++            button.textContent = node.title.length > 36 ? node.title.slice(0, 35) + '…' : node.title;
++            button.title = node.title; button.setAttribute('aria-label', node.title); button.setAttribute('aria-pressed', String(node.id === props.config.selectedId));
++            button.onclick = () => props.onSelect(node.id); labels.append(button); labelNodes.set(node.id, button);
++        }
++        resize();
++        if (shouldFit) fit(!first);
++        else if (selectedChanged) focusSelection();
++        else if (props.config.selectedId && !built.positions.has(props.config.selectedId)) cancelMotion();
++        else if (!duration()) settleMotion();
++        else draw();
++    };
+     try {
+-        host.append(canvas, labels);
+-        controls = new OrbitControls(camera, canvas);
+-        controls.enableDamping = false;
+-        controls.autoRotate = false;
+-        controls.addEventListener('change', draw);
+-        cleanup.push(() => controls?.removeEventListener('change', draw));
+-        const contextLost = (event: Event) => { event.preventDefault(); if (disposed || lost)
+-            return; lost = true; props.onUnavailable('WebGL-Kontext verloren.'); };
+-        canvas.addEventListener('webglcontextlost', contextLost);
+-        cleanup.push(() => canvas.removeEventListener('webglcontextlost', contextLost));
+-        let start: {
+-            x: number;
+-            y: number;
+-        } | null = null;
+-        const down = (event: PointerEvent) => { start = { x: event.clientX, y: event.clientY }; };
+-        const up = (event: PointerEvent) => { if (!start || !built || disposed || lost)
+-            return; const travel = Math.hypot(event.clientX - start.x, event.clientY - start.y); start = null; if (travel > 5)
+-            return; const r = canvas.getBoundingClientRect(); if (r.width <= 0 || r.height <= 0)
+-            return; const pointer = new THREE.Vector2((event.clientX - r.left) / r.width * 2 - 1, -(event.clientY - r.top) / r.height * 2 + 1); const ray = new THREE.Raycaster(); ray.setFromCamera(pointer, camera); const hit = ray.intersectObjects(built.pickables, false)[0]; if (hit)
+-            props.onSelect(String(hit.object.userData.nodeId)); };
+-        const cancel = () => { start = null; };
+-        canvas.addEventListener('pointerdown', down);
+-        canvas.addEventListener('pointerup', up);
+-        canvas.addEventListener('pointercancel', cancel);
+-        cleanup.push(() => { canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointerup', up); canvas.removeEventListener('pointercancel', cancel); });
++        host.append(canvas, labels); controls = new OrbitControls(camera, canvas);
++        controls.enableDamping = false; controls.autoRotate = false;
++        const gestureStart = () => { interacting = true; cancelMotion(); };
++        const gestureEnd = () => { interacting = false; };
++        controls.addEventListener('change', draw); controls.addEventListener('start', gestureStart); controls.addEventListener('end', gestureEnd);
++        cleanup.push(() => { controls?.removeEventListener('change', draw); controls?.removeEventListener('start', gestureStart); controls?.removeEventListener('end', gestureEnd); });
++        const contextLost = (event: Event) => { event.preventDefault(); unavailable('WebGL-Kontext verloren.'); };
++        canvas.addEventListener('webglcontextlost', contextLost); cleanup.push(() => canvas.removeEventListener('webglcontextlost', contextLost));
++        const escape = (event: KeyboardEvent) => { if (event.key === 'Escape') cancelMotion(); };
++        const visibility = () => { if (owner.hidden) settleMotion(); };
++        const scope = host.closest('.mesh-explorer') ?? host;
++        scope.addEventListener('keydown', escape as EventListener); owner.addEventListener('visibilitychange', visibility);
++        cleanup.push(() => { scope.removeEventListener('keydown', escape as EventListener); owner.removeEventListener('visibilitychange', visibility); });
++        let start: { id: number; x: number; y: number } | null = null;
++        const pointers = new Set<number>();
++        let multiPointer = false;
++        const release = (event: PointerEvent) => {
++            pointers.delete(event.pointerId);
++            if (start?.id === event.pointerId) start = null;
++            if (!pointers.size) multiPointer = false;
++        };
++        const down = (event: PointerEvent) => {
++            pointers.add(event.pointerId);
++            if (pointers.size > 1) multiPointer = true;
++            start = !multiPointer && event.button === 0 ? { id: event.pointerId, x: event.clientX, y: event.clientY } : null;
++            gestureStart();
++        };
++        const moved = (event: PointerEvent) => {
++            if (start?.id === event.pointerId && Math.hypot(event.clientX - start.x, event.clientY - start.y) > 5) start = null;
++        };
++        const up = (event: PointerEvent) => {
++            const tap = start;
++            const eligible = tap?.id === event.pointerId && !multiPointer && pointers.size === 1;
++            release(event);
++            if (!eligible || !tap || !built || disposed || lost) return;
++            const travel = Math.hypot(event.clientX - tap.x, event.clientY - tap.y);
++            if (travel > 5) return;
++            const r = canvas.getBoundingClientRect(); if (r.width <= 0 || r.height <= 0) return;
++            const pointer = new THREE.Vector2((event.clientX - r.left) / r.width * 2 - 1, -(event.clientY - r.top) / r.height * 2 + 1);
++            const ray = new THREE.Raycaster(); ray.setFromCamera(pointer, camera);
++            const hit = ray.intersectObjects(built.pickables, false)[0]; if (hit) props.onSelect(String(hit.object.userData.nodeId));
++        };
++        // OrbitControls owns gesture completion, including the remaining pointer of a pinch.
++        const cancel = (event: PointerEvent) => { start = null; release(event); };
++        canvas.addEventListener('pointerdown', down); canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', cancel);
++        owner.addEventListener('pointermove', moved); owner.addEventListener('pointerup', release);
++        cleanup.push(() => { canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointerup', up); canvas.removeEventListener('pointercancel', cancel); owner.removeEventListener('pointermove', moved); owner.removeEventListener('pointerup', release); pointers.clear(); start = null; });
+         const Resize = win.ResizeObserver;
+-        if (Resize) {
+-            observer = new Resize(resize);
+-            observer.observe(host);
+-        }
+-        else {
+-            win.addEventListener('resize', resize);
+-            cleanup.push(() => win.removeEventListener('resize', resize));
+-        }
++        if (Resize) { observer = new Resize(resize); observer.observe(host); }
++        else { win.addEventListener('resize', resize); cleanup.push(() => win.removeEventListener('resize', resize)); }
+         update(initial);
+-        return { update, dispose, fit };
+-    }
+-    catch (error) {
+-        dispose();
+-        throw error;
+-    }
++        return { update, dispose, fit, cancelMotion };
++    } catch (error) { dispose(); throw error; }
+ }
+--- a/src/use-svg-motion.ts
++++ b/src/use-svg-motion.ts
+@@ -0,0 +1,54 @@
++import { useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
++import type { LayoutResult } from './layouts.ts';
++import type { SceneSelection, ViewConfig } from './view.ts';
++import { browserFrameClock, createDemandTimeline, interpolateLayout, transitionDuration } from './motion.ts';
++type SvgFrame = { layout: LayoutResult; emphasis: Record<string, { radius: number; opacity: number }> };
++
++export function useSvgMotion(layout: LayoutResult, scene: SceneSelection, config: ViewConfig, host: RefObject<HTMLDivElement | null>) {
++    const target = useMemo<SvgFrame>(() => {
++        const related = new Set([config.selectedId, ...scene.edges.flatMap(edge => edge.from === config.selectedId ? [edge.to] : edge.to === config.selectedId ? [edge.from] : [])]);
++        // Only interpolate the budgeted visible nodes, never the entire input graph.
++        const positions = Object.fromEntries(scene.nodes.flatMap(node => layout.positions[node.id] ? [[node.id, layout.positions[node.id]]] : []));
++        let bounds = layout.bounds;
++        if (config.mode === 'focus' && Object.keys(positions).length) {
++            const points = Object.values(positions), xs = points.map(point => point.x), ys = points.map(point => point.y);
++            const x = Math.min(...xs) - 110, y = Math.min(...ys) - 75;
++            bounds = { x, y, width: Math.max(...xs) - x + 170, height: Math.max(...ys) - y + 100 };
++        }
++        return { layout: { ...layout, positions, bounds }, emphasis: Object.fromEntries(scene.nodes.map(node => [node.id, { radius: config.selectedId === node.id ? 19 : 14, opacity: config.highlightRelations && config.selectedId && !related.has(node.id) ? .4 : 1 }])) };
++    }, [layout, scene, config.selectedId, config.highlightRelations, config.mode]);
++    const [frame, setFrame] = useState(target);
++    const current = useRef(frame), latest = useRef(target);
++    latest.current = target;
++    const timeline = useRef<ReturnType<typeof createDemandTimeline> | null>(null);
++    const previous = useRef({ layout: config.layout, mode: config.mode, selectedId: config.selectedId });
++    const show = (value: SvgFrame) => { current.current = value; setFrame(value); };
++    const stop = () => { timeline.current?.cancel(); const settled = latest.current; show(settled); return settled; };
++    useLayoutEffect(() => {
++        const element = host.current, owner = element?.ownerDocument, win = owner?.defaultView;
++        if (!element || !owner || !win) return;
++        timeline.current = createDemandTimeline(browserFrameClock(win));
++        const scope = element.closest('.mesh-explorer') ?? element;
++        const key = (event: Event) => { if ((event as KeyboardEvent).key === 'Escape') stop(); };
++        const visibility = () => { if (owner.hidden) stop(); };
++        scope.addEventListener('keydown', key); owner.addEventListener('visibilitychange', visibility);
++        return () => { timeline.current?.dispose(); timeline.current = null; scope.removeEventListener('keydown', key); owner.removeEventListener('visibilitychange', visibility); };
++    }, []);
++    useLayoutEffect(() => {
++        const before = previous.current;
++        const changed = before.layout !== config.layout || before.mode !== config.mode || before.selectedId !== config.selectedId;
++        previous.current = { layout: config.layout, mode: config.mode, selectedId: config.selectedId };
++        const from = current.current;
++        const duration = changed ? transitionDuration(config, { hidden: host.current?.ownerDocument.hidden }) : 0;
++        if (!timeline.current) { show(target); return; }
++        timeline.current.run(duration, progress => {
++            if (progress === 1) { show(target); return; }
++            const emphasis = Object.fromEntries(Object.entries(target.emphasis).map(([id, value]) => {
++                const start = from.emphasis[id] ?? value;
++                return [id, { radius: start.radius + (value.radius - start.radius) * progress, opacity: start.opacity + (value.opacity - start.opacity) * progress }];
++            }));
++            show({ layout: interpolateLayout(from.layout, target.layout, progress), emphasis });
++        });
++    }, [target, config.layout, config.mode, config.selectedId, config.transitions, config.reducedMotion, config.quality]);
++    return { frame, stop };
++}
+--- a/src/view.ts
++++ b/src/view.ts
+@@ -6,12 +6,19 @@
+     filters: z.object({ query: z.string().max(200), kinds: z.array(z.enum(['agent', 'mission', 'task', 'room', 'source'])).max(5).refine(unique), origins: z.array(z.enum(['own', 'external'])).max(2).refine(unique) }).strict(),
+     visualStyle: z.enum(['solid', 'hologram']), labels: z.enum(['none', 'selected', 'all']), quality: z.enum(['low', 'balanced', 'high']), reducedMotion: z.boolean(), highlightRelations: z.boolean(),
+     perspective: z.enum(['front', 'isometric', 'top']), mode: z.enum(['work', 'focus', 'presentation']),
++    // Additive V1 field: previously saved views remain immediate on restore.
++    transitions: z.enum(['off', 'brief', 'smooth']).default('off'),
+ }).strict();
+ export type ViewConfig = z.infer<typeof configSchema>;
++export type ViewConfigInput = z.input<typeof configSchema>;
+ export type LayoutName = ViewConfig['layout'];
+-export function defaultConfig(): ViewConfig { return { version: 1, layout: 'network', renderer: 'svg', selectedId: null, filters: { query: '', kinds: ['agent', 'mission', 'task', 'room', 'source'], origins: ['own', 'external'] }, visualStyle: 'solid', labels: 'selected', quality: 'balanced', reducedMotion: true, highlightRelations: true, perspective: 'isometric', mode: 'work' }; }
++export function defaultConfig(): ViewConfig { return { version: 1, layout: 'network', renderer: 'svg', selectedId: null, filters: { query: '', kinds: ['agent', 'mission', 'task', 'room', 'source'], origins: ['own', 'external'] }, visualStyle: 'solid', labels: 'selected', quality: 'balanced', reducedMotion: true, highlightRelations: true, perspective: 'isometric', mode: 'work', transitions: 'off' }; }
+ export function parseConfig(value: unknown): ViewConfig { return configSchema.parse(typeof value === 'string' ? JSON.parse(value) : value); }
+-export function serializeConfig(value: ViewConfig): string { return JSON.stringify(parseConfig(value), null, 2); }
++export function serializeConfig(value: ViewConfig, options: { legacyV1?: boolean } = {}): string {
++    const parsed = parseConfig(value);
++    if (options.legacyV1) { const { transitions: _transitions, ...legacy } = parsed; return JSON.stringify(legacy, null, 2); }
++    return JSON.stringify(parsed, null, 2);
++}
+ export function updateConfig(current: ViewConfig, patch: Partial<ViewConfig>): ViewConfig { return parseConfig({ ...current, ...patch }); }
+ export function limitsFor(quality: ViewConfig['quality']) { return { low: { nodes: 60, edges: 120, pixelRatio: 1, segments: 8 }, balanced: { nodes: 160, edges: 360, pixelRatio: 1.5, segments: 12 }, high: { nodes: 320, edges: 700, pixelRatio: 2, segments: 16 } }[quality]; }
+ export function selectScene(graph: ExplorerGraph, config: ViewConfig) {
+--- a/tests/frame-clock.ts
++++ b/tests/frame-clock.ts
+@@ -0,0 +1,11 @@
++import type { FrameClock } from '../src/motion.ts';
++/** Synthetic monotonic RAF clock. Canceled callbacks can be retained to test late delivery. */
++export class TestFrameClock implements FrameClock {
++ time = 0; next = 0;
++ pending = new Map<number, (time: number) => void>();
++ canceled: Array<(time: number) => void> = [];
++ now = () => this.time;
++ request = (callback: (time: number) => void) => { const id = ++this.next; this.pending.set(id, callback); return id; };
++ cancel = (id: number) => { const callback = this.pending.get(id); if (callback) this.canceled.push(callback); this.pending.delete(id); };
++ step(time: number) { this.time = time; const callbacks = [...this.pending.values()]; this.pending.clear(); for (const callback of callbacks) callback(time); }
++}
+--- a/tests/motion.test.ts
++++ b/tests/motion.test.ts
+@@ -0,0 +1,58 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { defaultConfig } from '../src/view.ts';
++import { createDemandTimeline, transitionDuration, interpolateLayout } from '../src/motion.ts';
++import { TestFrameClock } from './frame-clock.ts';
++
++test('timeline exists only on demand and reaches the exact end without a further frame', () => {
++ const clock = new TestFrameClock(), timeline = createDemandTimeline(clock), values: number[] = [];
++ assert.equal(clock.pending.size, 0);
++ timeline.run(200, value => values.push(value));
++ assert.deepEqual(values, [0]); assert.equal(clock.pending.size, 1);
++ clock.step(100); assert.equal(values.at(-1), .5);
++ clock.step(201); assert.equal(values.at(-1), 1); assert.equal(clock.pending.size, 0);
++ const count = values.length; clock.step(500); assert.equal(values.length, count);
++});
++
++test('rapid retarget, cancel, stale delivery and disposal cannot revive an old timeline', () => {
++ const clock = new TestFrameClock(), timeline = createDemandTimeline(clock), a: number[] = [], b: number[] = [];
++ timeline.run(200, value => a.push(value)); clock.step(50);
++ timeline.run(100, value => b.push(value));
++ const oldCount = a.length; for (const callback of clock.canceled) callback(75);
++ assert.equal(a.length, oldCount); assert.equal(clock.pending.size, 1);
++ clock.step(150); assert.equal(b.at(-1), 1); assert.equal(clock.pending.size, 0);
++ timeline.run(100, value => b.push(value)); timeline.cancel();
++ const count = b.length; clock.step(500); assert.equal(b.length, count); assert.equal(clock.pending.size, 0);
++ timeline.run(100, value => b.push(value)); timeline.dispose(); timeline.dispose();
++ const disposedCount = b.length; timeline.run(100, value => b.push(value)); clock.step(900);
++ assert.equal(b.length, disposedCount); assert.equal(clock.pending.size, 0);
++});
++
++test('zero, invalid, capped and background-delayed duration are bounded and cancellation is reentrant', () => {
++ const clock = new TestFrameClock(), timeline = createDemandTimeline(clock), values: number[] = [];
++ for (const duration of [0, -4, NaN, Infinity]) { timeline.run(duration, value => values.push(value)); assert.equal(values.at(-1), 1); assert.equal(clock.pending.size, 0); }
++ timeline.run(99999, value => values.push(value)); clock.step(400); assert.equal(values.at(-1), 1); assert.equal(clock.pending.size, 0);
++ timeline.run(200, () => timeline.cancel()); assert.equal(clock.pending.size, 0);
++ timeline.run(200, () => timeline.dispose()); assert.equal(clock.pending.size, 0);
++});
++
++test('disabled, reduced-motion, power-saving and hidden states always beat requested transitions', () => {
++ const config = { ...defaultConfig(), transitions: 'smooth' as const, reducedMotion: false };
++ assert.equal(transitionDuration(config), 240);
++ assert.equal(transitionDuration({ ...config, quality: 'high' }), 320);
++ assert.equal(transitionDuration({ ...config, transitions: 'brief' }), 160);
++ for (const patch of [{ reducedMotion: true }, { quality: 'low' as const }, { transitions: 'off' as const }]) assert.equal(transitionDuration({ ...config, ...patch }), 0);
++ assert.equal(transitionDuration(config, { hidden: true }), 0);
++ assert.equal(transitionDuration(config, { systemReduced: true }), 0);
++});
++
++test('2D interpolation preserves IDs, truthful target membership and exact end coordinates', () => {
++ const a = { positions: { one: { x: 0, y: 0, z: 0 }, removed: { x: 8, y: 2, z: 1 } }, lanes: [], bounds: { x: 0, y: 0, width: 100, height: 100 } };
++ const b = { positions: { one: { x: 100, y: -50, z: 20 }, added: { x: 40, y: 3, z: 2 } }, lanes: [], bounds: { x: -20, y: -30, width: 300, height: 200 } };
++ const middle = interpolateLayout(a, b, .5);
++ assert.deepEqual(Object.keys(middle.positions), ['one', 'added']);
++ assert.deepEqual(middle.positions.one, { x: 50, y: -25, z: 10 });
++ assert.deepEqual(middle.positions.added, b.positions.added);
++ assert.deepEqual(interpolateLayout(a, b, 1), b);
++ assert.equal(a.positions.one.x, 0);
++});
+--- a/tests/three.test.ts
++++ b/tests/three.test.ts
+@@ -32,3 +32,185 @@
+  }
+ });
+ test('late window resize failure also takes the controlled fallback path',()=>{const w=new Window(),host=w.document.createElement('div');Object.defineProperty(w,'ResizeObserver',{configurable:true,value:undefined});let fail=false,unavailable=0;const p=props();p.onUnavailable=()=>{unavailable++};const renderer={domElement:w.document.createElement('canvas')as unknown as HTMLCanvasElement,setPixelRatio:()=>{},setSize:()=>{if(fail)throw Error('Late failure')},render:()=>{},dispose:()=>{},forceContextLoss:()=>{}};const controller=createSpatialController(host as unknown as HTMLElement,p,{createRenderer:()=>renderer});fail=true;w.dispatchEvent(new w.Event('resize'));assert.equal(unavailable,1);controller.dispose()});
++
++import { TestFrameClock } from './frame-clock.ts';
++function motionHarness() {
++ const w = new Window(), host = w.document.createElement('div'), clock = new TestFrameClock();
++ w.document.body.append(host);
++ const canvas = w.document.createElement('canvas'); let renders = 0, unavailable = 0, selections = 0;
++ let latest = { position: [] as number[], quaternion: [] as number[] };
++ const renderer = { domElement: canvas as unknown as HTMLCanvasElement, setPixelRatio: (_n: number) => {}, setSize: (_w: number, _h: number) => {}, render: (_scene: unknown, camera: any) => { renders++; latest = { position: camera.position.toArray(), quaternion: camera.quaternion.toArray() }; }, dispose: () => {}, forceContextLoss: () => {} };
++ const p = props(); p.config.reducedMotion = false; p.config.transitions = 'smooth'; p.onSelect = () => selections++; p.onUnavailable = () => unavailable++;
++ const c = createSpatialController(host as unknown as HTMLElement, p, { createRenderer: () => renderer, frameClock: clock });
++ return { w, host, canvas, clock, p, c, snapshot: () => ({ ...latest, renders, unavailable, selections }) };
++}
++
++test('3D demand camera focus finishes once, preserves IDs and does not invoke selection callbacks', () => {
++ const h = motionHarness(); assert.equal(h.clock.pending.size, 0);
++ const before = h.snapshot(); const next = { ...h.p, config: { ...h.p.config, perspective: 'front' as const } };
++ h.c.update(next); assert.equal(h.clock.pending.size, 1);
++ assert.deepEqual(h.snapshot().position, before.position);
++ h.clock.step(120); const middle = h.snapshot().position; assert.notDeepEqual(middle, before.position);
++ h.clock.step(240); assert.equal(h.clock.pending.size, 0); const end = h.snapshot(); assert.notDeepEqual(end.position, middle);
++ h.clock.step(500); assert.equal(h.snapshot().renders, end.renders); assert.equal(h.snapshot().selections, 0);
++ assert.equal(next.config.selectedId, h.p.config.selectedId); h.c.dispose();
++});
++
++test('3D rapid toggles finish at the last immediate camera target and policy changes settle immediately', () => {
++ const h = motionHarness();
++ const front = { ...h.p, config: { ...h.p.config, perspective: 'front' as const } };
++ h.c.update(front); h.clock.step(80); h.c.update(h.p); h.clock.step(160); h.c.update(front); h.clock.step(500);
++ const animatedEnd = h.snapshot().position;
++ h.c.update({ ...front, config: { ...front.config, reducedMotion: true } }); h.c.fit();
++ assert.deepEqual(h.snapshot().position, animatedEnd); assert.equal(h.clock.pending.size, 0);
++ for (const policy of [{ reducedMotion: true }, { quality: 'low' as const }, { transitions: 'off' as const }]) {
++  h.c.update(front); h.c.update(h.p); assert.equal(h.clock.pending.size, 1);
++  h.c.update({ ...h.p, config: { ...h.p.config, ...policy } }); assert.equal(h.clock.pending.size, 0);
++ }
++ h.c.dispose();
++});
++
++test('3D Escape and camera gestures cancel without fighting the user or scheduling a delayed fit', () => {
++ const h = motionHarness(), front = { ...h.p, config: { ...h.p.config, perspective: 'front' as const } };
++ h.c.update(front); assert.equal(h.clock.pending.size, 1); h.clock.step(80);
++ h.host.dispatchEvent(new h.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); assert.equal(h.clock.pending.size, 0);
++ h.c.update(h.p); h.clock.step(120);
++ h.canvas.dispatchEvent(new h.w.PointerEvent('pointerdown', { clientX: 20, clientY: 20, button: 0, pointerId: 1 }));
++ assert.equal(h.clock.pending.size, 0);
++ h.c.update(front); assert.equal(h.clock.pending.size, 0);
++ h.canvas.dispatchEvent(new h.w.PointerEvent('pointercancel', { pointerId: 1 }));
++ h.clock.step(500); assert.equal(h.clock.pending.size, 0); assert.equal(h.snapshot().selections, 0);
++ h.c.dispose();
++});
++
++test('3D context loss and disposal clear all transition frames including stale callbacks', () => {
++ for (const reason of ['context', 'dispose'] as const) {
++  const h = motionHarness(); h.c.update({ ...h.p, config: { ...h.p.config, perspective: 'front' as const } });
++  assert.equal(h.clock.pending.size, 1);
++  if (reason === 'context') h.canvas.dispatchEvent(new h.w.Event('webglcontextlost', { cancelable: true })); else h.c.dispose();
++  const before = h.snapshot(); assert.equal(h.clock.pending.size, 0);
++  for (const callback of h.clock.canceled) callback(500);
++  h.clock.step(1000); assert.equal(h.snapshot().renders, before.renders);
++  assert.equal(h.snapshot().unavailable, reason === 'context' ? 1 : 0); h.c.dispose(); assert.equal(h.host.children.length, 0);
++ }
++});
++
++test('3D selection focus is bounded and a missing or cleared selection cancels the old destination', () => {
++ const h = motionHarness(), selectedId = h.p.scene.nodes.find(n => n.id !== h.p.config.selectedId)!.id;
++ const next = { ...h.p, config: { ...h.p.config, selectedId } };
++ const before = h.snapshot().position;
++ h.c.update(next); assert.equal(h.clock.pending.size, 1);
++ h.clock.step(120); assert.notDeepEqual(h.snapshot().position, before);
++ h.c.update({ ...next, config: { ...next.config, selectedId: null } }); assert.equal(h.clock.pending.size, 0);
++ const held = h.snapshot().position; h.clock.step(999); assert.deepEqual(h.snapshot().position, held);
++ h.c.update(h.p); assert.equal(h.clock.pending.size, 1);
++ h.c.update({ ...h.p, scene: { ...h.p.scene, nodes: h.p.scene.nodes.filter(n => n.id !== h.p.config.selectedId) } });
++ assert.equal(h.clock.pending.size, 0); assert.equal(h.snapshot().selections, 0); h.c.dispose();
++});
++
++test('3D hidden document and a renderer error during an animated frame stop scheduling immediately', () => {
++ const h = motionHarness();
++ h.c.update({ ...h.p, config: { ...h.p.config, perspective: 'front' as const } }); assert.equal(h.clock.pending.size, 1);
++ Object.defineProperty(h.w.document, 'hidden', { configurable: true, value: true });
++ h.w.document.dispatchEvent(new h.w.Event('visibilitychange')); assert.equal(h.clock.pending.size, 0);
++ h.c.update(h.p); assert.equal(h.clock.pending.size, 0); h.c.dispose();
++ const w = new Window(), host = w.document.createElement('div'), clock = new TestFrameClock();
++ let fail = false, unavailable = 0;
++ const p = props(); p.config.reducedMotion = false; p.config.transitions = 'brief'; p.onUnavailable = () => unavailable++;
++ const c = createSpatialController(host as unknown as HTMLElement, p, { frameClock: clock, createRenderer: () => ({ domElement: w.document.createElement('canvas') as unknown as HTMLCanvasElement, setPixelRatio: () => {}, setSize: () => {}, render: () => { if (fail) throw Error('frame failure'); }, dispose: () => {}, forceContextLoss: () => {} }) });
++ c.update({ ...p, config: { ...p.config, perspective: 'front' } }); assert.equal(clock.pending.size, 1); fail = true;
++ assert.doesNotThrow(() => clock.step(80)); assert.equal(unavailable, 1); assert.equal(clock.pending.size, 0); c.dispose();
++});
++
++test('3D two-pointer gesture retains priority after one pointer is canceled', () => {
++ const h = motionHarness();
++ for (const pointerId of [1, 2]) h.canvas.dispatchEvent(new h.w.PointerEvent('pointerdown', { pointerType: 'touch', pointerId, clientX: pointerId * 20, clientY: 20, bubbles: true }));
++ h.canvas.dispatchEvent(new h.w.PointerEvent('pointercancel', { pointerType: 'touch', pointerId: 2, bubbles: true }));
++ h.c.update({ ...h.p, config: { ...h.p.config, perspective: 'front' } });
++ assert.equal(h.clock.pending.size, 0);
++ h.canvas.dispatchEvent(new h.w.PointerEvent('pointercancel', { pointerType: 'touch', pointerId: 1, bubbles: true }));
++ h.c.update(h.p); assert.equal(h.clock.pending.size, 1); h.c.dispose();
++});
++
++test('3D selection-only framing retains zoom and caps its full translation at twenty percent', () => {
++ const h = motionHarness(), p = h.p;
++ const points = p.scene.nodes.map(node => p.layout.positions[node.id]);
++ const center = [
++  (Math.min(...points.map(v => v.x)) + Math.max(...points.map(v => v.x))) / 200,
++  -(Math.min(...points.map(v => v.y)) + Math.max(...points.map(v => v.y))) / 200,
++  (Math.min(...points.map(v => v.z)) + Math.max(...points.map(v => v.z))) / 200,
++ ];
++ const before = h.snapshot(), distance = Math.hypot(...before.position.map((v, i) => v - center[i]));
++ const selectedId = p.scene.nodes.find(node => node.id !== p.config.selectedId)!.id;
++ h.c.update({ ...p, config: { ...p.config, selectedId } }); h.clock.step(240);
++ const after = h.snapshot(), translation = Math.hypot(...after.position.map((v, i) => v - before.position[i]));
++ assert.ok(translation > 0); assert.ok(translation <= distance * .2 + 1e-10);
++ after.quaternion.forEach((value, i) => assert.ok(Math.abs(value - before.quaternion[i]) < 1e-10));
++ assert.equal(h.clock.pending.size, 0); h.c.dispose();
++});
++
++function largeFramingHarness() {
++ const graph = adaptWorkState(fixture(), sources), sample = graph.nodes.find(n => n.kind === 'source')!;
++ graph.nodes = Array.from({ length: 300 }, (_, i) => ({ ...sample, id: 'source:frame-' + i })); graph.edges = [];
++ const config = { ...defaultConfig(), renderer: 'three' as const, quality: 'high' as const, transitions: 'smooth' as const, reducedMotion: false, selectedId: graph.nodes[0].id };
++ const w = new Window(), host = w.document.createElement('div'), clock = new TestFrameClock(); w.document.body.append(host);
++ let latest = { position: [] as number[], near: 0, far: 0 };
++ const renderer = { domElement: w.document.createElement('canvas') as unknown as HTMLCanvasElement, setPixelRatio: () => {}, setSize: () => {}, render: (_scene: unknown, camera: any) => { latest = { position: camera.position.toArray(), near: camera.near, far: camera.far }; }, dispose: () => {}, forceContextLoss: () => {} };
++ const p = { scene: selectScene(graph, config), layout: layoutGraph(graph, 'network'), config, onSelect: (_id: string) => {}, onUnavailable: (_reason: string) => {} };
++ const c = createSpatialController(host as unknown as HTMLElement, p, { createRenderer: () => renderer, frameClock: clock });
++ const focused = { ...p, config: { ...config, mode: 'focus' as const } }; focused.scene = selectScene(graph, focused.config);
++ return { graph, w, host, clock, p, focused, c, snapshot: () => structuredClone(latest) };
++}
++
++test('large-to-small and small-to-large camera fits retain frame zero and safe clipping until exact completion', () => {
++ const a = largeFramingHarness(), immediate = largeFramingHarness();
++ const nearly = (x: number[], y: number[]) => x.forEach((v, i) => assert.ok(Math.abs(v - y[i]) < 1e-10, JSON.stringify({ x, y })));
++ try {
++  for (const next of [a.focused, a.p]) {
++   const before = a.snapshot();
++   immediate.c.update({ ...next, config: { ...next.config, transitions: 'off' } }); const expected = immediate.snapshot();
++   a.c.update(next); assert.equal(a.clock.pending.size, 1); nearly(a.snapshot().position, before.position);
++   assert.ok(a.snapshot().near <= Math.min(before.near, expected.near));
++   assert.ok(a.snapshot().far >= Math.max(before.far, expected.far));
++   a.clock.step(a.clock.time + 160);
++   assert.ok(a.snapshot().near <= Math.min(before.near, expected.near));
++   assert.ok(a.snapshot().far >= Math.max(before.far, expected.far));
++   a.clock.step(a.clock.time + 160); const end = a.snapshot();
++   nearly(end.position, expected.position); assert.equal(end.near, expected.near); assert.equal(end.far, expected.far); assert.equal(a.clock.pending.size, 0);
++  }
++  a.c.update(a.focused); a.clock.step(a.clock.time + 160);
++  a.host.dispatchEvent(new a.w.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })); const held = a.snapshot();
++  a.clock.step(a.clock.time + 1000); assert.deepEqual(a.snapshot(), held); assert.equal(a.clock.pending.size, 0);
++ } finally { a.c.dispose(); immediate.c.dispose(); }
++});
++
++test('only a genuine single-pointer primary tap selects; pinch, cancellation and drag-return do not', () => {
++ const graph = adaptWorkState(fixture(), sources); graph.nodes = [graph.nodes[0]]; graph.edges = [];
++ const config = { ...defaultConfig(), renderer: 'three' as const }, w = new Window(), host = w.document.createElement('div'); w.document.body.append(host);
++ const canvas = w.document.createElement('canvas'); let selections = 0;
++ Object.defineProperty(canvas, 'clientWidth', { value: 640 }); Object.defineProperty(canvas, 'clientHeight', { value: 440 });
++ canvas.getBoundingClientRect = () => new w.DOMRect(0, 0, 640, 440);
++ const c = createSpatialController(host as unknown as HTMLElement, { scene: selectScene(graph, config), layout: layoutGraph(graph, 'network'), config, onSelect: () => selections++, onUnavailable: () => {} }, { createRenderer: () => ({ domElement: canvas as unknown as HTMLCanvasElement, setPixelRatio: () => {}, setSize: () => {}, render: (scene, camera) => { camera.updateMatrixWorld(); scene.updateMatrixWorld(); }, dispose: () => {}, forceContextLoss: () => {} }) });
++ const pointer = (type: string, id: number, x = 320) => canvas.dispatchEvent(new w.PointerEvent(type, { pointerType: 'touch', pointerId: id, button: 0, clientX: x, clientY: 220, bubbles: true }));
++ try {
++  pointer('pointerdown', 1); pointer('pointerdown', 2); pointer('pointerup', 2); assert.equal(selections, 0);
++  pointer('pointerup', 1); assert.equal(selections, 0);
++  pointer('pointerdown', 3); pointer('pointercancel', 3); pointer('pointerup', 3); assert.equal(selections, 0);
++  pointer('pointerdown', 4); pointer('pointermove', 4, 340); pointer('pointermove', 4); pointer('pointerup', 4); assert.equal(selections, 0);
++  c.fit(false); pointer('pointerdown', 5); pointer('pointerup', 5); assert.equal(selections, 1);
++ } finally { c.dispose(); }
++});
++
++test('camera transition far envelope also includes translated destination geometry', () => {
++ const h = largeFramingHarness();
++ try {
++  const selectedId = 'source:frame-99', config = { ...h.p.config, mode: 'focus' as const, perspective: 'top' as const, selectedId };
++  const focused = { ...h.p, config, scene: selectScene(h.graph, config) }; h.c.update(focused); h.clock.step(320);
++  const from = h.snapshot(), layout = layoutGraph(h.graph, 'workflow'), point = layout.positions[selectedId];
++  const distance = Math.hypot(from.position[0] - point.x / 100, from.position[1] + point.y / 100, from.position[2] - point.z / 100);
++  h.c.update({ ...focused, layout, config: { ...config, layout: 'workflow' } });
++  assert.ok(h.snapshot().far > distance, 'new layout geometry must remain inside the transition far envelope');
++  h.clock.step(480); assert.ok(h.snapshot().far > distance);
++  h.clock.step(640); assert.equal(h.snapshot().far, 100); assert.equal(h.clock.pending.size, 0);
++ } finally { h.c.dispose(); }
++});
+--- a/tests/ui.test.tsx
++++ b/tests/ui.test.tsx
+@@ -31,3 +31,122 @@
+ }) { React.useEffect(() => onUnavailable('GPU unavailable'), [onUnavailable]); return <p>Attempting renderer</p>; } await render({ graph: adaptWorkState(fixture(), sources), initialConfig: c, render3D: p => <Failing onUnavailable={p.onUnavailable}/> }); assert.ok(host.querySelector('svg')); assert.match(host.textContent ?? '', /GPU unavailable/); assert.equal(find('[data-inspector]').getAttribute('data-selected-id'), 'mission:' + MID); });
+ test('holographic style is labelled visual and can be turned off without changing selected entity', async () => { const c = defaultConfig(); c.selectedId = 'mission:' + MID; await render({ graph: adaptWorkState(fixture(), sources), initialConfig: c }); await change('[aria-label="Visueller Stil"]', 'hologram'); assert.ok(find('.mesh-explorer').classList.contains('mesh-style-hologram')); assert.equal(find('[data-inspector]').getAttribute('data-selected-id'), c.selectedId); await change('[aria-label="Visueller Stil"]', 'solid'); assert.ok(find('.mesh-explorer').classList.contains('mesh-style-solid')); });
+ test('primary text and controls scale with the host root font setting',async()=>{const {readFileSync}=await import('node:fs');const style=document.createElement('style');style.textContent=readFileSync(new URL('../src/styles.css',import.meta.url),'utf8');document.head.append(style);try{await render({graph:adaptWorkState(fixture(),sources)});document.documentElement.style.fontSize='16px';const control=find('[aria-label="Layout"]');const standard=parseFloat(window.getComputedStyle(control as any).fontSize);document.documentElement.style.fontSize='20px';const enlarged=parseFloat(window.getComputedStyle(control as any).fontSize);assert.ok(standard>=16,'primary controls must be at least 1rem at default root size');assert.equal(enlarged/standard,1.25);assert.doesNotMatch(style.textContent,/font-size\s*:\s*[\d.]+px/)}finally{style.remove();document.documentElement.style.fontSize=''}});
++
++import { TestFrameClock } from './frame-clock.ts';
++import { layoutGraph } from '../src/layouts.ts';
++function installMotionClock() {
++ const clock = new TestFrameClock();
++ const originals = { request: window.requestAnimationFrame, cancel: window.cancelAnimationFrame, now: window.performance.now, match: globalThis.matchMedia };
++ Object.defineProperty(window, 'requestAnimationFrame', { configurable: true, value: clock.request });
++ Object.defineProperty(window, 'cancelAnimationFrame', { configurable: true, value: clock.cancel });
++ Object.defineProperty(window.performance, 'now', { configurable: true, value: clock.now });
++ const media = new window.EventTarget() as any; media.matches = false;
++ Object.defineProperty(globalThis, 'matchMedia', { configurable: true, value: () => media });
++ return { clock, media, restore: () => {
++  Object.defineProperty(window, 'requestAnimationFrame', { configurable: true, value: originals.request });
++  Object.defineProperty(window, 'cancelAnimationFrame', { configurable: true, value: originals.cancel });
++  Object.defineProperty(window.performance, 'now', { configurable: true, value: originals.now });
++  Object.defineProperty(globalThis, 'matchMedia', { configurable: true, value: originals.match });
++ } };
++}
++
++test('opt-in 2D transitions animate layout positions and selection with exact ends but never host actions', async () => {
++ const harness = installMotionClock();
++ try {
++  const graph = adaptWorkState(fixture(), sources), config = { ...defaultConfig(), reducedMotion: false, transitions: 'smooth' as const };
++  let callbacks = 0, configChanges = 0;
++  await render({ graph, initialConfig: config, onConfigChange: () => { configChanges++; }, onSaveView: () => { callbacks++; }, onNavigate: () => { callbacks++; }, onPrepare: () => { callbacks++; } });
++  assert.equal(harness.clock.pending.size, 0);
++  const selector = '[data-node-id="mission:' + MID + '"]';
++  const before = find(selector).getAttribute('transform');
++  await change('[aria-label="Layout"]', 'workflow'); assert.equal(harness.clock.pending.size, 1);
++  assert.equal(find(selector).getAttribute('transform'), before);
++  await act(async () => harness.clock.step(120)); assert.notEqual(find(selector).getAttribute('transform'), before);
++  await act(async () => harness.clock.step(240)); assert.equal(harness.clock.pending.size, 0);
++  const end = layoutGraph(graph, 'workflow').positions['mission:' + MID];
++  assert.equal(find(selector).getAttribute('transform'), `translate(${end.x} ${end.y})`);
++  await click(find(selector)); assert.equal(find(selector).getAttribute('aria-pressed'), 'true');
++  assert.equal(find(selector).querySelector('circle')?.getAttribute('r'), '14');
++  await act(async () => harness.clock.step(480)); assert.equal(find(selector).querySelector('circle')?.getAttribute('r'), '19');
++  assert.equal(callbacks, 0); assert.equal(configChanges, 2); assert.equal(harness.clock.pending.size, 0);
++ } finally { await act(async () => root!.unmount()); root = null; harness.restore(); }
++});
++
++test('2D rapid layout changes, Escape, system preference, energy saving and unmount leave no pending frames', async () => {
++ const h = installMotionClock();
++ try {
++  const graph = adaptWorkState(fixture(), sources);
++  await render({ graph, initialConfig: { ...defaultConfig(), transitions: 'smooth', reducedMotion: false } });
++  await change('[aria-label="Layout"]', 'workflow'); await act(async () => h.clock.step(80));
++  await change('[aria-label="Layout"]', 'evidence'); assert.equal(h.clock.pending.size, 1);
++  await act(async () => find('.mesh-map').dispatchEvent(new window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }) as any));
++  assert.equal(h.clock.pending.size, 0);
++  const p = layoutGraph(graph, 'evidence').positions['mission:' + MID];
++  assert.equal(find('[data-node-id="mission:' + MID + '"]').getAttribute('transform'), `translate(${p.x} ${p.y})`);
++  await change('[aria-label="Layout"]', 'network'); assert.equal(h.clock.pending.size, 1);
++  await act(async () => { h.media.matches = true; h.media.dispatchEvent(new window.Event('change')); });
++  assert.equal(h.clock.pending.size, 0);
++  await change('[aria-label="Layout"]', 'workflow'); assert.equal(h.clock.pending.size, 0);
++  await act(async () => { h.media.matches = false; h.media.dispatchEvent(new window.Event('change')); });
++  await change('[aria-label="Layout"]', 'network'); assert.equal(h.clock.pending.size, 1);
++  await change('[aria-label="Qualität"]', 'low'); assert.equal(h.clock.pending.size, 0);
++  await change('[aria-label="Qualität"]', 'balanced'); await change('[aria-label="Layout"]', 'workflow'); assert.equal(h.clock.pending.size, 1);
++  await act(async () => root!.unmount()); root = null; assert.equal(h.clock.pending.size, 0);
++  await act(async () => { for (const callback of h.clock.canceled) callback(999); h.clock.step(1000); });
++  assert.equal(h.clock.pending.size, 0);
++ } finally { if (root) { await act(async () => root!.unmount()); root = null; } h.restore(); }
++});
++
++test('transition settings are labelled, serialized and have a legacy export without additive fields', async () => {
++ await render({ graph: adaptWorkState(fixture(), sources) });
++ await change('[aria-label="Übergänge"]', 'brief');
++ await click(find('[data-action="export"]'));
++ assert.equal(JSON.parse((find('[aria-label="Ansichtskonfiguration JSON"]') as HTMLTextAreaElement).value).transitions, 'brief');
++ await click(find('[aria-label="Export für ursprüngliche V1-Ansicht"]'));
++ assert.equal('transitions' in JSON.parse((find('[aria-label="Ansichtskonfiguration JSON"]') as HTMLTextAreaElement).value), false);
++});
++
++test('legacy typed initial views remain valid without the additive setting', async () => {
++ const { transitions: _transitions, ...legacy } = defaultConfig();
++ await render({ graph: adaptWorkState(fixture(), sources), initialConfig: legacy });
++ assert.equal((find('[aria-label="Übergänge"]') as HTMLSelectElement).value, 'off');
++});
++
++test('2D focus frames only visible recorded neighbors and camera controls settle before panning', async () => {
++ const h = installMotionClock();
++ try {
++  const graph = adaptWorkState(fixture(), sources), c = { ...defaultConfig(), selectedId: 'mission:' + MID, transitions: 'brief' as const, reducedMotion: false };
++  await render({ graph, initialConfig: c });
++  const before = find('svg').getAttribute('viewBox');
++  await change('[aria-label="Arbeitsmodus"]', 'focus'); assert.equal(h.clock.pending.size, 1);
++  await act(async () => h.clock.step(160)); assert.equal(h.clock.pending.size, 0);
++  assert.notEqual(find('svg').getAttribute('viewBox'), before);
++  assert.equal(find('[data-inspector]').getAttribute('data-selected-id'), c.selectedId);
++  await change('[aria-label="Layout"]', 'workflow'); assert.equal(h.clock.pending.size, 1);
++  await click(find('[aria-label="Karte rechts"]')); assert.equal(h.clock.pending.size, 0);
++  const held = find('svg').getAttribute('viewBox'); await act(async () => h.clock.step(999)); assert.equal(find('svg').getAttribute('viewBox'), held);
++ } finally { if (root) { await act(async () => root!.unmount()); root = null; } h.restore(); }
++});
++
++test('2D hiding the document settles and cannot restart animation until visible', async () => {
++ const h = installMotionClock();
++ try {
++  await render({ graph: adaptWorkState(fixture(), sources), initialConfig: { ...defaultConfig(), reducedMotion: false, transitions: 'brief' } });
++  await change('[aria-label="Layout"]', 'workflow'); assert.equal(h.clock.pending.size, 1);
++  Object.defineProperty(window.document, 'hidden', { configurable: true, value: true });
++  await act(async () => window.document.dispatchEvent(new window.Event('visibilitychange'))); assert.equal(h.clock.pending.size, 0);
++  await change('[aria-label="Layout"]', 'evidence'); assert.equal(h.clock.pending.size, 0);
++ } finally { delete (window.document as any).hidden; if (root) { await act(async () => root!.unmount()); root = null; } h.restore(); }
++});
++
++test('2D pan interrupts a transition using the settled target viewport dimensions', async () => {
++ const h = installMotionClock();
++ try {
++  const graph = adaptWorkState(fixture(), sources);
++  await render({ graph, initialConfig: { ...defaultConfig(), reducedMotion: false, transitions: 'smooth' } });
++  await change('[aria-label="Layout"]', 'workflow'); assert.equal(h.clock.pending.size, 1);
++  await click(find('[aria-label="Karte rechts"]'));
++  const viewport = find('svg').getAttribute('viewBox')!.split(' ').map(Number), bounds = layoutGraph(graph, 'workflow').bounds;
++  assert.equal(viewport[0], bounds.x + bounds.width * .15); assert.equal(h.clock.pending.size, 0);
++ } finally { if (root) { await act(async () => root!.unmount()); root = null; } h.restore(); }
++});
+--- a/tests/view.test.ts
++++ b/tests/view.test.ts
+@@ -23,3 +23,22 @@
+     assert.ok(b.width > 0 && b.height > 0);
+ } });
+ test('focus mode shows the selected node and immediate recorded relations without clearing filters', () => { const g = adaptWorkState(fixture(), sources), c = defaultConfig(); c.selectedId = 'task:' + fixture().tasks[0].id; c.mode = 'focus'; const v = selectScene(g, c); const related = new Set([c.selectedId, ...g.edges.flatMap(e => e.from === c.selectedId ? [e.to] : e.to === c.selectedId ? [e.from] : [])]); assert.ok(v.nodes.every(n => related.has(n.id))); assert.ok(v.focusedOutNodes > 0); assert.equal(v.filtered.length, g.nodes.length); assert.equal(v.selectionState, 'visible'); });
++
++test('legacy V1 config gains safe opt-in transition defaults and rejects malformed animation settings', () => {
++ const legacy = { ...defaultConfig() } as Record<string, unknown>;
++ delete legacy.transitions;
++ const decoded = parseConfig(legacy);
++ assert.equal(decoded.transitions, 'off');
++ assert.equal(decoded.version, 1);
++ for (const invalid of [null, false, 'always', 999]) assert.throws(() => parseConfig({ ...legacy, transitions: invalid }));
++ assert.equal(parseConfig({ ...legacy, transitions: 'brief' }).transitions, 'brief');
++});
++
++test('legacy export strips only additive transition settings while ordinary export roundtrips', () => {
++ const config = { ...defaultConfig(), transitions: 'smooth' as const, selectedId: 'mission:' + MID };
++ assert.equal(parseConfig(serializeConfig(config)).transitions, 'smooth');
++ const raw = JSON.parse(serializeConfig(config, { legacyV1: true }));
++ assert.equal('transitions' in raw, false);
++ assert.equal(raw.selectedId, config.selectedId);
++ assert.equal(parseConfig(raw).transitions, 'off');
++});
