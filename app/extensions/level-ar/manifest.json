@@ -1,0 +1,76 @@
+{
+  "baselineCommit": "2b838b4f574acfaff72013c270a1fa637eb995c6",
+  "revision": 3,
+  "supersedesPatchSha256": "4bbd5a3a874e2f8f4de5e891447e9142a64675fe51e833de6fd53b793ff64fcd",
+  "createdAt": "2026-09-30T23:25:16.969359+00:00",
+  "sourceDirectory": "source",
+  "files": [
+    {
+      "path": "lib/learning-levels.ts",
+      "baselineSha256": null,
+      "sha256": "b37f2e22879cfb6db6d6854d0295fc19b86c278dc63f464abd288298d8a3bca0",
+      "bytes": 4124
+    },
+    {
+      "path": "lib/ar-support.ts",
+      "baselineSha256": null,
+      "sha256": "fc510986015a0f7f3a9e55983b6070178dd65c4a14bef4a3345c2333196d96ed",
+      "bytes": 3090
+    },
+    {
+      "path": "lib/ar-placement.ts",
+      "baselineSha256": null,
+      "sha256": "92edc569daf8b88a3f9022916273e6213112a667ca0682bea2d8b3a6a119e065",
+      "bytes": 3579
+    },
+    {
+      "path": "lib/space-model.ts",
+      "baselineSha256": "65ed098c48c9a3aa8ee75463391d614846cdd40559fe18db56ae1cdb5b90d39c",
+      "sha256": "9c50fa8db28d3c4d4084a1bdd3a0a5768547b45c7a172dadbb97f5bab33f8c5d",
+      "bytes": 6568
+    },
+    {
+      "path": "app/academy-panel.tsx",
+      "baselineSha256": "75807f3b1ec8722bc7c710be36f463b1724075e039f640410b0dac1bfb740776",
+      "sha256": "87440650af341759690bb6d220925313f097109affe76e5f495644e6e07ca019",
+      "bytes": 14907
+    },
+    {
+      "path": "app/mesh-space.tsx",
+      "baselineSha256": "dc819cbc2f1cfce483e1d7eb938b49631a739888b9ebf5a4ed8eb6229a7cac3d",
+      "sha256": "83c9d6ab62b9d6e23bb8116e0cb51434539892beecc5b17710912ac42a9eaad8",
+      "bytes": 17761
+    },
+    {
+      "path": "app/space-renderer.tsx",
+      "baselineSha256": "36a2e58fa58960993c03730726ea172058641f8cfd16edfee441b3802bba8d6a",
+      "sha256": "5593e5f20f886bcbfc71559714b073835ce22c85f6471d64e84c2aba5120d493",
+      "bytes": 19864
+    },
+    {
+      "path": "app/help-panel.tsx",
+      "baselineSha256": "969be3d2b8ac93cd3e0314d648be21f1279e914708b27958cb2507624671cfd9",
+      "sha256": "53374dc88f6fb253f38ef2576153c65d91e56159cfe2094f25e414fcd7fc2f9d",
+      "bytes": 10561
+    },
+    {
+      "path": "tests/level-ar-domain.mts",
+      "baselineSha256": null,
+      "sha256": "e9ef21416db35f6c0a41c9473aae7481e115886010322103c3e3b38331e6bdc8",
+      "bytes": 16686
+    },
+    {
+      "path": "tests/level-ar-browser.mjs",
+      "baselineSha256": null,
+      "sha256": "95932b2866670552011e5a5ba99ceba76c23bc4894a77bc6419134fccee74e31",
+      "bytes": 22915
+    },
+    {
+      "path": "tests/level-ar-renderer.mjs",
+      "baselineSha256": null,
+      "sha256": "55f6a8af6dec5d634588f190f236cc53d40cdf34fb5cd0f53e5e22828a5581d9",
+      "bytes": 13642
+    }
+  ],
+  "patchSha256": "a1429df18c53d09e2da540d8e4779b83ffc36eb7290a3e1729f0013319b777b9"
+}

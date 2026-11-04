@@ -1,0 +1,13 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import {Window} from 'happy-dom';
+const path=new URL('../../src/mobile/mobile.css',import.meta.url);
+test('mobile controls declare 48 CSS-pixel targets and text follows 200 percent root scaling',()=>{
+ assert.ok(fs.existsSync(path),'mobile CSS is implemented');const w=new Window();try{const style=w.document.createElement('style');style.textContent=fs.readFileSync(path,'utf8');w.document.head.append(style);const wrapper=w.document.createElement('section');wrapper.className='lq-mobile-preferences';wrapper.innerHTML='<button>Speichern</button><select><option>Ziel</option></select>';w.document.body.append(wrapper);for(const element of wrapper.children){assert.ok(parseFloat(w.getComputedStyle(element).minHeight)>=48);w.document.documentElement.style.fontSize='16px';const normal=parseFloat(w.getComputedStyle(element).fontSize);w.document.documentElement.style.fontSize='32px';assert.equal(parseFloat(w.getComputedStyle(element).fontSize)/normal,2);}}
+ finally{w.happyDOM.abort();}
+});
+test('mobile layout reserves measured bar space, safe areas and viewport inset without fixed text clipping',()=>{
+ assert.ok(fs.existsSync(path),'mobile CSS is implemented');const css=fs.readFileSync(path,'utf8');for(const text of ['env(safe-area-inset-bottom','env(safe-area-inset-left','env(safe-area-inset-right','--lq-mobile-bottom-inset','--lq-mobile-bar-height','prefers-reduced-motion','auto-fit','overflow-wrap:anywhere'])assert.ok(css.includes(text),text);assert.doesNotMatch(css,/text-overflow:\s*ellipsis|white-space:\s*nowrap|max-height:|font-size:\s*\d+px/);assert.match(css,/\[hidden\].*display:none/);assert.match(css,/:focus-visible/);assert.ok(css.includes('var(--lq-mobile-bar-height,calc(4.5rem + env(safe-area-inset-bottom,0px)))'),'Measured bar height already includes safe area; add it only to the fallback');
+});
+test('mobile targets remain 48 CSS pixels when Studio styles load after mobile styles',()=>{
+ const w=new Window();try{for(const file of [path,new URL('../../src/system.css',import.meta.url)]){const style=w.document.createElement('style');style.textContent=fs.readFileSync(file,'utf8');w.document.head.append(style)}const host=w.document.createElement('div');host.className='system-studio';host.innerHTML='<div class="lq-mobile-preferences"><button>Save</button><select><option>Choice</option></select><details><summary>Config</summary></details></div><details class="lq-mobile-context"><summary>Info</summary></details>';w.document.body.append(host);for(const element of host.querySelectorAll('button,select,summary'))assert.equal(parseFloat(w.getComputedStyle(element).minHeight),48,element.outerHTML);}
+ finally{w.happyDOM.abort();}
+});

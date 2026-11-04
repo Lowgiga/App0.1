@@ -1,0 +1,19 @@
+/* LowQuantFlow-owned geometry. Colors inherit the existing theme tokens. */
+.lq-motion-formation{position:relative;flex:0 0 6.5rem;width:6.5rem;height:5.5rem;max-width:100%;overflow:hidden;contain:layout paint;pointer-events:none;color:var(--primary);isolation:isolate}
+.lq-motion-formation[data-active=false]{visibility:hidden}
+.lq-motion-cube{position:absolute;left:calc(50% - 6px + var(--cube-x));top:calc(50% - 7px + var(--cube-y));width:12px;height:14px;opacity:1;transform:none}
+.lq-motion-cube i{position:absolute;inset:0;display:block;background:currentColor}
+.lq-cube-top{clip-path:polygon(50% 0,100% 25%,50% 50%,0 25%);background:color-mix(in srgb,var(--primary) 65%,var(--card))!important}
+.lq-cube-left{clip-path:polygon(0 25%,50% 50%,50% 100%,0 75%)}
+.lq-cube-right{clip-path:polygon(50% 50%,100% 25%,100% 75%,50% 100%);background:color-mix(in srgb,var(--primary) 75%,var(--foreground))!important}
+.assistant-status-row{display:flex;align-items:center;gap:.5rem;min-width:0}
+.assistant-status-row>.assistant-status{flex:1;min-width:0}
+.assistant-panel .lq-button-visual{display:inline-block;transition:transform 120ms ease-out,opacity 120ms ease-out}
+.assistant-panel button:active:not(:disabled)>.lq-button-visual{transform:scale(.985);opacity:.85}
+@media(hover:hover) and (pointer:fine){.assistant-panel button:hover:not(:disabled)>.lq-button-visual{opacity:.9}}
+.assistant-panel[data-motion=off] .lq-button-visual{transform:none!important;transition:none!important}
+.companion-bubble{transform-origin:1.75rem 0;max-width:min(100%,38rem)}
+.companion-bubble::before{content:"";position:absolute;left:1.5rem;top:-.35rem;width:.65rem;height:.65rem;background:inherit;border-left:inherit;border-top:inherit;transform:rotate(45deg);pointer-events:none}
+.assistant-panel[data-motion=off] .lq-motion-formation,.lq-motion-formation[data-motion=off]{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){.lq-motion-formation,.lq-motion-cube,.companion-bubble,.assistant-panel .lq-button-visual{animation:none!important;transition:none!important;transform:none!important}}
+@media(max-width:420px){.lq-motion-formation{flex-basis:5rem;width:5rem;height:5rem}.assistant-status-row{gap:.25rem}}

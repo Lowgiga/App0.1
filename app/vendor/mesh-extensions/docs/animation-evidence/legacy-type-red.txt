@@ -1,0 +1,6 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> cue-mesh-graph-explorer-extension@0.1.0-candidate typecheck
+> tsc --noEmit
+
+tests/ui.test.tsx(111,60): error TS2741: Property 'transitions' is missing in type '{ mode: "focus" | "work" | "presentation"; version: 1; layout: "evidence" | "network" | "workflow"; renderer: "svg" | "three"; selectedId: string | null; filters: { query: string; kinds: ("mission" | ... 3 more ... | "source")[]; origins: ("own" | "external")[]; }; ... 5 more ...; perspective: "front" | ... 1 more ....' but required in type '{ mode: "focus" | "work" | "presentation"; version: 1; layout: "evidence" | "network" | "workflow"; renderer: "svg" | "three"; selectedId: string | null; filters: { query: string; kinds: ("mission" | ... 3 more ... | "source")[]; origins: ("own" | "external")[]; }; ... 6 more ...; transitions: "off" | ... 1 more ......'.

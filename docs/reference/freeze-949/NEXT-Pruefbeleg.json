@@ -1,0 +1,41 @@
+{
+  "source_tree_sha256": "98da772b5229ca6588b0393d6d0183a30c9a0c69b01e2b3118f0e362ea44b96e",
+  "command": "npm run verify:serial",
+  "exit": 0,
+  "groups": [
+    211,
+    744,
+    19,
+    220,
+    30,
+    7
+  ],
+  "tests": 1231,
+  "failures": 0,
+  "skips": 0,
+  "act_warnings": 0,
+  "renderer_scenarios": 18,
+  "typecheck": "PASS",
+  "drift": "PASS",
+  "vendor_native_domain_checks": "PASS",
+  "build": "PASS",
+  "build_files": 58,
+  "build_bytes": 5930267,
+  "build_tree_sha256": "4b956ee3553a7464219eabe6d3b257d6ca5ef5b8311ff975fd18141b840299a8",
+  "browser_device_gpu": "NOT RUN for this candidate",
+  "apk": "NOT BUILT for this candidate",
+  "independent_targeted_review": "PASS; source and build digests independently recomputed",
+  "scope": [
+    "Context/Graph assistance",
+    "Persistent personal drafts and last project view",
+    "Budget input fix",
+    "Truthful missing advisory draft-data wording"
+  ],
+  "excluded": [
+    "Header",
+    "Motion",
+    "Native AR fixes",
+    "Quality gate implementation"
+  ],
+  "known_historical_limit": "Earlier 930 workflow test act timing failure remains documented; test not weakened or claimed fixed"
+}

@@ -1,0 +1,16 @@
+.system-mode-menu{position:relative;flex:0 0 auto;min-width:0;margin:0!important;padding:0!important;border:0!important;color:var(--foreground)}
+.system-mode-menu.system-mode-menu>summary{display:flex;align-items:center;justify-content:center;gap:.4rem;min-width:48px;min-height:48px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:.6rem;background:var(--card);font:inherit;font-size:.82rem;cursor:pointer;list-style:none}
+.system-mode-menu>summary::-webkit-details-marker{display:none}
+.system-mode-menu>summary:focus-visible,.system-mode-menu button:focus-visible{outline:3px solid var(--ring);outline-offset:3px}
+.system-mode-menu[open]>summary{background:var(--accent)}
+.system-mode-menu-content{position:absolute;right:0;top:calc(100% + .4rem);z-index:40;width:min(24rem,calc(100vw - 1.5rem));max-height:calc(100dvh - 5rem);overflow:auto;overscroll-behavior:contain;padding:1rem;border:1px solid var(--border);border-radius:.8rem;background:var(--card);color:var(--foreground);box-shadow:0 .5rem 1.5rem color-mix(in srgb,var(--foreground) 12%,transparent);overflow-wrap:anywhere}
+.system-mode-menu:not([open])>.system-mode-menu-content{display:none}
+.system-mode-menu nav{display:grid;gap:.5rem}
+.system-mode-menu .system-mode-menu-content button[type=button]{width:100%;min-width:48px;min-height:48px;height:auto!important;white-space:normal;line-height:1.4;padding:.7rem}
+.system-mode-info{margin:.9rem 0;padding:.8rem 0;border-block:1px solid var(--border);font-size:.82rem;line-height:1.5}
+.system-mode-info p{margin:.4rem 0 0;color:var(--muted-foreground)}
+.topbar.system-mode-toolbar{padding-top:env(safe-area-inset-top);min-height:calc(60px + env(safe-area-inset-top));height:auto}
+.system-studio>.page-heading{padding-top:env(safe-area-inset-top)}
+@media(max-width:767px){.system-mode-menu.system-mode-menu>summary{padding:.5rem}.system-menu-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.topbar-right{gap:.25rem}.system-studio>.page-heading{gap:.5rem}}
+
+.system-startup{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem;min-width:0}.system-startup>p{min-width:0;overflow-wrap:anywhere}

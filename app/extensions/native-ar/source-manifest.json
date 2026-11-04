@@ -1,0 +1,156 @@
+{
+  "state": "revision10-shared-appearance-v2",
+  "base_manifest_sha256": "5f6a42ee9fbce9b56c7c81a8f1a1a6150c2bf6138dbafba1b1b1bfa98bb57e97",
+  "files": [
+    {
+      "path": "android/build.gradle",
+      "sha256": "a77e7b2908198ca5475bdebd165ec3a06e277dedf6a09b26d80ad74d5490f572",
+      "bytes": 1005
+    },
+    {
+      "path": "android/consumer-rules.pro",
+      "sha256": "69d6be75c04a921da25e5223a73c2a06e07f7abf1046e6eda3e99fe50c6eb998",
+      "bytes": 54
+    },
+    {
+      "path": "android/src/main/AndroidManifest.xml",
+      "sha256": "235e65379ddf875aafffe919b297d8ab2f2486f86189c28c1435b2b24bdda5b4",
+      "bytes": 808
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/ArDetailsState.java",
+      "sha256": "f7cf3cfc734e879f6a873a1aaea1dbd0aef9f74d1c8cddc72bbe24aec516831d",
+      "bytes": 1803
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/ArLifecycle.java",
+      "sha256": "3c8ddfce7ac59b264a1895cc66895328bc594ff8fcfe11007778e6d4d205b098",
+      "bytes": 2086
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/ArMotionPolicy.java",
+      "sha256": "5f21c9fc483d1d142b4f861e2cc32b7f043b691ab73025e2a2b6287ef873a26c",
+      "bytes": 405
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/ArTrackingStatus.java",
+      "sha256": "9b7b272e84887690e9417da4aa5829cffe034ee065e9770947aef24bb939f18e",
+      "bytes": 3671
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/ButtonPalette.java",
+      "sha256": "5ec38d9ad77b8f8cc209ab6afca7b1768d153019f9f7dff6b8909b68bd9bfbc2",
+      "bytes": 567
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/CueArActivity.java",
+      "sha256": "991bb9d2c6644760d48a66cf78c121c370163c4babf140943023785bab8c3e36",
+      "bytes": 26820
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/CueNativeARPlugin.java",
+      "sha256": "1bc44345334f46ebb61c5a2dba2c15a5de3f1481d75c5da1ecc0763cdcb05fca",
+      "bytes": 6258
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/GraphRenderer.java",
+      "sha256": "cadc641b348d6a0b3a28a6aad4e98fa2efc3de41cc8075d6b785cae0b52d771b",
+      "bytes": 16289
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/GraphSnapshot.java",
+      "sha256": "5ffac3285c572addeb7a9ed31cf9458ae2928ad2d35de2fca88bac7eba7ed0b1",
+      "bytes": 9120
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/GraphSurfaceView.java",
+      "sha256": "5a440ad51e1d75e2b7d15967fe557a65e8def16339f0eeb1421e3b7ccb211c45",
+      "bytes": 1048
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/HologramGeometry.java",
+      "sha256": "49fa50591b978156e109abd7ec6a176d67d47e65324e3076f5b9112b10af4d51",
+      "bytes": 5173
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/HologramMotion.java",
+      "sha256": "28ac19b3193d292719fb5fea71513c191016eaeeddd83a4a3e36735f5377c248",
+      "bytes": 916
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/HologramShader.java",
+      "sha256": "942df92c6b7f64b0b8fda7f8393c6208be68ef9b7ed5b4ea2e1c28760efd1ae0",
+      "bytes": 1280
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/SceneMath.java",
+      "sha256": "d4b606dd45be32f4fa8a8441c74af37ed3defc00b1381910a2ed101bbea4ef93",
+      "bytes": 1510
+    },
+    {
+      "path": "android/src/main/java/de/lowgiga/cuear/SnapshotHandoff.java",
+      "sha256": "9aa08a5a424f5a3e1b9ea30e69eed68dc72131c4a6b2c538ec3cc2d8d3edfc7d",
+      "bytes": 829
+    },
+    {
+      "path": "android/src/main/res/values/strings.xml",
+      "sha256": "5e1d590dfb30e6db30683bf87c0dad79698a8a3d3786891be7421b03461a73c8",
+      "bytes": 5985
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/ArDetailsStateTest.java",
+      "sha256": "c3794c62dd59c2e2e71f6061032e9efac09347d380814e2de65fb51c3a2cd327",
+      "bytes": 3190
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/ArLifecycleTest.java",
+      "sha256": "f44da4c6da4d86f2e0ce53c61635ec11bbf47fae738cf53c49c87a8895793ac5",
+      "bytes": 2625
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/ArMotionPolicyTest.java",
+      "sha256": "d3f25262bc429309c21fe387902bb3a0a5841aba5debe6b3224d064b6c7d1dad",
+      "bytes": 698
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/ArTrackingStatusTest.java",
+      "sha256": "837e38a34f42718915f78d0ee665a670e846337204058adfbce7ddcdcc72b201",
+      "bytes": 4637
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/ButtonPaletteTest.java",
+      "sha256": "1fc0a0f7d7ecc6327be94f9b282fcb637cf4ad10b1cbad505fec3469a18b3ead",
+      "bytes": 2407
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/GraphAppearanceTest.java",
+      "sha256": "cff71ca1afd35e87ba6536c5f72039427db3e30939dc827575c93cb16b972331",
+      "bytes": 4859
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/GraphSnapshotTest.java",
+      "sha256": "b3118f7a1ba35d8a5ae2efe0160a865a95de09b0bdfa1f375a32b20b95882192",
+      "bytes": 4364
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/HologramGeometryTest.java",
+      "sha256": "d48057e456f42499f6db6cce352f61f826bedad0c641812d137c1a394bffd598",
+      "bytes": 4165
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/HologramMotionTest.java",
+      "sha256": "d2583f80baf674dd88c0b234bc597097d8ab382403e83abbaa3ea93408558cbd",
+      "bytes": 2222
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/SceneMathTest.java",
+      "sha256": "9a469722f8dc21b08b41fe9102314c91e792a8412b37e929b65987927e2c70fb",
+      "bytes": 1171
+    },
+    {
+      "path": "android/src/test/java/de/lowgiga/cuear/SnapshotHandoffTest.java",
+      "sha256": "aa06a504c6ccc96ca495c5268e5bed6d8756cbf4e9ee312220fe0162f8541693",
+      "bytes": 736
+    }
+  ]
+}

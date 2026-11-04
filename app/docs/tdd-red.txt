@@ -1,0 +1,474 @@
+✖ fresh local state is real production defaults and survives reopening (8.868092ms)
+✖ timestamps strictly increase under same and backward wall clocks (0.446755ms)
+✖ concurrent clients atomically enforce CAS without lost writes (2.759557ms)
+✖ failed validation rolls back and production task completion gates apply (0.518874ms)
+✖ forged events, unknown source references, and direct interaction edits are rejected (1.418041ms)
+✖ focus-follow invokes the production action and reconciliation with real events (1.143777ms)
+✖ risk planning really creates a task, keeps risk open and validates fingerprint (0.925568ms)
+✖ unknown remote routes and auth headers cannot trigger simulated success or network (0.429339ms)
+✖ malformed requests, wrong methods and oversized action input fail closed (0.411582ms)
+✖ pre-aborted request never mutates storage (0.68834ms)
+✖ corrupt state remains stored and blocks reads/writes without silent reset (9.980381ms)
+✖ future storage versions are not overwritten (2.981442ms)
+✖ unavailable IndexedDB is an explicit error rather than in-memory success (0.495017ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 0
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 181.093072
+
+✖ failing tests:
+
+test at tests/local-adapter.test.ts:15:1
+✖ fresh local state is real production defaults and survives reopening (8.868092ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + {}
+  - {
+  -   checks: {},
+  -   command: {
+  -     approvals: [],
+  -     events: [],
+  -     interactions: [],
+  -     missions: []
+  -   },
+  -   learning: {},
+  -   notes: [],
+  -   profiles: [
+  -     {
+  -       callBudget: 20,
+  -       externalWrite: 'approval',
+  -       id: 'zimt',
+  -       instructions: 'Mission und Scope klären. Bestehenden Kontext laden, Zuständigkeiten verteilen und Ergebnisse mit Belegen zusammenführen.',
+  -       maxDelegation: 3,
+  -       mode: 'DEEP',
+  -       output: 'Gemeinsames Ergebnis, offene Punkte und Checkpoint',
+  -       role: 'Orchestrierung',
+  -       timeBudget: 60
+  -     },
+  -     {
+  -       callBudget: 30,
+  -       externalWrite: 'approval',
+  -       id: 'manus',
+  -       instructions: 'Den begrenzten Auftrag umsetzen. Fertiges Ergebnis mit konkreten Dateien und tatsächlich ausgeführten Tests übergeben.',
+  -       maxDelegation: 1,
+  -       mode: 'BUILD',
+  -       output: 'Artefakt, Validierung und Hand-off',
+  -       role: 'Builder',
+  -       timeBudget: 120
+  -     },
+  -     {
+  -       callBudget: 15,
+  -       externalWrite: 'approval',
+  -       id: 'junior',
+  -       instructions: 'Nur relevante, konkrete und belegbare Einwände melden. Ungeprüfte Erfolgsmeldungen, fehlende Quellen und Randfälle suchen.',
+  -       maxDelegation: 0,
+  -       mode: 'DEEP',
+  -       output: 'Priorisierte Findings mit Belegen',
+  -       role: 'Unabhängiges Review',
+  -       timeBudget: 45
+  -     },
+  -     {
+  -       callBudget: 30,
+  -       externalWrite: 'approval',
+  -       id: 'codex',
+  -       instructions: 'Projektstand lesen. Kleinste belastbare Lösung planen, implementieren und angemessen testen. Externe Freigaben separat behandeln.',
+  -       maxDelegation: 2,
+  -       mode: 'DEV LOOP',
+  -       output: 'Lösung, Diff, Tests und Review-Grundlage',
+  -       role: 'Architektur und Code',
+  -       timeBudget: 120
+  -     }
+  -   ],
+  -   rooms: [],
+  -   settings: {
+  -     chatContext: 'selected',
+  -     chatMode: 'DEEP',
+  -     citeSources: true,
+  -     density: 'comfortable',
+  -     fontScale: 100,
+  -     motion: 'subtle',
+  -     neuro: {
+  -       alertThreshold: 80,
+  -       autoConsole: false,
+  -       autoPriority: false,
+  -       focusMissionId: null,
+  -       mode: 'overview',
+  -       progressSort: 'time',
+  -       signalMotion: true
+  -     },
+  -     powerSaver: false,
+  -     showSourceBanner: true,
+  -     startView: 'overview',
+  -     theme: 'system',
+  -     widgets: [
+  -       'metrics',
+  -       'mission',
+  -       'team',
+  -       'connections',
+  -       'timeline',
+  -       'queue'
+  -     ]
+  -   },
+  -   stateVersion: 4,
+  -   tasks: [
+  -     {
+  -       acceptance: 'Suche öffnet alle Bereiche; mobile Bedienung ohne seitliches Überlaufen.',
+  -       archived: false,
+  -       category: 'Bedienung',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'tune-controls',
+  -       owner: 'codex',
+  -       priority: 'P1',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Bedienung und Schnellnavigation'
+  -     },
+  -     {
+  -       acceptance: 'Theme, Schriftgröße, Dichte, Startseite und Widgets werden gespeichert.',
+  -       archived: false,
+  -       category: 'Einstellungen',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'tune-dashboard',
+  -       owner: 'codex',
+  -       priority: 'P1',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Dashboard individuell einstellen'
+  -     },
+  -     {
+  -       acceptance: 'Rolle, Auftrag, Modus und Budgets fließen in den exportierten Hand-off ein.',
+  -       archived: false,
+  -       category: 'Einstellungen',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'tune-profiles',
+  -       owner: 'zimt',
+  -       priority: 'P1',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Arbeitsprofile für Agenten'
+  -     },
+  -     {
+  -       acceptance: 'Mission, Beiträge und Quellen bleiben nach Neuladen erhalten.',
+  -       archived: false,
+  -       category: 'Funktion',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'tune-chats',
+  -       owner: 'manus',
+  -       priority: 'P1',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Missionräume mit ausgewähltem Kontext'
+  -     },
+  -     {
+  -       acceptance: 'Erledigt erfordert Beleg und Review; Abhängigkeiten und Zyklen werden geprüft.',
+  -       archived: false,
+  -       category: 'Funktion',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'tune-matrix',
+  -       owner: 'junior',
+  -       priority: 'P1',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Aufgaben mit Abhängigkeiten und Belegen'
+  -     },
+  -     {
+  -       acceptance: 'Drehen, Auswahl und Pause funktionieren; AR benötigt Geräteunterstützung.',
+  -       archived: false,
+  -       category: 'Visualisierung',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'tune-3d',
+  -       owner: 'codex',
+  -       priority: 'P2',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Interaktiver 3D- und AR-Versuchsraum'
+  -     },
+  -     {
+  -       acceptance: 'Antworten erhalten Erklärungen; persönlicher Fortschritt wird gespeichert.',
+  -       archived: false,
+  -       category: 'Lernen',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'tune-learning',
+  -       owner: 'junior',
+  -       priority: 'P2',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Lernmissionen mit Fortschritt'
+  -     },
+  -     {
+  -       acceptance: 'PR #19 und main auf Schema, Loader, YAML und Tests lesend vergleichen.',
+  -       archived: false,
+  -       category: 'Integration',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'paz-baseline',
+  -       owner: 'manus',
+  -       priority: 'P0',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'PAZ-Baseline vor Dateiplan vergleichen'
+  -     },
+  -     {
+  -       acceptance: 'Konkrete Modulparameter, Kosten, Datenzugriffe und Stoppen dokumentieren.',
+  -       archived: false,
+  -       category: 'Integration',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'make-parameters',
+  -       owner: 'manus',
+  -       priority: 'P0',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Make-Parameter und Außenwirkungen lesen'
+  -     },
+  -     {
+  -       acceptance: 'Werkzeug, Anmeldung, Profilbindung und eigener Leseabruf getrennt belegen.',
+  -       archived: false,
+  -       category: 'Integration',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'cue-github',
+  -       owner: 'zimt',
+  -       priority: 'P1',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Cue-GitHub-Lesezugriff nachweisen'
+  -     },
+  -     {
+  -       acceptance: 'Autorisierten Gerätetyp und erreichbare Laufzeit vor Workerentwurf feststellen.',
+  -       archived: false,
+  -       category: 'Integration',
+  -       dependencies: [],
+  -       evidence: '',
+  -       id: 'hermes-preflight',
+  -       owner: 'codex',
+  -       priority: 'P2',
+  -       reviewed: false,
+  -       status: 'Offen',
+  -       title: 'Hermes-Gerät und Anschlussweg prüfen'
+  -     }
+  -   ],
+  -   updatedAt: null
+  - }
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:15:124)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: {},
+    expected: {
+      stateVersion: 4,
+      command: { missions: [], approvals: [], interactions: [], events: [] },
+      checks: {},
+      notes: [],
+      settings: { theme: 'system', density: 'comfortable', fontScale: 100, startView: 'overview', widgets: [Array], showSourceBanner: true, motion: 'subtle', powerSaver: false, chatMode: 'DEEP', chatContext: 'selected', citeSources: true, neuro: [Object] },
+      profiles: [ [Object], [Object], [Object], [Object] ],
+      rooms: [],
+      tasks: [
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object],
+        [Object]
+      ],
+      learning: {},
+      updatedAt: null
+    },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/local-adapter.test.ts:16:1
+✖ timestamps strictly increase under same and backward wall clocks (0.446755ms)
+  TypeError: Cannot read properties of undefined (reading 'push')
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:16:166)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/local-adapter.test.ts:17:1
+✖ concurrent clients atomically enforce CAS without lost writes (2.759557ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+      200,
+  +   200
+  -   409
+    ]
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:17:424)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 200, 200 ],
+    expected: [ 200, 409 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/local-adapter.test.ts:18:1
+✖ failed validation rolls back and production task completion gates apply (0.518874ms)
+  TypeError: Cannot read properties of undefined (reading '0')
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:18:188)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/local-adapter.test.ts:19:1
+✖ forged events, unknown source references, and direct interaction edits are rejected (1.418041ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 400
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:19:232)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/local-adapter.test.ts:20:1
+✖ focus-follow invokes the production action and reconciliation with real events (1.143777ms)
+  TypeError: Cannot read properties of undefined (reading 'missions')
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:20:321)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/local-adapter.test.ts:21:1
+✖ risk planning really creates a task, keeps risk open and validates fingerprint (0.925568ms)
+  TypeError: Cannot read properties of undefined (reading 'missions')
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:21:252)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+
+test at tests/local-adapter.test.ts:22:1
+✖ unknown remote routes and auth headers cannot trigger simulated success or network (0.429339ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 404
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:22:215)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 404,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/local-adapter.test.ts:23:1
+✖ malformed requests, wrong methods and oversized action input fail closed (0.411582ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 400
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:23:120)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 400,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/local-adapter.test.ts:24:1
+✖ pre-aborted request never mutates storage (0.68834ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:24:130)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at tests/local-adapter.test.ts:26:1
+✖ corrupt state remains stored and blocks reads/writes without silent reset (9.980381ms)
+  Error [AggregateError]
+      at invokeEventListeners (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:57:11)
+      at FDBOpenDBRequest.dispatchEvent (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:97:7)
+      at file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:373:17
+      at onComplete (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:260:13)
+      at file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:292:11
+      at Immediate.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:240:13)
+      at process.processImmediate (node:internal/timers:534:21) {
+    [errors]: [
+      NotFoundError: No objectStore named work in this database
+          at new DOMException (node:internal/per_context/domexception:76:18)
+          at new NotFoundError (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/errors.js:59:5)
+          at FDBDatabase.transaction (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBDatabase.js:146:15)
+          at r.onsuccess (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:25:186)
+          at invoke (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:13:16)
+          at invokeEventListeners (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:50:7)
+          at FDBOpenDBRequest.dispatchEvent (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:97:7)
+          at file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:373:17
+          at onComplete (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:260:13)
+          at file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:292:11
+    ]
+  }
+
+test at tests/local-adapter.test.ts:27:1
+✖ future storage versions are not overwritten (2.981442ms)
+  Error [AggregateError]
+      at invokeEventListeners (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:57:11)
+      at FDBOpenDBRequest.dispatchEvent (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:97:7)
+      at file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:373:17
+      at onComplete (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:260:13)
+      at file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:292:11
+      at Immediate.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:240:13)
+      at process.processImmediate (node:internal/timers:534:21) {
+    [errors]: [
+      NotFoundError: No objectStore named work in this database
+          at new DOMException (node:internal/per_context/domexception:76:18)
+          at new NotFoundError (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/errors.js:59:5)
+          at FDBDatabase.transaction (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBDatabase.js:146:15)
+          at r.onsuccess (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:25:186)
+          at invoke (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:13:16)
+          at invokeEventListeners (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:50:7)
+          at FDBOpenDBRequest.dispatchEvent (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/lib/FakeEventTarget.js:97:7)
+          at file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:373:17
+          at onComplete (file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:260:13)
+          at file:///workspace/scratch/40c5c5523452/android-port/node_modules/fake-indexeddb/build/esm/FDBFactory.js:292:11
+    ]
+  }
+
+test at tests/local-adapter.test.ts:28:1
+✖ unavailable IndexedDB is an explicit error rather than in-memory success (0.495017ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 503
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/android-port/tests/local-adapter.test.ts:28:189)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 503,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

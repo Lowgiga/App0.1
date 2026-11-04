@@ -1,0 +1,21 @@
+✔ fresh local state is real production defaults and survives reopening (26.089097ms)
+✔ timestamps strictly increase under same and backward wall clocks (14.088658ms)
+✔ concurrent clients atomically enforce CAS without lost writes (3.579098ms)
+✔ failed validation rolls back and production task completion gates apply (3.170462ms)
+✔ forged events, unknown source references, and direct interaction edits are rejected (4.015066ms)
+✔ focus-follow invokes the production action and reconciliation with real events (8.78538ms)
+✔ risk planning really creates a task, keeps risk open and validates fingerprint (19.010882ms)
+✔ unknown remote routes and auth headers cannot trigger simulated success or network (0.720647ms)
+✔ malformed requests, wrong methods and oversized action input fail closed (3.115038ms)
+✔ pre-aborted request never mutates storage (2.185326ms)
+✔ corrupt state remains stored and blocks reads/writes without silent reset (2.789648ms)
+✔ future storage versions are not overwritten (1.887136ms)
+✔ unavailable IndexedDB is an explicit error rather than in-memory success (0.394065ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 260.506329

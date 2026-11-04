@@ -1,0 +1,72 @@
+✔ unknown state is explicit and never shown as live or loaded-empty (44.149224ms)
+✔ keyboard node selection survives layout/filter changes and inspector shows real evidence (76.292007ms)
+✔ navigation and preparation emit typed intents only after explicit clicks (46.20448ms)
+✔ save callback is explicit, exports serializable config and exposes rejection (49.675395ms)
+✔ retained activity tells the truth about incomplete history and current graph (19.454097ms)
+✔ host data removal leaves an explicit missing selection rather than selecting another node (35.011446ms)
+✔ 3D failure falls back to usable SVG and preserves selected node (47.136786ms)
+✔ holographic style is labelled visual and can be turned off without changing selected entity (31.278354ms)
+✔ primary text and controls scale with the host root font setting (33.337169ms)
+✖ opt-in 2D transitions animate layout positions and selection with exact ends but never host actions (33.039401ms)
+✖ 2D rapid layout changes, Escape, system preference, energy saving and unmount leave no pending frames (27.65658ms)
+✖ transition settings are labelled, serialized and have a legacy export without additive fields (13.58295ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 9
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1339.270874
+
+✖ failing tests:
+
+test at tests/ui.test.tsx:78:1
+✖ opt-in 2D transitions animate layout positions and selection with exact ends but never host actions (33.039401ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:88:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:110:1
+✖ 2D rapid layout changes, Escape, system preference, energy saving and unmount leave no pending frames (27.65658ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:118:16)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ui.test.tsx:152:1
+✖ transition settings are labelled, serialized and have a legacy export without additive fields (13.58295ms)
+  AssertionError [ERR_ASSERTION]: [aria-label="Übergänge"]
+      at find (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:19:77)
+      at change (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:21:52)
+      at TestContext.<anonymous> (file:///workspace/scratch/40c5c5523452/mesh-extensions/tests/ui.test.tsx:154:11)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,12 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {Window} from 'happy-dom';import {IDBFactory} from 'fake-indexeddb';
+import {defaultSystemState} from '../../src/system-state.ts';import {PreferencesStore} from '../../src/preferences-store.ts';
+const w=new Window({url:'https://localhost/?view=settings'});for(const key of ['window','document','HTMLElement','Event','MutationObserver'] as const)Object.defineProperty(globalThis,key,{configurable:true,value:key==='window'?w:(w as any)[key]});Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});
+const React=await import('react'),{act}=React,{createRoot}=await import('react-dom/client'),{SystemPreferencesProvider}=await import('../../src/system-preferences.tsx'),{MobileShell}=await import('../../src/mobile/MobileShell.tsx');
+test('corrupt preference load is visible from normal settings and never writes defaults over the stored record',async()=>{
+ const factory=new IDBFactory(),name=crypto.randomUUID(),raw={revision:4,value:{...defaultSystemState(),mobile:null}};
+ const db=await new Promise<IDBDatabase>((resolve,reject)=>{const req=factory.open(name,1);req.onupgradeneeded=()=>req.result.createObjectStore('preferences');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
+ await new Promise<void>((resolve,reject)=>{const tx=db.transaction('preferences','readwrite');tx.objectStore('preferences').put(raw,'default');tx.oncomplete=()=>resolve();tx.onabort=()=>reject(tx.error)});
+ const store=new PreferencesStore({indexedDB:factory,name}),host=document.createElement('div');document.body.append(host);const root=createRoot(host);
+ try{await act(async()=>{root.render(<SystemPreferencesProvider store={store}><MobileShell/></SystemPreferencesProvider>)});for(let i=0;i<20&&!host.querySelector('[role="alert"]');i++)await act(async()=>{await new Promise(r=>setTimeout(r,20))});assert.ok(host.querySelector('[role="alert"]'),'Load error must be visible');assert.match(host.textContent??'',/nicht geladen|nicht verfügbar|gesperrt/);assert.equal(host.querySelector('nav'),null);const stored=await new Promise<unknown>((resolve,reject)=>{const req=db.transaction('preferences').objectStore('preferences').get('default');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});assert.deepEqual(stored,raw);}
+ finally{await act(async()=>root.unmount());store.close();db.close();host.remove();w.happyDOM.abort();}
+});

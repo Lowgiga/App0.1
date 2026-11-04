@@ -1,0 +1,11 @@
+✔ workflow inputs derive from actual tasks and declared source snapshot (4.335261ms)
+✔ real browser catalog and fixed handlers execute and pause/resume without external rights (48.96383ms)
+✔ foreign resume and duplicate invocation cannot manufacture results (13.684938ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 545.125899

@@ -1,0 +1,10 @@
+{
+  "name": "omega-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OMEGA-Kernbausteine: HLC, Ed25519-Ereignisse, Leases mit Fencing-Token, Trust Kernel, Tasker-Bruecke. Keine Abhaengigkeiten.",
+  "type": "module",
+  "engines": { "node": ">=22.18.0" },
+  "exports": { ".": "./runtime/index.mjs" },
+  "scripts": { "test": "node --test test/*.test.mjs" }
+}

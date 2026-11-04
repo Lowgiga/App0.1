@@ -1,0 +1,54 @@
+[
+  {
+    "mode": "desktop",
+    "errors": [],
+    "external": [],
+    "receiptRevealClearsFiltersReadOnly": true,
+    "proposalDoesNotBecomeConfirmedStep": true,
+    "companionDoesNotInventMemoryReceipt": true,
+    "silentNavigationBlocksConfirmation": true,
+    "backForwardExactContext": true,
+    "explicitReplacementAndReloadContinuation": true,
+    "continuationUrl": "http://127.0.0.1:4186/?studio=1&studioTab=assistant",
+    "continuationCardText": "Hier weiterarbeiten\n\nProjekt: Flow Alpha \u00b7 erstellt 2026-10-05T23:23:32.864Z\n\nBest\u00e4tigter n\u00e4chster Schritt\n\nCorrected next step\n\nProjektged\u00e4chtnis \u00b7 Eintrag dc241e92-11ee-4333-9b86-b19eb28ecf53 \u00b7 Revision 2\n\nLetzter Entwurf als Vorschlag \u00fcbernommen; kein aktiver Entwurf.\n\nRevision 6 \u00b7 gespeichert 2026-10-05T23:23:35.553Z \u00b7 N\u00e4chster Schritt",
+    "continuationCardBounds": {
+      "x": 94,
+      "y": 382.296875,
+      "width": 593,
+      "height": 235.921875
+    },
+    "startupProjectLinkWarningAfterAssistantReload": false,
+    "actualUiAssistantUrlIsClean": true,
+    "memoryTabReturnAfterReload": true,
+    "secondTabChangeInvalidatesTarget": true,
+    "foreignInvalidLinkStillWarns": true,
+    "status": "pass",
+    "explicitNavigationRemainsWarningFree": true
+  },
+  {
+    "mode": "mobile",
+    "errors": [],
+    "external": [],
+    "receiptRevealClearsFiltersReadOnly": true,
+    "proposalDoesNotBecomeConfirmedStep": true,
+    "companionDoesNotInventMemoryReceipt": true,
+    "silentNavigationBlocksConfirmation": true,
+    "backForwardExactContext": true,
+    "explicitReplacementAndReloadContinuation": true,
+    "continuationUrl": "http://127.0.0.1:4186/?studio=1&studioTab=assistant",
+    "continuationCardText": "Hier weiterarbeiten\n\nProjekt: Flow Alpha \u00b7 erstellt 2026-10-05T23:23:41.002Z\n\nBest\u00e4tigter n\u00e4chster Schritt\n\nCorrected next step\n\nProjektged\u00e4chtnis \u00b7 Eintrag e2a07adb-4d3e-40d3-a289-61d625408b19 \u00b7 Revision 2\n\nLetzter Entwurf als Vorschlag \u00fcbernommen; kein aktiver Entwurf.\n\nRevision 6 \u00b7 gespeichert 2026-10-05T23:23:43.669Z \u00b7 N\u00e4chster Schritt",
+    "continuationCardBounds": {
+      "x": 46,
+      "y": 254.640625,
+      "width": 298,
+      "height": 335.109375
+    },
+    "startupProjectLinkWarningAfterAssistantReload": false,
+    "actualUiAssistantUrlIsClean": true,
+    "memoryTabReturnAfterReload": true,
+    "secondTabChangeInvalidatesTarget": true,
+    "foreignInvalidLinkStillWarns": true,
+    "status": "pass",
+    "explicitNavigationRemainsWarningFree": true
+  }
+]

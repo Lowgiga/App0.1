@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.local/contracts/omega.peer.v1.schema.json",
+  "title": "omega.peer/v1",
+  "description": "Peer-Eintrag (OMG-01). Gueltig nur nach menschlicher Bestaetigung desselben sechsstelligen Kopplungscodes auf beiden Geraeten; signiert vom bestaetigenden Knoten. Widerruf ist endgueltig und wird getrennt gefuehrt.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "node",
+    "publicKey",
+    "keyId",
+    "role",
+    "label",
+    "addedHlc",
+    "confirmedBy",
+    "sig"
+  ],
+  "properties": {
+    "schema": {
+      "const": "omega.peer/v1"
+    },
+    "node": {
+      "type": "string",
+      "pattern": "^n[0-9a-f]{16}$",
+      "description": "Selbstzertifizierend: 'n' + 16 Hex-Zeichen von SHA-256(oeffentlicher Schluessel)."
+    },
+    "publicKey": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{43}$"
+    },
+    "keyId": {
+      "type": "string",
+      "pattern": "^k1_[A-Za-z0-9_-]{16}$"
+    },
+    "role": {
+      "enum": [
+        "windows",
+        "android",
+        "relay",
+        "witness"
+      ]
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "addedHlc": {
+      "type": "string",
+      "pattern": "^\\d{15}\\.\\d{6}\\.[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "confirmedBy": {
+      "type": "string",
+      "pattern": "^n[0-9a-f]{16}$",
+      "description": "Selbstzertifizierend: 'n' + 16 Hex-Zeichen von SHA-256(oeffentlicher Schluessel)."
+    },
+    "sig": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{86}$"
+    }
+  }
+}

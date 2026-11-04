@@ -1,0 +1,18 @@
+{
+  "publisher-root-docs-against-169bf0e.patch": {
+    "bytes": 33154,
+    "sha256": "94e0e81d9ae3f4ea4364caf3ce971d012b8ce804992f7dfd737cef6781a9578f"
+  },
+  "publisher-combined-against-169bf0e.patch": {
+    "bytes": 125834,
+    "sha256": "766b11dea71a9d62dfc6e577f5bf6c1e44e51e2a9a5b1d3584c6f1a5a1452953"
+  },
+  "adoption-only-against-db88bd1a.patch": {
+    "bytes": 16600,
+    "sha256": "a3a125ecdd2961dc28de43cd0493c99c8cbc02a2c07f2b3bd23f41137bf2fcf5"
+  },
+  "publisher-source-against-169bf0e.patch": {
+    "bytes": 92680,
+    "sha256": "42cb945942b2680801e88f5e7a9faa777af9b9874c3b84875ff6bbe6843c2322"
+  }
+}
